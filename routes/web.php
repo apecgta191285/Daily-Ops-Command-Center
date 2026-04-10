@@ -16,7 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'active'])->group(function () {
 
     // ── Staff-only routes ────────────────────────────────
     Route::middleware('role:staff')->group(function () {

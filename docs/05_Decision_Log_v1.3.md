@@ -1,5 +1,9 @@
 # **Decision Log**
 
+> Historical note: This document contains append-only decisions across multiple project phases. For the current repository baseline, use this log together with [22_Architecture_Boundary_and_Execution_Standards_2026-04-11.md](./22_Architecture_Boundary_and_Execution_Standards_2026-04-11.md), [24_Domain_Normalization_Design_2026-04-11.md](./24_Domain_Normalization_Design_2026-04-11.md), and [26_Architecture_Debt_Roadmap_2026-04-11.md](./26_Architecture_Debt_Roadmap_2026-04-11.md) as the active engineering reference.
+>
+> Historical impact labels below may still mention older working documents that were intentionally removed from the canonical repo set. Treat those names as historical context, not active source-of-truth files.
+
 ## *A-lite Foundation Documentation Set*
 
 **DOC-05-DL | ระบบเช็กลิสต์งานประจำวันและติดตามเหตุการณ์ผิดปกติสำหรับทีมงานขนาดเล็ก**  
@@ -160,3 +164,13 @@ Decision: ล็อก `resolved_at` convention สำหรับ incident reop
 Rationale: เอกสารเดิมล็อกเพียงว่า resolved case ต้อง set timestamp แต่ยังไม่ล็อกพฤติกรรมตอน reopen. การ clear ค่ากลับเป็น null ทำให้ field นี้สะท้อนสถานะปัจจุบันตรงที่สุดและตรงกับ implementation ที่ถูกทดสอบแล้ว
 
 Impact: 04_Current_State, 08_Test_and_Evidence_Plan, 09_Implementation_Foundation_Plan และ 11_Implementation_Task_List ต้องสะท้อน convention นี้ให้ตรงกับ implementation และ tests
+
+# **8\. Added Decisions (11/04/2569)**
+
+**D-018 | Locked**
+
+Decision: ปิด foundation remediation และล็อก engineering baseline ใหม่ของ repository เป็น PHP 8.4 local/runtime baseline, SQLite local development profile, internal-account-only authentication, active-user enforcement, application-layer workflow orchestration สำหรับ core use cases, และ source-only repository policy ที่ไม่ track vendor-generated Filament assets
+
+Rationale: baseline เดิมมี truth mismatch ระหว่าง docs, runtime, CI, auth policy, workflow placement และ repository artifacts ทำให้การพัฒนาต่อมีความเสี่ยงสูงต่อ drift และการแก้แบบเฉพาะหน้า
+
+Impact: 04_Current_State, README, architecture boundary documentation, domain normalization references และ repository hygiene policy ต้องสะท้อน baseline นี้ให้ตรงกับ code ปัจจุบัน

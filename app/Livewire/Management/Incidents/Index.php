@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Management\Incidents;
 
+use App\Domain\Incidents\Enums\IncidentCategory;
+use App\Domain\Incidents\Enums\IncidentSeverity;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\Incident;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -14,26 +17,18 @@ class Index extends Component
 
     public string $severity = '';
 
-    public array $statuses = [
-        'Open',
-        'In Progress',
-        'Resolved',
-    ];
+    public array $statuses = [];
 
-    public array $categories = [
-        'อุปกรณ์คอมพิวเตอร์',
-        'เครือข่าย',
-        'ความสะอาด',
-        'ความปลอดภัย',
-        'สภาพแวดล้อม',
-        'อื่น ๆ',
-    ];
+    public array $categories = [];
 
-    public array $severities = [
-        'Low',
-        'Medium',
-        'High',
-    ];
+    public array $severities = [];
+
+    public function mount(): void
+    {
+        $this->statuses = IncidentStatus::values();
+        $this->categories = IncidentCategory::values();
+        $this->severities = IncidentSeverity::values();
+    }
 
     #[Layout('layouts.app')]
     public function render()

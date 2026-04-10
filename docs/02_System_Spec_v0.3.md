@@ -17,7 +17,7 @@
 | Related Master | 00_Project_Lock_v1.1 |
 | :---- | :---- |
 | **Scope Basis** | MVP only |
-| **Use With** | 03_Evaluation_Protocol_v1.1, 06_Data_Definition_v1.2, 07_UI_Flow_Wireframe_v1.3 และ 11_Implementation_Task_List_v1.0 |
+| **Use With** | 03_Evaluation_Protocol_v1.1, 05_Decision_Log_v1.3, 06_Data_Definition_v1.2 และ 22_Architecture_Boundary_and_Execution_Standards_2026-04-11 |
 
 # **1\. System Context**
 

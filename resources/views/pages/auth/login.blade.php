@@ -44,12 +44,5 @@
                 </button>
             </div>
         </form>
-
-        @if (Route::has('register'))
-            <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-[var(--app-text-muted)]">
-                <span>{{ __('Don\'t have an account?') }}</span>
-                <flux:link class="font-medium text-[var(--app-info-text)]" :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
-            </div>
-        @endif
     </div>
 </x-layouts::auth>
