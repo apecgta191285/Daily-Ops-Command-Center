@@ -1,0 +1,448 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-accent: var(--color-neutral-800);
+    --color-accent-content: var(--color-neutral-800);
+    --color-accent-foreground: var(--color-white);
+}
+
+@layer theme {
+    :root {
+        --app-shell-bg: var(--color-zinc-900);
+        --app-shell-bg-elevated: color-mix(in oklab, var(--color-zinc-800) 86%, black);
+        --app-shell-border: color-mix(in oklab, var(--color-zinc-700) 72%, black);
+        --app-shell-text: var(--color-zinc-100);
+        --app-shell-muted: var(--color-zinc-400);
+
+        --app-content-bg: #f4f5f7;
+        --app-surface: rgba(255, 255, 255, 0.98);
+        --app-surface-elevated: #ffffff;
+        --app-border: #d8dde6;
+        --app-text: #172033;
+        --app-text-muted: #5f6b85;
+        --app-heading: #0f172a;
+
+        --app-action-primary: #155eef;
+        --app-action-primary-hover: #004ee6;
+        --app-action-primary-text: #ffffff;
+        --app-action-secondary: #ffffff;
+        --app-action-secondary-hover: #eef2f7;
+        --app-action-secondary-text: #182338;
+        --app-action-secondary-border: #c6cfdb;
+
+        --app-success-bg: #e8f7ef;
+        --app-success-border: #8fd0aa;
+        --app-success-text: #17603d;
+        --app-warning-bg: #fff3d6;
+        --app-warning-border: #f0c15a;
+        --app-warning-text: #8a5a00;
+        --app-danger-bg: #fde7e7;
+        --app-danger-border: #efb1b4;
+        --app-danger-text: #9f1d2a;
+        --app-info-bg: #e8f0ff;
+        --app-info-border: #a8c1ff;
+        --app-info-text: #1947b7;
+
+        --app-badge-neutral-bg: #eef2f7;
+        --app-badge-neutral-text: #46546f;
+        --app-badge-neutral-border: #d6deea;
+        --app-focus-ring: color-mix(in srgb, var(--app-action-primary) 60%, white);
+    }
+
+    .dark {
+        --color-accent: var(--color-white);
+        --color-accent-content: var(--color-white);
+        --color-accent-foreground: var(--color-neutral-800);
+    }
+}
+
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
+    input:not([type='checkbox'], [type='radio'], [data-flux-control]),
+    select:not([data-flux-control]),
+    textarea:not([data-flux-control]) {
+        color: var(--app-text);
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+    }
+
+    input:not([type='checkbox'], [type='radio'], [data-flux-control])::placeholder,
+    textarea:not([data-flux-control])::placeholder {
+        color: var(--app-text-muted);
+    }
+
+    input:not([type='checkbox'], [type='radio'], [data-flux-control]):focus,
+    select:not([data-flux-control]):focus,
+    textarea:not([data-flux-control]):focus {
+        outline: none;
+        border-color: var(--app-action-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-focus-ring) 28%, transparent);
+    }
+}
+
+@layer components {
+    .ops-page {
+        @apply min-h-full px-4 py-6 sm:px-6 lg:px-8;
+    }
+
+    .ops-page__header {
+        @apply mx-auto mb-6 max-w-7xl;
+    }
+
+    .ops-page__header-inner {
+        @apply rounded-2xl border px-5 py-4 shadow-sm sm:px-6;
+        background-color: var(--app-shell-bg);
+        border-color: var(--app-shell-border);
+        color: var(--app-shell-text);
+    }
+
+    .ops-page__body {
+        @apply mx-auto max-w-7xl;
+    }
+
+    .ops-page__title,
+    .ops-page__header h1,
+    .ops-page__header h2,
+    .ops-page__header h3 {
+        @apply text-2xl font-semibold tracking-tight;
+        color: var(--app-shell-text);
+    }
+
+    .ops-page__header p,
+    .ops-page__header .text-gray-500,
+    .ops-page__header .text-gray-600,
+    .ops-page__header .text-zinc-500 {
+        color: var(--app-shell-muted) !important;
+    }
+
+    .ops-card {
+        @apply rounded-2xl border shadow-sm;
+        background-color: var(--app-surface);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .ops-card__header {
+        @apply border-b px-6 py-4;
+        border-color: var(--app-border);
+    }
+
+    .ops-card__body {
+        @apply px-6 py-5;
+    }
+
+    .ops-control {
+        @apply block w-full rounded-xl border px-3 py-2.5 text-sm shadow-xs transition;
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .ops-button {
+        @apply inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-medium transition focus:outline-hidden;
+    }
+
+    .ops-button--primary {
+        background-color: var(--app-action-primary);
+        border-color: var(--app-action-primary);
+        color: var(--app-action-primary-text);
+    }
+
+    .ops-button--primary:hover {
+        background-color: var(--app-action-primary-hover);
+        border-color: var(--app-action-primary-hover);
+    }
+
+    .ops-button--secondary {
+        background-color: var(--app-action-secondary);
+        border-color: var(--app-action-secondary-border);
+        color: var(--app-action-secondary-text);
+    }
+
+    .ops-button--secondary:hover {
+        background-color: var(--app-action-secondary-hover);
+    }
+
+    .ops-alert {
+        @apply rounded-2xl border px-4 py-3 text-sm shadow-sm;
+    }
+
+    .ops-alert--success {
+        background-color: var(--app-success-bg);
+        border-color: var(--app-success-border);
+        color: var(--app-success-text);
+    }
+
+    .ops-alert--warning {
+        background-color: var(--app-warning-bg);
+        border-color: var(--app-warning-border);
+        color: var(--app-warning-text);
+    }
+
+    .ops-alert--danger {
+        background-color: var(--app-danger-bg);
+        border-color: var(--app-danger-border);
+        color: var(--app-danger-text);
+    }
+
+    .ops-badge {
+        @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium;
+    }
+
+    .ops-badge--neutral {
+        background-color: var(--app-badge-neutral-bg);
+        border-color: var(--app-badge-neutral-border);
+        color: var(--app-badge-neutral-text);
+    }
+
+    .ops-badge--info {
+        background-color: var(--app-info-bg);
+        border-color: var(--app-info-border);
+        color: var(--app-info-text);
+    }
+
+    .ops-badge--success {
+        background-color: var(--app-success-bg);
+        border-color: var(--app-success-border);
+        color: var(--app-success-text);
+    }
+
+    .ops-badge--warning {
+        background-color: var(--app-warning-bg);
+        border-color: var(--app-warning-border);
+        color: var(--app-warning-text);
+    }
+
+    .ops-badge--danger {
+        background-color: var(--app-danger-bg);
+        border-color: var(--app-danger-border);
+        color: var(--app-danger-text);
+    }
+
+    .ops-table {
+        @apply w-full border-separate border-spacing-0 overflow-hidden rounded-2xl;
+    }
+
+    .ops-table thead {
+        background-color: #f6f8fb;
+    }
+
+    .ops-table th,
+    .ops-table td {
+        border-bottom: 1px solid var(--app-border);
+    }
+
+    .ops-field-label {
+        @apply mb-2 block text-sm font-medium;
+        color: var(--app-heading);
+    }
+
+    .ops-field-help {
+        @apply mt-2 text-xs;
+        color: var(--app-text-muted);
+    }
+
+    .ops-field-error {
+        @apply mt-2 text-xs font-medium;
+        color: var(--app-danger-text);
+    }
+
+    .ops-choice {
+        @apply inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium transition;
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .ops-choice:hover {
+        background-color: #f8fafc;
+    }
+
+    .auth-shell {
+        @apply min-h-svh px-6 py-10 md:px-10;
+        background-color: var(--app-shell-bg);
+    }
+
+    .auth-panel {
+        @apply w-full rounded-2xl border p-7 shadow-lg sm:p-8;
+        max-width: 28rem;
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .auth-panel__brand {
+        @apply mb-6 flex flex-col items-center gap-3 text-center;
+    }
+
+    .auth-panel__kicker {
+        @apply text-xs font-semibold uppercase tracking-[0.16em];
+        color: var(--app-shell-muted);
+    }
+
+    .settings-page-heading {
+        @apply mb-6 rounded-2xl border px-5 py-4 shadow-sm sm:px-6;
+        background-color: var(--app-shell-bg);
+        border-color: var(--app-shell-border);
+        color: var(--app-shell-text);
+    }
+
+    .settings-page-heading__title {
+        color: var(--app-shell-text);
+    }
+
+    .settings-page-heading__subheading {
+        @apply mt-2;
+        color: var(--app-shell-muted);
+    }
+
+    .settings-shell {
+        @apply flex items-start gap-6 max-md:flex-col;
+    }
+
+    .settings-shell__nav {
+        @apply w-full md:w-[240px] md:shrink-0;
+    }
+
+    .settings-shell__content {
+        @apply min-w-0 flex-1 self-stretch;
+    }
+
+    .settings-shell__body {
+        @apply mt-6 w-full max-w-2xl;
+    }
+
+    .settings-shell [data-flux-navlist] {
+        @apply gap-2;
+    }
+
+    .settings-shell [data-flux-navlist-item] {
+        @apply rounded-xl border px-3 py-2.5 text-sm font-medium transition;
+        border-color: transparent;
+        color: var(--app-text);
+    }
+
+    .settings-shell [data-flux-navlist-item][data-current],
+    .settings-shell [data-flux-navlist-item]:hover {
+        background-color: #f6f8fb;
+        border-color: var(--app-border);
+        color: var(--app-heading);
+    }
+
+    .settings-section-title {
+        color: var(--app-heading);
+    }
+
+    .settings-section-subheading {
+        @apply mt-1;
+        color: var(--app-text-muted);
+    }
+
+    .settings-form {
+        @apply space-y-6;
+    }
+
+    .settings-form [data-flux-field] {
+        @apply gap-2;
+    }
+
+    .settings-form [data-flux-label] {
+        color: var(--app-heading);
+    }
+
+    .settings-form [data-flux-description],
+    .settings-form [data-flux-error],
+    .settings-form [data-flux-text] {
+        color: var(--app-text-muted);
+    }
+
+    .settings-note-block {
+        @apply mt-4 rounded-xl border px-4 py-3;
+        background-color: #f8fafc;
+        border-color: var(--app-border);
+    }
+
+    .settings-note {
+        color: var(--app-text-muted);
+    }
+
+    .settings-link {
+        @apply font-medium;
+        color: var(--app-info-text);
+    }
+
+    .settings-success-note {
+        @apply mt-2 font-medium;
+        color: var(--app-success-text);
+    }
+
+    .settings-action-row {
+        @apply flex items-center gap-4;
+    }
+
+    .settings-action-message {
+        color: var(--app-text-muted);
+    }
+
+    .settings-danger-zone {
+        @apply mt-10 rounded-2xl border px-5 py-5 shadow-sm sm:px-6;
+        background-color: #fff8f8;
+        border-color: var(--app-danger-border);
+    }
+
+    .settings-danger-zone__title {
+        color: var(--app-danger-text);
+    }
+
+    .settings-danger-zone__subheading {
+        color: color-mix(in srgb, var(--app-danger-text) 78%, white);
+    }
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply  !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* \[:where(&)\]:size-4 {
+    @apply size-4;
+} */

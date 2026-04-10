@@ -1,0 +1,131 @@
+<div>
+    <x-slot name="header">
+        <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+            <div>
+                <h2 class="ops-page__title">{{ __('Incident Detail') }}</h2>
+                <p class="text-sm">
+                    Review the report, supporting context, and current handling status.
+                </p>
+            </div>
+        </div>
+    </x-slot>
+
+    @php
+        $severityBadge = match ($incident->severity) {
+            'High' => 'ops-badge--danger',
+            'Medium' => 'ops-badge--warning',
+            default => 'ops-badge--info',
+        };
+
+        $statusBadge = match ($incident->status) {
+            'Resolved' => 'ops-badge--success',
+            'In Progress' => 'ops-badge--warning',
+            default => 'ops-badge--info',
+        };
+    @endphp
+
+    <div class="mx-auto max-w-5xl space-y-6">
+        @if (session()->has('message'))
+            <div class="ops-alert ops-alert--success">
+                {{ session('message') }}
+            </div>
+        @endif
+
+        <section class="ops-card overflow-hidden">
+            <div class="ops-card__body space-y-6">
+                <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                    <div>
+                        <h3 class="text-xl font-semibold text-[var(--app-heading)]">{{ $incident->title }}</h3>
+                        <p class="mt-2 text-sm text-[var(--app-text-muted)]">Reported by {{ $incident->creator?->name ?? 'Unknown' }} on {{ $incident->created_at->format('M d, Y H:i') }}</p>
+                    </div>
+                    <a href="{{ route('incidents.index') }}" class="ops-button ops-button--secondary">
+                        Back to incident list
+                    </a>
+                </div>
+
+                <dl class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
+                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Category</dt>
+                        <dd class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ $incident->category }}</dd>
+                    </div>
+                    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
+                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Severity</dt>
+                        <dd class="mt-2 text-sm">
+                            <span class="ops-badge {{ $severityBadge }}">{{ $incident->severity }}</span>
+                        </dd>
+                    </div>
+                    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
+                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Current Status</dt>
+                        <dd class="mt-2 text-sm">
+                            <span class="ops-badge {{ $statusBadge }}">{{ $incident->status }}</span>
+                        </dd>
+                    </div>
+                    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
+                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Resolved At</dt>
+                        <dd class="mt-2 text-sm font-medium text-[var(--app-heading)]">
+                            {{ $incident->resolved_at?->format('M d, Y H:i') ?? 'Not resolved yet' }}
+                        </dd>
+                    </div>
+                </dl>
+
+                <div class="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(18rem,1fr)]">
+                    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-5 py-4">
+                        <h4 class="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Description</h4>
+                        <p class="mt-3 whitespace-pre-line text-sm leading-6 text-[var(--app-heading)]">{{ $incident->description }}</p>
+                    </div>
+
+                    @if($incident->attachment_path)
+                        <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-5 py-4">
+                            <h4 class="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Attachment</h4>
+                            <div class="mt-3">
+                                <a href="{{ asset('storage/' . $incident->attachment_path) }}" target="_blank" rel="noopener noreferrer" class="ops-button ops-button--secondary">
+                                    View attachment
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </section>
+
+        <section class="ops-card overflow-hidden">
+            <div class="ops-card__body">
+                <form wire:submit="updateStatus" class="space-y-4">
+                    <div>
+                        <label for="status" class="ops-field-label">Update Status</label>
+                        <select id="status" wire:model="status" class="ops-control">
+                            @foreach($statuses as $statusOption)
+                                <option value="{{ $statusOption }}">{{ $statusOption }}</option>
+                            @endforeach
+                        </select>
+                        @error('status') <span class="ops-field-error">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="flex justify-end border-t border-[var(--app-border)] pt-5">
+                        <button type="submit" class="ops-button ops-button--primary min-w-44">
+                            <span wire:loading.remove wire:target="updateStatus">Update Status</span>
+                            <span wire:loading wire:target="updateStatus">Updating...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="ops-card overflow-hidden">
+            <div class="ops-card__body">
+                <h3 class="text-base font-semibold text-[var(--app-heading)]">Activity Timeline</h3>
+
+                <ul role="list" class="mt-4 space-y-4">
+                    @foreach($incident->activities->sortBy('created_at') as $activity)
+                        <li class="border-l-2 border-[var(--app-border)] pl-4">
+                            <p class="text-sm font-medium text-[var(--app-heading)]">{{ $activity->summary }}</p>
+                            <p class="mt-1 text-xs text-[var(--app-text-muted)]">
+                                {{ $activity->actor?->name ?? 'Unknown' }} · {{ $activity->created_at?->format('M d, Y H:i') ?? 'Unknown time' }}
+                            </p>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </section>
+    </div>
+</div>
