@@ -8,12 +8,13 @@ Execution phase coverage:
 
 Reference inputs:
 
-- [19_Execute_Preparation_Pack_2026-04-11.md](./19_Execute_Preparation_Pack_2026-04-11.md)
+- [05_Decision_Log_v1.3.md](./05_Decision_Log_v1.3.md)
+- [06_Data_Definition_v1.2.md](./06_Data_Definition_v1.2.md)
 - [22_Architecture_Boundary_and_Execution_Standards_2026-04-11.md](./22_Architecture_Boundary_and_Execution_Standards_2026-04-11.md)
 
 ## 1. Purpose
 
-This document is the Phase 3 execution artifact.
+This document is the canonical domain-normalization reference for the current repository baseline.
 
 It records:
 

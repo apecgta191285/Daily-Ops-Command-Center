@@ -8,14 +8,14 @@ Execution phase coverage:
 
 Reference inputs:
 
-- [17_Codebase_Audit_Report_2026-04-10.md](./17_Codebase_Audit_Report_2026-04-10.md)
-- [18_Foundation_Remediation_Plan_2026-04-11.md](./18_Foundation_Remediation_Plan_2026-04-11.md)
-- [19_Execute_Preparation_Pack_2026-04-11.md](./19_Execute_Preparation_Pack_2026-04-11.md)
+- [00_Project_Lock_v1.1.md](./00_Project_Lock_v1.1.md)
+- [02_System_Spec_v0.3.md](./02_System_Spec_v0.3.md)
+- [05_Decision_Log_v1.3.md](./05_Decision_Log_v1.3.md)
 - current repository state on 2026-04-11
 
 ## 1. Purpose
 
-This document converts the Phase 2 planning decisions into execution-grade repository standards.
+This document is the canonical architecture contract for the current repository baseline.
 
 It defines:
 

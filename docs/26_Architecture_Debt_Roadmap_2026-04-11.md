@@ -2,7 +2,7 @@
 
 Date: 2026-04-11
 Project: Daily Ops Command Center
-Purpose: Track architectural debt that has been identified, partially remediated, or intentionally deferred.
+Purpose: Track debt that remains relevant after the foundation remediation program completed. This document is intentionally forward-looking. It should not duplicate already-closed execution logs.
 
 ## 1. Closed or Materially Reduced Debt
 
@@ -13,8 +13,8 @@ Status: materially reduced
 Closed work:
 
 - PHP support claim aligned to 8.4
-- CI platform claim aligned
-- local bootstrap profile aligned to SQLite
+- CI platform claim aligned to the supported baseline
+- local bootstrap profile aligned to SQLite and documented in README
 
 ### Account lifecycle ambiguity debt
 
@@ -22,9 +22,9 @@ Status: materially reduced
 
 Closed work:
 
-- inactive-user enforcement exists
-- registration ambiguity removed
-- account policy documented explicitly
+- inactive-user enforcement exists at authentication and protected-route boundaries
+- public registration ambiguity removed
+- account policy documented explicitly in code and docs
 
 ### Workflow-orchestration-in-UI debt
 
@@ -32,30 +32,33 @@ Status: materially reduced
 
 Closed work:
 
-- checklist initialization extracted
-- checklist submission extracted
-- incident creation extracted
-- incident transition extracted
-- dashboard aggregation extracted
-
-Remaining residue:
-
-- presentation components still hold some display-oriented literal mappings
-
-## 2. Active Debt Still Remaining
+- checklist initialization extracted into application actions
+- checklist submission extracted into application actions
+- incident creation extracted into application actions
+- incident transition extracted into application actions
+- dashboard aggregation extracted into an application query
 
 ### Shell duplication debt
 
-Status: open
+Status: materially reduced
 
-Evidence:
+Closed work:
 
-- app shell navigation is still duplicated across header/sidebar structures
-- auth/settings shell family remains separate from the operations shell family
+- canonical operations shell selected
+- duplicate header-based shell removed
+- role-aware navigation centralized
 
-Planned phase:
+### Repository source-of-truth debt
 
-- Phase 5
+Status: materially reduced
+
+Closed work:
+
+- source-only artifact policy documented
+- vendor-generated Filament assets removed from tracked history going forward
+- project metadata normalized away from starter-kit residue
+
+## 2. Active Debt Still Remaining
 
 ### Presentation-literal drift debt
 
@@ -63,25 +66,52 @@ Status: open
 
 Evidence:
 
-- badge-color mappings remain in Blade views
-- some UI components still reference raw domain strings directly
+- badge-color mappings and label transforms still exist in some Blade views
+- some presentation components still depend directly on raw domain strings
 
-Planned phase:
+Why it matters:
 
-- Phase 5 and Phase 6
+- visual consistency can drift
+- domain representation rules can split between backend and Blade
 
-### Repository source-of-truth debt
+Recommended handling:
+
+- introduce shared presentation helpers or view models only when repeated duplication becomes material
+- do not push display rules back into controllers or Livewire components without an explicit placement decision
+
+### Documentation aging debt
 
 Status: open
 
 Evidence:
 
-- generated/public asset policy still needs final cleanup
-- repository still contains source-vs-generated ambiguity from earlier imports
+- canonical docs are now smaller and cleaner, but they still require deliberate upkeep when contracts change
 
-Planned phase:
+Why it matters:
 
-- Phase 6
+- stale docs will recreate the original truth-mismatch problem
+
+Recommended handling:
+
+- update only the canonical docs set when a contract changes
+- avoid re-introducing temporary planning or execution trail artifacts into the permanent repo baseline
+
+### Scope-expansion debt
+
+Status: open
+
+Evidence:
+
+- future requests may pressure the system toward assignment workflows, notifications, analytics, or broader command-center behavior
+
+Why it matters:
+
+- the codebase is healthier now, which can make uncontrolled scope expansion feel deceptively safe
+
+Recommended handling:
+
+- force new scope through Project Lock and Decision Log first
+- treat large feature families as separate planning tracks instead of opportunistic extensions
 
 ## 3. Future Debt Prevention Rules
 

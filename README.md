@@ -84,3 +84,18 @@ php artisan filament:upgrade
 - Public file attachments require the `public/storage` symlink created by `php artisan storage:link`.
 - Public self-registration is intentionally unsupported. Accounts are provisioned internally.
 - GitHub Actions workflows in `.github/workflows` expect repository secrets for Flux credentials when CI runs.
+
+## Canonical Documentation
+
+The repository keeps only long-lived documentation that still acts as a source of truth.
+
+- `docs/00_Project_Lock_v1.1.md`
+- `docs/01_Product_Brief_v1.1.md`
+- `docs/02_System_Spec_v0.3.md`
+- `docs/03_Evaluation_Protocol_v1.1.md`
+- `docs/04_Current_State_v1.3.md`
+- `docs/05_Decision_Log_v1.3.md`
+- `docs/06_Data_Definition_v1.2.md`
+- `docs/22_Architecture_Boundary_and_Execution_Standards_2026-04-11.md`
+- `docs/24_Domain_Normalization_Design_2026-04-11.md`
+- `docs/26_Architecture_Debt_Roadmap_2026-04-11.md`
