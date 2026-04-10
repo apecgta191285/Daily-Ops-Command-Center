@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Management\Incidents;
 
+use App\Application\Incidents\Actions\TransitionIncidentStatus;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\Incident;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -12,14 +14,11 @@ class Show extends Component
 
     public string $status = '';
 
-    public array $statuses = [
-        'Open',
-        'In Progress',
-        'Resolved',
-    ];
+    public array $statuses = [];
 
     public function mount(Incident $incident): void
     {
+        $this->statuses = IncidentStatus::values();
         $this->incident = $incident->load(['creator', 'activities.actor']);
         $this->status = $this->incident->status;
     }
@@ -30,25 +29,13 @@ class Show extends Component
             'status' => 'required|in:Open,In Progress,Resolved',
         ]);
 
-        $previousStatus = $this->incident->status;
+        $result = app(TransitionIncidentStatus::class)($this->incident, $this->status, auth()->id());
+        $this->incident = $result->incident;
 
-        if ($this->status === $previousStatus) {
+        if (! $result->changed) {
             return;
         }
 
-        $this->incident->update([
-            'status' => $this->status,
-            'resolved_at' => $this->status === 'Resolved' ? now() : null,
-        ]);
-
-        $this->incident->activities()->create([
-            'action_type' => 'status_changed',
-            'summary' => "Status changed from {$previousStatus} to {$this->status}",
-            'actor_id' => auth()->id(),
-            'created_at' => now(),
-        ]);
-
-        $this->incident->refresh()->load(['creator', 'activities.actor']);
         session()->flash('message', 'Incident status updated successfully.');
     }
 

@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Staff\Incidents;
 
-use App\Models\Incident;
+use App\Application\Incidents\Actions\CreateIncident;
+use App\Domain\Incidents\Enums\IncidentCategory;
+use App\Domain\Incidents\Enums\IncidentSeverity;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -21,22 +23,17 @@ class Create extends Component
 
     public $attachment;
 
-    public $categories = [
-        'อุปกรณ์คอมพิวเตอร์',
-        'เครือข่าย',
-        'ความสะอาด',
-        'ความปลอดภัย',
-        'สภาพแวดล้อม',
-        'อื่น ๆ',
-    ];
+    public array $categories = [];
 
-    public $severities = [
-        'Low',
-        'Medium',
-        'High',
-    ];
+    public array $severities = [];
 
-    public function submit()
+    public function mount(): void
+    {
+        $this->categories = IncidentCategory::values();
+        $this->severities = IncidentSeverity::values();
+    }
+
+    public function submit(): void
     {
         $this->validate([
             'title' => 'required|string|max:120',
@@ -46,27 +43,12 @@ class Create extends Component
             'attachment' => 'nullable|file|max:10240', // Limit to 10MB
         ]);
 
-        $attachmentPath = null;
-        if ($this->attachment) {
-            // Save to local public disk
-            $attachmentPath = $this->attachment->store('incidents', 'public');
-        }
-
-        $incident = Incident::create([
+        app(CreateIncident::class)([
             'title' => $this->title,
             'category' => $this->category,
             'severity' => $this->severity,
-            'status' => 'Open',
             'description' => $this->description,
-            'attachment_path' => $attachmentPath,
-            'created_by' => auth()->id(),
-        ]);
-
-        $incident->activities()->create([
-            'action_type' => 'created',
-            'summary' => 'Incident reported',
-            'actor_id' => auth()->id(),
-        ]);
+        ], auth()->id(), $this->attachment);
 
         session()->flash('message', 'Incident reported successfully.');
 

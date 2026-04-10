@@ -1,5 +1,7 @@
 # **Decision Log**
 
+> Historical note: This document contains earlier baseline assumptions. For current foundation remediation, treat [18_Foundation_Remediation_Plan_2026-04-11.md](./18_Foundation_Remediation_Plan_2026-04-11.md) and [19_Execute_Preparation_Pack_2026-04-11.md](./19_Execute_Preparation_Pack_2026-04-11.md) as canonical for platform baseline, local database profile, and remediation sequencing.
+
 ## *A-lite Foundation Documentation Set*
 
 **DOC-05-DL | ระบบเช็กลิสต์งานประจำวันและติดตามเหตุการณ์ผิดปกติสำหรับทีมงานขนาดเล็ก**  
