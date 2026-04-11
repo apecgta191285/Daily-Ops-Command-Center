@@ -84,6 +84,7 @@ php artisan filament:upgrade
 - Public file attachments require the `public/storage` symlink created by `php artisan storage:link`.
 - Public self-registration is intentionally unsupported. Accounts are provisioned internally.
 - GitHub Actions workflows in `.github/workflows` expect repository secrets for Flux credentials when CI runs.
+- The `/admin` Filament panel is reserved for admin-only CRUD work such as checklist template management.
 
 ## Canonical Documentation
 

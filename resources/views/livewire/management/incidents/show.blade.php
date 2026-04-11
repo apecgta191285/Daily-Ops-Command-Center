@@ -10,20 +10,6 @@
         </div>
     </x-slot>
 
-    @php
-        $severityBadge = match ($incident->severity) {
-            'High' => 'ops-badge--danger',
-            'Medium' => 'ops-badge--warning',
-            default => 'ops-badge--info',
-        };
-
-        $statusBadge = match ($incident->status) {
-            'Resolved' => 'ops-badge--success',
-            'In Progress' => 'ops-badge--warning',
-            default => 'ops-badge--info',
-        };
-    @endphp
-
     <div class="mx-auto max-w-5xl space-y-6">
         @if (session()->has('message'))
             <div class="ops-alert ops-alert--success">
@@ -51,13 +37,13 @@
                     <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
                         <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Severity</dt>
                         <dd class="mt-2 text-sm">
-                            <span class="ops-badge {{ $severityBadge }}">{{ $incident->severity }}</span>
+                            <x-incidents.severity-badge :severity="$incident->severity" />
                         </dd>
                     </div>
                     <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
                         <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Current Status</dt>
                         <dd class="mt-2 text-sm">
-                            <span class="ops-badge {{ $statusBadge }}">{{ $incident->status }}</span>
+                            <x-incidents.status-badge :status="$incident->status" />
                         </dd>
                     </div>
                     <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">

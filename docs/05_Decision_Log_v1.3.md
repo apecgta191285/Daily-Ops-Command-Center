@@ -174,3 +174,11 @@ Decision: ปิด foundation remediation และล็อก engineering bas
 Rationale: baseline เดิมมี truth mismatch ระหว่าง docs, runtime, CI, auth policy, workflow placement และ repository artifacts ทำให้การพัฒนาต่อมีความเสี่ยงสูงต่อ drift และการแก้แบบเฉพาะหน้า
 
 Impact: 04_Current_State, README, architecture boundary documentation, domain normalization references และ repository hygiene policy ต้องสะท้อน baseline นี้ให้ตรงกับ code ปัจจุบัน
+
+**D-019 | Locked**
+
+Decision: จำกัด Filament panel `/admin` เป็น admin-only สำหรับ current repository baseline และไม่ให้ supervisor เข้า panel จนกว่าจะมี admin-surface use case ที่ supervisor ใช้งานได้จริง
+
+Rationale: ของจริงใน panel ปัจจุบันมี resource เชิงธุรกิจหลักเฉพาะ checklist template administration เท่านั้น การเปิด panel ให้ supervisor เข้าได้แต่ไม่มี resource ที่มีความหมายสร้างทั้ง authorization mismatch และ UX confusion
+
+Impact: User panel-access policy, admin surface navigation, current-state summary และ architecture boundary docs ต้องสะท้อนขอบเขตนี้ให้ตรงกัน

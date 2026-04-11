@@ -10,20 +10,6 @@
         </div>
     </x-slot>
 
-    @php
-        $severityBadge = fn (string $severity) => match ($severity) {
-            'High' => 'ops-badge--danger',
-            'Medium' => 'ops-badge--warning',
-            default => 'ops-badge--info',
-        };
-
-        $statusBadge = fn (string $status) => match ($status) {
-            'Resolved' => 'ops-badge--success',
-            'In Progress' => 'ops-badge--warning',
-            default => 'ops-badge--info',
-        };
-    @endphp
-
     <div class="space-y-6">
         <section class="ops-card overflow-hidden">
             <div class="ops-card__body">
@@ -84,14 +70,10 @@
                                         <td class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">{{ $incident->title }}</td>
                                         <td class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $incident->category }}</td>
                                         <td class="px-4 py-4 text-sm">
-                                            <span class="ops-badge {{ $severityBadge($incident->severity) }}">
-                                                {{ $incident->severity }}
-                                            </span>
+                                            <x-incidents.severity-badge :severity="$incident->severity" />
                                         </td>
                                         <td class="px-4 py-4 text-sm">
-                                            <span class="ops-badge {{ $statusBadge($incident->status) }}">
-                                                {{ $incident->status }}
-                                            </span>
+                                            <x-incidents.status-badge :status="$incident->status" />
                                         </td>
                                         <td class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $incident->creator?->name ?? 'Unknown' }}</td>
                                         <td class="px-4 py-4 text-right text-sm">

@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Resources\ChecklistTemplates\ChecklistTemplateResource;
+use App\Http\Controllers\Admin\TemplatesBridgeController;
 use App\Http\Controllers\Management\DashboardController;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
@@ -41,9 +41,8 @@ Route::middleware(['auth', 'active'])->group(function () {
 
     // ── Admin-only routes ────────────────────────────────
     Route::middleware('role:admin')->group(function () {
-        Route::get('templates', function () {
-            return redirect(ChecklistTemplateResource::getUrl('index'));
-        })->name('templates.index');
+        Route::get('templates', TemplatesBridgeController::class)
+            ->name('templates.index');
     });
 });
 
