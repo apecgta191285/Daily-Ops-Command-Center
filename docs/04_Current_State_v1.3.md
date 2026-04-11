@@ -44,7 +44,7 @@
 * Product positioning และเหตุผลที่ไม่เลือกแกน training/onboarding  
 * Baseline A = checklist/manual + chat reporting เทียบกับ System B = A-lite web app  
 * Checklist taxonomy, incident taxonomy, severity, status และ role set  
-* Access strategy: Filament สำหรับ admin CRUD, custom Livewire สำหรับ core staff/management workflows  
+* Access strategy: Filament สำหรับ admin-only CRUD, custom Livewire สำหรับ core staff/management workflows  
 * Checklist run creation policy: Staff เปิด checklist ของวันแล้วระบบสร้าง run ให้อัตโนมัติถ้ายังไม่มี  
 * Attachment handling policy: optional และเก็บ local public disk เท่านั้น  
 * Incident status permission: Admin และ Supervisor เปลี่ยนสถานะได้; Staff สร้าง incident ได้แต่เปลี่ยน status ไม่ได้  

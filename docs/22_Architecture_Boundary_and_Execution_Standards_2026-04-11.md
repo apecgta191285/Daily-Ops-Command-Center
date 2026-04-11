@@ -46,7 +46,7 @@ Current code locations:
 
 Role boundary:
 
-- management users only
+- admin users only for the current repository baseline
 - panel path remains `/admin`
 
 Decision:
@@ -266,6 +266,7 @@ Reason:
 - middleware and policy-style checks answer whether the authenticated user may proceed
 - role checks are not sufficient by themselves
 - active/inactive state is a first-class authorization gate for protected application access
+- the current Filament admin panel is an admin-only surface until additional non-admin panel use cases are deliberately introduced
 
 ### Enforcement ownership
 

@@ -52,7 +52,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->is_active && in_array($this->role, ['admin', 'supervisor']);
+        return $this->is_active && $this->isAdmin();
     }
 
     // ── Day 3A Role Helpers ──────────────────────────────

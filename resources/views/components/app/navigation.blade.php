@@ -8,7 +8,7 @@
         </flux:sidebar.item>
         @if (auth()->user()->isAdmin())
             <flux:sidebar.item icon="rectangle-stack" :href="route('templates.index')" :current="request()->routeIs('templates.index')" wire:navigate>
-                {{ __('Templates') }}
+                {{ __('Admin Templates') }}
             </flux:sidebar.item>
         @endif
     @endif
