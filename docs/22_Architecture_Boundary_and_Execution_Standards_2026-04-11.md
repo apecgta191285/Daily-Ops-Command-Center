@@ -29,55 +29,40 @@ It defines:
 
 The current repository can be classified as follows.
 
-### Filament-owned
-
-Scope:
-
-- internal admin CRUD only
-
-Current repository owner:
-
-- `ChecklistTemplateResource`
-
-Current code locations:
-
-- `app/Filament/Resources/**`
-- `app/Providers/Filament/AdminPanelProvider.php`
-
-Role boundary:
-
-- admin users only for the current repository baseline
-- panel path remains `/admin`
-
-Decision:
-
-- Filament remains the owner for low-code administrative CRUD
-- Filament is not the target host for core staff workflow screens
-
 ### Custom Livewire-owned
 
 Scope:
 
-- operational workflows with domain-specific behavior
+- operational workflows and admin template management with domain-specific behavior
 
 Current repository owner:
 
 - staff checklist execution
 - staff incident creation
 - management incident list/detail/update
+- admin checklist template list/create/edit
+
+Authoritative route family:
+
+- `/templates`
+- `/templates/create`
+- `/templates/{template}/edit`
 
 Current code locations:
 
 - `app/Livewire/Staff/**`
 - `app/Livewire/Management/**`
+- `app/Livewire/Admin/**`
 - `resources/views/livewire/**`
 - `resources/views/dashboard.blade.php`
 - `app/Http/Controllers/Management/DashboardController.php`
 
 Decision:
 
-- custom Livewire remains the target owner for the operations product
+- custom Livewire remains the target owner for the operations product and admin presentation surface
 - future application-layer extraction will happen behind these flows rather than replacing them wholesale
+- the current daily checklist runtime remains singular; template `scope` is classification metadata until the product lock explicitly expands execution behavior
+- legacy `/admin/*` checklist-template URLs are retired and must not be reintroduced as compatibility aliases without an explicit new decision
 
 ### Volt / Flux page-owned
 
@@ -103,6 +88,7 @@ Decision:
 
 - Volt/Flux pages remain temporarily limited to auth/settings
 - no business workflow screens are to be added under this pattern
+- current refactor priority is to restyle and constrain this surface through app-owned frontend contracts before considering a full migration to explicit Livewire classes
 
 ### Shared shell / layout-owned
 
@@ -176,13 +162,12 @@ Examples for upcoming work:
 
 Purpose:
 
-- HTTP, Livewire, Blade, Filament, Flux, route composition
+- HTTP, Livewire, Blade, Flux, route composition
 
 Target locations:
 
 - `app/Http/**`
 - `app/Livewire/**`
-- `app/Filament/**`
 - `resources/views/**`
 - `routes/**`
 
@@ -234,7 +219,8 @@ Authoritative auth/settings strategy:
 Rules:
 
 - auth/settings may continue to use existing page/layout conventions
-- auth/settings shell work is maintenance-only until a dedicated consolidation phase
+- auth/settings shell work should converge through shared app-owned CSS modules and composition primitives
+- full migration of settings pages to explicit Livewire classes is deferred until there is a stronger payoff than the current modular-contract work
 
 ## 5. Account Lifecycle and Authorization Policy
 
@@ -242,11 +228,22 @@ This section is the canonical policy for the current remediation cycle.
 
 ### Account lifecycle policy
 
+### Authorization placement policy
+
+Current baseline:
+
+- route-level role middleware is the authoritative authorization layer for checklist template administration
+- no object-level policy layer is required yet because all template actions remain admin-only and there is no per-record ownership model
+
+Escalation trigger:
+
+- introduce policy-based authorization only when template actions diverge by action type, ownership, or record-sensitive business rules
+
 - users must be active to authenticate into the operations application
 - users must remain active to access protected application routes
-- management-panel access requires both:
+- template-administration access requires both:
   - active account state
-  - authorized management role
+  - authorized admin role
 - public self-registration is intentionally unsupported
 
 ### Verification policy
@@ -266,7 +263,7 @@ Reason:
 - middleware and policy-style checks answer whether the authenticated user may proceed
 - role checks are not sufficient by themselves
 - active/inactive state is a first-class authorization gate for protected application access
-- the current Filament admin panel is an admin-only surface until additional non-admin panel use cases are deliberately introduced
+- checklist template administration is an admin-only surface inside the shared application shell
 
 ### Enforcement ownership
 
@@ -316,6 +313,7 @@ This document now makes explicit:
 - shell authority
 - account lifecycle policy
 - thin-component standard
+- single-surface admin strategy
 
 Conclusion:
 

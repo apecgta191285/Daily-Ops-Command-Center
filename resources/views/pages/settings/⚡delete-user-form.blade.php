@@ -6,7 +6,7 @@ new class extends Component {}; ?>
 
 <section class="settings-danger-zone">
     <div class="relative mb-5">
-        <flux:heading class="settings-danger-zone__title">{{ __('Delete account') }}</flux:heading>
+        <flux:heading class="settings-danger-zone__title settings-inline-heading">{{ __('Delete account') }}</flux:heading>
         <flux:subheading class="settings-danger-zone__subheading">{{ __('Delete your account and all of its resources') }}</flux:subheading>
     </div>
 

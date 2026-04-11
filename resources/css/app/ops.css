@@ -1,0 +1,235 @@
+@layer components {
+    .ops-page {
+        @apply min-h-full px-4 py-6 sm:px-6 lg:px-8;
+    }
+
+    .ops-page__header {
+        @apply mx-auto mb-6 max-w-7xl;
+    }
+
+    .ops-page__header-inner {
+        @apply rounded-2xl border px-5 py-4 shadow-sm sm:px-6;
+        background-color: var(--app-shell-bg);
+        border-color: var(--app-shell-border);
+        color: var(--app-shell-text);
+    }
+
+    .ops-page__body {
+        @apply mx-auto max-w-7xl;
+    }
+
+    .ops-page__title,
+    .ops-page__header h1,
+    .ops-page__header h2,
+    .ops-page__header h3 {
+        @apply text-2xl font-semibold tracking-tight;
+        color: var(--app-shell-text);
+    }
+
+    .ops-page__header p,
+    .ops-page__header .text-gray-500,
+    .ops-page__header .text-gray-600,
+    .ops-page__header .text-zinc-500 {
+        color: var(--app-shell-muted) !important;
+    }
+
+    .ops-card {
+        @apply rounded-2xl border shadow-sm;
+        background-color: var(--app-surface);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .ops-card__header {
+        @apply border-b px-6 py-4;
+        border-color: var(--app-border);
+    }
+
+    .ops-card__body {
+        @apply px-6 py-5;
+    }
+
+    .ops-control {
+        @apply block w-full rounded-xl border px-3 py-2.5 text-sm shadow-xs transition;
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .ops-button {
+        @apply inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-medium transition focus:outline-hidden;
+    }
+
+    .ops-button--primary {
+        background-color: var(--app-action-primary);
+        border-color: var(--app-action-primary);
+        color: var(--app-action-primary-text);
+    }
+
+    .ops-button--primary:hover {
+        background-color: var(--app-action-primary-hover);
+        border-color: var(--app-action-primary-hover);
+    }
+
+    .ops-button--secondary {
+        background-color: var(--app-action-secondary);
+        border-color: var(--app-action-secondary-border);
+        color: var(--app-action-secondary-text);
+    }
+
+    .ops-button--secondary:hover {
+        background-color: var(--app-action-secondary-hover);
+    }
+
+    .ops-alert {
+        @apply rounded-2xl border px-4 py-3 text-sm shadow-sm;
+    }
+
+    .ops-alert--success {
+        background-color: var(--app-success-bg);
+        border-color: var(--app-success-border);
+        color: var(--app-success-text);
+    }
+
+    .ops-alert--warning {
+        background-color: var(--app-warning-bg);
+        border-color: var(--app-warning-border);
+        color: var(--app-warning-text);
+    }
+
+    .ops-alert--danger {
+        background-color: var(--app-danger-bg);
+        border-color: var(--app-danger-border);
+        color: var(--app-danger-text);
+    }
+
+    .ops-badge {
+        @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium;
+    }
+
+    .ops-badge--neutral {
+        background-color: var(--app-badge-neutral-bg);
+        border-color: var(--app-badge-neutral-border);
+        color: var(--app-badge-neutral-text);
+    }
+
+    .ops-badge--info {
+        background-color: var(--app-info-bg);
+        border-color: var(--app-info-border);
+        color: var(--app-info-text);
+    }
+
+    .ops-badge--success {
+        background-color: var(--app-success-bg);
+        border-color: var(--app-success-border);
+        color: var(--app-success-text);
+    }
+
+    .ops-badge--warning {
+        background-color: var(--app-warning-bg);
+        border-color: var(--app-warning-border);
+        color: var(--app-warning-text);
+    }
+
+    .ops-badge--danger {
+        background-color: var(--app-danger-bg);
+        border-color: var(--app-danger-border);
+        color: var(--app-danger-text);
+    }
+
+    .ops-table {
+        @apply w-full border-separate border-spacing-0 overflow-hidden rounded-2xl;
+    }
+
+    .ops-table thead {
+        background-color: #f6f8fb;
+    }
+
+    .ops-table th,
+    .ops-table td {
+        border-bottom: 1px solid var(--app-border);
+    }
+
+    .ops-field-label {
+        @apply mb-2 block text-sm font-medium;
+        color: var(--app-heading);
+    }
+
+    .ops-field-help {
+        @apply mt-2 text-xs;
+        color: var(--app-text-muted);
+    }
+
+    .ops-field-error {
+        @apply mt-2 text-xs font-medium;
+        color: var(--app-danger-text);
+    }
+
+    .ops-choice {
+        @apply inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium transition;
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .ops-choice:hover {
+        background-color: #f8fafc;
+    }
+
+    [data-flux-sidebar-item],
+    [data-flux-sidebar-profile],
+    [data-flux-sidebar] [data-flux-sidebar-group] > div > div,
+    [data-flux-sidebar] [data-flux-sidebar-group] > ui-disclosure > button {
+        color: var(--app-shell-text);
+    }
+
+    [data-flux-sidebar-item],
+    [data-flux-sidebar-profile] {
+        border: 1px solid transparent;
+    }
+
+    [data-flux-sidebar-item]:hover,
+    [data-flux-sidebar-profile]:hover,
+    [data-flux-sidebar-item][data-current] {
+        background-color: color-mix(in srgb, white 8%, transparent);
+        color: var(--app-shell-text);
+    }
+
+    [data-flux-sidebar-item][data-current] {
+        border-color: var(--app-shell-border);
+    }
+
+    [data-flux-sidebar-item] svg,
+    [data-flux-sidebar-profile] svg {
+        color: var(--app-shell-muted);
+    }
+
+    [data-flux-sidebar-item]:hover svg,
+    [data-flux-sidebar-item][data-current] svg,
+    [data-flux-sidebar-profile]:hover svg {
+        color: var(--app-shell-text);
+    }
+
+    [data-flux-sidebar-profile] [data-flux-text],
+    [data-flux-sidebar-profile] [data-flux-heading],
+    [data-flux-sidebar-profile] span {
+        color: inherit;
+    }
+
+    [data-flux-menu] {
+        border: 1px solid var(--app-border);
+        background-color: var(--app-surface-elevated);
+        color: var(--app-text);
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    [data-flux-menu-item] {
+        color: var(--app-text);
+    }
+
+    [data-flux-menu-item]:hover,
+    [data-flux-menu-item][data-active] {
+        background-color: #f6f8fb;
+        color: var(--app-heading);
+    }
+}

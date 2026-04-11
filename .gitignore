@@ -9,6 +9,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/tests/Browser/Screenshots
 .env
 .env.backup
 .env.production

@@ -14,15 +14,15 @@
 * happy path หลักของระบบทำงานครบ: login → checklist run → incident reporting → management update → dashboard summary  
 * public self-registration ถูกถอดออกจาก contract ของระบบแล้ว และ account ต้องเป็น active จึงจะใช้งานได้  
 * workflow หลักที่เคยกระจุกใน UI ถูกดึงลง application layer แล้วในส่วน checklist, incident และ dashboard  
-* repository hygiene ถูกปรับให้ track เฉพาะ source artifact และไม่ track vendor-generated Filament assets
+* repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
 # **2\. Current Phase**
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Foundation remediation complete / พร้อมเริ่ม feature work รอบถัดไปบน baseline ใหม่ |
+| Phase ปัจจุบัน | Master refactor program in progress / Phase 0-4 materially advanced / Phase 5 fixture-seed separation underway |
 | Project Mode | A-lite / MVP-first / controlled foundation |
-| Definition of Ready | ผ่านสำหรับการเริ่มพัฒนาต่อภายใต้ architecture baseline ปัจจุบัน |
+| Definition of Ready | ผ่านสำหรับการ refactor ต่ออย่างเป็นลำดับบน baseline เดียวกัน โดยยังไม่ถือว่า production-grade cleanup จบแล้ว |
 
 # **3\. Canonical Source of Truth**
 
@@ -44,17 +44,20 @@
 * Product positioning และเหตุผลที่ไม่เลือกแกน training/onboarding  
 * Baseline A = checklist/manual + chat reporting เทียบกับ System B = A-lite web app  
 * Checklist taxonomy, incident taxonomy, severity, status และ role set  
-* Access strategy: Filament สำหรับ admin-only CRUD, custom Livewire สำหรับ core staff/management workflows  
+* Access strategy: custom Livewire/app shell เป็น owner ของทั้ง operational workflows และ admin template management  
 * Checklist run creation policy: Staff เปิด checklist ของวันแล้วระบบสร้าง run ให้อัตโนมัติถ้ายังไม่มี  
 * Attachment handling policy: optional และเก็บ local public disk เท่านั้น  
 * Incident status permission: Admin และ Supervisor เปลี่ยนสถานะได้; Staff สร้าง incident ได้แต่เปลี่ยน status ไม่ได้  
 * Account lifecycle policy: inactive user เข้าสู่ระบบและใช้งาน protected surface ไม่ได้  
+* Admin template management ใช้ route `/templates`, `/templates/create`, และ `/templates/{template}/edit` ภายใน shell เดียวกับ dashboard/incidents และ legacy `/admin/*` routes สำหรับ checklist templates ถูกถอดออกจาก contract แล้ว  
+* Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null
 
 # **5\. Current Priorities**
 
 * รักษา regression baseline ให้เขียวทุกครั้งก่อน merge  
+* ปิด master refactor program ตาม phase order ก่อนเปิด feature expansion ใหม่  
 * ใช้ architecture boundary ปัจจุบันเป็นเกณฑ์ตัดสินก่อนเพิ่ม feature ใหม่  
 * จัดการ debt ที่ยังเปิดอยู่ใน 26_Architecture_Debt_Roadmap_2026-04-11 ตามลำดับความเสี่ยง
 
@@ -77,4 +80,4 @@
 
 # **7\. Current Verdict**
 
-สถานะล่าสุดของโครงงาน A-lite: foundation remediation เสร็จในระดับที่เหมาะใช้เป็นฐานสำหรับการพัฒนาต่อแล้ว โดย runtime baseline, architecture boundary, account policy, workflow placement และ repository hygiene ถูกทำให้ชัดกว่าก่อน remediation อย่างมีนัยสำคัญ
+สถานะล่าสุดของโครงงาน A-lite: foundation remediation ปิดแล้วและ repository กำลังอยู่ใน master refactor program เพื่อยกระดับ domain truth, persistence invariants, authorization truth, frontend contract และ test-fixture discipline ให้แน่นขึ้นก่อนเปิด feature work รอบใหม่

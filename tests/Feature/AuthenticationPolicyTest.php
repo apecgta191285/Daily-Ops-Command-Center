@@ -1,20 +1,24 @@
 <?php
 
+use App\Domain\Access\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->seed();
-    $this->activeStaff = User::where('email', 'operatora@example.com')->firstOrFail();
-    $this->inactiveUser = User::factory()->create([
-        'name' => 'Inactive Operator',
-        'email' => 'inactive@example.com',
+    $this->activeStaff = $this->createUserForRole(UserRole::Staff, [
         'password' => 'password',
-        'role' => 'staff',
-        'is_active' => false,
     ]);
+
+    $this->inactiveUser = User::factory()
+        ->staff()
+        ->inactive()
+        ->create([
+            'name' => 'Inactive Operator',
+            'email' => 'inactive@example.com',
+            'password' => 'password',
+        ]);
 });
 
 test('public registration route is unavailable', function () {

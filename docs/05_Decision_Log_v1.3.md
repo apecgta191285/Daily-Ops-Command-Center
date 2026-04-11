@@ -182,3 +182,83 @@ Decision: จำกัด Filament panel `/admin` เป็น admin-only สำ
 Rationale: ของจริงใน panel ปัจจุบันมี resource เชิงธุรกิจหลักเฉพาะ checklist template administration เท่านั้น การเปิด panel ให้ supervisor เข้าได้แต่ไม่มี resource ที่มีความหมายสร้างทั้ง authorization mismatch และ UX confusion
 
 Impact: User panel-access policy, admin surface navigation, current-state summary และ architecture boundary docs ต้องสะท้อนขอบเขตนี้ให้ตรงกัน
+
+**D-020 | Locked**
+
+Decision: ยกเลิก Filament panel ในฐานะ active presentation surface และย้าย checklist template administration เข้ามาอยู่ใน main application shell ผ่าน custom Livewire/admin-only routes แทน
+
+Rationale: หลัง remediation พบว่า admin surface ของจริงมีเพียง checklist template CRUD หนึ่งชุด ซึ่งเล็กเกินกว่าจะคุ้มค่ากับการแบกอีกหนึ่ง UI system, auth entry, theme contract, และ maintenance surface แยกต่างหาก การรวมกลับเข้า shell หลักให้ความสอดคล้องของ UX สูงกว่าและลด long-term presentation debt
+
+Impact: 04_Current_State, 22_Architecture_Boundary_and_Execution_Standards, README, routes/web.php, navigation, tests และ checklist-template implementation ต้องสะท้อน single-surface admin strategy นี้ให้ตรงกัน
+
+**D-021 | Locked**
+
+Decision: เปิด master refactor program อย่างเป็นทางการตาม 27_Full_Codebase_Audit_2026-04-11, 28_Master_Refactor_Plan_2026-04-11 และ execution artifact ที่ตามมา โดยห้าม scope expansion ระหว่างรอบ refactor นี้
+
+Rationale: repository ดีขึ้นพอที่จะเริ่ม refactor รอบใหญ่ได้แล้ว แต่ยังมี contract mismatch หลายชั้น การ refactor ต้องถูกควบคุมเป็น phase และยึด contract เดียว มิฉะนั้นจะกลับไปสู่สภาพ drift แบบเดิม
+
+Impact: ทุก phase ของ refactor ต้องอัปเดต code, tests และ canonical docs พร้อมกัน และห้ามเพิ่ม feature family ใหม่โดยไม่ผ่าน Project Lock และ Decision Log ก่อน
+
+**D-022 | Locked**
+
+Decision: ล็อกความจริงของ checklist execution ใน baseline ปัจจุบันว่า `/checklists/runs/today` รองรับ daily checklist runtime แบบ singular flow เท่านั้น โดย `ChecklistScope` ถูกใช้เป็น classification metadata สำหรับ template administration และ reporting เท่านั้น ยังไม่ใช่ dimension ที่สร้าง parallel execution flows
+
+Rationale: code ปัจจุบันมี `scope` ใน model และ admin UI แต่ runtime ยัง resolve active template เพียงหนึ่งเดียวทั้งระบบ หากไม่ล็อกความจริงนี้ให้ชัด จะเกิดการตีความผิดว่าระบบรองรับหลาย daily flows ทั้งที่ของจริงยังไม่รองรับ
+
+Impact: 02_System_Spec, 04_Current_State, 06_Data_Definition, 22_Architecture_Boundary_and_Execution_Standards, 24_Domain_Normalization_Design, admin template copy, และ daily checklist copy ต้องสะท้อน singular execution truth นี้ให้ตรงกัน
+
+**D-023 | Locked**
+
+Decision: ใน Phase 2 ของ master refactor program ให้ harden persistence contract เฉพาะ invariant ที่มีความเสี่ยงสูงและคุ้มค่าที่สุดก่อน ได้แก่ `checklist_templates.title` ต้องไม่ซ้ำ และระบบต้องมี active checklist template ได้เพียง 1 อันทั่วทั้งตาราง โดยใช้ database-backed enforcement ร่วมกับ application transaction ordering
+
+Rationale: สอง invariant นี้เป็นจุดที่เสี่ยงต่อ state corruption สูงและมีผลต่อ daily runtime โดยตรง ขณะเดียวกันการ rebuild ตารางทั้งหมดเพื่อใส่ CHECK constraints ให้ทุก string taxonomy ใน SQLite ตอนนี้จะ churn สูงเกินประโยชน์และเสี่ยงทำให้ phase ยืดเกินขอบเขต
+
+Impact: migration, SaveChecklistTemplate action, AdminSurfaceBoundary tests, และ persistence-hardening notes ต้องสะท้อน strategy นี้ให้ตรงกัน
+
+**D-024 | Locked**
+
+Decision: canonical value families เช่น role, scope, incident status, severity, category, และ checklist result ยังคง enforce หลักที่ application/domain layer ไปก่อนในรอบนี้ โดยยังไม่บังคับ full schema rebuild เพื่อแปลงทุกตารางเป็น DB CHECK constraints ทันที
+
+Rationale: repository baseline ปัจจุบันรองรับ SQLite เป็น primary development/runtime profile และการ rebuild หลายตารางพร้อมกันในรอบนี้ไม่คุ้มเมื่อเทียบกับความเสี่ยง การ refactor จะเดินแบบ incremental โดย harden จุดที่คุ้มที่สุดก่อน แล้วค่อยตัดสินใจเรื่อง schema-wide constraints ในรอบต่อไปหากยังจำเป็น
+
+Impact: 24_Domain_Normalization_Design, 26_Architecture_Debt_Roadmap, 28_Master_Refactor_Plan และ 29_Refactor_Execution_Pack ต้องสะท้อนว่า persistence hardening รอบนี้เป็น selective hardening ไม่ใช่ full schema rewrite
+
+**D-025 | Locked**
+
+Decision: ยกเลิก legacy `/admin/*` compatibility routes สำหรับ checklist template administration และให้ `/templates`, `/templates/create`, `/templates/{template}/edit` เป็น route contract เดียวที่รองรับอย่างเป็นทางการ
+
+Rationale: หลังจาก checklist template administration ถูกย้ายเข้ามาใน main application shell แล้ว การคง redirect compatibility routes ไว้ต่อจะทำให้ route truth มีสองชุดโดยไม่จำเป็น และเปิดโอกาสให้ docs, tests, bookmarks, และ implementation drift กลับไปสู่ความกำกวมเดิม
+
+Impact: routes/web.php, AdminSurfaceBoundary tests, README, 04_Current_State, 22_Architecture_Boundary_and_Execution_Standards, 26_Architecture_Debt_Roadmap และ 29_Refactor_Execution_Pack ต้องสะท้อน route family เดียวนี้ให้ตรงกัน
+
+**D-026 | Locked**
+
+Decision: สำหรับ checklist template administration ใน baseline ปัจจุบัน ให้ใช้ route-level role middleware เป็น authorization contract หลักต่อไป และยังไม่เพิ่ม object-level policy layer จนกว่าจะมี per-record ownership, per-action differentiation, หรือเงื่อนไข authorization ที่แยกระหว่าง admin ด้วยกันเอง
+
+Rationale: use case ปัจจุบันเป็น admin-only ทั้งชุด และทุก template action ใช้สิทธิ์ระดับเดียวกัน การเพิ่ม policy layer ตอนนี้จะเพิ่ม surface area โดยยังไม่ลดความซับซ้อนหรือเพิ่มความปลอดภัยอย่างมีนัยสำคัญ
+
+Impact: routes/web.php, EnsureUserHasRole middleware, checklist-template Livewire screens, tests, และ 22_Architecture_Boundary_and_Execution_Standards ต้องสะท้อน coarse route-level authorization truth นี้ให้ตรงกัน
+
+**D-027 | Locked**
+
+Decision: ในรอบ Phase 4 ปัจจุบันให้คง settings surface ไว้ใน page-owned Volt/Flux pattern ต่อไปก่อน และลงทุนกับการทำ frontend contract ให้เป็น app-owned system ผ่าน modular CSS, shared layout rules, และ Flux restyling แทนการย้าย settings ทุกหน้ามาเป็น explicit Livewire classes ทันที
+
+Rationale: settings pages ปัจจุบันมีขอบเขตจำกัดและผูกกับ Fortify/Flux behavior อยู่พอสมควร การย้ายทั้งหมดตอนนี้จะ churn สูงกว่า value ที่ได้ ขณะที่ปัญหาเร่งด่วนจริงคือ frontend contract ยังไม่ modular และ Flux-specific styling leakage ยังทำให้หน้าตา drift ได้ง่ายกว่า
+
+Impact: app.css, resources/css/app/**, settings/auth views, 22_Architecture_Boundary_and_Execution_Standards, 26_Architecture_Debt_Roadmap และ 29_Refactor_Execution_Pack ต้องสะท้อนว่า Phase 4 รอบนี้โฟกัส modular CSS + shared presentation contract ก่อน ไม่ใช่ settings class migration เต็มรูปแบบ
+
+**D-028 | Locked**
+
+Decision: ใน Phase 5 ของ master refactor program ให้แยก `demo seed data` ออกจาก `automated test correctness` อย่างชัดเจน โดยถือว่า `DatabaseSeeder` มีหน้าที่สร้างข้อมูลสาธิตและ local bootstrap narrative ส่วน feature/application tests ต้องสร้าง state ที่ต้องใช้ผ่าน factory และ scenario helper ของตัวเองเป็นหลัก
+
+Rationale: การผูก tests เข้ากับชื่อผู้ใช้, title, และ narrative demo records จาก DatabaseSeeder ทำให้ test suite เปราะและทำให้การแก้หรือขยาย demo data กระทบ regression โดยไม่จำเป็น การแยกสองหน้าที่นี้ทำให้ seed data เปลี่ยนได้โดยไม่ทำให้ behavior tests พังตาม
+
+Impact: model factories, test helpers, Pest bootstrap, feature/application tests, 06_Data_Definition, 26_Architecture_Debt_Roadmap และ 29_Refactor_Execution_Pack ต้องสะท้อนว่า test correctness ไม่ได้ขึ้นกับ seeded narrative records อีกต่อไป
+
+**D-029 | Locked**
+
+Decision: สำหรับ Phase 7 ให้ใช้ `Pest Browser + Playwright` เป็น browser-regression stack หลักของ repository แทน Laravel Dusk และเริ่มต้นด้วย smoke suite ขนาดเล็กสำหรับ guest, admin, และ staff flows ก่อน
+
+Rationale: repository ใช้ Pest เป็นแกนอยู่แล้ว การเลือก Pest Browser ทำให้ browser-level regression อยู่ใน test vocabulary เดียวกับ feature/application tests, ใช้ factory/scenario helpers เดิมได้, และมี churn ต่ำกว่าการนำ Dusk เข้ามาเพิ่มอีกหนึ่ง test framework
+
+Impact: composer/package dependencies, Pest bootstrap, `.gitignore`, GitHub Actions workflow, README, 26_Architecture_Debt_Roadmap และ 29_Refactor_Execution_Pack ต้องสะท้อน stack นี้ให้ตรงกัน รวมถึงต้องระบุอย่างตรงไปตรงมาว่า local execution บน Linux/WSL ยังต้องมี Playwright system dependencies ครบก่อนจึงจะรัน smoke suite ได้

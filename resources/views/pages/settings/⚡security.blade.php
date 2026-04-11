@@ -91,7 +91,7 @@ new #[Title('Security settings')] class extends Component {
     <flux:heading class="sr-only">{{ __('Security settings') }}</flux:heading>
 
     <x-pages::settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
-        <form method="POST" wire:submit="updatePassword" class="mt-6 space-y-6">
+        <form method="POST" wire:submit="updatePassword" class="settings-form settings-form--stacked">
             <flux:input
                 wire:model="current_password"
                 :label="__('Current password')"
@@ -117,21 +117,21 @@ new #[Title('Security settings')] class extends Component {
                 viewable
             />
 
-            <div class="flex items-center gap-4">
+            <div class="settings-action-row">
                 <div class="flex items-center justify-end">
                     <flux:button variant="primary" type="submit" class="w-full" data-test="update-password-button">
                         {{ __('Save') }}
                     </flux:button>
                 </div>
 
-                <x-action-message class="me-3" on="password-updated">
+                <x-action-message class="settings-action-message" on="password-updated">
                     {{ __('Saved.') }}
                 </x-action-message>
             </div>
         </form>
 
         @if ($canManageTwoFactor)
-            <section class="mt-12">
+            <section class="settings-form settings-form--stacked">
                 <flux:heading>{{ __('Two-factor authentication') }}</flux:heading>
                 <flux:subheading>{{ __('Manage your two-factor authentication settings') }}</flux:subheading>
 
@@ -155,7 +155,7 @@ new #[Title('Security settings')] class extends Component {
                         </div>
                     @else
                         <div class="space-y-4">
-                            <flux:text variant="subtle">
+                            <flux:text class="settings-supporting-copy">
                                 {{ __('When you enable two-factor authentication, you will be prompted for a secure pin during login. This pin can be retrieved from a TOTP-supported application on your phone.') }}
                             </flux:text>
 

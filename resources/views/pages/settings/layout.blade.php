@@ -1,20 +1,38 @@
 <div class="settings-shell">
     <div class="settings-shell__nav ops-card">
         <div class="ops-card__body">
-            <flux:navlist aria-label="{{ __('Settings') }}">
-                <flux:navlist.item :href="route('profile.edit')" wire:navigate>{{ __('Profile') }}</flux:navlist.item>
-                <flux:navlist.item :href="route('security.edit')" wire:navigate>{{ __('Security') }}</flux:navlist.item>
-                <flux:navlist.item :href="route('appearance.edit')" wire:navigate>{{ __('Appearance') }}</flux:navlist.item>
-            </flux:navlist>
+            <nav class="settings-nav" aria-label="{{ __('Settings') }}">
+                <a
+                    href="{{ route('profile.edit') }}"
+                    class="settings-nav__item {{ request()->routeIs('profile.edit') ? 'settings-nav__item--current' : '' }}"
+                    wire:navigate
+                >
+                    {{ __('Profile') }}
+                </a>
+                <a
+                    href="{{ route('security.edit') }}"
+                    class="settings-nav__item {{ request()->routeIs('security.edit') ? 'settings-nav__item--current' : '' }}"
+                    wire:navigate
+                >
+                    {{ __('Security') }}
+                </a>
+                <a
+                    href="{{ route('appearance.edit') }}"
+                    class="settings-nav__item {{ request()->routeIs('appearance.edit') ? 'settings-nav__item--current' : '' }}"
+                    wire:navigate
+                >
+                    {{ __('Appearance') }}
+                </a>
+            </nav>
         </div>
     </div>
 
-    <flux:separator class="md:hidden" />
-
     <div class="settings-shell__content ops-card">
         <div class="ops-card__body">
-            <flux:heading class="settings-section-title">{{ $heading ?? '' }}</flux:heading>
-            <flux:subheading class="settings-section-subheading">{{ $subheading ?? '' }}</flux:subheading>
+            <div class="settings-section-heading">
+                <h2 class="settings-section-title">{{ $heading ?? '' }}</h2>
+                <p class="settings-section-subheading">{{ $subheading ?? '' }}</p>
+            </div>
 
             <div class="settings-shell__body">
                 {{ $slot }}

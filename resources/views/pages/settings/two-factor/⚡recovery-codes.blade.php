@@ -45,23 +45,19 @@ new class extends Component {
     }
 }; ?>
 
-<div
-    class="py-6 space-y-6 border shadow-sm rounded-xl border-zinc-200 dark:border-white/10"
-    wire:cloak
-    x-data="{ showRecoveryCodes: false }"
->
-    <div class="px-6 space-y-2">
-        <div class="flex items-center gap-2">
-            <flux:icon.lock-closed variant="outline" class="size-4"/>
-            <flux:heading size="lg" level="3">{{ __('2FA recovery codes') }}</flux:heading>
+<div class="settings-panel" wire:cloak x-data="{ showRecoveryCodes: false }">
+    <div class="settings-panel__body space-y-6">
+        <div class="space-y-2">
+            <div class="flex items-center gap-2">
+                <flux:icon.lock-closed variant="outline" class="size-4"/>
+                <flux:heading size="lg" level="3">{{ __('2FA recovery codes') }}</flux:heading>
+            </div>
+            <flux:text class="settings-supporting-copy">
+                {{ __('Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.') }}
+            </flux:text>
         </div>
-        <flux:text variant="subtle">
-            {{ __('Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.') }}
-        </flux:text>
-    </div>
 
-    <div class="px-6">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="settings-button-row settings-button-row--stacked">
             <flux:button
                 x-show="!showRecoveryCodes"
                 icon="eye"
@@ -111,11 +107,7 @@ new class extends Component {
                 @enderror
 
                 @if (filled($recoveryCodes))
-                    <div
-                        class="grid gap-1 p-4 font-mono text-sm rounded-lg bg-zinc-100 dark:bg-white/5"
-                        role="list"
-                        aria-label="{{ __('Recovery codes') }}"
-                    >
+                    <div class="settings-code-list" role="list" aria-label="{{ __('Recovery codes') }}">
                         @foreach($recoveryCodes as $code)
                             <div
                                 role="listitem"
@@ -126,7 +118,7 @@ new class extends Component {
                             </div>
                         @endforeach
                     </div>
-                    <flux:text variant="subtle" class="text-xs">
+                    <flux:text class="settings-supporting-copy text-xs">
                         {{ __('Each recovery code can be used once to access your account and will be removed after use. If you need more, click Regenerate codes above.') }}
                     </flux:text>
                 @endif

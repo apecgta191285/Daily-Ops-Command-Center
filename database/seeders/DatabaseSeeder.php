@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Domain\Access\Enums\UserRole;
+use App\Domain\Checklists\Enums\ChecklistResult;
+use App\Domain\Checklists\Enums\ChecklistScope;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\ChecklistItem;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistRunItem;
@@ -26,41 +30,41 @@ class DatabaseSeeder extends Seeder
         $admin = User::firstOrCreate(['email' => 'admin@example.com'], [
             'name' => 'Lab Admin',
             'password' => $defaultPassword,
-            'role' => 'admin',
+            'role' => UserRole::Admin->value,
             'is_active' => true,
         ]);
 
         $supervisor = User::firstOrCreate(['email' => 'supervisor@example.com'], [
             'name' => 'Lab Supervisor',
             'password' => $defaultPassword,
-            'role' => 'supervisor',
+            'role' => UserRole::Supervisor->value,
             'is_active' => true,
         ]);
 
         $operatorA = User::firstOrCreate(['email' => 'operatora@example.com'], [
             'name' => 'Operator A',
             'password' => $defaultPassword,
-            'role' => 'staff',
+            'role' => UserRole::Staff->value,
             'is_active' => true,
         ]);
 
         $operatorB = User::firstOrCreate(['email' => 'operatorb@example.com'], [
             'name' => 'Operator B',
             'password' => $defaultPassword,
-            'role' => 'staff',
+            'role' => UserRole::Staff->value,
             'is_active' => true,
         ]);
 
         // 2. Checklist Templates (2 records)
         $t1 = ChecklistTemplate::firstOrCreate(['title' => 'เปิดห้องปฏิบัติการ'], [
             'description' => 'ตรวจความพร้อมก่อนเริ่มใช้งาน',
-            'scope' => 'เปิดห้อง',
+            'scope' => ChecklistScope::OPENING->value,
             'is_active' => true,
         ]);
 
         $t2 = ChecklistTemplate::firstOrCreate(['title' => 'ปิดห้องปฏิบัติการ'], [
             'description' => 'ตรวจความเรียบร้อยก่อนปิดพื้นที่',
-            'scope' => 'ปิดห้อง',
+            'scope' => ChecklistScope::CLOSING->value,
             'is_active' => false,
         ]);
 
@@ -115,7 +119,7 @@ class DatabaseSeeder extends Seeder
             'run_date' => $today,
             'created_by' => $operatorA->id,
         ], [
-            'assigned_team_or_scope' => 'เปิดห้อง',
+            'assigned_team_or_scope' => ChecklistScope::OPENING->value,
             'submitted_at' => Carbon::now(),
             'submitted_by' => $operatorA->id,
         ]);
@@ -125,7 +129,7 @@ class DatabaseSeeder extends Seeder
             'run_date' => $today,
             'created_by' => $operatorB->id,
         ], [
-            'assigned_team_or_scope' => 'ปิดห้อง',
+            'assigned_team_or_scope' => ChecklistScope::CLOSING->value,
         ]);
 
         // Items for run 1 (Done/Submitted)
@@ -134,7 +138,7 @@ class DatabaseSeeder extends Seeder
                 'checklist_run_id' => $run1->id,
                 'checklist_item_id' => $item->id,
             ], [
-                'result' => 'Done',
+                'result' => ChecklistResult::Done->value,
                 'checked_by' => $operatorA->id,
                 'checked_at' => Carbon::now(),
             ]);
@@ -150,16 +154,16 @@ class DatabaseSeeder extends Seeder
 
         // 6. Incidents (10 records)
         $incidentsData = [
-            ['title' => 'เครื่อง PC-03 เปิดไม่ติด', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => 'Open'],
-            ['title' => 'อินเทอร์เน็ตใช้งานไม่ได้ทั้งห้อง', 'category' => 'เครือข่าย', 'severity' => 'High', 'status' => 'In Progress'],
-            ['title' => 'โปรเจกเตอร์ภาพเบลอ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => 'Resolved'],
-            ['title' => 'โต๊ะด้านหลังมีฝุ่นมาก', 'category' => 'ความสะอาด', 'severity' => 'Low', 'status' => 'Resolved'],
-            ['title' => 'สายไฟใต้โต๊ะวางระเกะระกะ', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => 'Open'],
-            ['title' => 'แอร์ห้องไม่เย็น', 'category' => 'สภาพแวดล้อม', 'severity' => 'Medium', 'status' => 'In Progress'],
-            ['title' => 'เมาส์เครื่อง PC-07 ขัดข้อง', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => 'Resolved'],
-            ['title' => 'ปลั๊กพ่วงใกล้หน้าห้องมีรอยไหม้', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => 'Open'],
-            ['title' => 'พื้นทางเดินมีขยะและสาย LAN พาด', 'category' => 'ความสะอาด', 'severity' => 'Medium', 'status' => 'Open'],
-            ['title' => 'เสียงพัดลมเครื่อง PC-02 ดังผิดปกติ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => 'In Progress'],
+            ['title' => 'เครื่อง PC-03 เปิดไม่ติด', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => IncidentStatus::Open->value],
+            ['title' => 'อินเทอร์เน็ตใช้งานไม่ได้ทั้งห้อง', 'category' => 'เครือข่าย', 'severity' => 'High', 'status' => IncidentStatus::InProgress->value],
+            ['title' => 'โปรเจกเตอร์ภาพเบลอ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => IncidentStatus::Resolved->value],
+            ['title' => 'โต๊ะด้านหลังมีฝุ่นมาก', 'category' => 'ความสะอาด', 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value],
+            ['title' => 'สายไฟใต้โต๊ะวางระเกะระกะ', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => IncidentStatus::Open->value],
+            ['title' => 'แอร์ห้องไม่เย็น', 'category' => 'สภาพแวดล้อม', 'severity' => 'Medium', 'status' => IncidentStatus::InProgress->value],
+            ['title' => 'เมาส์เครื่อง PC-07 ขัดข้อง', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value],
+            ['title' => 'ปลั๊กพ่วงใกล้หน้าห้องมีรอยไหม้', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => IncidentStatus::Open->value],
+            ['title' => 'พื้นทางเดินมีขยะและสาย LAN พาด', 'category' => 'ความสะอาด', 'severity' => 'Medium', 'status' => IncidentStatus::Open->value],
+            ['title' => 'เสียงพัดลมเครื่อง PC-02 ดังผิดปกติ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => IncidentStatus::InProgress->value],
         ];
 
         foreach ($incidentsData as $data) {
@@ -169,7 +173,7 @@ class DatabaseSeeder extends Seeder
                 'status' => $data['status'],
                 'description' => 'รายละเอียดจำลองสำหรับสภาวะ: '.$data['title'],
                 'created_by' => $operatorA->id,
-                'resolved_at' => $data['status'] === 'Resolved' ? Carbon::now() : null,
+                'resolved_at' => $data['status'] === IncidentStatus::Resolved->value ? Carbon::now() : null,
             ]);
 
             IncidentActivity::firstOrCreate([
@@ -181,7 +185,7 @@ class DatabaseSeeder extends Seeder
                 'created_at' => Carbon::now(),
             ]);
 
-            if ($data['status'] !== 'Open') {
+            if ($data['status'] !== IncidentStatus::Open->value) {
                 IncidentActivity::firstOrCreate([
                     'incident_id' => $incident->id,
                     'action_type' => 'status_changed',

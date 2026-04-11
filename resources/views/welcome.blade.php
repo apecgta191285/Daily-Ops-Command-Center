@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
         <title>{{ config('app.name', 'Daily Ops Command Center') }}</title>
@@ -53,7 +53,7 @@
                                 </li>
                                 <li class="flex items-start gap-3">
                                     <span class="ops-badge ops-badge--success">{{ __('Admin') }}</span>
-                                    <span>{{ __('Dashboard access plus checklist template administration') }}</span>
+                                    <span>{{ __('Dashboard access plus checklist template setup in the same operations workspace') }}</span>
                                 </li>
                             </ul>
                         </div>

@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use Database\Factories\ChecklistTemplateFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ChecklistTemplate extends Model
 {
+    /** @use HasFactory<ChecklistTemplateFactory> */
+    use HasFactory;
+
     protected $fillable = [
         'title',
         'description',

@@ -1,6 +1,7 @@
 <?php
 
 use App\Application\Incidents\Actions\TransitionIncidentStatus;
+use App\Domain\Access\Enums\UserRole;
 use App\Models\Incident;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,7 +10,7 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->seed();
-    $this->admin = User::where('role', 'admin')->firstOrFail();
+    $this->admin = User::where('role', UserRole::Admin->value)->firstOrFail();
     $this->openIncident = Incident::where('status', 'Open')->firstOrFail();
     $this->resolvedIncident = Incident::where('status', 'Resolved')->firstOrFail();
 });

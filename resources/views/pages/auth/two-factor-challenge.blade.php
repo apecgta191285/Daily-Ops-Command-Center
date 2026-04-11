@@ -37,39 +37,41 @@
                 />
             </div>
 
-            <form method="POST" action="{{ route('two-factor.login.store') }}">
+            <form method="POST" action="{{ route('two-factor.login.store') }}" class="auth-form">
                 @csrf
 
-                <div class="space-y-5 text-center">
+                <div class="space-y-5">
                     <div x-show="!showRecoveryInput">
-                        <div class="flex items-center justify-center my-5">
-                            <flux:otp
-                                x-model="code"
-                                length="6"
-                                name="code"
-                                label="OTP Code"
-                                label:sr-only
-                                class="mx-auto"
-                             />
-                        </div>
+                        <label for="code" class="ops-field-label">{{ __('Authentication code') }}</label>
+                        <input
+                            id="code"
+                            type="text"
+                            name="code"
+                            x-model="code"
+                            inputmode="numeric"
+                            autocomplete="one-time-code"
+                            maxlength="6"
+                            class="ops-control text-center tracking-[0.3em]"
+                            placeholder="123456"
+                        >
+                        @error('code') <span class="ops-field-error">{{ $message }}</span> @enderror
                     </div>
 
                     <div x-show="showRecoveryInput">
-                        <div class="my-5">
-                            <flux:input
-                                type="text"
-                                name="recovery_code"
-                                x-ref="recovery_code"
-                                x-bind:required="showRecoveryInput"
-                                autocomplete="one-time-code"
-                                x-model="recovery_code"
-                            />
-                        </div>
+                        <label for="recovery_code" class="ops-field-label">{{ __('Recovery code') }}</label>
+                        <input
+                            id="recovery_code"
+                            type="text"
+                            name="recovery_code"
+                            x-ref="recovery_code"
+                            x-bind:required="showRecoveryInput"
+                            autocomplete="one-time-code"
+                            x-model="recovery_code"
+                            class="ops-control"
+                        >
 
                         @error('recovery_code')
-                            <flux:text color="red">
-                                {{ $message }}
-                            </flux:text>
+                            <span class="ops-field-error">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -78,9 +80,9 @@
                     </button>
                 </div>
 
-                <div class="mt-5 space-x-0.5 text-sm leading-5 text-center">
-                    <span class="opacity-50">{{ __('or you can') }}</span>
-                    <div class="inline font-medium underline cursor-pointer opacity-80">
+                <div class="mt-5 space-x-0.5 text-sm leading-5 text-center text-[var(--app-text-muted)]">
+                    <span>{{ __('or you can') }}</span>
+                    <div class="auth-link inline cursor-pointer">
                         <span x-show="!showRecoveryInput" @click="toggleInput()">{{ __('login using a recovery code') }}</span>
                         <span x-show="showRecoveryInput" @click="toggleInput()">{{ __('login using an authentication code') }}</span>
                     </div>

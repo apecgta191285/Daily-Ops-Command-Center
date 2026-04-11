@@ -1,16 +1,22 @@
 <?php
 
 use App\Application\Checklists\Actions\InitializeDailyRun;
+use App\Domain\Access\Enums\UserRole;
+use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistTemplate;
-use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->seed();
-    $this->operator = User::where('email', 'operatorb@example.com')->firstOrFail();
+    $this->operator = $this->createUserForRole(UserRole::Staff);
+    $this->activeTemplate = $this->createTemplateWithItems([
+        'title' => 'Active opening template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
 });
 
 test('initialize daily run creates exactly one run for the active template', function () {
@@ -42,7 +48,7 @@ test('initialize daily run creates exactly one run for the active template', fun
 });
 
 test('initialize daily run returns zero error when no active template exists', function () {
-    ChecklistTemplate::query()->update(['is_active' => false]);
+    $this->activeTemplate->update(['is_active' => false]);
 
     $context = app(InitializeDailyRun::class)($this->operator->id);
 
@@ -50,11 +56,11 @@ test('initialize daily run returns zero error when no active template exists', f
     expect($context->run)->toBeNull();
 });
 
-test('initialize daily run returns multiple error when more than one active template exists', function () {
-    ChecklistTemplate::query()->update(['is_active' => true]);
-
-    $context = app(InitializeDailyRun::class)($this->operator->id);
-
-    expect($context->errorState)->toBe('multiple');
-    expect($context->run)->toBeNull();
+test('persistence invariant prevents creating multiple active templates in normal execution', function () {
+    expect(fn () => ChecklistTemplate::query()->create([
+        'title' => 'อีกหนึ่งเทมเพลต active',
+        'description' => 'ต้องถูกปฏิเสธโดยฐานข้อมูล',
+        'scope' => ChecklistScope::MIDDAY->value,
+        'is_active' => true,
+    ]))->toThrow(QueryException::class);
 });

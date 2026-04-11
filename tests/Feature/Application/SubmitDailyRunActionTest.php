@@ -2,15 +2,20 @@
 
 use App\Application\Checklists\Actions\InitializeDailyRun;
 use App\Application\Checklists\Actions\SubmitDailyRun;
-use App\Models\User;
+use App\Domain\Access\Enums\UserRole;
+use App\Domain\Checklists\Enums\ChecklistScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->seed();
-    $this->operator = User::where('email', 'operatorb@example.com')->firstOrFail();
+    $this->operator = $this->createUserForRole(UserRole::Staff);
+    $this->createTemplateWithItems([
+        'title' => 'Submit action template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
     $this->context = app(InitializeDailyRun::class)($this->operator->id);
 });
 

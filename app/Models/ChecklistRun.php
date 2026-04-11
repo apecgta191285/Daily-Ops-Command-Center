@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use Database\Factories\ChecklistRunFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ChecklistRun extends Model
 {
+    /** @use HasFactory<ChecklistRunFactory> */
+    use HasFactory;
+
     protected $fillable = [
         'checklist_template_id',
         'run_date',
