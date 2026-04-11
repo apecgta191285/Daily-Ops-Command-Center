@@ -7,8 +7,8 @@
             {{ __('Incidents') }}
         </flux:sidebar.item>
         @if (auth()->user()->isAdmin())
-            <flux:sidebar.item icon="rectangle-stack" :href="route('templates.index')" :current="request()->routeIs('templates.index')" wire:navigate>
-                {{ __('Admin Templates') }}
+            <flux:sidebar.item icon="rectangle-stack" :href="route('templates.index')" :current="request()->routeIs('templates.index') || request()->routeIs('templates.create') || request()->routeIs('templates.edit')" wire:navigate>
+                {{ __('Checklist Templates') }}
             </flux:sidebar.item>
         @endif
     @endif

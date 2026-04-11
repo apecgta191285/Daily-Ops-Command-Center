@@ -4,6 +4,11 @@ Date: 2026-04-11
 Project: Daily Ops Command Center
 Purpose: Track debt that remains relevant after the foundation remediation program completed. This document is intentionally forward-looking. It should not duplicate already-closed execution logs.
 
+Active refactor context:
+
+- the repository is now operating under the master refactor program defined in `27_Full_Codebase_Audit_2026-04-11.md` and `28_Master_Refactor_Plan_2026-04-11.md`
+- debt items below should be interpreted as workstreams to close through phased refactor, not as ad hoc cleanup suggestions
+
 ## 1. Closed or Materially Reduced Debt
 
 ### Platform truth debt
@@ -48,6 +53,16 @@ Closed work:
 - duplicate header-based shell removed
 - role-aware navigation centralized
 
+### Admin surface fragmentation debt
+
+Status: materially reduced
+
+Closed work:
+
+- checklist template administration consolidated into the main application shell
+- separate admin panel/login surface retired from the active UX path
+- legacy `/admin/*` checklist-template entry points retired from the supported route contract
+
 ### Repository source-of-truth debt
 
 Status: materially reduced
@@ -55,7 +70,6 @@ Status: materially reduced
 Closed work:
 
 - source-only artifact policy documented
-- vendor-generated Filament assets removed from tracked history going forward
 - project metadata normalized away from starter-kit residue
 
 ## 2. Active Debt Still Remaining
@@ -79,6 +93,101 @@ Recommended handling:
 - introduce shared presentation helpers or view models only when repeated duplication becomes material
 - do not push display rules back into controllers or Livewire components without an explicit placement decision
 
+### Frontend-contract modularity debt
+
+Status: materially reduced
+
+Evidence:
+
+- app-owned tokens, shell styles, auth styles, and settings styles are now being separated into dedicated CSS modules
+- settings/auth still use Flux primitives, but the contract is increasingly defined by project-owned classes rather than ad hoc overrides in one monolithic stylesheet
+
+Why it matters:
+
+- frontend drift accelerates when tokens, shell rules, form rules, and settings overrides all live in one file
+- new contributors need a predictable placement model for frontend changes just as much as backend changes
+
+Recommended handling:
+
+- continue moving presentation rules toward app-owned modules
+- defer large class-pattern migration until modular contract work stops yielding high-value improvements
+
+### Flux-specific styling leakage debt
+
+Status: materially reduced
+
+Evidence:
+
+- settings modals, recovery-code flows, and security interactions now lean on app-owned settings classes instead of one-off Flux defaults
+- Flux remains present as a primitive UI/runtime layer, but a larger share of visual behavior is now defined through project-owned contract classes
+
+Why it matters:
+
+- the application feels fragmented when framework defaults keep owning the look of high-traffic internal surfaces
+- app-owned classes give the team a maintainable place to evolve the design system without rewriting framework behavior
+
+Recommended handling:
+
+- continue shrinking framework-owned presentation decisions where repetition is high
+- avoid chasing pixel-perfect replacement of every Flux primitive unless it produces real product value
+
+### Domain-truth mismatch debt
+
+Status: open
+
+Evidence:
+
+- checklist template `scope` exists as canonical vocabulary and admin metadata
+- daily checklist execution still resolves one active template globally
+
+Why it matters:
+
+- the codebase can look more capable than it really is
+- future refactors can accidentally design around a false multi-flow assumption
+
+Recommended handling:
+
+- lock singular execution truth explicitly during the current refactor program
+- treat scope as classification metadata until product scope expands intentionally
+
+### Persistence-invariant coverage debt
+
+Status: open but partially reduced
+
+Evidence:
+
+- high-risk template invariants are now being hardened selectively
+- broader canonical string families still depend on domain/application enforcement
+
+Why it matters:
+
+- the repository is safer than before, but invalid business state is still not impossible in every table
+
+Recommended handling:
+
+- keep selective hardening for the most dangerous invariants now
+- revisit wider DB constraint coverage only when the cost of schema rebuild is justified by platform direction
+
+### Fixture-and-seed coupling debt
+
+Status: materially reduced
+
+Evidence:
+
+- feature/application tests now have project-owned factories and scenario helpers for users, checklist templates, runs, incidents, and activities
+- automated tests no longer need to depend on seeded demo titles, demo emails, or the full `DatabaseSeeder` narrative in most critical paths
+
+Why it matters:
+
+- demo narrative should be free to evolve without breaking unrelated regression tests
+- predictable fixture construction lowers test brittleness and makes future refactors safer
+
+Recommended handling:
+
+- keep `DatabaseSeeder` focused on demo/bootstrap value
+- prefer factory and scenario-helper state setup for all new behavior tests
+- only use seeded narrative directly when the test is explicitly about bootstrap/demo behavior
+
 ### Documentation aging debt
 
 Status: open
@@ -95,6 +204,27 @@ Recommended handling:
 
 - update only the canonical docs set when a contract changes
 - avoid re-introducing temporary planning or execution trail artifacts into the permanent repo baseline
+
+### Browser-level regression safety debt
+
+Status: materially reduced
+
+Evidence:
+
+- the repository now has an active browser-smoke suite under `tests/Browser/**`
+- CI workflow includes a dedicated browser job using Pest Browser + Playwright
+- local execution on Linux/WSL still depends on host-level Playwright libraries being present
+
+Why it matters:
+
+- user-facing shell drift and broken browser flows are not caught reliably by server-only tests
+- without an explicit browser harness, UI regressions reappear late and expensively
+
+Recommended handling:
+
+- keep the suite narrow and trusted
+- treat CI as the authoritative browser execution surface until local host dependencies are standardized
+- document local Playwright prerequisites instead of pretending the suite is zero-setup
 
 ### Scope-expansion debt
 

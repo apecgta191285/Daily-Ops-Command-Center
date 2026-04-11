@@ -1,13 +1,12 @@
 # Daily Ops Command Center
 
-Laravel 13 + Livewire 4 + Filament 5 application for daily operations tracking, checklist execution, and incident management.
+Laravel 13 + Livewire 4 application for daily operations tracking, checklist execution, incident management, and checklist template administration.
 
 ## Stack
 
 - PHP 8.4
 - Laravel 13
 - Livewire 4
-- Filament 5
 - Vite
 - SQLite for local development
 
@@ -46,7 +45,10 @@ composer dev
 ```bash
 composer lint
 php artisan test
+composer test:browser
 ```
+
+Browser smoke tests use Pest Browser + Playwright. On Linux/WSL hosts, Playwright also needs system browser libraries in addition to `npx playwright install chromium`. If those host dependencies are missing locally, use the GitHub Actions browser job as the authoritative execution surface until the machine is provisioned correctly.
 
 ## CI Prerequisites
 
@@ -68,13 +70,11 @@ Tracked in git:
 Not tracked in git:
 
 - Vite build output under `public/build`
-- vendor-generated Filament assets under `public/js/filament`, `public/css/filament`, and `public/fonts/filament`
 
 Regeneration commands:
 
 ```bash
 npm run build
-php artisan filament:upgrade
 ```
 
 ## Notes
@@ -84,7 +84,8 @@ php artisan filament:upgrade
 - Public file attachments require the `public/storage` symlink created by `php artisan storage:link`.
 - Public self-registration is intentionally unsupported. Accounts are provisioned internally.
 - GitHub Actions workflows in `.github/workflows` expect repository secrets for Flux credentials when CI runs.
-- The `/admin` Filament panel is reserved for admin-only CRUD work such as checklist template management.
+- Admin-only checklist template management now lives inside the same main application shell as the rest of the product at `/templates`, and legacy `/admin/*` checklist-template entry points are no longer part of the supported route contract.
+- `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
 
 ## Canonical Documentation
 

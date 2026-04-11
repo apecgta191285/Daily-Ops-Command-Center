@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\TemplatesBridgeController;
+declare(strict_types=1);
+
+use App\Domain\Access\Enums\UserRole;
 use App\Http\Controllers\Management\DashboardController;
+use App\Livewire\Admin\ChecklistTemplates\Index as TemplateIndex;
+use App\Livewire\Admin\ChecklistTemplates\Manage as TemplateManage;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
 use App\Livewire\Staff\Checklists\DailyRun;
@@ -19,7 +23,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'active'])->group(function () {
 
     // ── Staff-only routes ────────────────────────────────
-    Route::middleware('role:staff')->group(function () {
+    Route::middleware('role:'.UserRole::Staff->value)->group(function () {
         Route::get('checklists/runs/today', DailyRun::class)
             ->name('checklists.runs.today');
 
@@ -28,7 +32,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     });
 
     // ── Management-only routes (Admin + Supervisor) ──────
-    Route::middleware('role:admin,supervisor')->group(function () {
+    Route::middleware('role:'.UserRole::Admin->value.','.UserRole::Supervisor->value)->group(function () {
         Route::get('dashboard', DashboardController::class)
             ->name('dashboard');
 
@@ -40,9 +44,15 @@ Route::middleware(['auth', 'active'])->group(function () {
     });
 
     // ── Admin-only routes ────────────────────────────────
-    Route::middleware('role:admin')->group(function () {
-        Route::get('templates', TemplatesBridgeController::class)
+    Route::middleware('role:'.UserRole::Admin->value)->group(function () {
+        Route::get('templates', TemplateIndex::class)
             ->name('templates.index');
+
+        Route::get('templates/create', TemplateManage::class)
+            ->name('templates.create');
+
+        Route::get('templates/{template}/edit', TemplateManage::class)
+            ->name('templates.edit');
     });
 });
 

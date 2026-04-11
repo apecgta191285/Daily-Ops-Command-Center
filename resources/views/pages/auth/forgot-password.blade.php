@@ -5,18 +5,23 @@
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
 
-        <form method="POST" action="{{ route('password.email') }}" class="flex flex-col gap-6">
+        <form method="POST" action="{{ route('password.email') }}" class="auth-form">
             @csrf
 
-            <!-- Email Address -->
-            <flux:input
-                name="email"
-                :label="__('Email address')"
-                type="email"
-                required
-                autofocus
-                placeholder="email@example.com"
-            />
+            <div>
+                <label for="email" class="ops-field-label">{{ __('Email address') }}</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value="{{ old('email') }}"
+                    required
+                    autofocus
+                    placeholder="email@example.com"
+                    class="ops-control"
+                >
+                @error('email') <span class="ops-field-error">{{ $message }}</span> @enderror
+            </div>
 
             <button type="submit" class="ops-button ops-button--primary w-full" data-test="email-password-reset-link-button">
                 {{ __('Email password reset link') }}
@@ -25,7 +30,7 @@
 
         <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-[var(--app-text-muted)]">
             <span>{{ __('Or, return to') }}</span>
-            <flux:link :href="route('login')" wire:navigate>{{ __('log in') }}</flux:link>
+            <a href="{{ route('login') }}" class="auth-link" wire:navigate>{{ __('log in') }}</a>
         </div>
     </div>
 </x-layouts::auth>

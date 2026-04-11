@@ -26,6 +26,26 @@ It records:
 
 ## 2. Literal Inventory
 
+### Checklist scopes
+
+Canonical literal set:
+
+- `เปิดห้อง`
+- `ตรวจระหว่างวัน`
+- `ปิดห้อง`
+
+Current literal sources:
+
+- `app/Models/ChecklistTemplate.php`
+- `app/Livewire/Admin/ChecklistTemplates/Manage.php`
+- `database/seeders/DatabaseSeeder.php`
+- feature tests and checklist template views
+
+Current semantic meaning:
+
+- checklist scope is currently classification metadata for template administration and reporting
+- it is not yet the runtime selector for multiple parallel daily checklist flows
+
 ### Roles
 
 Canonical literal set:
@@ -117,6 +137,7 @@ Current literal sources:
 Canonical domain types have now been defined in code:
 
 - `App\Domain\Access\Enums\UserRole`
+- `App\Domain\Checklists\Enums\ChecklistScope`
 - `App\Domain\Incidents\Enums\IncidentStatus`
 - `App\Domain\Incidents\Enums\IncidentCategory`
 - `App\Domain\Incidents\Enums\IncidentSeverity`
@@ -147,6 +168,13 @@ These belong at the database/schema level:
   - `submitted_at`
   - `resolved_at`
 
+Current hardening decision:
+
+- the current refactor round hardens the most critical checklist-template invariants first:
+  - template title uniqueness
+  - exactly one active template globally
+- other canonical string families remain domain/application enforced until a future schema-hardening phase justifies broader table rebuild work
+
 ### Domain-owned invariants
 
 These belong in canonical domain definitions:
@@ -164,6 +192,7 @@ These belong in use-case orchestration:
 
 - creating or loading today's checklist run
 - enforcing exactly one active checklist template for daily execution
+- treating `scope` as descriptive metadata rather than an execution dimension in the current baseline
 - setting checklist submission timestamps and actors
 - setting incident resolution timestamp when status becomes resolved
 - clearing incident resolution timestamp when status leaves resolved

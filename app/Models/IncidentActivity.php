@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use Database\Factories\IncidentActivityFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class IncidentActivity extends Model
 {
+    /** @use HasFactory<IncidentActivityFactory> */
+    use HasFactory;
+
     /**
      * Append-only log: no updated_at column.
      */

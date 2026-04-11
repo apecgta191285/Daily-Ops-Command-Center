@@ -55,7 +55,8 @@
 
 * Checklist item ต้องเก็บผลลัพธ์อย่างน้อยว่า Done / Not Done และ optional note  
 * ทุก checklist item ต้องถูกตอบก่อน submit; ห้ามปล่อยค่า blank สำหรับข้อที่อยู่ใน run  
-* Checklist run ใน v1 ถูกสร้างอัตโนมัติเมื่อ Staff เปิด checklist ของวันและยังไม่มี run ของวันนั้น (ระบบรองรับ Template ที่ active เพียง 1 อัน หากมีมากกว่า 1 ระบบจะฟ้อง error)
+* Checklist run ใน v1 ถูกสร้างอัตโนมัติเมื่อ Staff เปิด checklist ของวันและยังไม่มี run ของวันนั้น
+* baseline ปัจจุบันรองรับ active daily checklist template เพียง 1 อันทั้งระบบ; `ChecklistScope` ใช้เพื่อจัดหมวด template และ reporting เท่านั้น ยังไม่ใช่ parallel execution dimension
 * Checklist run ใน v1 ไม่มี draft state อย่างเป็นทางการ; ใช้ `submitted_at` เป็นตัวบอกว่าถูก submit แล้วหรือยัง  
 * Incident ต้องมี category, severity, status, description และผู้สร้างอย่างน้อย  
 * Incident status ใน v1 จำกัดที่ Open / In Progress / Resolved  

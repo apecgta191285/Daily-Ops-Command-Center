@@ -1,0 +1,60 @@
+@layer components {
+    .auth-shell {
+        @apply min-h-svh px-6 py-10 md:px-10;
+        background-color: var(--app-shell-bg);
+    }
+
+    .auth-panel {
+        @apply w-full rounded-2xl border p-7 shadow-lg sm:p-8;
+        max-width: 28rem;
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .auth-panel__brand {
+        @apply mb-6 flex flex-col items-center gap-3 text-center;
+    }
+
+    .auth-panel__kicker {
+        @apply text-xs font-semibold uppercase tracking-[0.16em];
+        color: var(--app-shell-muted);
+    }
+
+    .auth-panel__copy {
+        @apply space-y-1 text-center;
+    }
+
+    .auth-form {
+        @apply flex flex-col gap-6;
+    }
+
+    .auth-link {
+        @apply text-sm font-medium transition;
+        color: var(--app-info-text);
+    }
+
+    .auth-link:hover {
+        color: color-mix(in srgb, var(--app-info-text) 82%, black);
+    }
+
+    .auth-checkbox {
+        @apply flex items-center gap-3;
+    }
+
+    .auth-checkbox__input {
+        @apply size-4 rounded border;
+        accent-color: var(--app-action-primary);
+        border-color: var(--app-border);
+    }
+
+    .auth-checkbox__label {
+        @apply text-sm;
+        color: var(--app-text-muted);
+    }
+
+    .auth-helper-text {
+        @apply text-center text-sm;
+        color: var(--app-text-muted);
+    }
+}

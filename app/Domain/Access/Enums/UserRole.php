@@ -15,4 +15,15 @@ enum UserRole: string
     {
         return array_column(self::cases(), 'value');
     }
+
+    /**
+     * @return list<string>
+     */
+    public static function managementValues(): array
+    {
+        return [
+            self::Admin->value,
+            self::Supervisor->value,
+        ];
+    }
 }

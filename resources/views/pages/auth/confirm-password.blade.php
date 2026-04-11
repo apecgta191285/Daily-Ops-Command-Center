@@ -7,18 +7,22 @@
 
         <x-auth-session-status class="text-center" :status="session('status')" />
 
-        <form method="POST" action="{{ route('password.confirm.store') }}" class="flex flex-col gap-6">
+        <form method="POST" action="{{ route('password.confirm.store') }}" class="auth-form">
             @csrf
 
-            <flux:input
-                name="password"
-                :label="__('Password')"
-                type="password"
-                required
-                autocomplete="current-password"
-                :placeholder="__('Password')"
-                viewable
-            />
+            <div>
+                <label for="password" class="ops-field-label">{{ __('Password') }}</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    autocomplete="current-password"
+                    placeholder="{{ __('Password') }}"
+                    class="ops-control"
+                >
+                @error('password') <span class="ops-field-error">{{ $message }}</span> @enderror
+            </div>
 
             <button type="submit" class="ops-button ops-button--primary w-full" data-test="confirm-password-button">
                 {{ __('Confirm') }}

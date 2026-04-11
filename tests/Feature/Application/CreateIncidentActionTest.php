@@ -1,7 +1,7 @@
 <?php
 
 use App\Application\Incidents\Actions\CreateIncident;
-use App\Models\User;
+use App\Domain\Access\Enums\UserRole;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Storage;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->seed();
-    $this->operator = User::where('email', 'operatora@example.com')->firstOrFail();
+    $this->operator = $this->createUserForRole(UserRole::Staff);
 });
 
 test('create incident action persists incident attachment and activity log', function () {

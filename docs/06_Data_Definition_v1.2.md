@@ -5,7 +5,7 @@
 **DOC-06-DD | ระบบเช็กลิสต์งานประจำวันและติดตามเหตุการณ์ผิดปกติสำหรับทีมงานขนาดเล็ก**  
 **Version v1.2 | Implementation support - locked demo data | วันที่อ้างอิง 02/04/2569**
 
-วัตถุประสงค์: เอกสารฉบับนี้ใช้ล็อก taxonomy, seed data, sample records และข้อกำหนดข้อมูลขั้นต่ำของ A-lite เพื่อให้ schema, seed data, tests และ demo evidence ใช้ชุดข้อมูลเดียวกัน.
+วัตถุประสงค์: เอกสารฉบับนี้ใช้ล็อก taxonomy, demo seed data, sample records และข้อกำหนดข้อมูลขั้นต่ำของ A-lite เพื่อให้ schema, local demo bootstrap และ demo evidence ใช้คำศัพท์และ narrative ชุดเดียวกัน โดย automated tests ไม่ควรผูก correctness เข้ากับ seeded narrative records เหล่านี้อีกต่อไป.
 
 # **1\. Demo Domain ที่ล็อก**
 
@@ -26,7 +26,7 @@
 
 | หมวด | ค่าที่ล็อก | คำอธิบาย/กติกา |
 | ----- | :---: | ----- |
-| Checklist Scope | เปิดห้อง / ตรวจระหว่างวัน / ปิดห้อง | ใช้เพื่อแยก template และทำ dashboard ได้ตรงตามบริบท |
+| Checklist Scope | เปิดห้อง / ตรวจระหว่างวัน / ปิดห้อง | ใช้เป็น classification metadata สำหรับ template administration และ reporting; baseline ปัจจุบันยังไม่ใช้เพื่อสร้าง parallel daily execution flows |
 | Incident Category | อุปกรณ์คอมพิวเตอร์ / เครือข่าย / ความสะอาด / ความปลอดภัย / สภาพแวดล้อม / อื่น ๆ | ใช้ค่าชุดนี้เท่านั้นใน v1 เพื่อกัน category กระจัดกระจาย |
 | Severity | Low / Medium / High | Low = รบกวนเล็กน้อย, Medium = กระทบการใช้งานบางส่วน, High = กระทบการใช้งานหลักหรือความปลอดภัย |
 | Incident Status | Open / In Progress / Resolved | ไม่มี approval หรือ reassignment หลายชั้นใน v1 |
@@ -49,9 +49,9 @@
 | U-003 | Staff | Operator A | ทำ checklist และแจ้ง incident |
 | U-004 | Staff | Operator B | ทำ checklist และแจ้ง incident |
 
-# **6\. Checklist Template ที่ล็อกสำหรับ seed data ชุดแรก**
+# **6\. Checklist Template ที่ล็อกสำหรับ demo seed data ชุดแรก**
 
-Template ชุดแรกของ v1 ใช้ 2 template เพื่อให้เดโมชัดและทดสอบ flow ได้ครบ โดยตั้งใจไม่ทำเกินจำเป็นในรอบแรก.
+Template ชุดแรกของ v1 ใช้ 2 template เพื่อให้เดโม taxonomy ชัดและทดสอบ flow ได้ครบ โดยตั้งใจไม่ทำเกินจำเป็นในรอบแรก ปัจจุบันระบบยังรองรับ active daily execution template เพียง 1 อันทั้งระบบในแต่ละครั้ง
 
 | รหัส | Template | Scope | จุดประสงค์ |
 | :---: | ----- | :---: | ----- |
@@ -87,11 +87,12 @@ Template T-002: ปิดห้องปฏิบัติการ
 * Staff เปิดหน้า `/checklists/runs/today` แล้วระบบต้องค้นหา run ของวันนั้นก่อน  
 * ถ้ายังไม่มี run ระบบต้องสร้างใหม่ให้อัตโนมัติ  
 * ใน MVP ใช้หลัก 1 run ต่อ 1 template ต่อ 1 วัน ต่อ 1 staff owner  
+* current runtime รองรับ active daily checklist template เพียง 1 อันทั้งระบบ; `scope` ยังไม่ทำหน้าที่แยก execution flow หลายสาย  
 * `created_by` ใช้เก็บผู้ที่เปิด run ครั้งแรกและทำหน้าที่เป็น owner ของ run ในบริบท demo  
 * `submitted_at` และ `submitted_by` ใช้บอกว่ารันถูก submit แล้ว  
 * v1 ไม่มี draft state อย่างเป็นทางการ; ค่าที่ยังไม่ submit คือ in-progress ตามสภาพจริง ไม่ใช่ฟีเจอร์ draft แยกต่างหาก
 
-# **9\. Incident Sample Records ที่ใช้จริงชุดแรก**
+# **9\. Incident Sample Records ที่ใช้จริงชุดแรกสำหรับ demo narrative**
 
 ใช้ incident ตัวอย่างอย่างน้อย 10 รายการ เพื่อให้หน้า list/detail/filter/dashboard มีข้อมูลพอสำหรับทดสอบและเดโม.
 
@@ -121,7 +122,7 @@ Template T-002: ปิดห้องปฏิบัติการ
 
 # **11\. Data Constraints และกติกาการตั้งชื่อ**
 
-* Checklist Template ต้องมีชื่อไม่ซ้ำกันภายใน demo context เดียวกัน  
+* Checklist Template ต้องมีชื่อไม่ซ้ำกันภายใน repository baseline ปัจจุบัน  
 * Checklist Item ต้องมี `sort_order` ชัดและไม่ซ้ำใน template เดียวกัน  
 * Checklist Run ต้องไม่ถูกสร้างซ้ำสำหรับ `(template_id, run_date, created_by)` ชุดเดียวกัน  
 * ทุก ChecklistRunItem ต้องมี result ก่อน submit  
@@ -147,4 +148,5 @@ Template T-002: ปิดห้องปฏิบัติการ
 * Template ชุดแรกและ incident seed data ชุดแรกถูกกำหนดแล้ว  
 * Checklist run creation policy ถูกล็อกแล้ว  
 * Attachment policy ถูกล็อกแล้ว  
-* เอกสารนี้พร้อมใช้เป็นฐานทำ migration, seed script, test fixtures และ demo data
+* เอกสารนี้พร้อมใช้เป็นฐานทำ migration, demo seed script และ demo data  
+* automated tests ควรใช้ factory/scenario helper ของตัวเองเป็นหลัก ไม่อ้าง seeded narrative records โดยตรง

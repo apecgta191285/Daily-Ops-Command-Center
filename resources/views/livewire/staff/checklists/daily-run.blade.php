@@ -25,7 +25,7 @@
         @elseif ($errorState === 'multiple')
             <div class="ops-alert ops-alert--danger">
                 <strong class="font-semibold">Configuration Error:</strong>
-                <span class="block sm:inline">Multiple active checklist templates are currently active. This application only supports a single daily checklist flow per user. Please contact an administrator to resolve this template ambiguity.</span>
+                <span class="block sm:inline">Multiple active checklist templates are currently active. The current baseline supports exactly one active daily checklist template for the whole system, so an administrator must retire the extras before staff can continue.</span>
             </div>
         @else
             <section class="ops-card overflow-hidden">

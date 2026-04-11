@@ -1,0 +1,343 @@
+@layer components {
+    .settings-panel {
+        @apply rounded-xl border shadow-sm;
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .settings-panel__body {
+        @apply p-6;
+    }
+
+    .settings-modal__body {
+        @apply space-y-6;
+    }
+
+    .settings-modal__intro {
+        @apply flex flex-col items-center space-y-4 text-center;
+    }
+
+    .settings-modal__copy {
+        @apply space-y-2 text-center;
+    }
+
+    .settings-button-row {
+        @apply flex items-center gap-3;
+    }
+
+    .settings-button-row--split {
+        @apply justify-end;
+    }
+
+    .settings-button-row--stacked {
+        @apply flex-col sm:flex-row sm:items-center sm:justify-between;
+    }
+
+    .settings-code-list {
+        @apply grid gap-1 rounded-lg p-4 font-mono text-sm;
+        background-color: #f8fafc;
+    }
+
+    .settings-divider {
+        @apply relative flex items-center justify-center w-full;
+    }
+
+    .settings-divider::before {
+        content: '';
+        position: absolute;
+        inset: 50% 0 auto 0;
+        height: 1px;
+        background-color: var(--app-border);
+    }
+
+    .settings-divider__label {
+        @apply relative px-2 text-sm;
+        background-color: var(--app-surface-elevated);
+        color: var(--app-text-muted);
+    }
+
+    .settings-qr-shell {
+        @apply relative flex items-center justify-center overflow-hidden rounded-xl border;
+        width: 16rem;
+        aspect-ratio: 1 / 1;
+        border-color: var(--app-border);
+        background-color: #f8fafc;
+    }
+
+    .settings-qr-shell__loading {
+        @apply absolute inset-0 flex items-center justify-center animate-pulse;
+        background-color: #f8fafc;
+    }
+
+    .settings-qr-shell__code {
+        @apply flex h-full items-center justify-center p-4;
+    }
+
+    .settings-qr-shell__code-inner {
+        @apply rounded-lg bg-white p-3 shadow-sm;
+    }
+
+    .settings-key-shell {
+        @apply flex items-stretch w-full rounded-xl border overflow-hidden;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+    }
+
+    .settings-key-shell__loading {
+        @apply flex w-full items-center justify-center p-3;
+        background-color: #f8fafc;
+    }
+
+    .settings-key-input {
+        @apply w-full bg-transparent p-3 outline-none text-sm;
+        color: var(--app-text);
+    }
+
+    .settings-key-copy {
+        @apply border-s px-3 transition-colors cursor-pointer;
+        border-color: var(--app-border);
+        color: var(--app-text-muted);
+    }
+
+    .settings-key-copy:hover {
+        background-color: #f8fafc;
+        color: var(--app-heading);
+    }
+
+    .settings-page-heading {
+        @apply mb-6 rounded-2xl border px-5 py-4 shadow-sm sm:px-6;
+        background-color: var(--app-shell-bg);
+        border-color: var(--app-shell-border);
+        color: var(--app-shell-text);
+    }
+
+    .settings-page-heading__title {
+        color: var(--app-shell-text);
+    }
+
+    .settings-page-heading__subheading {
+        @apply mt-2;
+        color: var(--app-shell-muted);
+    }
+
+    .settings-shell {
+        @apply flex items-start gap-6 max-md:flex-col;
+    }
+
+    .settings-shell__nav {
+        @apply w-full md:w-[240px] md:shrink-0;
+    }
+
+    .settings-shell__content {
+        @apply min-w-0 flex-1 self-stretch;
+    }
+
+    .settings-shell__body {
+        @apply mt-6 w-full max-w-2xl;
+    }
+
+    .settings-nav {
+        @apply flex flex-col gap-2;
+    }
+
+    .settings-nav__item {
+        @apply rounded-xl border px-3 py-2.5 text-sm font-medium transition;
+        border-color: transparent;
+        color: var(--app-text);
+    }
+
+    .settings-nav__item:hover,
+    .settings-nav__item--current {
+        background-color: #f6f8fb;
+        border-color: var(--app-border);
+        color: var(--app-heading);
+    }
+
+    .settings-section-heading {
+        @apply space-y-1;
+    }
+
+    .settings-section-title {
+        @apply text-xl font-semibold tracking-tight;
+        color: var(--app-heading);
+    }
+
+    .settings-section-subheading {
+        @apply mt-1;
+        color: var(--app-text-muted);
+    }
+
+    .settings-form {
+        @apply space-y-6;
+    }
+
+    .settings-form--stacked {
+        @apply mt-6;
+    }
+
+    .settings-action-row {
+        @apply flex items-center gap-4;
+    }
+
+    .settings-action-row--end {
+        @apply justify-end;
+    }
+
+    .settings-note-block {
+        @apply mt-4 rounded-xl border px-4 py-3;
+        background-color: #f8fafc;
+        border-color: var(--app-border);
+    }
+
+    .settings-note {
+        color: var(--app-text-muted);
+    }
+
+    .settings-link {
+        @apply font-medium;
+        color: var(--app-info-text);
+    }
+
+    .settings-success-note {
+        @apply mt-2 font-medium;
+        color: var(--app-success-text);
+    }
+
+    .settings-action-message {
+        color: var(--app-text-muted);
+    }
+
+    .settings-supporting-copy {
+        color: var(--app-text-muted);
+    }
+
+    .settings-inline-heading {
+        color: var(--app-heading);
+    }
+
+    .settings-danger-zone {
+        @apply mt-10 rounded-2xl border px-5 py-5 shadow-sm sm:px-6;
+        background-color: #fff8f8;
+        border-color: var(--app-danger-border);
+    }
+
+    .settings-danger-zone__title {
+        color: var(--app-danger-text);
+    }
+
+    .settings-danger-zone__subheading {
+        color: color-mix(in srgb, var(--app-danger-text) 78%, white);
+    }
+
+    .settings-shell [data-flux-field] {
+        @apply gap-2;
+    }
+
+    .settings-shell [data-flux-label] {
+        color: var(--app-heading);
+    }
+
+    .settings-shell [data-flux-control],
+    .settings-shell [data-flux-checkbox-indicator],
+    .settings-shell [data-flux-radio] {
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+        color: var(--app-text);
+        box-shadow: none;
+    }
+
+    .settings-shell [data-flux-control]:focus,
+    .settings-shell [data-flux-checkbox]:focus [data-flux-checkbox-indicator],
+    .settings-shell [data-flux-radio]:focus {
+        outline: none;
+        border-color: var(--app-action-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-focus-ring) 28%, transparent);
+    }
+
+    .settings-shell [data-flux-checkbox][data-checked] [data-flux-checkbox-indicator],
+    .settings-shell [data-flux-radio][data-checked] {
+        background-color: var(--app-action-primary);
+        border-color: var(--app-action-primary);
+    }
+
+    .settings-form [data-flux-description],
+    .settings-form [data-flux-error],
+    .settings-form [data-flux-text],
+    .settings-shell [data-flux-text] {
+        color: var(--app-text-muted);
+    }
+
+    .settings-shell [data-flux-link] {
+        color: var(--app-info-text);
+    }
+
+    .settings-shell [data-flux-button] {
+        @apply rounded-xl;
+        border-width: 1px;
+        box-shadow: none;
+    }
+
+    .settings-shell [data-flux-heading] {
+        color: var(--app-heading);
+    }
+
+    .settings-shell [data-flux-button][data-variant="primary"],
+    .settings-shell [data-flux-button].variant-primary {
+        background-color: var(--app-action-primary);
+        border-color: var(--app-action-primary);
+        color: var(--app-action-primary-text);
+    }
+
+    .settings-shell [data-flux-button][data-variant="primary"]:hover,
+    .settings-shell [data-flux-button].variant-primary:hover {
+        background-color: var(--app-action-primary-hover);
+        border-color: var(--app-action-primary-hover);
+    }
+
+    .settings-shell [data-flux-button][data-variant="filled"],
+    .settings-shell [data-flux-button][data-variant="outline"] {
+        background-color: var(--app-action-secondary);
+        border-color: var(--app-action-secondary-border);
+        color: var(--app-action-secondary-text);
+    }
+
+    .settings-shell [data-flux-button][data-variant="filled"]:hover,
+    .settings-shell [data-flux-button][data-variant="outline"]:hover {
+        background-color: var(--app-action-secondary-hover);
+    }
+
+    .settings-shell [data-flux-button][data-variant="danger"] {
+        background-color: var(--app-danger-bg);
+        border-color: var(--app-danger-border);
+        color: var(--app-danger-text);
+    }
+
+    .settings-shell [data-flux-button][data-variant="danger"]:hover {
+        background-color: color-mix(in srgb, var(--app-danger-bg) 86%, white);
+    }
+
+    .settings-shell [data-flux-radio-group][data-variant="segmented"] {
+        @apply inline-flex rounded-xl border p-1;
+        background-color: #f8fafc;
+        border-color: var(--app-border);
+    }
+
+    .settings-shell [data-flux-radio-group][data-variant="segmented"] [data-flux-radio] {
+        @apply rounded-lg px-4 py-2 text-sm font-medium;
+        border-color: transparent;
+        background-color: transparent;
+        color: var(--app-text-muted);
+    }
+
+    .settings-shell [data-flux-radio-group][data-variant="segmented"] [data-flux-radio][data-checked] {
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-heading);
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    }
+
+    .settings-shell [data-flux-modal] [data-flux-button] {
+        @apply rounded-xl;
+    }
+}

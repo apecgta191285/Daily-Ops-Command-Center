@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Access\Enums\UserRole;
 use App\Livewire\Staff\Incidents\Create;
 use App\Models\Incident;
 use App\Models\IncidentActivity;
@@ -13,8 +14,8 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->seed();
-    $this->admin = User::where('role', 'admin')->first();
-    $this->supervisor = User::where('role', 'supervisor')->first();
+    $this->admin = User::where('role', UserRole::Admin->value)->first();
+    $this->supervisor = User::where('role', UserRole::Supervisor->value)->first();
     $this->operatorA = User::where('email', 'operatora@example.com')->first();
 });
 

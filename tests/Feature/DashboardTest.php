@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Access\Enums\UserRole;
 use App\Models\ChecklistRun;
 use App\Models\Incident;
 use App\Models\User;
@@ -15,7 +16,7 @@ test('guests are redirected to the login page', function () {
 
 test('management users can visit the dashboard', function () {
     $this->seed();
-    $user = User::where('role', 'admin')->first();
+    $user = User::where('role', UserRole::Admin->value)->first();
     $this->actingAs($user);
 
     $todayRuns = ChecklistRun::query()->whereDate('run_date', today())->count();
@@ -41,7 +42,7 @@ test('management users can visit the dashboard', function () {
 });
 
 test('supervisor can visit the dashboard', function () {
-    $user = User::factory()->create(['role' => 'supervisor']);
+    $user = User::factory()->create(['role' => UserRole::Supervisor->value]);
     $this->actingAs($user);
 
     $response = $this->get(route('dashboard'));
@@ -51,7 +52,7 @@ test('supervisor can visit the dashboard', function () {
 });
 
 test('staff users cannot visit the dashboard', function () {
-    $user = User::factory()->create(['role' => 'staff']);
+    $user = User::factory()->create(['role' => UserRole::Staff->value]);
     $this->actingAs($user);
 
     $response = $this->get(route('dashboard'));
@@ -59,7 +60,7 @@ test('staff users cannot visit the dashboard', function () {
 });
 
 test('dashboard handles empty data without crashing', function () {
-    $user = User::factory()->create(['role' => 'supervisor']);
+    $user = User::factory()->create(['role' => UserRole::Supervisor->value]);
     $this->actingAs($user);
 
     $response = $this->get(route('dashboard'));
@@ -73,7 +74,7 @@ test('dashboard handles empty data without crashing', function () {
 
 test('recent incidents are newest first limited to five and linked to details', function () {
     $this->seed();
-    $user = User::where('role', 'admin')->first();
+    $user = User::where('role', UserRole::Admin->value)->first();
     $this->actingAs($user);
 
     $olderIncident = Incident::create([

@@ -1,16 +1,21 @@
 <?php
 
-use App\Models\User;
+use App\Domain\Access\Enums\UserRole;
+use App\Domain\Checklists\Enums\ChecklistScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Contracts\LoginResponse;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->seed();
-    $this->admin = User::where('role', 'admin')->first();
-    $this->supervisor = User::where('role', 'supervisor')->first();
-    $this->staff = User::where('role', 'staff')->first();
+    $this->admin = $this->createUserForRole(UserRole::Admin);
+    $this->supervisor = $this->createUserForRole(UserRole::Supervisor);
+    $this->staff = $this->createUserForRole(UserRole::Staff);
+    $this->createTemplateWithItems([
+        'title' => 'Navigation template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
 });
 
 test('post-login redirect lands on role-appropriate starting page', function () {
@@ -28,13 +33,13 @@ test('post-login redirect lands on role-appropriate starting page', function () 
     expect($staffResponse->getTargetUrl())->toContain(route('checklists.runs.today', absolute: false));
 });
 
-test('admin sees management navigation links for dashboard incidents and admin templates', function () {
+test('admin sees management navigation links for dashboard incidents and checklist templates', function () {
     $response = $this->actingAs($this->admin)->get(route('dashboard'));
 
     $response->assertOk();
     $response->assertSee('Dashboard');
     $response->assertSee('Incidents');
-    $response->assertSee('Admin Templates');
+    $response->assertSee('Checklist Templates');
     $response->assertDontSee('Checklist Today');
     $response->assertDontSee('Report Incident');
 });
@@ -45,7 +50,7 @@ test('supervisor sees dashboard and incidents navigation but not templates', fun
     $response->assertOk();
     $response->assertSee('Dashboard');
     $response->assertSee('Incidents');
-    $response->assertDontSee('Admin Templates');
+    $response->assertDontSee('Checklist Templates');
     $response->assertDontSee('Checklist Today');
 });
 
@@ -56,5 +61,5 @@ test('staff sees checklist and incident creation navigation instead of forbidden
     $response->assertSee('Checklist Today');
     $response->assertSee('Report Incident');
     $response->assertDontSee('Dashboard');
-    $response->assertDontSee('Admin Templates');
+    $response->assertDontSee('Checklist Templates');
 });

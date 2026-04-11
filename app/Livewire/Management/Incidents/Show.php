@@ -26,7 +26,7 @@ class Show extends Component
     public function updateStatus(): void
     {
         $this->validate([
-            'status' => 'required|in:Open,In Progress,Resolved',
+            'status' => 'required|in:'.implode(',', IncidentStatus::values()),
         ]);
 
         $result = app(TransitionIncidentStatus::class)($this->incident, $this->status, auth()->id());

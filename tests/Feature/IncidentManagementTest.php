@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Access\Enums\UserRole;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
 use App\Models\Incident;
@@ -11,9 +12,9 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->seed();
-    $this->admin = User::where('role', 'admin')->first();
-    $this->supervisor = User::where('role', 'supervisor')->first();
-    $this->staff = User::where('role', 'staff')->first();
+    $this->admin = User::where('role', UserRole::Admin->value)->first();
+    $this->supervisor = User::where('role', UserRole::Supervisor->value)->first();
+    $this->staff = User::where('role', UserRole::Staff->value)->first();
     $this->openIncident = Incident::where('status', 'Open')->firstOrFail();
     $this->inProgressIncident = Incident::where('status', 'In Progress')->firstOrFail();
     $this->resolvedIncident = Incident::where('status', 'Resolved')->firstOrFail();

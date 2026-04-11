@@ -1,0 +1,45 @@
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
+    input:not([type='checkbox'], [type='radio'], [data-flux-control]),
+    select:not([data-flux-control]),
+    textarea:not([data-flux-control]) {
+        color: var(--app-text);
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+    }
+
+    input:not([type='checkbox'], [type='radio'], [data-flux-control])::placeholder,
+    textarea:not([data-flux-control])::placeholder {
+        color: var(--app-text-muted);
+    }
+
+    input:not([type='checkbox'], [type='radio'], [data-flux-control]):focus,
+    select:not([data-flux-control]):focus,
+    textarea:not([data-flux-control]):focus {
+        outline: none;
+        border-color: var(--app-action-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-focus-ring) 28%, transparent);
+    }
+
+    [data-flux-field]:not(ui-radio, ui-checkbox) {
+        @apply grid gap-2;
+    }
+
+    [data-flux-label] {
+        @apply !mb-0 !leading-tight;
+    }
+
+    input:focus[data-flux-control],
+    textarea:focus[data-flux-control],
+    select:focus[data-flux-control] {
+        @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+    }
+}

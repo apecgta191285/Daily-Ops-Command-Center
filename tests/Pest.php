@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\CreatesApplicationScenarios;
 use Tests\TestCase;
 
 /*
@@ -15,8 +15,13 @@ use Tests\TestCase;
 */
 
 pest()->extend(TestCase::class)
- // ->use(RefreshDatabase::class)
-    ->in('Feature');
+    ->use(CreatesApplicationScenarios::class)
+    ->in('Feature', 'Browser');
+
+pest()->browser()
+    ->inChrome()
+    ->inLightMode()
+    ->timeout(10000);
 
 /*
 |--------------------------------------------------------------------------
