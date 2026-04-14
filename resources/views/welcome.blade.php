@@ -54,6 +54,24 @@
                                 {{ __('Role-based access for staff, supervisors, and admins') }}
                             </span>
                         </div>
+
+                        <div class="rounded-2xl border border-[var(--app-border)] bg-[#f8fafc] p-5">
+                            <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Suggested demo walkthrough') }}</p>
+                            <ol class="mt-3 space-y-3 text-sm text-[var(--app-text-muted)]">
+                                <li class="flex gap-3">
+                                    <span class="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-semibold text-[var(--app-heading)]">1</span>
+                                    <span>{{ __('Log in as staff, open today’s checklist, and see how the system tracks completion before submission.') }}</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-semibold text-[var(--app-heading)]">2</span>
+                                    <span>{{ __('Create an incident from a checklist issue, then switch to the management dashboard to review stale or high-severity follow-up.') }}</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-semibold text-[var(--app-heading)]">3</span>
+                                    <span>{{ __('Use the admin template screen to show how one active checklist template keeps daily operations aligned.') }}</span>
+                                </li>
+                            </ol>
+                        </div>
                     </div>
 
                     <div class="ops-card max-w-sm lg:w-[22rem]">

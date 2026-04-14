@@ -87,6 +87,16 @@ npm run build
 - Admin-only checklist template management now lives inside the same main application shell as the rest of the product at `/templates`, and legacy `/admin/*` checklist-template entry points are no longer part of the supported route contract.
 - `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
 
+## Demo Walkthrough
+
+For local/manual demos with seeded data:
+
+1. Log in as `operatora@example.com` / `password` to show checklist execution and incident reporting.
+2. Log in as `supervisor@example.com` / `password` to show dashboard attention states and incident follow-up.
+3. Log in as `admin@example.com` / `password` to show checklist template administration inside the main app shell.
+
+The seeded narrative is intentionally small and realistic: it includes one active opening template, a mix of open/in-progress/resolved incidents, and recent history that supports dashboard, checklist, and triage walkthroughs.
+
 ## Canonical Documentation
 
 The repository keeps only long-lived documentation that still acts as a source of truth.
@@ -106,3 +116,4 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/32_F1_Dashboard_and_Triage_Execution_Pack_2026-04-14.md`
 - `docs/33_F2_Incident_Triage_Execution_Pack_2026-04-14.md`
 - `docs/34_F3_Checklist_UX_Execution_Pack_2026-04-14.md`
+- `docs/35_F4_Product_Framing_and_Demo_Quality_Execution_Pack_2026-04-14.md`

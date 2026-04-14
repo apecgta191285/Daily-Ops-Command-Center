@@ -113,6 +113,7 @@ class DatabaseSeeder extends Seeder
 
         // 4. Checklist Runs (2 records min) & 5. Checklist Run Items (12 records)
         $today = Carbon::today()->format('Y-m-d 00:00:00');
+        $yesterday = Carbon::yesterday()->format('Y-m-d 00:00:00');
 
         $run1 = ChecklistRun::firstOrCreate([
             'checklist_template_id' => $t1->id,
@@ -130,6 +131,16 @@ class DatabaseSeeder extends Seeder
             'created_by' => $operatorB->id,
         ], [
             'assigned_team_or_scope' => ChecklistScope::CLOSING->value,
+        ]);
+
+        $run3 = ChecklistRun::firstOrCreate([
+            'checklist_template_id' => $t1->id,
+            'run_date' => $yesterday,
+            'created_by' => $operatorB->id,
+        ], [
+            'assigned_team_or_scope' => ChecklistScope::OPENING->value,
+            'submitted_at' => Carbon::yesterday()->setTime(9, 10),
+            'submitted_by' => $operatorB->id,
         ]);
 
         // Items for run 1 (Done/Submitted)
@@ -152,18 +163,30 @@ class DatabaseSeeder extends Seeder
             ], []);
         }
 
+        foreach ($t1->items->values() as $index => $item) {
+            ChecklistRunItem::firstOrCreate([
+                'checklist_run_id' => $run3->id,
+                'checklist_item_id' => $item->id,
+            ], [
+                'result' => $index === 1 ? ChecklistResult::NotDone->value : ChecklistResult::Done->value,
+                'note' => $index === 1 ? 'Printer check failed during opening round.' : null,
+                'checked_by' => $operatorB->id,
+                'checked_at' => Carbon::yesterday()->setTime(9, 5),
+            ]);
+        }
+
         // 6. Incidents (10 records)
         $incidentsData = [
-            ['title' => 'เครื่อง PC-03 เปิดไม่ติด', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => IncidentStatus::Open->value],
-            ['title' => 'อินเทอร์เน็ตใช้งานไม่ได้ทั้งห้อง', 'category' => 'เครือข่าย', 'severity' => 'High', 'status' => IncidentStatus::InProgress->value],
-            ['title' => 'โปรเจกเตอร์ภาพเบลอ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => IncidentStatus::Resolved->value],
-            ['title' => 'โต๊ะด้านหลังมีฝุ่นมาก', 'category' => 'ความสะอาด', 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value],
-            ['title' => 'สายไฟใต้โต๊ะวางระเกะระกะ', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => IncidentStatus::Open->value],
-            ['title' => 'แอร์ห้องไม่เย็น', 'category' => 'สภาพแวดล้อม', 'severity' => 'Medium', 'status' => IncidentStatus::InProgress->value],
-            ['title' => 'เมาส์เครื่อง PC-07 ขัดข้อง', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value],
-            ['title' => 'ปลั๊กพ่วงใกล้หน้าห้องมีรอยไหม้', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => IncidentStatus::Open->value],
-            ['title' => 'พื้นทางเดินมีขยะและสาย LAN พาด', 'category' => 'ความสะอาด', 'severity' => 'Medium', 'status' => IncidentStatus::Open->value],
-            ['title' => 'เสียงพัดลมเครื่อง PC-02 ดังผิดปกติ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => IncidentStatus::InProgress->value],
+            ['title' => 'เครื่อง PC-03 เปิดไม่ติด', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => IncidentStatus::Open->value, 'days_ago' => 0],
+            ['title' => 'อินเทอร์เน็ตใช้งานไม่ได้ทั้งห้อง', 'category' => 'เครือข่าย', 'severity' => 'High', 'status' => IncidentStatus::InProgress->value, 'days_ago' => 3],
+            ['title' => 'โปรเจกเตอร์ภาพเบลอ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => IncidentStatus::Resolved->value, 'days_ago' => 4],
+            ['title' => 'โต๊ะด้านหลังมีฝุ่นมาก', 'category' => 'ความสะอาด', 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value, 'days_ago' => 2],
+            ['title' => 'สายไฟใต้โต๊ะวางระเกะระกะ', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => IncidentStatus::Open->value, 'days_ago' => 5],
+            ['title' => 'แอร์ห้องไม่เย็น', 'category' => 'สภาพแวดล้อม', 'severity' => 'Medium', 'status' => IncidentStatus::InProgress->value, 'days_ago' => 1],
+            ['title' => 'เมาส์เครื่อง PC-07 ขัดข้อง', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value, 'days_ago' => 6],
+            ['title' => 'ปลั๊กพ่วงใกล้หน้าห้องมีรอยไหม้', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => IncidentStatus::Open->value, 'days_ago' => 4],
+            ['title' => 'พื้นทางเดินมีขยะและสาย LAN พาด', 'category' => 'ความสะอาด', 'severity' => 'Medium', 'status' => IncidentStatus::Open->value, 'days_ago' => 2],
+            ['title' => 'เสียงพัดลมเครื่อง PC-02 ดังผิดปกติ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => IncidentStatus::InProgress->value, 'days_ago' => 1],
         ];
 
         foreach ($incidentsData as $data) {
@@ -176,13 +199,24 @@ class DatabaseSeeder extends Seeder
                 'resolved_at' => $data['status'] === IncidentStatus::Resolved->value ? Carbon::now() : null,
             ]);
 
+            $createdAt = Carbon::now()->subDays($data['days_ago'])->setTime(9 + ($data['days_ago'] % 4), 15);
+            $incident->forceFill([
+                'created_at' => $createdAt,
+                'updated_at' => $data['status'] === IncidentStatus::Resolved->value
+                    ? $createdAt->copy()->addHours(6)
+                    : $createdAt->copy()->addHours(2),
+                'resolved_at' => $data['status'] === IncidentStatus::Resolved->value
+                    ? $createdAt->copy()->addHours(6)
+                    : null,
+            ])->saveQuietly();
+
             IncidentActivity::firstOrCreate([
                 'incident_id' => $incident->id,
                 'action_type' => 'created',
                 'summary' => 'Incident reported',
             ], [
                 'actor_id' => $operatorA->id,
-                'created_at' => Carbon::now(),
+                'created_at' => $createdAt,
             ]);
 
             if ($data['status'] !== IncidentStatus::Open->value) {
@@ -192,7 +226,7 @@ class DatabaseSeeder extends Seeder
                     'summary' => "Status updated to {$data['status']}",
                 ], [
                     'actor_id' => $supervisor->id,
-                    'created_at' => Carbon::now()->addMinutes(10),
+                    'created_at' => $createdAt->copy()->addHours(6),
                 ]);
             }
         }

@@ -42,6 +42,7 @@
 * 32_F1_Dashboard_and_Triage_Execution_Pack_2026-04-14
 * 33_F2_Incident_Triage_Execution_Pack_2026-04-14
 * 34_F3_Checklist_UX_Execution_Pack_2026-04-14
+* 35_F4_Product_Framing_and_Demo_Quality_Execution_Pack_2026-04-14
 
 # **4\. สิ่งที่ล็อกแล้ว**
 

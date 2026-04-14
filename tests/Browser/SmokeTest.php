@@ -13,12 +13,14 @@ test('guest-facing home and login surfaces render without browser smoke issues',
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
         ->assertSee('Daily Ops Command Center')
-        ->assertSee('Log in');
+        ->assertSee('Log in')
+        ->assertSee('Suggested demo walkthrough');
 
     $loginPage
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
         ->assertSee('Log in to your account')
+        ->assertSee('Local demo accounts')
         ->assertPresent('input[name="email"]')
         ->assertPresent('[data-test="login-button"]');
 });
