@@ -19,7 +19,7 @@ test('guest-facing home and login surfaces render without browser smoke issues',
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
         ->assertSee('Log in to your account')
-        ->assertPresent('form')
+        ->assertPresent('input[name="email"]')
         ->assertPresent('[data-test="login-button"]');
 });
 
