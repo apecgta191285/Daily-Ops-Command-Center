@@ -37,3 +37,17 @@ test('transition incident status returns no-op result when status is unchanged',
 
     expect($result->changed)->toBeFalse();
 });
+
+test('transition incident status can append an optional next action note', function () {
+    $result = app(TransitionIncidentStatus::class)(
+        $this->openIncident,
+        'In Progress',
+        $this->admin->id,
+        'Follow up with the lab technician before noon.',
+    );
+
+    expect($result->changed)->toBeTrue();
+    expect($result->incident->activities()->where('action_type', 'next_action_note')->exists())->toBeTrue();
+    expect($result->incident->activities()->where('action_type', 'next_action_note')->latest('id')->first()->summary)
+        ->toBe('Next action: Follow up with the lab technician before noon.');
+});

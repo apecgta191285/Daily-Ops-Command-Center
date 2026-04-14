@@ -10,9 +10,13 @@ use Livewire\Component;
 
 class Show extends Component
 {
+    private const STALE_INCIDENT_DAYS = 2;
+
     public Incident $incident;
 
     public string $status = '';
+
+    public string $nextActionNote = '';
 
     public array $statuses = [];
 
@@ -27,16 +31,29 @@ class Show extends Component
     {
         $this->validate([
             'status' => 'required|in:'.implode(',', IncidentStatus::values()),
+            'nextActionNote' => 'nullable|string|max:500',
         ]);
 
-        $result = app(TransitionIncidentStatus::class)($this->incident, $this->status, auth()->id());
+        $result = app(TransitionIncidentStatus::class)($this->incident, $this->status, auth()->id(), $this->nextActionNote);
         $this->incident = $result->incident;
 
         if (! $result->changed) {
             return;
         }
 
+        $this->nextActionNote = '';
         session()->flash('message', 'Incident status updated successfully.');
+    }
+
+    public function getIsStaleProperty(): bool
+    {
+        return $this->incident->status !== IncidentStatus::Resolved->value
+            && $this->incident->created_at->lte(now()->subDays(self::STALE_INCIDENT_DAYS));
+    }
+
+    public function getAgeInDaysProperty(): int
+    {
+        return (int) $this->incident->created_at->startOfDay()->diffInDays(now()->startOfDay());
     }
 
     #[Layout('layouts.app')]

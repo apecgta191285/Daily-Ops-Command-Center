@@ -10,13 +10,15 @@ use Illuminate\Validation\ValidationException;
 
 class TransitionIncidentStatus
 {
-    public function __invoke(Incident $incident, string $nextStatus, int $actorId): IncidentStatusTransitionResult
+    public function __invoke(Incident $incident, string $nextStatus, int $actorId, ?string $nextActionNote = null): IncidentStatusTransitionResult
     {
         if (! in_array($nextStatus, IncidentStatus::values(), true)) {
             throw ValidationException::withMessages([
                 'status' => ['Incident status is invalid.'],
             ]);
         }
+
+        $nextActionNote = filled($nextActionNote) ? trim($nextActionNote) : null;
 
         $previousStatus = $incident->status;
 
@@ -28,7 +30,7 @@ class TransitionIncidentStatus
             );
         }
 
-        DB::transaction(function () use ($incident, $nextStatus, $previousStatus, $actorId): void {
+        DB::transaction(function () use ($incident, $nextStatus, $previousStatus, $actorId, $nextActionNote): void {
             $incident->update([
                 'status' => $nextStatus,
                 'resolved_at' => $nextStatus === IncidentStatus::Resolved->value ? now() : null,
@@ -40,6 +42,15 @@ class TransitionIncidentStatus
                 'actor_id' => $actorId,
                 'created_at' => now(),
             ]);
+
+            if ($nextActionNote !== null) {
+                $incident->activities()->create([
+                    'action_type' => 'next_action_note',
+                    'summary' => "Next action: {$nextActionNote}",
+                    'actor_id' => $actorId,
+                    'created_at' => now(),
+                ]);
+            }
         });
 
         return new IncidentStatusTransitionResult(

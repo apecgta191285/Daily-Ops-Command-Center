@@ -23,6 +23,12 @@
                     <div>
                         <h3 class="text-xl font-semibold text-[var(--app-heading)]">{{ $incident->title }}</h3>
                         <p class="mt-2 text-sm text-[var(--app-text-muted)]">Reported by {{ $incident->creator?->name ?? 'Unknown' }} on {{ $incident->created_at->format('M d, Y H:i') }}</p>
+                        <div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
+                            <span class="ops-badge ops-badge--neutral">Open for {{ $this->ageInDays }} day{{ $this->ageInDays === 1 ? '' : 's' }}</span>
+                            @if ($this->isStale)
+                                <span class="ops-badge ops-badge--warning">Stale</span>
+                            @endif
+                        </div>
                     </div>
                     <a href="{{ route('incidents.index') }}" class="ops-button ops-button--secondary">
                         Back to incident list
@@ -87,6 +93,19 @@
                         @error('status') <span class="ops-field-error">{{ $message }}</span> @enderror
                     </div>
 
+                    <div>
+                        <label for="next-action-note" class="ops-field-label">Next Action Note (Optional)</label>
+                        <textarea
+                            id="next-action-note"
+                            wire:model="nextActionNote"
+                            rows="3"
+                            class="ops-control"
+                            placeholder="Add a short follow-up note for the next person reviewing this incident..."
+                        ></textarea>
+                        <p class="ops-field-help">Use this when the status changes and you want the activity timeline to show the next follow-up step.</p>
+                        @error('nextActionNote') <span class="ops-field-error">{{ $message }}</span> @enderror
+                    </div>
+
                     <div class="flex justify-end border-t border-[var(--app-border)] pt-5">
                         <button type="submit" class="ops-button ops-button--primary min-w-44">
                             <span wire:loading.remove wire:target="updateStatus">Update Status</span>
@@ -102,9 +121,12 @@
                 <h3 class="text-base font-semibold text-[var(--app-heading)]">Activity Timeline</h3>
 
                 <ul role="list" class="mt-4 space-y-4">
-                    @foreach($incident->activities->sortBy('created_at') as $activity)
+                    @foreach($incident->activities->sortByDesc('created_at') as $activity)
                         <li class="border-l-2 border-[var(--app-border)] pl-4">
                             <p class="text-sm font-medium text-[var(--app-heading)]">{{ $activity->summary }}</p>
+                            <p class="mt-1 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">
+                                {{ str_replace('_', ' ', $activity->action_type) }}
+                            </p>
                             <p class="mt-1 text-xs text-[var(--app-text-muted)]">
                                 {{ $activity->actor?->name ?? 'Unknown' }} · {{ $activity->created_at?->format('M d, Y H:i') ?? 'Unknown time' }}
                             </p>

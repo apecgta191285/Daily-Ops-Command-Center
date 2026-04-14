@@ -178,6 +178,21 @@ test('supervisor can move incident from in progress to resolved and set resolved
     expect($activity->summary)->toBe('Status changed from In Progress to Resolved');
 });
 
+test('management user can add a next action note when updating incident status', function () {
+    Livewire::actingAs($this->admin)
+        ->test(Show::class, ['incident' => $this->openIncident])
+        ->set('status', 'In Progress')
+        ->set('nextActionNote', 'Check the device logs and report back to the supervisor.')
+        ->call('updateStatus')
+        ->assertHasNoErrors()
+        ->assertSee('Next action: Check the device logs and report back to the supervisor.');
+
+    $incident = $this->openIncident->fresh();
+
+    expect($incident->status)->toBe('In Progress');
+    expect($incident->activities()->where('action_type', 'next_action_note')->exists())->toBeTrue();
+});
+
 test('supervisor can reopen a resolved incident and clear resolved timestamp', function () {
     expect($this->resolvedIncident->resolved_at)->not->toBeNull();
 
@@ -245,4 +260,33 @@ test('incident detail page shows attachment link when attachment exists', functi
     $response->assertOk();
     $response->assertSee('View attachment');
     $response->assertSee(asset('storage/incidents/evidence.pdf'), false);
+});
+
+test('incident detail page shows age and stale indicators for old unresolved incidents', function () {
+    $oldIncident = Incident::create([
+        'title' => 'Old unresolved incident',
+        'category' => 'เครือข่าย',
+        'severity' => 'High',
+        'status' => 'Open',
+        'description' => 'Needs follow-up because it has been open for days.',
+        'created_by' => $this->staff->id,
+    ]);
+
+    $oldIncident->forceFill([
+        'created_at' => now()->subDays(3),
+        'updated_at' => now()->subDays(3),
+    ])->saveQuietly();
+
+    $oldIncident->activities()->create([
+        'action_type' => 'created',
+        'summary' => 'Incident reported',
+        'actor_id' => $this->staff->id,
+        'created_at' => now()->subDays(3),
+    ]);
+
+    $response = $this->actingAs($this->supervisor)->get(route('incidents.show', $oldIncident));
+
+    $response->assertOk();
+    $response->assertSee('Open for 3 days');
+    $response->assertSee('Stale');
 });
