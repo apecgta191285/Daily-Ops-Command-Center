@@ -47,6 +47,23 @@ class InitializeDailyRun
 
         $run->load('items.checklistItem');
 
+        $recentRuns = ChecklistRun::query()
+            ->where('created_by', $userId)
+            ->where('submitted_at', '!=', null)
+            ->whereKeyNot($run->id)
+            ->with('items')
+            ->latest('run_date')
+            ->limit(3)
+            ->get()
+            ->map(fn (ChecklistRun $recentRun) => [
+                'run_date' => $recentRun->run_date->toDateString(),
+                'submitted_at' => $recentRun->submitted_at?->toIso8601String() ?? '',
+                'not_done_count' => $recentRun->items->where('result', 'Not Done')->count(),
+                'noted_items_count' => $recentRun->items->filter(fn ($item) => filled($item->note))->count(),
+            ])
+            ->values()
+            ->all();
+
         return new DailyRunContext(
             errorState: null,
             run: $run,
@@ -59,6 +76,7 @@ class InitializeDailyRun
                     ],
                 ])
                 ->all(),
+            recentRuns: $recentRuns,
             isSubmitted: $run->submitted_at !== null,
         );
     }

@@ -41,6 +41,7 @@
 * 31_Feature_Expansion_Plan_2026-04-14
 * 32_F1_Dashboard_and_Triage_Execution_Pack_2026-04-14
 * 33_F2_Incident_Triage_Execution_Pack_2026-04-14
+* 34_F3_Checklist_UX_Execution_Pack_2026-04-14
 
 # **4\. สิ่งที่ล็อกแล้ว**
 

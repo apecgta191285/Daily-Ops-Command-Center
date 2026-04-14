@@ -98,6 +98,50 @@ test('submit validation and persistence proof', function () {
     }
 });
 
+test('daily checklist progress summary updates as responses are filled in', function () {
+    $component = Livewire::actingAs($this->operatorB)->test(DailyRun::class);
+
+    expect($component->get('totalItems'))->toBe(2);
+    expect($component->get('answeredItems'))->toBe(0);
+    expect($component->get('remainingItems'))->toBe(2);
+    expect($component->get('completionPercentage'))->toBe(0);
+
+    $runItems = $component->get('runItems');
+    $itemIds = array_keys($runItems);
+
+    $component->set("runItems.{$itemIds[0]}.result", ChecklistResult::Done->value);
+
+    expect($component->get('answeredItems'))->toBe(1);
+    expect($component->get('remainingItems'))->toBe(1);
+    expect($component->get('completionPercentage'))->toBe(50);
+
+    $component->set("runItems.{$itemIds[1]}.result", ChecklistResult::NotDone->value);
+
+    expect($component->get('answeredItems'))->toBe(2);
+    expect($component->get('remainingItems'))->toBe(0);
+    expect($component->get('notDoneItems'))->toBe(1);
+    expect($component->get('completionPercentage'))->toBe(100);
+});
+
+test('daily checklist shows recent submission context for the current operator', function () {
+    $this->createRunForUser(
+        $this->operatorB,
+        $this->template1,
+        submitted: true,
+        itemStates: [
+            ['result' => ChecklistResult::Done->value, 'note' => 'Ready'],
+            ['result' => ChecklistResult::NotDone->value, 'note' => 'Printer issue'],
+        ],
+        runDate: now()->subDay()->toDateString(),
+    );
+
+    Livewire::actingAs($this->operatorB)
+        ->test(DailyRun::class)
+        ->assertSee('Recent Submission Context')
+        ->assertSee('1 not done')
+        ->assertSee('2 note(s)');
+});
+
 test('submitted/read-only proof', function () {
     $component = Livewire::actingAs($this->operatorA)->test(DailyRun::class);
 
@@ -122,4 +166,19 @@ test('D-016 configuration error proof', function () {
         ->assertSet('errorState', 'zero')
         ->assertSee('Configuration Error')
         ->assertSee('No active checklist template exists');
+});
+
+test('submission success feedback reflects not-done answers', function () {
+    $component = Livewire::actingAs($this->operatorB)->test(DailyRun::class);
+
+    foreach (array_keys($component->get('runItems')) as $index => $id) {
+        $component->set(
+            "runItems.{$id}.result",
+            $index === 0 ? ChecklistResult::NotDone->value : ChecklistResult::Done->value
+        );
+    }
+
+    $component->call('submit')
+        ->assertHasNoErrors()
+        ->assertSee('Checklist submitted successfully. 1 item(s) were marked Not Done.');
 });

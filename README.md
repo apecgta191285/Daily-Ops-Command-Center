@@ -105,3 +105,4 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/31_Feature_Expansion_Plan_2026-04-14.md`
 - `docs/32_F1_Dashboard_and_Triage_Execution_Pack_2026-04-14.md`
 - `docs/33_F2_Incident_Triage_Execution_Pack_2026-04-14.md`
+- `docs/34_F3_Checklist_UX_Execution_Pack_2026-04-14.md`
