@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Domain\Access\Enums\UserRole;
 use App\Domain\Checklists\Enums\ChecklistScope;
+use App\Domain\Incidents\Enums\IncidentSeverity;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -51,6 +55,30 @@ test('admin can authenticate and reach checklist template administration in the 
         ->assertSee('Create template');
 });
 
+test('management dashboard drill-down links lead to filtered incident follow-up views', function () {
+    $supervisor = $this->createUserForRole(UserRole::Supervisor);
+
+    $this->createIncidentWithActivity($supervisor, [
+        'title' => 'High severity browser incident',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::Open->value,
+    ]);
+
+    $page = visit('/login');
+
+    $page->fill('email', $supervisor->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->assertSee('Needs Attention Today')
+        ->click('Review high severity incidents')
+        ->assertPathBeginsWith('/incidents')
+        ->assertSee('Active filter context:')
+        ->assertSee('Unresolved only')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
+});
+
 test('staff can authenticate into the daily checklist workflow without browser smoke issues', function () {
     $staff = $this->createUserForRole(UserRole::Staff);
 
@@ -69,6 +97,8 @@ test('staff can authenticate into the daily checklist workflow without browser s
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
         ->assertSee('Daily Checklist')
+        ->assertSee('Today\'s Progress')
+        ->assertSee('Recent Submission Context')
         ->assertSee('Report Incident')
         ->assertSee('Submit Checklist');
 });

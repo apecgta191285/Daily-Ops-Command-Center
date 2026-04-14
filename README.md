@@ -97,6 +97,11 @@ For local/manual demos with seeded data:
 
 The seeded narrative is intentionally small and realistic: it includes one active opening template, a mix of open/in-progress/resolved incidents, and recent history that supports dashboard, checklist, and triage walkthroughs.
 
+See also:
+
+- `docs/36_F5_Selective_Delivery_Hardening_Execution_Pack_2026-04-14.md`
+- `docs/37_Local_Demo_Runbook_2026-04-14.md`
+
 ## Canonical Documentation
 
 The repository keeps only long-lived documentation that still acts as a source of truth.
@@ -117,3 +122,5 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/33_F2_Incident_Triage_Execution_Pack_2026-04-14.md`
 - `docs/34_F3_Checklist_UX_Execution_Pack_2026-04-14.md`
 - `docs/35_F4_Product_Framing_and_Demo_Quality_Execution_Pack_2026-04-14.md`
+- `docs/36_F5_Selective_Delivery_Hardening_Execution_Pack_2026-04-14.md`
+- `docs/37_Local_Demo_Runbook_2026-04-14.md`
