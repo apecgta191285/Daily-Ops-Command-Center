@@ -11,6 +11,14 @@ readonly class DashboardSnapshot
 {
     /**
      * @param  array<string, int>  $incidentCounts
+     * @param  list<array{
+     *     title: string,
+     *     description: string,
+     *     count: int,
+     *     actionLabel: string|null,
+     *     url: string|null,
+     *     tone: 'warning'|'danger'|'info'
+     * }>  $attentionItems
      * @param  Collection<int, Incident>  $recentIncidents
      */
     public function __construct(
@@ -18,6 +26,7 @@ readonly class DashboardSnapshot
         public int $submittedTodayRuns,
         public int $completionRate,
         public array $incidentCounts,
+        public array $attentionItems,
         public Collection $recentIncidents,
     ) {}
 
@@ -27,6 +36,14 @@ readonly class DashboardSnapshot
      *     submittedTodayRuns: int,
      *     completionRate: int,
      *     incidentCounts: array<string, int>,
+     *     attentionItems: list<array{
+     *         title: string,
+     *         description: string,
+     *         count: int,
+     *         actionLabel: string|null,
+     *         url: string|null,
+     *         tone: 'warning'|'danger'|'info'
+     *     }>,
      *     recentIncidents: Collection<int, Incident>
      * }
      */
@@ -37,6 +54,7 @@ readonly class DashboardSnapshot
             'submittedTodayRuns' => $this->submittedTodayRuns,
             'completionRate' => $this->completionRate,
             'incidentCounts' => $this->incidentCounts,
+            'attentionItems' => $this->attentionItems,
             'recentIncidents' => $this->recentIncidents,
         ];
     }

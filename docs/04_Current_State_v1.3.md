@@ -37,6 +37,9 @@
 * 22_Architecture_Boundary_and_Execution_Standards_2026-04-11  
 * 24_Domain_Normalization_Design_2026-04-11  
 * 26_Architecture_Debt_Roadmap_2026-04-11
+* 30_Product_Evolution_Roadmap_2026-04-14
+* 31_Feature_Expansion_Plan_2026-04-14
+* 32_F1_Dashboard_and_Triage_Execution_Pack_2026-04-14
 
 # **4\. สิ่งที่ล็อกแล้ว**
 

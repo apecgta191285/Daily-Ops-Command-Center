@@ -20,8 +20,28 @@
                         </div>
 
                         <p class="text-base leading-7 text-[var(--app-text-muted)] sm:text-lg">
-                            {{ __('Run daily checklists, report incidents, and manage supervisor workflows from one controlled operations console.') }}
+                            {{ __('Run daily checklists, capture incidents with evidence, and help supervisors see what still needs attention from one shared operations workspace.') }}
                         </p>
+
+                        <div class="grid gap-3 sm:grid-cols-3">
+                            <div class="rounded-2xl border border-[var(--app-border)] bg-white/80 p-4">
+                                <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Staff') }}</p>
+                                <p class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ __('Complete daily work clearly') }}</p>
+                                <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('Open today’s checklist, submit it once, and report issues immediately.') }}</p>
+                            </div>
+
+                            <div class="rounded-2xl border border-[var(--app-border)] bg-white/80 p-4">
+                                <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Supervisor') }}</p>
+                                <p class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ __('See what needs follow-up') }}</p>
+                                <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('Track unresolved incidents, review updates, and watch daily completion from one dashboard.') }}</p>
+                            </div>
+
+                            <div class="rounded-2xl border border-[var(--app-border)] bg-white/80 p-4">
+                                <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Admin') }}</p>
+                                <p class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ __('Keep the workflow ready') }}</p>
+                                <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('Maintain the active checklist template and keep the daily workflow aligned with real operations.') }}</p>
+                            </div>
+                        </div>
 
                         <div class="flex flex-col gap-3 sm:flex-row">
                             @if (Route::has('login'))
@@ -38,8 +58,8 @@
 
                     <div class="ops-card max-w-sm lg:w-[22rem]">
                         <div class="ops-card__header">
-                            <p class="text-sm font-semibold text-[var(--app-heading)]">{{ __('Daily workflow coverage') }}</p>
-                            <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('The current MVP already supports the core internal demo path.') }}</p>
+                            <p class="text-sm font-semibold text-[var(--app-heading)]">{{ __('What this system already covers') }}</p>
+                            <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('This A-lite scope is intentionally small: one team, one daily workflow, and one clear place to follow incidents.') }}</p>
                         </div>
                         <div class="ops-card__body">
                             <ul class="space-y-3 text-sm text-[var(--app-text-muted)]">
@@ -56,6 +76,13 @@
                                     <span>{{ __('Dashboard access plus checklist template setup in the same operations workspace') }}</span>
                                 </li>
                             </ul>
+
+                            <div class="mt-5 rounded-2xl border border-[var(--app-border)] bg-[#f8fafc] p-4">
+                                <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Why it matters') }}</p>
+                                <p class="mt-2 text-sm text-[var(--app-text-muted)]">
+                                    {{ __('Instead of scattered paper notes or chat messages, the team gets one traceable path for routine work and incident follow-up.') }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

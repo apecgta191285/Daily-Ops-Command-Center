@@ -60,6 +60,86 @@ test('management users can filter the incident list', function () {
         ->assertDontSee($lowSeverityIncident->title);
 });
 
+test('incident list honors unresolved and stale query-driven filters', function () {
+    $freshOpenIncident = Incident::create([
+        'title' => 'Fresh open incident',
+        'category' => 'อื่น ๆ',
+        'severity' => 'Low',
+        'status' => 'Open',
+        'description' => 'Fresh unresolved incident.',
+        'created_by' => $this->admin->id,
+    ]);
+
+    $staleOpenIncident = Incident::create([
+        'title' => 'Stale open incident',
+        'category' => 'เครือข่าย',
+        'severity' => 'High',
+        'status' => 'Open',
+        'description' => 'Old unresolved incident.',
+        'created_by' => $this->admin->id,
+    ]);
+
+    $staleOpenIncident->forceFill([
+        'created_at' => now()->subDays(3),
+        'updated_at' => now()->subDays(3),
+    ])->saveQuietly();
+
+    $resolvedIncident = Incident::create([
+        'title' => 'Resolved incident for filter proof',
+        'category' => 'อื่น ๆ',
+        'severity' => 'Medium',
+        'status' => 'Resolved',
+        'description' => 'Resolved incident should be excluded by unresolved filter.',
+        'created_by' => $this->admin->id,
+        'resolved_at' => now(),
+    ]);
+
+    $resolvedIncident->activities()->create([
+        'action_type' => 'status_changed',
+        'summary' => 'Status changed to Resolved',
+        'actor_id' => $this->admin->id,
+        'created_at' => now(),
+    ]);
+
+    $this->actingAs($this->admin)
+        ->get(route('incidents.index', ['unresolved' => 1]))
+        ->assertOk()
+        ->assertSee($freshOpenIncident->title)
+        ->assertSee($staleOpenIncident->title)
+        ->assertDontSee($resolvedIncident->title);
+
+    $this->actingAs($this->admin)
+        ->get(route('incidents.index', ['unresolved' => 1, 'stale' => 1]))
+        ->assertOk()
+        ->assertSee($staleOpenIncident->title)
+        ->assertDontSee($freshOpenIncident->title)
+        ->assertDontSee($resolvedIncident->title)
+        ->assertSee('Stale');
+});
+
+test('incident list sanitizes unknown query-driven filters and allows filters to be cleared', function () {
+    Livewire::actingAs($this->admin)
+        ->withQueryParams([
+            'status' => 'Not Real',
+            'category' => 'Nope',
+            'severity' => 'Critical',
+            'unresolved' => 1,
+            'stale' => 1,
+        ])
+        ->test(Index::class)
+        ->assertSet('status', '')
+        ->assertSet('category', '')
+        ->assertSet('severity', '')
+        ->assertSet('unresolved', true)
+        ->assertSet('stale', true)
+        ->call('clearFilters')
+        ->assertSet('status', '')
+        ->assertSet('category', '')
+        ->assertSet('severity', '')
+        ->assertSet('unresolved', false)
+        ->assertSet('stale', false);
+});
+
 test('admin can move incident from open to in progress and create activity trail', function () {
     $component = Livewire::actingAs($this->admin)
         ->test(Show::class, ['incident' => $this->openIncident]);

@@ -101,3 +101,6 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/22_Architecture_Boundary_and_Execution_Standards_2026-04-11.md`
 - `docs/24_Domain_Normalization_Design_2026-04-11.md`
 - `docs/26_Architecture_Debt_Roadmap_2026-04-11.md`
+- `docs/30_Product_Evolution_Roadmap_2026-04-14.md`
+- `docs/31_Feature_Expansion_Plan_2026-04-14.md`
+- `docs/32_F1_Dashboard_and_Triage_Execution_Pack_2026-04-14.md`

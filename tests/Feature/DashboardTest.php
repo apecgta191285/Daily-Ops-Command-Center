@@ -1,6 +1,8 @@
 <?php
 
 use App\Domain\Access\Enums\UserRole;
+use App\Domain\Incidents\Enums\IncidentSeverity;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\ChecklistRun;
 use App\Models\Incident;
 use App\Models\User;
@@ -70,6 +72,7 @@ test('dashboard handles empty data without crashing', function () {
     $response->assertSee('0%');
     $response->assertSee('0 of 0 checklist runs submitted');
     $response->assertSee('No incidents available yet.');
+    $response->assertSee('Once staff report an issue, the latest incidents will appear here');
 });
 
 test('recent incidents are newest first limited to five and linked to details', function () {
@@ -121,4 +124,65 @@ test('recent incidents are newest first limited to five and linked to details', 
     ]);
     $response->assertSee(route('incidents.show', $newestIncident), false);
     expect(substr_count($content, 'View details'))->toBe(5);
+});
+
+test('dashboard attention panel highlights unresolved high severity and stale incidents', function () {
+    $admin = User::factory()->create(['role' => UserRole::Admin->value]);
+    $this->actingAs($admin);
+
+    Incident::factory()->create([
+        'title' => 'High severity unresolved incident',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::Open->value,
+        'created_by' => $admin->id,
+    ]);
+
+    $staleIncident = Incident::factory()->create([
+        'title' => 'Stale unresolved incident',
+        'severity' => IncidentSeverity::Medium->value,
+        'status' => IncidentStatus::InProgress->value,
+        'created_by' => $admin->id,
+    ]);
+
+    $staleIncident->forceFill([
+        'created_at' => Carbon::now()->subDays(3),
+        'updated_at' => Carbon::now()->subDays(3),
+    ])->saveQuietly();
+
+    $response = $this->get(route('dashboard'));
+
+    $response->assertOk();
+    $response->assertSee('Needs Attention Today');
+    $response->assertSee('High severity incidents need attention');
+    $response->assertSee('Review high severity incidents');
+    $response->assertSee(route('incidents.index'), false);
+    $response->assertSee('unresolved=1', false);
+    $response->assertSee('severity=High', false);
+    $response->assertSee('Unresolved incidents are going stale');
+    $response->assertSee('stale=1', false);
+});
+
+test('dashboard shows calm attention state when there are no active alerts', function () {
+    $admin = User::factory()->create(['role' => UserRole::Admin->value]);
+    $this->actingAs($admin);
+
+    ChecklistRun::factory()->submitted($admin->id)->create([
+        'created_by' => $admin->id,
+        'run_date' => today(),
+    ]);
+
+    Incident::factory()->create([
+        'title' => 'Resolved historical incident',
+        'severity' => IncidentSeverity::Low->value,
+        'status' => IncidentStatus::Resolved->value,
+        'created_by' => $admin->id,
+        'resolved_at' => now(),
+    ]);
+
+    $response = $this->get(route('dashboard'));
+
+    $response->assertOk();
+    $response->assertSee('No urgent operational alerts right now.');
+    $response->assertDontSee('Review high severity incidents');
+    $response->assertDontSee('Review stale incidents');
 });

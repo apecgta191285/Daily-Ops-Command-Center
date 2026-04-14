@@ -11,6 +11,56 @@
     </x-slot>
 
     <div class="flex h-full w-full flex-1 flex-col gap-6">
+        <section class="ops-card overflow-hidden">
+            <div class="ops-card__header">
+                <h2 class="text-base font-semibold text-[var(--app-heading)]">Needs Attention Today</h2>
+                <p class="mt-1 text-sm text-[var(--app-text-muted)]">Fast signals for the items management should review first.</p>
+            </div>
+
+            <div class="ops-card__body">
+                @if ($attentionItems === [])
+                    <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4">
+                        <p class="text-sm font-medium text-[var(--app-heading)]">No urgent operational alerts right now.</p>
+                        <p class="mt-1 text-sm text-[var(--app-text-muted)]">Current dashboard signals do not show overdue high-risk issues or checklist pressure beyond the expected flow.</p>
+                    </div>
+                @else
+                    <div class="grid gap-4 xl:grid-cols-3">
+                        @foreach ($attentionItems as $item)
+                            @php
+                                $toneClasses = match ($item['tone']) {
+                                    'danger' => 'border-[var(--app-danger-border)] bg-[var(--app-danger-bg)]',
+                                    'warning' => 'border-[var(--app-warning-border)] bg-[var(--app-warning-bg)]',
+                                    default => 'border-[var(--app-border)] bg-[var(--app-surface-elevated)]',
+                                };
+                            @endphp
+
+                            <article class="rounded-2xl border p-4 {{ $toneClasses }}">
+                                <div class="flex items-start justify-between gap-4">
+                                    <div class="space-y-2">
+                                        <h3 class="text-sm font-semibold text-[var(--app-heading)]">{{ $item['title'] }}</h3>
+                                        <p class="text-sm text-[var(--app-text-muted)]">{{ $item['description'] }}</p>
+                                    </div>
+
+                                    <div class="shrink-0 text-right">
+                                        <p class="text-2xl font-semibold text-[var(--app-heading)]">{{ $item['count'] }}</p>
+                                        <p class="text-xs uppercase tracking-[0.08em] text-[var(--app-text-muted)]">items</p>
+                                    </div>
+                                </div>
+
+                                @if ($item['url'] && $item['actionLabel'])
+                                    <div class="mt-4">
+                                        <a href="{{ $item['url'] }}" class="ops-button ops-button--secondary">
+                                            {{ $item['actionLabel'] }}
+                                        </a>
+                                    </div>
+                                @endif
+                            </article>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </section>
+
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <section class="ops-card">
                 <div class="ops-card__body">
@@ -55,7 +105,10 @@
 
             <div class="ops-card__body">
                 @if ($recentIncidents->isEmpty())
-                    <p class="text-sm text-[var(--app-text-muted)]">No incidents available yet.</p>
+                    <div class="rounded-2xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-5">
+                        <p class="text-sm font-medium text-[var(--app-heading)]">No incidents available yet.</p>
+                        <p class="mt-1 text-sm text-[var(--app-text-muted)]">Once staff report an issue, the latest incidents will appear here so supervisors can review and track follow-up from the dashboard.</p>
+                    </div>
                 @else
                     <div class="overflow-x-auto">
                         <table class="ops-table min-w-full">

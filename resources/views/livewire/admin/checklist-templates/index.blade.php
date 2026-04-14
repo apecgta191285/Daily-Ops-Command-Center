@@ -35,7 +35,15 @@
         <section class="ops-card overflow-hidden">
             <div class="ops-card__body">
                 @if ($templates->isEmpty())
-                    <p class="text-sm text-[var(--app-text-muted)]">No checklist templates exist yet.</p>
+                    <div class="rounded-2xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-5">
+                        <p class="text-sm font-medium text-[var(--app-heading)]">No checklist templates exist yet.</p>
+                        <p class="mt-1 text-sm text-[var(--app-text-muted)]">Create the first active template to define what staff should complete during the daily checklist flow.</p>
+                        <div class="mt-4">
+                            <a href="{{ route('templates.create') }}" class="ops-button ops-button--primary" wire:navigate>
+                                {{ __('Create first template') }}
+                            </a>
+                        </div>
+                    </div>
                 @else
                     <div class="overflow-x-auto">
                         <table class="ops-table min-w-full">
