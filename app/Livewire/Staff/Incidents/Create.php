@@ -31,6 +31,25 @@ class Create extends Component
     {
         $this->categories = IncidentCategory::values();
         $this->severities = IncidentSeverity::values();
+
+        if (request()->string('from')->value() === 'checklist') {
+            $this->title = (string) request()->string('title')->trim()->limit(120);
+
+            $category = request()->string('category')->value();
+            if (in_array($category, $this->categories, true)) {
+                $this->category = $category;
+            }
+
+            $severity = request()->string('severity')->value();
+            if (in_array($severity, $this->severities, true)) {
+                $this->severity = $severity;
+            }
+
+            $description = request()->string('description')->trim()->value();
+            if ($description !== '') {
+                $this->description = $description;
+            }
+        }
     }
 
     public function submit(): void

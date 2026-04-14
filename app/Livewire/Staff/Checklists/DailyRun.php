@@ -85,6 +85,13 @@ class DailyRun extends Component
             ->count();
     }
 
+    public function getNotedItemsProperty(): int
+    {
+        return collect($this->runItems)
+            ->filter(fn (array $item) => filled(Arr::get($item, 'note')))
+            ->count();
+    }
+
     public function getCompletionPercentageProperty(): int
     {
         if ($this->totalItems === 0) {
@@ -92,6 +99,31 @@ class DailyRun extends Component
         }
 
         return (int) round(($this->answeredItems / $this->totalItems) * 100);
+    }
+
+    public function getIncidentPrefillUrlProperty(): string
+    {
+        $notDoneTitles = collect($this->run?->items ?? [])
+            ->filter(fn ($runItem) => ($this->runItems[$runItem->id]['result'] ?? null) === ChecklistResult::NotDone->value)
+            ->map(fn ($runItem) => $runItem->checklistItem->title)
+            ->values();
+
+        $description = collect([
+            'Follow-up from the daily checklist.',
+            'Template: '.($this->template?->title ?? '-'),
+            'Run date: '.optional($this->run?->run_date)->format('Y-m-d'),
+            $notDoneTitles->isNotEmpty() ? 'Items marked Not Done: '.$notDoneTitles->join(', ') : null,
+        ])
+            ->filter()
+            ->implode("\n");
+
+        return route('incidents.create', [
+            'from' => 'checklist',
+            'title' => 'Checklist follow-up issue',
+            'category' => 'อื่น ๆ',
+            'severity' => $this->notDoneItems > 0 ? 'Medium' : 'Low',
+            'description' => $description,
+        ]);
     }
 
     private function applyContext(DailyRunContext $context): void

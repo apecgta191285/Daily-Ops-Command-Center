@@ -80,6 +80,12 @@
                                 {{ $this->remainingItems }} item(s) still need a result before submission.
                             @endif
                         </div>
+
+                        @if ($this->notDoneItems > 0 && ! $isSubmitted)
+                            <div class="rounded-2xl border border-[var(--app-warning-border)] bg-[var(--app-warning-bg)] px-4 py-3 text-sm text-[var(--app-warning-text)]">
+                                {{ $this->notDoneItems }} item(s) are currently marked Not Done. If this reflects a real issue in the workspace, prepare to file an incident after submission so management can follow up.
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -156,6 +162,38 @@
                     @if (session()->has('message'))
                         <div class="ops-alert ops-alert--success mb-5">
                             {{ session('message') }}
+                        </div>
+                    @endif
+
+                    @if ($isSubmitted)
+                        <div class="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+                            <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] px-4 py-4">
+                                <h4 class="text-sm font-semibold text-[var(--app-heading)]">Submission Recap</h4>
+                                <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                                    <span class="ops-badge border-[var(--app-border)] bg-white text-[var(--app-text-muted)]">
+                                        {{ $this->answeredItems }} answered
+                                    </span>
+                                    <span class="ops-badge border-[var(--app-border)] bg-white text-[var(--app-text-muted)]">
+                                        {{ $this->notDoneItems }} not done
+                                    </span>
+                                    <span class="ops-badge border-[var(--app-border)] bg-white text-[var(--app-text-muted)]">
+                                        {{ $this->notedItems }} note(s)
+                                    </span>
+                                </div>
+                                <p class="mt-3 text-sm text-[var(--app-text-muted)]">
+                                    @if ($this->notDoneItems > 0)
+                                        This run includes items marked Not Done. If they reflect a real operational problem, file an incident so management can track follow-up.
+                                    @else
+                                        This run was completed without any items marked Not Done. Use the note history below if you need to review what changed.
+                                    @endif
+                                </p>
+                            </div>
+
+                            @if ($this->notDoneItems > 0)
+                                <a href="{{ $this->incidentPrefillUrl }}" class="ops-button ops-button--primary min-w-56">
+                                    Report follow-up incident
+                                </a>
+                            @endif
                         </div>
                     @endif
 

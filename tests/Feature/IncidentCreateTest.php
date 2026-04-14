@@ -133,3 +133,19 @@ test('incident creation without attachment still succeeds', function () {
     expect($incident->attachment_path)->toBeNull();
     expect($incident->status)->toBe('Open');
 });
+
+test('incident create page can prefill checklist follow-up context from query string', function () {
+    Livewire::withQueryParams([
+        'from' => 'checklist',
+        'title' => 'Checklist follow-up issue',
+        'category' => 'อื่น ๆ',
+        'severity' => 'Medium',
+        'description' => "Follow-up from the daily checklist.\nItems marked Not Done: Printer",
+    ])
+        ->actingAs($this->operatorA)
+        ->test(Create::class)
+        ->assertSet('title', 'Checklist follow-up issue')
+        ->assertSet('category', 'อื่น ๆ')
+        ->assertSet('severity', 'Medium')
+        ->assertSet('description', "Follow-up from the daily checklist.\nItems marked Not Done: Printer");
+});

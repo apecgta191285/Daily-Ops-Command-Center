@@ -182,3 +182,30 @@ test('submission success feedback reflects not-done answers', function () {
         ->assertHasNoErrors()
         ->assertSee('Checklist submitted successfully. 1 item(s) were marked Not Done.');
 });
+
+test('submitted checklist recap offers a follow-up incident shortcut when items are not done', function () {
+    $this->createRunForUser(
+        $this->operatorB,
+        $this->template1,
+        submitted: true,
+        itemStates: [
+            ['result' => ChecklistResult::NotDone->value, 'note' => 'Printer offline'],
+            ['result' => ChecklistResult::Done->value, 'note' => null],
+        ],
+    );
+
+    $component = Livewire::actingAs($this->operatorB)->test(DailyRun::class);
+
+    expect($component->get('notDoneItems'))->toBe(1);
+    expect($component->get('notedItems'))->toBe(1);
+
+    $prefillUrl = $component->get('incidentPrefillUrl');
+
+    expect($prefillUrl)->toContain('/incidents/new');
+    expect(urldecode($prefillUrl))->toContain('Checklist follow-up issue');
+    expect(urldecode($prefillUrl))->toContain('Checklist item 1');
+
+    $component
+        ->assertSee('Submission Recap')
+        ->assertSee('Report follow-up incident');
+});
