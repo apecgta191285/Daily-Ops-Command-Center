@@ -50,6 +50,7 @@ class Manage extends Component
                     'id' => $item->id,
                     'title' => $item->title,
                     'description' => $item->description ?? '',
+                    'group_label' => $item->group_label ?? '',
                     'sort_order' => $item->sort_order,
                     'is_required' => (bool) $item->is_required,
                 ])
@@ -68,6 +69,7 @@ class Manage extends Component
             'id' => null,
             'title' => '',
             'description' => '',
+            'group_label' => '',
             'sort_order' => count($this->items) + 1,
             'is_required' => true,
         ];
@@ -98,6 +100,7 @@ class Manage extends Component
             'items' => ['required', 'array', 'min:1'],
             'items.*.title' => ['required', 'string', 'max:255'],
             'items.*.description' => ['nullable', 'string'],
+            'items.*.group_label' => ['nullable', 'string', 'max:80'],
             'items.*.sort_order' => ['required', 'integer', 'min:1'],
             'items.*.is_required' => ['boolean'],
         ]);

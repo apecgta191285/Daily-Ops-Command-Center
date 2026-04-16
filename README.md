@@ -86,6 +86,7 @@ npm run build
 - GitHub Actions workflows in `.github/workflows` expect repository secrets for Flux credentials when CI runs.
 - Admin-only checklist template management now lives inside the same main application shell as the rest of the product at `/templates`, and legacy `/admin/*` checklist-template entry points are no longer part of the supported route contract.
 - Checklist templates should be duplicated before major structural changes when you want a safer revision path. Duplicated templates are created inactive so they can be reviewed before replacing the live daily template.
+- Checklist items may use optional group labels to create lightweight sections in the daily run surface without introducing a full checklist-builder hierarchy.
 - `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
 
 ## Demo Walkthrough
@@ -104,6 +105,7 @@ See also:
 - `docs/37_Local_Demo_Runbook_2026-04-14.md`
 - `docs/38_Post_F5_Product_and_Codebase_Audit_2026-04-14.md`
 - `docs/39_N1_Template_Duplication_and_Iteration_Safety_Execution_Pack_2026-04-16.md`
+- `docs/40_N2_Lightweight_Checklist_Grouping_Execution_Pack_2026-04-16.md`
 
 ## Canonical Documentation
 
@@ -129,3 +131,4 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/37_Local_Demo_Runbook_2026-04-14.md`
 - `docs/38_Post_F5_Product_and_Codebase_Audit_2026-04-14.md`
 - `docs/39_N1_Template_Duplication_and_Iteration_Safety_Execution_Pack_2026-04-16.md`
+- `docs/40_N2_Lightweight_Checklist_Grouping_Execution_Pack_2026-04-16.md`

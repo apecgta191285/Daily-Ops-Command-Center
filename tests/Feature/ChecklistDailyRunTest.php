@@ -20,6 +20,9 @@ beforeEach(function () {
         'title' => 'Opening template',
         'scope' => ChecklistScope::OPENING->value,
         'is_active' => true,
+    ], [
+        ['title' => 'Unlock main door', 'description' => 'Open the room for the day', 'group_label' => 'Opening checks'],
+        ['title' => 'Inspect safety equipment', 'description' => 'Verify extinguisher and exits', 'group_label' => 'Safety checks'],
     ]);
     $this->template2 = $this->createTemplateWithItems([
         'title' => 'Closing template',
@@ -123,6 +126,15 @@ test('daily checklist progress summary updates as responses are filled in', func
     expect($component->get('completionPercentage'))->toBe(100);
 });
 
+test('daily checklist renders lightweight group headings from template item labels', function () {
+    Livewire::actingAs($this->operatorB)
+        ->test(DailyRun::class)
+        ->assertSee('Opening checks')
+        ->assertSee('Safety checks')
+        ->assertSee('Unlock main door')
+        ->assertSee('Inspect safety equipment');
+});
+
 test('daily checklist shows recent submission context for the current operator', function () {
     $this->createRunForUser(
         $this->operatorB,
@@ -203,7 +215,7 @@ test('submitted checklist recap offers a follow-up incident shortcut when items 
 
     expect($prefillUrl)->toContain('/incidents/new');
     expect(urldecode($prefillUrl))->toContain('Checklist follow-up issue');
-    expect(urldecode($prefillUrl))->toContain('Checklist item 1');
+    expect(urldecode($prefillUrl))->toContain('Unlock main door');
 
     $component
         ->assertSee('Submission Recap')

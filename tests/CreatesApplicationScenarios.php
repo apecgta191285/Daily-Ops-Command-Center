@@ -31,7 +31,7 @@ trait CreatesApplicationScenarios
     }
 
     /**
-     * @param  list<array{title:string,description:?string,is_required?:bool}>|null  $items
+     * @param  list<array{title:string,description:?string,group_label?:?string,is_required?:bool}>|null  $items
      */
     protected function createTemplateWithItems(array $attributes = [], ?array $items = null): ChecklistTemplate
     {
@@ -47,6 +47,7 @@ trait CreatesApplicationScenarios
                 'checklist_template_id' => $template->id,
                 'title' => $item['title'],
                 'description' => $item['description'] ?? null,
+                'group_label' => $item['group_label'] ?? null,
                 'sort_order' => $index + 1,
                 'is_required' => $item['is_required'] ?? true,
             ]);

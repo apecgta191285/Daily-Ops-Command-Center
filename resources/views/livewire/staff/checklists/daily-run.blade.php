@@ -198,9 +198,22 @@
                     @endif
 
                     <form wire:submit="submit" class="space-y-5">
-                        <ul role="list" class="divide-y divide-[var(--app-border)]">
+                        @php($previousGroupLabel = null)
+                        <ul role="list" class="space-y-5">
                             @foreach($run->items as $runItem)
-                                <li class="py-5 first:pt-0 last:pb-0">
+                                @php($groupLabel = $runItem->checklistItem->group_label ?: 'General checks')
+                                @php($showGroupHeader = $groupLabel !== $previousGroupLabel)
+
+                                @if ($showGroupHeader)
+                                    <li class="border-t border-[var(--app-border)] pt-5 first:border-t-0 first:pt-0">
+                                        <div class="mb-4 rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] px-4 py-3">
+                                            <h4 class="text-sm font-semibold text-[var(--app-heading)]">{{ $groupLabel }}</h4>
+                                        </div>
+                                    </li>
+                                    @php($previousGroupLabel = $groupLabel)
+                                @endif
+
+                                <li class="rounded-2xl border border-[var(--app-border)] bg-white px-4 py-5">
                                     <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start lg:gap-6">
                                         <div class="min-w-0">
                                             <h4 class="text-sm font-semibold text-[var(--app-heading)]">

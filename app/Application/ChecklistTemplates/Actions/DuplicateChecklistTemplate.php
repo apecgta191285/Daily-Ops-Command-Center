@@ -26,6 +26,7 @@ class DuplicateChecklistTemplate
                 ->each(fn ($item) => $duplicate->items()->create([
                     'title' => $item->title,
                     'description' => $item->description,
+                    'group_label' => $item->group_label,
                     'sort_order' => $item->sort_order,
                     'is_required' => $item->is_required,
                 ]));

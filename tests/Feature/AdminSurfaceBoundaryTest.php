@@ -19,8 +19,8 @@ beforeEach(function () {
         'scope' => ChecklistScope::OPENING->value,
         'is_active' => true,
     ], [
-        ['title' => 'Active item 1', 'description' => 'Baseline active item 1'],
-        ['title' => 'Active item 2', 'description' => 'Baseline active item 2'],
+        ['title' => 'Active item 1', 'description' => 'Baseline active item 1', 'group_label' => 'Opening checks'],
+        ['title' => 'Active item 2', 'description' => 'Baseline active item 2', 'group_label' => 'Safety checks'],
     ]);
 });
 
@@ -54,6 +54,7 @@ test('admin can create a checklist template and making it active retires existin
                 'id' => null,
                 'title' => 'ตรวจอุณหภูมิห้อง',
                 'description' => 'ให้แน่ใจว่าสภาพแวดล้อมยังเหมาะสม',
+                'group_label' => 'Environment',
                 'sort_order' => 1,
                 'is_required' => true,
             ],
@@ -61,6 +62,7 @@ test('admin can create a checklist template and making it active retires existin
                 'id' => null,
                 'title' => 'ตรวจจุดเสี่ยงด้านความปลอดภัย',
                 'description' => 'ตรวจสายไฟและทางเดิน',
+                'group_label' => 'Safety',
                 'sort_order' => 2,
                 'is_required' => true,
             ],
@@ -107,6 +109,7 @@ test('admin can update an existing template and its checklist items', function (
                 'id' => $firstItem->id,
                 'title' => 'เปิดไฟและทดสอบไฟส่องสว่าง',
                 'description' => 'อัปเดตรายการเดิม',
+                'group_label' => 'Facility setup',
                 'sort_order' => 2,
                 'is_required' => true,
             ],
@@ -114,6 +117,7 @@ test('admin can update an existing template and its checklist items', function (
                 'id' => null,
                 'title' => 'ตรวจระบบล็อกประตู',
                 'description' => 'รายการใหม่',
+                'group_label' => 'Security',
                 'sort_order' => 1,
                 'is_required' => true,
             ],
@@ -128,6 +132,7 @@ test('admin can update an existing template and its checklist items', function (
     expect($template->items()->count())->toBe(2);
     expect($template->items()->where('title', 'ตรวจระบบล็อกประตู')->exists())->toBeTrue();
     expect($template->items()->where('title', 'เปิดไฟและทดสอบไฟส่องสว่าง')->exists())->toBeTrue();
+    expect($template->items()->where('title', 'ตรวจระบบล็อกประตู')->first()?->group_label)->toBe('Security');
 });
 
 test('admin can duplicate a checklist template into an inactive editable copy', function () {
@@ -144,6 +149,7 @@ test('admin can duplicate a checklist template into an inactive editable copy', 
     expect($duplicate->is_active)->toBeFalse();
     expect($duplicate->scope)->toBe($this->activeTemplate->scope);
     expect($duplicate->items()->count())->toBe($this->activeTemplate->items()->count());
+    expect($duplicate->items()->orderBy('sort_order')->first()?->group_label)->toBe('Opening checks');
 });
 
 test('duplicating the same checklist template more than once increments the copy title safely', function () {

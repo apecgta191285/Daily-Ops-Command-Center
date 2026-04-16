@@ -16,6 +16,7 @@ class ChecklistItem extends Model
         'checklist_template_id',
         'title',
         'description',
+        'group_label',
         'sort_order',
         'is_required',
     ];

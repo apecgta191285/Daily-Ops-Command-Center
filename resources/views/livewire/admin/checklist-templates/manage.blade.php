@@ -108,6 +108,13 @@
                                                 <textarea id="item-description-{{ $index }}" wire:model="items.{{ $index }}.description" rows="3" class="ops-control" placeholder="อธิบายความหมายหรือเหตุผลของรายการนี้"></textarea>
                                                 @error('items.'.$index.'.description') <span class="ops-field-error">{{ $message }}</span> @enderror
                                             </div>
+
+                                            <div>
+                                                <label for="item-group-{{ $index }}" class="ops-field-label">Group label</label>
+                                                <input id="item-group-{{ $index }}" type="text" wire:model="items.{{ $index }}.group_label" class="ops-control" placeholder="เช่น Safety checks">
+                                                <p class="ops-field-help">Optional. Use the same label on related items to create lightweight sections in the daily checklist.</p>
+                                                @error('items.'.$index.'.group_label') <span class="ops-field-error">{{ $message }}</span> @enderror
+                                            </div>
                                         </div>
 
                                         <div class="space-y-5">

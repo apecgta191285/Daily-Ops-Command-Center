@@ -19,6 +19,7 @@ class ChecklistItemFactory extends Factory
             'checklist_template_id' => ChecklistTemplate::factory(),
             'title' => fake()->sentence(4),
             'description' => fake()->sentence(),
+            'group_label' => null,
             'sort_order' => 1,
             'is_required' => true,
         ];

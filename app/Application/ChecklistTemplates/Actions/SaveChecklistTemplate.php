@@ -79,6 +79,7 @@ class SaveChecklistTemplate
                 $payload = [
                     'title' => $item['title'],
                     'description' => $item['description'] ?: null,
+                    'group_label' => ($item['group_label'] ?? null) ?: null,
                     'sort_order' => $index + 1,
                     'is_required' => (bool) $item['is_required'],
                 ];
