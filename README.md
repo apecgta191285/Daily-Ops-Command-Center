@@ -87,6 +87,7 @@ npm run build
 - Admin-only checklist template management now lives inside the same main application shell as the rest of the product at `/templates`, and legacy `/admin/*` checklist-template entry points are no longer part of the supported route contract.
 - Checklist templates should be duplicated before major structural changes when you want a safer revision path. Duplicated templates are created inactive so they can be reviewed before replacing the live daily template.
 - Checklist items may use optional group labels to create lightweight sections in the daily run surface without introducing a full checklist-builder hierarchy.
+- Daily checklist now shows lightweight anomaly memory when the same item was recently marked `Not Done`, so staff can spot recurring issues without opening a full analytics layer.
 - Incident detail now highlights the latest follow-up direction and latest resolution summary so management users can understand the most recent handling context quickly.
 - Incident reporting now ends with an outcome screen that explains what was submitted and what happens next, instead of relying on a success flash alone.
 - Incident stale-threshold logic now has one owner, and incident list filtering is routed through an application query instead of staying embedded in the Livewire component.
@@ -119,6 +120,7 @@ See also:
 - `docs/45_N5_Dashboard_Trend_and_Hotspot_Layer_Execution_Pack_2026-04-16.md`
 - `docs/47_R3_N6_Template_Manage_Refactor_and_Activation_Cues_Execution_Pack_2026-04-16.md`
 - `docs/48_R5_Checklist_Incident_Prefill_Extraction_Execution_Pack_2026-04-17.md`
+- `docs/49_N7_Checklist_Anomaly_Memory_Execution_Pack_2026-04-17.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`
 
 ## Canonical Documentation
@@ -153,4 +155,5 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/45_N5_Dashboard_Trend_and_Hotspot_Layer_Execution_Pack_2026-04-16.md`
 - `docs/47_R3_N6_Template_Manage_Refactor_and_Activation_Cues_Execution_Pack_2026-04-16.md`
 - `docs/48_R5_Checklist_Incident_Prefill_Extraction_Execution_Pack_2026-04-17.md`
+- `docs/49_N7_Checklist_Anomaly_Memory_Execution_Pack_2026-04-17.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`

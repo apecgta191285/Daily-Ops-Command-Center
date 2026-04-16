@@ -23,6 +23,8 @@ class DailyRun extends Component
 
     public $recentRuns = [];
 
+    public $itemAnomalyMemory = [];
+
     public $isSubmitted = false;
 
     public function mount(): void
@@ -110,6 +112,24 @@ class DailyRun extends Component
         return route('incidents.create', $prefill->toRouteParameters());
     }
 
+    /**
+     * @return list<string>
+     */
+    public function getRepeatedNotDoneTitlesProperty(): array
+    {
+        return collect($this->run?->items ?? [])
+            ->filter(function ($runItem) {
+                $currentResult = $this->runItems[$runItem->id]['result'] ?? null;
+                $memory = $this->itemAnomalyMemory[$runItem->checklist_item_id] ?? null;
+
+                return $currentResult === ChecklistResult::NotDone->value
+                    && ($memory['recent_not_done_count'] ?? 0) > 0;
+            })
+            ->map(fn ($runItem) => $runItem->checklistItem->title)
+            ->values()
+            ->all();
+    }
+
     private function applyContext(DailyRunContext $context): void
     {
         $this->errorState = $context->errorState;
@@ -117,6 +137,7 @@ class DailyRun extends Component
         $this->template = $context->template;
         $this->runItems = $context->runItems;
         $this->recentRuns = $context->recentRuns;
+        $this->itemAnomalyMemory = $context->itemAnomalyMemory;
         $this->isSubmitted = $context->isSubmitted;
     }
 

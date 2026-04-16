@@ -15,7 +15,7 @@
 * public self-registration ถูกถอดออกจาก contract ของระบบแล้ว และ account ต้องเป็น active จึงจะใช้งานได้  
 * workflow หลักที่เคยกระจุกใน UI ถูกดึงลง application layer แล้วในส่วน checklist, incident, dashboard และ template management  
 * product-next wave F1-F5 ถูกลงระบบแล้ว: dashboard attention, incident triage visibility, checklist progress/recap, product framing และ delivery hardening  
-* post-F5 wave `N1-N4` ถูกส่งลงระบบแล้ว: safer template duplication, lightweight checklist grouping, incident follow-up quality layer, และ incident outcome recap screens  
+* post-F5 wave `N1-N7` ถูกส่งลงระบบแล้ว: safer template duplication, lightweight checklist grouping, incident follow-up quality layer, incident outcome recap screens, dashboard trend/hotspot layer, template activation safety cues, และ checklist anomaly memory  
 * codebase refinement `R1-R5` ถูกส่งลงระบบแล้ว: stale threshold ของ incident มี owner เดียว, incident list query ถูกย้ายออกจาก Livewire component, dashboard summary assembly ถูกแยก owner เพิ่มเติมแล้ว, template manage surface ถูกบางลงพร้อม activation cues ที่ชัดขึ้น, และ checklist-to-incident prefill contract มี owner เดียวแล้ว  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
@@ -24,7 +24,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N6 complete + R1-R5 complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -60,6 +60,7 @@
 * 46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16
 * 47_R3_N6_Template_Manage_Refactor_and_Activation_Cues_Execution_Pack_2026-04-16
 * 48_R5_Checklist_Incident_Prefill_Extraction_Execution_Pack_2026-04-17
+* 49_N7_Checklist_Anomaly_Memory_Execution_Pack_2026-04-17
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -82,6 +83,7 @@
 * Dashboard attention, trend, และ hotspot shaping ถูกย้ายไป support classes แยก เพื่อไม่ให้ dashboard query service กลายเป็น giant orchestration file  
 * Template manage surface ใช้ support classes สำหรับ item-editor behavior และ activation-impact messaging เพื่อกันไม่ให้ Livewire form โตเป็น God-form  
 * Checklist follow-up handoff ใช้ prefill data contract และ prefill builder ที่มี owner ชัดเจนแล้ว เพื่อให้ checklist-to-incident context โตต่อได้โดยไม่ฝัง query-shaping logic ใน Livewire component โดยตรง  
+* Daily checklist รองรับ anomaly memory แบบเบาแล้ว โดยอิง recent submitted runs ของผู้ใช้ใน template เดียวกัน เพื่อบอกว่า checklist item ไหนเพิ่งถูก mark `Not Done` ซ้ำ โดยไม่เพิ่ม schema analytics ใหม่  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null
@@ -112,4 +114,4 @@
 
 # **7\. Current Verdict**
 
-สถานะล่าสุดของโครงงาน A-lite: foundation remediation และ master refactor program ถูกปิดแล้ว พร้อมทั้ง product-next wave `F1-F5`, post-F5 wave `N1-N6`, และ codebase refinement `R1-R5` ถูกส่งลงระบบเรียบร้อย ปัจจุบัน repository อยู่ในสถานะที่เหมาะกับการเริ่ม wave ถัดไปโดยยึด baseline ที่นิ่ง, regression coverage ที่ใช้ได้จริง, และ canonical docs ที่ตาม implementation ทัน
+สถานะล่าสุดของโครงงาน A-lite: foundation remediation และ master refactor program ถูกปิดแล้ว พร้อมทั้ง product-next wave `F1-F5`, post-F5 wave `N1-N7`, และ codebase refinement `R1-R5` ถูกส่งลงระบบเรียบร้อย ปัจจุบัน repository อยู่ในสถานะที่เหมาะกับการเริ่ม wave ถัดไปโดยยึด baseline ที่นิ่ง, regression coverage ที่ใช้ได้จริง, และ canonical docs ที่ตาม implementation ทัน

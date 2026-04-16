@@ -3,11 +3,16 @@
 namespace App\Application\Checklists\Actions;
 
 use App\Application\Checklists\Data\DailyRunContext;
+use App\Application\Checklists\Support\ChecklistAnomalyMemoryBuilder;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistTemplate;
 
 class InitializeDailyRun
 {
+    public function __construct(
+        private readonly ChecklistAnomalyMemoryBuilder $anomalyMemoryBuilder,
+    ) {}
+
     public function __invoke(int $userId): DailyRunContext
     {
         $templates = ChecklistTemplate::query()
@@ -47,6 +52,12 @@ class InitializeDailyRun
 
         $run->load('items.checklistItem');
 
+        $itemAnomalyMemory = $this->anomalyMemoryBuilder->forUserAndTemplate(
+            userId: $userId,
+            templateId: $template->id,
+            excludeRunId: $run->id,
+        );
+
         $recentRuns = ChecklistRun::query()
             ->where('created_by', $userId)
             ->where('submitted_at', '!=', null)
@@ -77,6 +88,7 @@ class InitializeDailyRun
                 ])
                 ->all(),
             recentRuns: $recentRuns,
+            itemAnomalyMemory: $itemAnomalyMemory,
             isSubmitted: $run->submitted_at !== null,
         );
     }

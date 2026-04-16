@@ -187,6 +187,14 @@
                                         This run was completed without any items marked Not Done. Use the note history below if you need to review what changed.
                                     @endif
                                 </p>
+                                @if ($this->repeatedNotDoneTitles !== [])
+                                    <div class="mt-3 rounded-2xl border border-[var(--app-warning-border)] bg-[var(--app-warning-bg)] px-3 py-3 text-sm text-[var(--app-warning-text)]">
+                                        <span class="font-semibold">Repeated issue memory:</span>
+                                        {{ collect($this->repeatedNotDoneTitles)->join(', ') }}
+                                        {{ count($this->repeatedNotDoneTitles) > 1 ? 'have' : 'has' }}
+                                        been marked Not Done before. Consider filing a follow-up incident with this context.
+                                    </div>
+                                @endif
                             </div>
 
                             @if ($this->notDoneItems > 0)
@@ -224,6 +232,20 @@
                                             </h4>
                                             @if($runItem->checklistItem->description)
                                                 <p class="mt-2 text-sm text-[var(--app-text-muted)]">{{ $runItem->checklistItem->description }}</p>
+                                            @endif
+                                            @php($anomalyMemory = $itemAnomalyMemory[$runItem->checklist_item_id] ?? null)
+                                            @if (($anomalyMemory['recent_not_done_count'] ?? 0) > 0)
+                                                <div class="mt-3 rounded-2xl border border-[var(--app-warning-border)] bg-[var(--app-warning-bg)] px-3 py-2 text-xs text-[var(--app-warning-text)]">
+                                                    <span class="font-semibold">Recent issue memory:</span>
+                                                    marked Not Done {{ $anomalyMemory['recent_not_done_count'] }} time(s)
+                                                    in the last {{ $anomalyMemory['sample_run_count'] }} submitted run(s).
+                                                    @if (filled($anomalyMemory['last_not_done_at']))
+                                                        Last seen on {{ $anomalyMemory['last_not_done_at'] }}.
+                                                    @endif
+                                                    @if (filled($anomalyMemory['last_note']))
+                                                        Last note: {{ $anomalyMemory['last_note'] }}
+                                                    @endif
+                                                </div>
                                             @endif
                                         </div>
 

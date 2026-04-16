@@ -154,6 +154,25 @@ test('daily checklist shows recent submission context for the current operator',
         ->assertSee('2 note(s)');
 });
 
+test('daily checklist shows lightweight anomaly memory for items with recent not-done history', function () {
+    $this->createRunForUser(
+        $this->operatorB,
+        $this->template1,
+        submitted: true,
+        itemStates: [
+            ['result' => ChecklistResult::NotDone->value, 'note' => 'Door jammed'],
+            ['result' => ChecklistResult::Done->value, 'note' => null],
+        ],
+        runDate: now()->subDay()->toDateString(),
+    );
+
+    Livewire::actingAs($this->operatorB)
+        ->test(DailyRun::class)
+        ->assertSee('Recent issue memory:')
+        ->assertSee('marked Not Done 1 time(s)')
+        ->assertSee('Door jammed');
+});
+
 test('submitted/read-only proof', function () {
     $component = Livewire::actingAs($this->operatorA)->test(DailyRun::class);
 
@@ -220,4 +239,31 @@ test('submitted checklist recap offers a follow-up incident shortcut when items 
     $component
         ->assertSee('Submission Recap')
         ->assertSee('Report follow-up incident');
+});
+
+test('submission recap highlights repeated not-done items when history exists', function () {
+    $this->createRunForUser(
+        $this->operatorB,
+        $this->template1,
+        submitted: true,
+        itemStates: [
+            ['result' => ChecklistResult::NotDone->value, 'note' => 'Printer offline'],
+            ['result' => ChecklistResult::Done->value, 'note' => null],
+        ],
+        runDate: now()->subDay()->toDateString(),
+    );
+
+    $component = Livewire::actingAs($this->operatorB)->test(DailyRun::class);
+
+    foreach (array_keys($component->get('runItems')) as $index => $id) {
+        $component->set(
+            "runItems.{$id}.result",
+            $index === 0 ? ChecklistResult::NotDone->value : ChecklistResult::Done->value
+        );
+    }
+
+    $component->call('submit')
+        ->assertHasNoErrors()
+        ->assertSee('Repeated issue memory:')
+        ->assertSee('Unlock main door');
 });
