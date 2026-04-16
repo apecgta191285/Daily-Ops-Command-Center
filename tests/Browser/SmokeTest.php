@@ -79,6 +79,22 @@ test('management dashboard drill-down links lead to filtered incident follow-up 
         ->assertNoConsoleLogs();
 });
 
+test('management dashboard shows trend and hotspot sections without browser smoke issues', function () {
+    $admin = $this->createUserForRole(UserRole::Admin);
+
+    $page = visit('/login');
+
+    $page->fill('email', $admin->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->assertSee('Checklist Trend')
+        ->assertSee('Incident Intake Trend')
+        ->assertSee('Operational Hotspots')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
+});
+
 test('staff can authenticate into the daily checklist workflow without browser smoke issues', function () {
     $staff = $this->createUserForRole(UserRole::Staff);
 

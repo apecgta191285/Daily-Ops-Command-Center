@@ -90,6 +90,7 @@ npm run build
 - Incident detail now highlights the latest follow-up direction and latest resolution summary so management users can understand the most recent handling context quickly.
 - Incident reporting now ends with an outcome screen that explains what was submitted and what happens next, instead of relying on a success flash alone.
 - Incident stale-threshold logic now has one owner, and incident list filtering is routed through an application query instead of staying embedded in the Livewire component.
+- Dashboard now includes checklist and incident intake trends plus category hotspot summaries so management can scan operational pressure faster.
 - `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
 
 ## Demo Walkthrough
@@ -113,6 +114,7 @@ See also:
 - `docs/42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16.md`
 - `docs/43_R1_R2_Incident_Query_and_Stale_Policy_Execution_Pack_2026-04-16.md`
 - `docs/44_Post_N4_Product_and_Codebase_Audit_2026-04-16.md`
+- `docs/45_N5_Dashboard_Trend_and_Hotspot_Layer_Execution_Pack_2026-04-16.md`
 
 ## Canonical Documentation
 
@@ -143,3 +145,4 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16.md`
 - `docs/43_R1_R2_Incident_Query_and_Stale_Policy_Execution_Pack_2026-04-16.md`
 - `docs/44_Post_N4_Product_and_Codebase_Audit_2026-04-16.md`
+- `docs/45_N5_Dashboard_Trend_and_Hotspot_Layer_Execution_Pack_2026-04-16.md`

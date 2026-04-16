@@ -186,3 +186,78 @@ test('dashboard shows calm attention state when there are no active alerts', fun
     $response->assertDontSee('Review high severity incidents');
     $response->assertDontSee('Review stale incidents');
 });
+
+test('dashboard shows checklist and intake trends plus hotspot categories', function () {
+    $admin = User::factory()->create(['role' => UserRole::Admin->value]);
+    $this->actingAs($admin);
+
+    ChecklistRun::factory()->submitted($admin->id)->create([
+        'created_by' => $admin->id,
+        'run_date' => today(),
+    ]);
+
+    ChecklistRun::factory()->create([
+        'created_by' => $admin->id,
+        'run_date' => today(),
+    ]);
+
+    ChecklistRun::factory()->submitted($admin->id)->count(2)->create([
+        'created_by' => $admin->id,
+        'run_date' => today()->subDay(),
+    ]);
+
+    Incident::factory()->create([
+        'title' => 'Today network issue',
+        'category' => 'เครือข่าย',
+        'status' => IncidentStatus::Open->value,
+        'created_by' => $admin->id,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    Incident::factory()->create([
+        'title' => 'Today computer issue',
+        'category' => 'อุปกรณ์คอมพิวเตอร์',
+        'status' => IncidentStatus::Open->value,
+        'created_by' => $admin->id,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    $staleNetwork = Incident::factory()->create([
+        'title' => 'Stale network issue',
+        'category' => 'เครือข่าย',
+        'status' => IncidentStatus::InProgress->value,
+        'created_by' => $admin->id,
+    ]);
+
+    $staleNetwork->forceFill([
+        'created_at' => Carbon::now()->subDays(3),
+        'updated_at' => Carbon::now()->subDays(3),
+    ])->saveQuietly();
+
+    Incident::factory()->create([
+        'title' => 'Yesterday network issue',
+        'category' => 'เครือข่าย',
+        'status' => IncidentStatus::Resolved->value,
+        'created_by' => $admin->id,
+        'resolved_at' => now()->subDay(),
+        'created_at' => now()->subDay(),
+        'updated_at' => now()->subDay(),
+    ]);
+
+    $response = $this->get(route('dashboard'));
+
+    $response->assertOk();
+    $response->assertSee('Checklist Trend');
+    $response->assertSee('Yesterday: 100%');
+    $response->assertSee('Down 50 points from yesterday');
+    $response->assertSee('Incident Intake Trend');
+    $response->assertSee('Yesterday: 1 reported');
+    $response->assertSee('Up 1 incidents from yesterday');
+    $response->assertSee('Operational Hotspots');
+    $response->assertSee('เครือข่าย');
+    $response->assertSee('2 unresolved');
+    $response->assertSee('1 stale');
+    $response->assertSee('category='.urlencode('เครือข่าย'), false);
+});

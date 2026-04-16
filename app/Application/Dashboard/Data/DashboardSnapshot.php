@@ -19,6 +19,24 @@ readonly class DashboardSnapshot
      *     url: string|null,
      *     tone: 'warning'|'danger'|'info'
      * }>  $attentionItems
+     * @param  array{
+     *     todayRate: int,
+     *     yesterdayRate: int,
+     *     difference: int,
+     *     direction: 'up'|'down'|'flat'
+     * }  $checklistTrend
+     * @param  array{
+     *     todayCount: int,
+     *     yesterdayCount: int,
+     *     difference: int,
+     *     direction: 'up'|'down'|'flat'
+     * }  $incidentIntakeTrend
+     * @param  list<array{
+     *     category: string,
+     *     unresolvedCount: int,
+     *     staleCount: int,
+     *     url: string|null
+     * }>  $hotspotCategories
      * @param  Collection<int, Incident>  $recentIncidents
      */
     public function __construct(
@@ -27,6 +45,9 @@ readonly class DashboardSnapshot
         public int $completionRate,
         public array $incidentCounts,
         public array $attentionItems,
+        public array $checklistTrend,
+        public array $incidentIntakeTrend,
+        public array $hotspotCategories,
         public Collection $recentIncidents,
     ) {}
 
@@ -44,6 +65,24 @@ readonly class DashboardSnapshot
      *         url: string|null,
      *         tone: 'warning'|'danger'|'info'
      *     }>,
+     *     checklistTrend: array{
+     *         todayRate: int,
+     *         yesterdayRate: int,
+     *         difference: int,
+     *         direction: 'up'|'down'|'flat'
+     *     },
+     *     incidentIntakeTrend: array{
+     *         todayCount: int,
+     *         yesterdayCount: int,
+     *         difference: int,
+     *         direction: 'up'|'down'|'flat'
+     *     },
+     *     hotspotCategories: list<array{
+     *         category: string,
+     *         unresolvedCount: int,
+     *         staleCount: int,
+     *         url: string|null
+     *     }>,
      *     recentIncidents: Collection<int, Incident>
      * }
      */
@@ -55,6 +94,9 @@ readonly class DashboardSnapshot
             'completionRate' => $this->completionRate,
             'incidentCounts' => $this->incidentCounts,
             'attentionItems' => $this->attentionItems,
+            'checklistTrend' => $this->checklistTrend,
+            'incidentIntakeTrend' => $this->incidentIntakeTrend,
+            'hotspotCategories' => $this->hotspotCategories,
             'recentIncidents' => $this->recentIncidents,
         ];
     }

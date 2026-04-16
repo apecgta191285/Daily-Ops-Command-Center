@@ -17,6 +17,7 @@
 * product-next wave F1-F5 ถูกลงระบบแล้ว: dashboard attention, incident triage visibility, checklist progress/recap, product framing และ delivery hardening  
 * post-F5 wave `N1-N4` ถูกส่งลงระบบแล้ว: safer template duplication, lightweight checklist grouping, incident follow-up quality layer, และ incident outcome recap screens  
 * codebase refinement `R1-R2` ถูกส่งลงระบบแล้ว: stale threshold ของ incident มี owner เดียว และ incident list query ถูกย้ายออกจาก Livewire component  
+* dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
 # **2\. Current Phase**
@@ -55,6 +56,7 @@
 * 42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16
 * 43_R1_R2_Incident_Query_and_Stale_Policy_Execution_Pack_2026-04-16
 * 44_Post_N4_Product_and_Codebase_Audit_2026-04-16
+* 45_N5_Dashboard_Trend_and_Hotspot_Layer_Execution_Pack_2026-04-16
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -73,6 +75,7 @@
 * Incident follow-up note ใช้ field เดียวใน UI แต่จะถูกจัดเก็บเป็น `next_action_note` หรือ `resolution_note` ตาม target status เพื่อรักษา append-only activity trail ให้ยังอ่านความหมายได้  
 * Incident creation ใช้ Livewire outcome state หลัง submit สำเร็จแทน success flash อย่างเดียว เพื่อให้ผู้ใช้เห็นทั้ง recap และ next-step guidance ในหน้าเดียว  
 * Incident stale threshold ถูกล็อกให้มี owner เดียว และ incident list filtering query ถูกย้ายไป application query แบบเบาเพื่อกัน component โตแบบไร้ขอบเขต  
+* Dashboard ใช้ trend summary แบบ today-vs-yesterday และ hotspot summary ตาม unresolved incident category โดยไม่เพิ่ม schema analytics ใหม่  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null

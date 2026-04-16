@@ -13,17 +13,33 @@ class GetDashboardSnapshot
 {
     public function __invoke(): DashboardSnapshot
     {
+        $today = today();
+        $yesterday = today()->subDay();
+
         $todayRuns = ChecklistRun::query()
-            ->whereDate('run_date', today())
+            ->whereDate('run_date', $today)
             ->count();
 
         $submittedTodayRuns = ChecklistRun::query()
-            ->whereDate('run_date', today())
+            ->whereDate('run_date', $today)
+            ->whereNotNull('submitted_at')
+            ->count();
+
+        $yesterdayRuns = ChecklistRun::query()
+            ->whereDate('run_date', $yesterday)
+            ->count();
+
+        $submittedYesterdayRuns = ChecklistRun::query()
+            ->whereDate('run_date', $yesterday)
             ->whereNotNull('submitted_at')
             ->count();
 
         $completionRate = $todayRuns > 0
             ? (int) round(($submittedTodayRuns / $todayRuns) * 100)
+            : 0;
+
+        $yesterdayCompletionRate = $yesterdayRuns > 0
+            ? (int) round(($submittedYesterdayRuns / $yesterdayRuns) * 100)
             : 0;
 
         $incidentCounts = [
@@ -38,6 +54,14 @@ class GetDashboardSnapshot
             ->count();
 
         $staleUnresolvedCount = IncidentStalePolicy::applyToUnresolvedQuery(Incident::query())->count();
+
+        $todayIncidentIntake = Incident::query()
+            ->whereDate('created_at', $today)
+            ->count();
+
+        $yesterdayIncidentIntake = Incident::query()
+            ->whereDate('created_at', $yesterday)
+            ->count();
 
         $attentionItems = [];
 
@@ -100,13 +124,78 @@ class GetDashboardSnapshot
             ->limit(5)
             ->get(['id', 'title', 'status', 'severity', 'created_at']);
 
+        $hotspotCategories = Incident::query()
+            ->selectRaw('category, COUNT(*) as unresolved_count')
+            ->selectRaw(
+                'SUM(CASE WHEN created_at <= ? THEN 1 ELSE 0 END) as stale_count',
+                [IncidentStalePolicy::cutoff()->toDateTimeString()],
+            )
+            ->where('status', '!=', IncidentStatus::Resolved->value)
+            ->groupBy('category')
+            ->orderByDesc('unresolved_count')
+            ->orderBy('category')
+            ->limit(3)
+            ->get()
+            ->map(fn ($row) => [
+                'category' => $row->category,
+                'unresolvedCount' => (int) $row->unresolved_count,
+                'staleCount' => (int) $row->stale_count,
+                'url' => Route::has('incidents.index')
+                    ? route('incidents.index', ['unresolved' => 1, 'category' => $row->category])
+                    : null,
+            ])
+            ->all();
+
         return new DashboardSnapshot(
             todayRuns: $todayRuns,
             submittedTodayRuns: $submittedTodayRuns,
             completionRate: $completionRate,
             incidentCounts: $incidentCounts,
             attentionItems: $attentionItems,
+            checklistTrend: $this->buildChecklistTrend($completionRate, $yesterdayCompletionRate),
+            incidentIntakeTrend: $this->buildIncidentIntakeTrend($todayIncidentIntake, $yesterdayIncidentIntake),
+            hotspotCategories: $hotspotCategories,
             recentIncidents: $recentIncidents,
         );
+    }
+
+    /**
+     * @return array{
+     *     todayRate: int,
+     *     yesterdayRate: int,
+     *     difference: int,
+     *     direction: 'up'|'down'|'flat'
+     * }
+     */
+    private function buildChecklistTrend(int $todayRate, int $yesterdayRate): array
+    {
+        $difference = $todayRate - $yesterdayRate;
+
+        return [
+            'todayRate' => $todayRate,
+            'yesterdayRate' => $yesterdayRate,
+            'difference' => abs($difference),
+            'direction' => $difference > 0 ? 'up' : ($difference < 0 ? 'down' : 'flat'),
+        ];
+    }
+
+    /**
+     * @return array{
+     *     todayCount: int,
+     *     yesterdayCount: int,
+     *     difference: int,
+     *     direction: 'up'|'down'|'flat'
+     * }
+     */
+    private function buildIncidentIntakeTrend(int $todayCount, int $yesterdayCount): array
+    {
+        $difference = $todayCount - $yesterdayCount;
+
+        return [
+            'todayCount' => $todayCount,
+            'yesterdayCount' => $yesterdayCount,
+            'difference' => abs($difference),
+            'direction' => $difference > 0 ? 'up' : ($difference < 0 ? 'down' : 'flat'),
+        ];
     }
 }

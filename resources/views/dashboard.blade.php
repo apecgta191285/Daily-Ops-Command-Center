@@ -61,6 +61,87 @@
             </div>
         </section>
 
+        <div class="grid gap-4 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,1.3fr)]">
+            <section class="ops-card overflow-hidden">
+                <div class="ops-card__header">
+                    <h2 class="text-base font-semibold text-[var(--app-heading)]">Checklist Trend</h2>
+                    <p class="mt-1 text-sm text-[var(--app-text-muted)]">Compare daily completion against yesterday&apos;s baseline.</p>
+                </div>
+                <div class="ops-card__body">
+                    <p class="text-3xl font-semibold text-[var(--app-heading)]">{{ $checklistTrend['todayRate'] }}%</p>
+                    <p class="mt-2 text-sm text-[var(--app-text-muted)]">Yesterday: {{ $checklistTrend['yesterdayRate'] }}%</p>
+                    <p class="mt-3 text-sm font-medium text-[var(--app-heading)]">
+                        @if ($checklistTrend['direction'] === 'up')
+                            Up {{ $checklistTrend['difference'] }} points from yesterday
+                        @elseif ($checklistTrend['direction'] === 'down')
+                            Down {{ $checklistTrend['difference'] }} points from yesterday
+                        @else
+                            Flat versus yesterday
+                        @endif
+                    </p>
+                </div>
+            </section>
+
+            <section class="ops-card overflow-hidden">
+                <div class="ops-card__header">
+                    <h2 class="text-base font-semibold text-[var(--app-heading)]">Incident Intake Trend</h2>
+                    <p class="mt-1 text-sm text-[var(--app-text-muted)]">Track how many incidents were reported today compared with yesterday.</p>
+                </div>
+                <div class="ops-card__body">
+                    <p class="text-3xl font-semibold text-[var(--app-heading)]">{{ $incidentIntakeTrend['todayCount'] }}</p>
+                    <p class="mt-2 text-sm text-[var(--app-text-muted)]">Yesterday: {{ $incidentIntakeTrend['yesterdayCount'] }} reported</p>
+                    <p class="mt-3 text-sm font-medium text-[var(--app-heading)]">
+                        @if ($incidentIntakeTrend['direction'] === 'up')
+                            Up {{ $incidentIntakeTrend['difference'] }} incidents from yesterday
+                        @elseif ($incidentIntakeTrend['direction'] === 'down')
+                            Down {{ $incidentIntakeTrend['difference'] }} incidents from yesterday
+                        @else
+                            Intake is flat versus yesterday
+                        @endif
+                    </p>
+                </div>
+            </section>
+
+            <section class="ops-card overflow-hidden">
+                <div class="ops-card__header">
+                    <h2 class="text-base font-semibold text-[var(--app-heading)]">Operational Hotspots</h2>
+                    <p class="mt-1 text-sm text-[var(--app-text-muted)]">The categories carrying the heaviest unresolved workload right now.</p>
+                </div>
+                <div class="ops-card__body">
+                    @if ($hotspotCategories === [])
+                        <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4">
+                            <p class="text-sm font-medium text-[var(--app-heading)]">No unresolved category hotspots right now.</p>
+                            <p class="mt-1 text-sm text-[var(--app-text-muted)]">Once unresolved incidents accumulate in one category, this summary will highlight the pressure point.</p>
+                        </div>
+                    @else
+                        <ul class="space-y-3">
+                            @foreach ($hotspotCategories as $hotspot)
+                                <li class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4">
+                                    <div class="flex items-start justify-between gap-4">
+                                        <div>
+                                            <p class="text-sm font-semibold text-[var(--app-heading)]">{{ $hotspot['category'] }}</p>
+                                            <p class="mt-1 text-sm text-[var(--app-text-muted)]">
+                                                {{ $hotspot['unresolvedCount'] }} unresolved
+                                                @if ($hotspot['staleCount'] > 0)
+                                                    · {{ $hotspot['staleCount'] }} stale
+                                                @endif
+                                            </p>
+                                        </div>
+
+                                        @if ($hotspot['url'])
+                                            <a href="{{ $hotspot['url'] }}" class="ops-button ops-button--secondary">
+                                                Review
+                                            </a>
+                                        @endif
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </section>
+        </div>
+
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <section class="ops-card">
                 <div class="ops-card__body">
