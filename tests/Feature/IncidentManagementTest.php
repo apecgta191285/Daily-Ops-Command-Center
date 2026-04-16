@@ -182,7 +182,7 @@ test('management user can add a next action note when updating incident status',
     Livewire::actingAs($this->admin)
         ->test(Show::class, ['incident' => $this->openIncident])
         ->set('status', 'In Progress')
-        ->set('nextActionNote', 'Check the device logs and report back to the supervisor.')
+        ->set('followUpNote', 'Check the device logs and report back to the supervisor.')
         ->call('updateStatus')
         ->assertHasNoErrors()
         ->assertSee('Next action: Check the device logs and report back to the supervisor.');
@@ -191,6 +191,21 @@ test('management user can add a next action note when updating incident status',
 
     expect($incident->status)->toBe('In Progress');
     expect($incident->activities()->where('action_type', 'next_action_note')->exists())->toBeTrue();
+});
+
+test('management user can add a resolution summary when resolving an incident', function () {
+    Livewire::actingAs($this->admin)
+        ->test(Show::class, ['incident' => $this->openIncident])
+        ->set('status', 'Resolved')
+        ->set('followUpNote', 'Reset the router, confirmed connectivity, and notified the room owner.')
+        ->call('updateStatus')
+        ->assertHasNoErrors()
+        ->assertSee('Resolution: Reset the router, confirmed connectivity, and notified the room owner.');
+
+    $incident = $this->openIncident->fresh();
+
+    expect($incident->status)->toBe('Resolved');
+    expect($incident->activities()->where('action_type', 'resolution_note')->exists())->toBeTrue();
 });
 
 test('supervisor can reopen a resolved incident and clear resolved timestamp', function () {

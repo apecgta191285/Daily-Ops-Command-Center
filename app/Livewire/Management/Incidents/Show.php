@@ -16,7 +16,7 @@ class Show extends Component
 
     public string $status = '';
 
-    public string $nextActionNote = '';
+    public string $followUpNote = '';
 
     public array $statuses = [];
 
@@ -31,17 +31,17 @@ class Show extends Component
     {
         $this->validate([
             'status' => 'required|in:'.implode(',', IncidentStatus::values()),
-            'nextActionNote' => 'nullable|string|max:500',
+            'followUpNote' => 'nullable|string|max:500',
         ]);
 
-        $result = app(TransitionIncidentStatus::class)($this->incident, $this->status, auth()->id(), $this->nextActionNote);
+        $result = app(TransitionIncidentStatus::class)($this->incident, $this->status, auth()->id(), $this->followUpNote);
         $this->incident = $result->incident;
 
         if (! $result->changed) {
             return;
         }
 
-        $this->nextActionNote = '';
+        $this->followUpNote = '';
         session()->flash('message', 'Incident status updated successfully.');
     }
 
@@ -54,6 +54,49 @@ class Show extends Component
     public function getAgeInDaysProperty(): int
     {
         return (int) $this->incident->created_at->startOfDay()->diffInDays(now()->startOfDay());
+    }
+
+    public function getFollowUpNoteLabelProperty(): string
+    {
+        return $this->status === IncidentStatus::Resolved->value
+            ? 'Resolution Summary (Optional)'
+            : 'Next Action Note (Optional)';
+    }
+
+    public function getFollowUpNoteHelpProperty(): string
+    {
+        return $this->status === IncidentStatus::Resolved->value
+            ? 'Summarize what fixed the issue or what condition now counts as resolved.'
+            : 'Use this when the status changes and you want the activity timeline to show the next follow-up step.';
+    }
+
+    public function getLatestNextActionNoteProperty(): ?string
+    {
+        return $this->incident->activities
+            ->where('action_type', 'next_action_note')
+            ->sortByDesc('created_at')
+            ->first()
+            ?->summary;
+    }
+
+    public function getLatestResolutionNoteProperty(): ?string
+    {
+        return $this->incident->activities
+            ->where('action_type', 'resolution_note')
+            ->sortByDesc('created_at')
+            ->first()
+            ?->summary;
+    }
+
+    public function getActivityTypeLabel(string $actionType): string
+    {
+        return match ($actionType) {
+            'status_changed' => 'Status update',
+            'next_action_note' => 'Next action',
+            'resolution_note' => 'Resolution note',
+            'created' => 'Reported',
+            default => str_replace('_', ' ', $actionType),
+        };
     }
 
     #[Layout('layouts.app')]

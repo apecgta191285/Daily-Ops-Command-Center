@@ -51,3 +51,18 @@ test('transition incident status can append an optional next action note', funct
     expect($result->incident->activities()->where('action_type', 'next_action_note')->latest('id')->first()->summary)
         ->toBe('Next action: Follow up with the lab technician before noon.');
 });
+
+test('transition incident status records a resolution summary when resolving an incident', function () {
+    $result = app(TransitionIncidentStatus::class)(
+        $this->openIncident,
+        'Resolved',
+        $this->admin->id,
+        'Replaced the faulty power strip and verified the workstation is back online.',
+    );
+
+    expect($result->changed)->toBeTrue();
+    expect($result->incident->status)->toBe('Resolved');
+    expect($result->incident->activities()->where('action_type', 'resolution_note')->exists())->toBeTrue();
+    expect($result->incident->activities()->where('action_type', 'resolution_note')->latest('id')->first()->summary)
+        ->toBe('Resolution: Replaced the faulty power strip and verified the workstation is back online.');
+});

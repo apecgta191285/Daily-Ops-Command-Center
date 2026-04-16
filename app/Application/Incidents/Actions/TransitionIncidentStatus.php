@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 class TransitionIncidentStatus
 {
-    public function __invoke(Incident $incident, string $nextStatus, int $actorId, ?string $nextActionNote = null): IncidentStatusTransitionResult
+    public function __invoke(Incident $incident, string $nextStatus, int $actorId, ?string $followUpNote = null): IncidentStatusTransitionResult
     {
         if (! in_array($nextStatus, IncidentStatus::values(), true)) {
             throw ValidationException::withMessages([
@@ -18,7 +18,7 @@ class TransitionIncidentStatus
             ]);
         }
 
-        $nextActionNote = filled($nextActionNote) ? trim($nextActionNote) : null;
+        $followUpNote = filled($followUpNote) ? trim($followUpNote) : null;
 
         $previousStatus = $incident->status;
 
@@ -30,7 +30,7 @@ class TransitionIncidentStatus
             );
         }
 
-        DB::transaction(function () use ($incident, $nextStatus, $previousStatus, $actorId, $nextActionNote): void {
+        DB::transaction(function () use ($incident, $nextStatus, $previousStatus, $actorId, $followUpNote): void {
             $incident->update([
                 'status' => $nextStatus,
                 'resolved_at' => $nextStatus === IncidentStatus::Resolved->value ? now() : null,
@@ -43,10 +43,14 @@ class TransitionIncidentStatus
                 'created_at' => now(),
             ]);
 
-            if ($nextActionNote !== null) {
+            if ($followUpNote !== null) {
+                $isResolutionNote = $nextStatus === IncidentStatus::Resolved->value;
+
                 $incident->activities()->create([
-                    'action_type' => 'next_action_note',
-                    'summary' => "Next action: {$nextActionNote}",
+                    'action_type' => $isResolutionNote ? 'resolution_note' : 'next_action_note',
+                    'summary' => $isResolutionNote
+                        ? "Resolution: {$followUpNote}"
+                        : "Next action: {$followUpNote}",
                     'actor_id' => $actorId,
                     'created_at' => now(),
                 ]);

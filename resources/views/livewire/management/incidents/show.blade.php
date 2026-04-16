@@ -60,6 +60,24 @@
                     </div>
                 </dl>
 
+                @if ($this->latestNextActionNote || $this->latestResolutionNote)
+                    <div class="grid gap-4 xl:grid-cols-2">
+                        @if ($this->latestNextActionNote)
+                            <div class="rounded-xl border border-[var(--app-warning-border)] bg-[var(--app-warning-bg)] px-5 py-4">
+                                <h4 class="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--app-warning-text)]">Latest Follow-up Direction</h4>
+                                <p class="mt-3 text-sm leading-6 text-[var(--app-heading)]">{{ $this->latestNextActionNote }}</p>
+                            </div>
+                        @endif
+
+                        @if ($this->latestResolutionNote)
+                            <div class="rounded-xl border border-[var(--app-success-border)] bg-[var(--app-success-bg)] px-5 py-4">
+                                <h4 class="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--app-success-text)]">Latest Resolution Summary</h4>
+                                <p class="mt-3 text-sm leading-6 text-[var(--app-heading)]">{{ $this->latestResolutionNote }}</p>
+                            </div>
+                        @endif
+                    </div>
+                @endif
+
                 <div class="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(18rem,1fr)]">
                     <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-5 py-4">
                         <h4 class="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Description</h4>
@@ -94,16 +112,16 @@
                     </div>
 
                     <div>
-                        <label for="next-action-note" class="ops-field-label">Next Action Note (Optional)</label>
+                        <label for="follow-up-note" class="ops-field-label">{{ $this->followUpNoteLabel }}</label>
                         <textarea
-                            id="next-action-note"
-                            wire:model="nextActionNote"
+                            id="follow-up-note"
+                            wire:model="followUpNote"
                             rows="3"
                             class="ops-control"
-                            placeholder="Add a short follow-up note for the next person reviewing this incident..."
+                            placeholder="{{ $status === 'Resolved' ? 'Summarize what resolved the issue...' : 'Add a short follow-up note for the next person reviewing this incident...' }}"
                         ></textarea>
-                        <p class="ops-field-help">Use this when the status changes and you want the activity timeline to show the next follow-up step.</p>
-                        @error('nextActionNote') <span class="ops-field-error">{{ $message }}</span> @enderror
+                        <p class="ops-field-help">{{ $this->followUpNoteHelp }}</p>
+                        @error('followUpNote') <span class="ops-field-error">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="flex justify-end border-t border-[var(--app-border)] pt-5">
@@ -125,7 +143,7 @@
                         <li class="border-l-2 border-[var(--app-border)] pl-4">
                             <p class="text-sm font-medium text-[var(--app-heading)]">{{ $activity->summary }}</p>
                             <p class="mt-1 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">
-                                {{ str_replace('_', ' ', $activity->action_type) }}
+                                {{ $this->getActivityTypeLabel($activity->action_type) }}
                             </p>
                             <p class="mt-1 text-xs text-[var(--app-text-muted)]">
                                 {{ $activity->actor?->name ?? 'Unknown' }} · {{ $activity->created_at?->format('M d, Y H:i') ?? 'Unknown time' }}
