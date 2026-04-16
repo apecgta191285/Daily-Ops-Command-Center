@@ -33,6 +33,31 @@ test('admin can access checklist templates inside the main application shell', f
     $response->assertSee('Baseline active template');
 });
 
+test('template create page shows activation impact against the current live template', function () {
+    $response = $this->actingAs($this->admin)->get(route('templates.create'));
+
+    $response->assertOk();
+    $response->assertSee('Activation impact');
+    $response->assertSee('Activation will retire the current live template');
+    $response->assertSee('Baseline active template');
+});
+
+test('inactive template edit page shows draft activation guidance and live template context', function () {
+    $draft = $this->createTemplateWithItems([
+        'title' => 'Inactive draft template',
+        'scope' => ChecklistScope::MIDDAY->value,
+        'is_active' => false,
+    ], [
+        ['title' => 'Draft item 1'],
+    ]);
+
+    $response = $this->actingAs($this->admin)->get(route('templates.edit', $draft));
+
+    $response->assertOk();
+    $response->assertSee('Draft mode');
+    $response->assertSee('Current live template: Baseline active template');
+});
+
 test('non-admin users cannot access checklist template administration routes', function () {
     $this->actingAs($this->supervisor)->get(route('templates.index'))->assertForbidden();
     $this->actingAs($this->staff)->get(route('templates.index'))->assertForbidden();

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\ChecklistTemplates;
 
 use App\Application\ChecklistTemplates\Actions\SaveChecklistTemplate;
+use App\Application\ChecklistTemplates\Support\ChecklistTemplateItemEditor;
+use App\Application\ChecklistTemplates\Support\TemplateActivationImpactBuilder;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistTemplate;
 use Illuminate\Validation\Rule;
@@ -31,10 +33,15 @@ class Manage extends Component
 
     public array $scopes = [];
 
+    public ?string $currentLiveTemplateTitle = null;
+
+    public int $currentLiveTemplateRunCount = 0;
+
     public function mount(?ChecklistTemplate $template = null): void
     {
         $this->scopes = ChecklistScope::values();
         $this->template = $template;
+        $this->loadCurrentLiveTemplateContext();
 
         if ($this->template) {
             $this->runCount = $this->template->runs()->count();
@@ -43,18 +50,7 @@ class Manage extends Component
             $this->description = $this->template->description ?? '';
             $this->scope = $this->template->scope;
             $this->is_active = $this->template->is_active;
-            $this->items = $this->template->items()
-                ->orderBy('sort_order')
-                ->get()
-                ->map(fn ($item) => [
-                    'id' => $item->id,
-                    'title' => $item->title,
-                    'description' => $item->description ?? '',
-                    'group_label' => $item->group_label ?? '',
-                    'sort_order' => $item->sort_order,
-                    'is_required' => (bool) $item->is_required,
-                ])
-                ->all();
+            $this->items = $this->itemEditor()->fromTemplate($this->template);
 
             return;
         }
@@ -65,24 +61,12 @@ class Manage extends Component
 
     public function addItem(): void
     {
-        $this->items[] = [
-            'id' => null,
-            'title' => '',
-            'description' => '',
-            'group_label' => '',
-            'sort_order' => count($this->items) + 1,
-            'is_required' => true,
-        ];
+        $this->items = $this->itemEditor()->add($this->items);
     }
 
     public function removeItem(int $index): void
     {
-        unset($this->items[$index]);
-        $this->items = array_values($this->items);
-
-        foreach ($this->items as $position => &$item) {
-            $item['sort_order'] = $position + 1;
-        }
+        $this->items = $this->itemEditor()->remove($this->items, $index);
     }
 
     public function save(SaveChecklistTemplate $saveChecklistTemplate): void
@@ -126,9 +110,55 @@ class Manage extends Component
             : 'Create the checklist template that staff will use in the operations workspace.';
     }
 
+    /**
+     * @return array{
+     *     title: string,
+     *     description: string,
+     *     tone: 'info'|'warning'
+     * }
+     */
+    public function getActivationImpactProperty(): array
+    {
+        return $this->activationImpactBuilder()(
+            $this->template,
+            $this->is_active,
+            $this->currentLiveTemplate(),
+        );
+    }
+
     #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.admin.checklist-templates.manage');
+    }
+
+    private function loadCurrentLiveTemplateContext(): void
+    {
+        $currentLiveTemplate = $this->currentLiveTemplate();
+
+        $this->currentLiveTemplateTitle = $currentLiveTemplate?->title;
+        $this->currentLiveTemplateRunCount = $currentLiveTemplate?->runs_count ?? 0;
+    }
+
+    private function currentLiveTemplate(): ?ChecklistTemplate
+    {
+        return ChecklistTemplate::query()
+            ->withCount('runs')
+            ->where('is_active', true)
+            ->when(
+                $this->template?->exists,
+                fn ($query) => $query->whereKeyNot($this->template->getKey()),
+            )
+            ->first();
+    }
+
+    private function itemEditor(): ChecklistTemplateItemEditor
+    {
+        return app(ChecklistTemplateItemEditor::class);
+    }
+
+    private function activationImpactBuilder(): TemplateActivationImpactBuilder
+    {
+        return app(TemplateActivationImpactBuilder::class);
     }
 }

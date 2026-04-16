@@ -46,6 +46,11 @@
                                             {{ __('Duplicate this template when you want to branch a new revision instead of overwriting the current draft.') }}
                                         @endif
                                     </p>
+                                    @if ($currentLiveTemplateTitle)
+                                        <p class="mt-2 text-sm text-[var(--app-text-muted)]">
+                                            {{ __('Current live template: :title', ['title' => $currentLiveTemplateTitle]) }}
+                                        </p>
+                                    @endif
                                     <form method="POST" action="{{ route('templates.duplicate', $template) }}" class="mt-4">
                                         @csrf
                                         <button type="submit" class="ops-button ops-button--secondary w-full">
@@ -64,6 +69,21 @@
                                 </select>
                                 <p class="ops-field-help">Scope currently classifies the template for administration and reporting. It does not create a parallel daily execution flow yet.</p>
                                 @error('scope') <span class="ops-field-error">{{ $message }}</span> @enderror
+                            </div>
+
+                            @php
+                                $activationImpact = $this->activationImpact;
+                                $activationToneClasses = $activationImpact['tone'] === 'warning'
+                                    ? 'border-[var(--app-warning-border)] bg-[var(--app-warning-bg)]'
+                                    : 'border-[var(--app-border)] bg-[var(--app-surface-elevated)]';
+                            @endphp
+
+                            <div class="rounded-2xl border p-4 {{ $activationToneClasses }}">
+                                <p class="text-sm font-semibold text-[var(--app-heading)]">{{ __('Activation impact') }}</p>
+                                <p class="mt-2 text-sm text-[var(--app-heading)]">{{ __($activationImpact['title']) }}</p>
+                                <p class="mt-2 text-sm text-[var(--app-text-muted)]">
+                                    {{ __($activationImpact['description']) }}
+                                </p>
                             </div>
 
                             <label class="ops-choice w-full justify-between">
