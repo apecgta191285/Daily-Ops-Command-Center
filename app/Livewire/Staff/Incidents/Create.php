@@ -23,6 +23,10 @@ class Create extends Component
 
     public $attachment;
 
+    public ?array $submissionRecap = null;
+
+    public bool $prefilledFromChecklist = false;
+
     public array $categories = [];
 
     public array $severities = [];
@@ -33,6 +37,7 @@ class Create extends Component
         $this->severities = IncidentSeverity::values();
 
         if (request()->string('from')->value() === 'checklist') {
+            $this->prefilledFromChecklist = true;
             $this->title = (string) request()->string('title')->trim()->limit(120);
 
             $category = request()->string('category')->value();
@@ -62,16 +67,33 @@ class Create extends Component
             'attachment' => 'nullable|file|max:10240', // Limit to 10MB
         ]);
 
-        app(CreateIncident::class)([
+        $incident = app(CreateIncident::class)([
             'title' => $this->title,
             'category' => $this->category,
             'severity' => $this->severity,
             'description' => $this->description,
         ], auth()->id(), $this->attachment);
 
-        session()->flash('message', 'Incident reported successfully.');
+        $this->submissionRecap = [
+            'title' => $incident->title,
+            'category' => $incident->category,
+            'severity' => $incident->severity,
+            'status' => $incident->status,
+            'created_at' => $incident->created_at?->format('M d, Y H:i') ?? now()->format('M d, Y H:i'),
+            'has_attachment' => $incident->attachment_path !== null,
+            'from_checklist' => $this->prefilledFromChecklist,
+        ];
 
         $this->reset(['title', 'category', 'severity', 'description', 'attachment']);
+    }
+
+    public function startAnother(): void
+    {
+        $this->submissionRecap = null;
+
+        if ($this->prefilledFromChecklist) {
+            $this->prefilledFromChecklist = false;
+        }
     }
 
     #[Layout('layouts.app')]

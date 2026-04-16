@@ -44,7 +44,10 @@ test('incident creation with all required fields persists correctly', function (
         ->set('severity', 'Medium')
         ->set('description', 'PC-99 will not boot at all.')
         ->call('submit')
-        ->assertHasNoErrors();
+        ->assertHasNoErrors()
+        ->assertSee('Submission Recap')
+        ->assertSee('What Happens Next')
+        ->assertSee('Report another incident');
 
     // Verify incident was created
     expect(Incident::count())->toBe($incidentCountBefore + 1);
@@ -148,4 +151,41 @@ test('incident create page can prefill checklist follow-up context from query st
         ->assertSet('category', 'อื่น ๆ')
         ->assertSet('severity', 'Medium')
         ->assertSet('description', "Follow-up from the daily checklist.\nItems marked Not Done: Printer");
+});
+
+test('incident creation outcome screen can reset back to a fresh form', function () {
+    $component = Livewire::actingAs($this->operatorA)
+        ->test(Create::class)
+        ->set('title', 'Reset flow incident')
+        ->set('category', 'อื่น ๆ')
+        ->set('severity', 'Low')
+        ->set('description', 'Need another quick report afterwards.')
+        ->call('submit')
+        ->assertHasNoErrors()
+        ->assertSet('submissionRecap.title', 'Reset flow incident');
+
+    $component
+        ->call('startAnother')
+        ->assertSet('submissionRecap', null)
+        ->assertSee('Create Incident');
+});
+
+test('incident creation outcome screen keeps checklist return path when prefilled from checklist', function () {
+    Livewire::withQueryParams([
+        'from' => 'checklist',
+        'title' => 'Checklist follow-up issue',
+        'category' => 'อื่น ๆ',
+        'severity' => 'Medium',
+        'description' => "Follow-up from the daily checklist.\nItems marked Not Done: Printer",
+    ])
+        ->actingAs($this->operatorA)
+        ->test(Create::class)
+        ->set('title', 'Checklist follow-up issue')
+        ->set('category', 'อื่น ๆ')
+        ->set('severity', 'Medium')
+        ->set('description', "Follow-up from the daily checklist.\nItems marked Not Done: Printer")
+        ->call('submit')
+        ->assertHasNoErrors()
+        ->assertSeeHtml('Back to today&apos;s checklist')
+        ->assertSee('This report is linked to a checklist follow-up flow');
 });

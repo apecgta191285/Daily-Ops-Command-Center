@@ -88,6 +88,7 @@ npm run build
 - Checklist templates should be duplicated before major structural changes when you want a safer revision path. Duplicated templates are created inactive so they can be reviewed before replacing the live daily template.
 - Checklist items may use optional group labels to create lightweight sections in the daily run surface without introducing a full checklist-builder hierarchy.
 - Incident detail now highlights the latest follow-up direction and latest resolution summary so management users can understand the most recent handling context quickly.
+- Incident reporting now ends with an outcome screen that explains what was submitted and what happens next, instead of relying on a success flash alone.
 - `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
 
 ## Demo Walkthrough
@@ -108,6 +109,7 @@ See also:
 - `docs/39_N1_Template_Duplication_and_Iteration_Safety_Execution_Pack_2026-04-16.md`
 - `docs/40_N2_Lightweight_Checklist_Grouping_Execution_Pack_2026-04-16.md`
 - `docs/41_N3_Incident_Follow_Up_Quality_Layer_Execution_Pack_2026-04-16.md`
+- `docs/42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16.md`
 
 ## Canonical Documentation
 
@@ -135,3 +137,4 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/39_N1_Template_Duplication_and_Iteration_Safety_Execution_Pack_2026-04-16.md`
 - `docs/40_N2_Lightweight_Checklist_Grouping_Execution_Pack_2026-04-16.md`
 - `docs/41_N3_Incident_Follow_Up_Quality_Layer_Execution_Pack_2026-04-16.md`
+- `docs/42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16.md`

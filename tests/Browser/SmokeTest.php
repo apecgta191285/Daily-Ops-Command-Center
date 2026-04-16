@@ -102,3 +102,26 @@ test('staff can authenticate into the daily checklist workflow without browser s
         ->assertSee('Report Incident')
         ->assertSee('Submit Checklist');
 });
+
+test('staff incident reporting shows a post-submit outcome screen', function () {
+    $staff = $this->createUserForRole(UserRole::Staff);
+
+    $page = visit('/login');
+
+    $page->fill('email', $staff->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathBeginsWith('/checklists/runs/today')
+        ->click('Report Incident')
+        ->assertPathIs('/incidents/new')
+        ->fill('title', 'Browser smoke outcome incident')
+        ->select('category', 'อื่น ๆ')
+        ->select('severity', 'Low')
+        ->fill('description', 'Testing the incident outcome surface.')
+        ->click('Create Incident')
+        ->assertSee('Submission Recap')
+        ->assertSee('What Happens Next')
+        ->assertSee('Report another incident')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
+});

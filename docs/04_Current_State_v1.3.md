@@ -18,6 +18,7 @@
 * post-F5 safety improvement เริ่มแล้วใน template administration: admin สามารถ duplicate template เพื่อทำ revision ที่ปลอดภัยกว่าเดิมได้โดยไม่ต้องแก้ live template ตรง ๆ  
 * checklist items รองรับ lightweight group label แล้ว ทำให้ daily checklist แบ่ง section ได้โดยไม่ต้องเพิ่ม hierarchy builder เต็มระบบ  
 * incident detail รองรับ latest follow-up direction และ latest resolution summary แล้ว ทำให้ทีม management อ่านสถานะล่าสุดและสรุปการปิดงานได้เร็วขึ้น  
+* incident creation flow มี outcome screen แล้ว ทำให้ staff เห็น recap และเข้าใจขั้นต่อไปหลัง submit สำเร็จ  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
 # **2\. Current Phase**
@@ -53,6 +54,7 @@
 * 39_N1_Template_Duplication_and_Iteration_Safety_Execution_Pack_2026-04-16
 * 40_N2_Lightweight_Checklist_Grouping_Execution_Pack_2026-04-16
 * 41_N3_Incident_Follow_Up_Quality_Layer_Execution_Pack_2026-04-16
+* 42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -69,6 +71,7 @@
 * Admin สามารถ duplicate template เดิมเพื่อสร้าง revision ใหม่แบบ inactive ได้ และเส้นทางนี้ควรถือเป็น safer path สำหรับการปรับ template เชิงโครงสร้าง  
 * Checklist item รองรับ `group label` แบบ optional เพื่อใช้แบ่ง section ใน daily checklist โดยยังคงหลีกเลี่ยงการเปิดระบบ grouping hierarchy เต็มรูปแบบ  
 * Incident follow-up note ใช้ field เดียวใน UI แต่จะถูกจัดเก็บเป็น `next_action_note` หรือ `resolution_note` ตาม target status เพื่อรักษา append-only activity trail ให้ยังอ่านความหมายได้  
+* Incident creation ใช้ Livewire outcome state หลัง submit สำเร็จแทน success flash อย่างเดียว เพื่อให้ผู้ใช้เห็นทั้ง recap และ next-step guidance ในหน้าเดียว  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null
