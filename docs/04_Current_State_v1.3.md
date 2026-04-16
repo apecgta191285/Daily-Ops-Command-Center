@@ -19,6 +19,7 @@
 * checklist items รองรับ lightweight group label แล้ว ทำให้ daily checklist แบ่ง section ได้โดยไม่ต้องเพิ่ม hierarchy builder เต็มระบบ  
 * incident detail รองรับ latest follow-up direction และ latest resolution summary แล้ว ทำให้ทีม management อ่านสถานะล่าสุดและสรุปการปิดงานได้เร็วขึ้น  
 * incident creation flow มี outcome screen แล้ว ทำให้ staff เห็น recap และเข้าใจขั้นต่อไปหลัง submit สำเร็จ  
+* stale threshold ของ incident ถูกย้ายไปมี owner เดียวแล้ว และ incident list query ถูกแยกออกจาก Livewire component เพื่อให้ขยาย filter ต่อได้สะอาดขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
 # **2\. Current Phase**
@@ -55,6 +56,7 @@
 * 40_N2_Lightweight_Checklist_Grouping_Execution_Pack_2026-04-16
 * 41_N3_Incident_Follow_Up_Quality_Layer_Execution_Pack_2026-04-16
 * 42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16
+* 43_R1_R2_Incident_Query_and_Stale_Policy_Execution_Pack_2026-04-16
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -72,6 +74,7 @@
 * Checklist item รองรับ `group label` แบบ optional เพื่อใช้แบ่ง section ใน daily checklist โดยยังคงหลีกเลี่ยงการเปิดระบบ grouping hierarchy เต็มรูปแบบ  
 * Incident follow-up note ใช้ field เดียวใน UI แต่จะถูกจัดเก็บเป็น `next_action_note` หรือ `resolution_note` ตาม target status เพื่อรักษา append-only activity trail ให้ยังอ่านความหมายได้  
 * Incident creation ใช้ Livewire outcome state หลัง submit สำเร็จแทน success flash อย่างเดียว เพื่อให้ผู้ใช้เห็นทั้ง recap และ next-step guidance ในหน้าเดียว  
+* Incident stale threshold ถูกล็อกให้มี owner เดียว และ incident list filtering query ถูกย้ายไป application query แบบเบาเพื่อกัน component โตแบบไร้ขอบเขต  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null

@@ -3,6 +3,7 @@
 namespace App\Livewire\Management\Incidents;
 
 use App\Application\Incidents\Actions\TransitionIncidentStatus;
+use App\Application\Incidents\Support\IncidentStalePolicy;
 use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\Incident;
 use Livewire\Attributes\Layout;
@@ -10,8 +11,6 @@ use Livewire\Component;
 
 class Show extends Component
 {
-    private const STALE_INCIDENT_DAYS = 2;
-
     public Incident $incident;
 
     public string $status = '';
@@ -47,8 +46,12 @@ class Show extends Component
 
     public function getIsStaleProperty(): bool
     {
-        return $this->incident->status !== IncidentStatus::Resolved->value
-            && $this->incident->created_at->lte(now()->subDays(self::STALE_INCIDENT_DAYS));
+        return IncidentStalePolicy::isStale($this->incident->created_at, $this->incident->status);
+    }
+
+    public function getStaleThresholdDaysProperty(): int
+    {
+        return IncidentStalePolicy::thresholdDays();
     }
 
     public function getAgeInDaysProperty(): int

@@ -53,7 +53,7 @@
 
                     <label class="ops-choice">
                         <input type="checkbox" wire:model.live="stale" class="h-4 w-4 border-[var(--app-border)] text-[var(--app-action-primary)] focus:ring-[var(--app-action-primary)]">
-                        <span>Only stale incidents (2+ days)</span>
+                        <span>Only stale incidents ({{ $this->staleThresholdDays }}+ days)</span>
                     </label>
 
                     @if ($status !== '' || $category !== '' || $severity !== '' || $unresolved || $stale)
@@ -73,7 +73,7 @@
                         <span class="ops-badge ops-badge--info">Unresolved only</span>
                     @endif
                     @if ($stale)
-                        <span class="ops-badge ops-badge--warning">Stale 2+ days</span>
+                        <span class="ops-badge ops-badge--warning">Stale {{ $this->staleThresholdDays }}+ days</span>
                     @endif
                 </div>
             </section>
@@ -112,7 +112,7 @@
                                             <x-incidents.status-badge :status="$incident->status" />
                                         </td>
                                         <td class="px-4 py-4 text-sm text-[var(--app-text-muted)]">
-                                            @if ($incident->status !== 'Resolved' && $incident->created_at->lte(now()->subDays(2)))
+                                            @if ($incident->is_stale_for_attention)
                                                 <span class="ops-badge ops-badge--warning">Stale</span>
                                             @else
                                                 <span class="text-xs">-</span>

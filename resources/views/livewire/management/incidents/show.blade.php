@@ -26,7 +26,7 @@
                         <div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
                             <span class="ops-badge ops-badge--neutral">Open for {{ $this->ageInDays }} day{{ $this->ageInDays === 1 ? '' : 's' }}</span>
                             @if ($this->isStale)
-                                <span class="ops-badge ops-badge--warning">Stale</span>
+                                <span class="ops-badge ops-badge--warning">Stale {{ $this->staleThresholdDays }}+ days</span>
                             @endif
                         </div>
                     </div>

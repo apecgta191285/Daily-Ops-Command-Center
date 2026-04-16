@@ -3,6 +3,7 @@
 namespace App\Application\Dashboard\Queries;
 
 use App\Application\Dashboard\Data\DashboardSnapshot;
+use App\Application\Incidents\Support\IncidentStalePolicy;
 use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\ChecklistRun;
 use App\Models\Incident;
@@ -10,8 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 class GetDashboardSnapshot
 {
-    private const STALE_INCIDENT_DAYS = 2;
-
     public function __invoke(): DashboardSnapshot
     {
         $todayRuns = ChecklistRun::query()
@@ -38,10 +37,7 @@ class GetDashboardSnapshot
             ->where('status', '!=', IncidentStatus::Resolved->value)
             ->count();
 
-        $staleUnresolvedCount = Incident::query()
-            ->where('status', '!=', IncidentStatus::Resolved->value)
-            ->where('created_at', '<=', now()->subDays(self::STALE_INCIDENT_DAYS))
-            ->count();
+        $staleUnresolvedCount = IncidentStalePolicy::applyToUnresolvedQuery(Incident::query())->count();
 
         $attentionItems = [];
 
@@ -87,7 +83,7 @@ class GetDashboardSnapshot
                 'title' => 'Unresolved incidents are going stale',
                 'description' => sprintf(
                     'These incidents have stayed unresolved for at least %d days and may need follow-up.',
-                    self::STALE_INCIDENT_DAYS,
+                    IncidentStalePolicy::thresholdDays(),
                 ),
                 'count' => $staleUnresolvedCount,
                 'actionLabel' => 'Review stale incidents',
