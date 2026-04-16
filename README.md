@@ -115,6 +115,7 @@ See also:
 - `docs/43_R1_R2_Incident_Query_and_Stale_Policy_Execution_Pack_2026-04-16.md`
 - `docs/44_Post_N4_Product_and_Codebase_Audit_2026-04-16.md`
 - `docs/45_N5_Dashboard_Trend_and_Hotspot_Layer_Execution_Pack_2026-04-16.md`
+- `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`
 
 ## Canonical Documentation
 
@@ -146,3 +147,4 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/43_R1_R2_Incident_Query_and_Stale_Policy_Execution_Pack_2026-04-16.md`
 - `docs/44_Post_N4_Product_and_Codebase_Audit_2026-04-16.md`
 - `docs/45_N5_Dashboard_Trend_and_Hotspot_Layer_Execution_Pack_2026-04-16.md`
+- `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`
