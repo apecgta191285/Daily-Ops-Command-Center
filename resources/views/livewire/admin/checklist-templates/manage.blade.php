@@ -9,6 +9,12 @@
     </x-slot>
 
     <div class="mx-auto max-w-5xl">
+        @if (session()->has('message'))
+            <div class="mb-6 ops-alert ops-alert--success">
+                {{ session('message') }}
+            </div>
+        @endif
+
         <section class="ops-card overflow-hidden">
             <div class="ops-card__body">
                 <form wire:submit="save" class="space-y-8">
@@ -28,6 +34,27 @@
                         </div>
 
                         <div class="space-y-6">
+                            @if ($template)
+                                <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4">
+                                    <p class="text-sm font-semibold text-[var(--app-heading)]">{{ __('Safer iteration path') }}</p>
+                                    <p class="mt-2 text-sm text-[var(--app-text-muted)]">
+                                        @if ($hasRunHistory)
+                                            {{ __('This template already has :count recorded run(s). Duplicate it before major structural edits so historical runs stay easy to interpret.', ['count' => $runCount]) }}
+                                        @elseif ($is_active)
+                                            {{ __('This template is currently active. Duplicate it if you want to prepare a revised version without changing the live daily checklist immediately.') }}
+                                        @else
+                                            {{ __('Duplicate this template when you want to branch a new revision instead of overwriting the current draft.') }}
+                                        @endif
+                                    </p>
+                                    <form method="POST" action="{{ route('templates.duplicate', $template) }}" class="mt-4">
+                                        @csrf
+                                        <button type="submit" class="ops-button ops-button--secondary w-full">
+                                            {{ __('Duplicate template instead') }}
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+
                             <div>
                                 <label for="scope" class="ops-field-label">Scope <span class="text-[var(--app-danger-text)]">*</span></label>
                                 <select id="scope" wire:model="scope" class="ops-control">

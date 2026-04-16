@@ -15,6 +15,10 @@ class Manage extends Component
 {
     public ?ChecklistTemplate $template = null;
 
+    public bool $hasRunHistory = false;
+
+    public int $runCount = 0;
+
     public string $title = '';
 
     public string $description = '';
@@ -33,6 +37,8 @@ class Manage extends Component
         $this->template = $template;
 
         if ($this->template) {
+            $this->runCount = $this->template->runs()->count();
+            $this->hasRunHistory = $this->runCount > 0;
             $this->title = $this->template->title;
             $this->description = $this->template->description ?? '';
             $this->scope = $this->template->scope;
@@ -113,7 +119,7 @@ class Manage extends Component
     public function getPageDescriptionProperty(): string
     {
         return $this->template
-            ? 'Refine the template structure used by daily checklist execution.'
+            ? 'Refine the template structure used by daily checklist execution. Duplicate historically used templates before making larger structural changes.'
             : 'Create the checklist template that staff will use in the operations workspace.';
     }
 

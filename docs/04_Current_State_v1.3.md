@@ -3,7 +3,7 @@
 ## *A-lite Foundation Documentation Set*
 
 **DOC-04-CS | ระบบเช็กลิสต์งานประจำวันและติดตามเหตุการณ์ผิดปกติสำหรับทีมงานขนาดเล็ก**  
-**Version v1.3 | Canonical repo state summary | วันที่อ้างอิง 11/04/2569**
+**Version v1.3 | Canonical repo state summary | วันที่อ้างอิง 16/04/2569**
 
 วัตถุประสงค์: เอกสารฉบับนี้ใช้สรุปสถานะล่าสุดของ repository หลัง foundation remediation เพื่อให้การพัฒนารอบถัดไปยึด baseline เดียวกันทั้งด้าน product, architecture และ execution boundary.
 
@@ -13,16 +13,18 @@
 * local baseline ถูกยืนยันเป็น PHP 8.4 + SQLite + Laravel public storage link  
 * happy path หลักของระบบทำงานครบ: login → checklist run → incident reporting → management update → dashboard summary  
 * public self-registration ถูกถอดออกจาก contract ของระบบแล้ว และ account ต้องเป็น active จึงจะใช้งานได้  
-* workflow หลักที่เคยกระจุกใน UI ถูกดึงลง application layer แล้วในส่วน checklist, incident และ dashboard  
+* workflow หลักที่เคยกระจุกใน UI ถูกดึงลง application layer แล้วในส่วน checklist, incident, dashboard และ template management  
+* product-next wave F1-F5 ถูกลงระบบแล้ว: dashboard attention, incident triage visibility, checklist progress/recap, product framing และ delivery hardening  
+* post-F5 safety improvement เริ่มแล้วใน template administration: admin สามารถ duplicate template เพื่อทำ revision ที่ปลอดภัยกว่าเดิมได้โดยไม่ต้องแก้ live template ตรง ๆ  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
 # **2\. Current Phase**
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Master refactor program in progress / Phase 0-4 materially advanced / Phase 5 fixture-seed separation underway |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1 template iteration safety started |
 | Project Mode | A-lite / MVP-first / controlled foundation |
-| Definition of Ready | ผ่านสำหรับการ refactor ต่ออย่างเป็นลำดับบน baseline เดียวกัน โดยยังไม่ถือว่า production-grade cleanup จบแล้ว |
+| Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
 # **3\. Canonical Source of Truth**
 
@@ -45,6 +47,8 @@
 * 35_F4_Product_Framing_and_Demo_Quality_Execution_Pack_2026-04-14
 * 36_F5_Selective_Delivery_Hardening_Execution_Pack_2026-04-14
 * 37_Local_Demo_Runbook_2026-04-14
+* 38_Post_F5_Product_and_Codebase_Audit_2026-04-14
+* 39_N1_Template_Duplication_and_Iteration_Safety_Execution_Pack_2026-04-16
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -58,6 +62,7 @@
 * Incident status permission: Admin และ Supervisor เปลี่ยนสถานะได้; Staff สร้าง incident ได้แต่เปลี่ยน status ไม่ได้  
 * Account lifecycle policy: inactive user เข้าสู่ระบบและใช้งาน protected surface ไม่ได้  
 * Admin template management ใช้ route `/templates`, `/templates/create`, และ `/templates/{template}/edit` ภายใน shell เดียวกับ dashboard/incidents และ legacy `/admin/*` routes สำหรับ checklist templates ถูกถอดออกจาก contract แล้ว  
+* Admin สามารถ duplicate template เดิมเพื่อสร้าง revision ใหม่แบบ inactive ได้ และเส้นทางนี้ควรถือเป็น safer path สำหรับการปรับ template เชิงโครงสร้าง  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null
@@ -65,9 +70,9 @@
 # **5\. Current Priorities**
 
 * รักษา regression baseline ให้เขียวทุกครั้งก่อน merge  
-* ปิด master refactor program ตาม phase order ก่อนเปิด feature expansion ใหม่  
+* ขยาย product value แบบ phase-by-phase โดยไม่หลุด A-lite scope  
 * ใช้ architecture boundary ปัจจุบันเป็นเกณฑ์ตัดสินก่อนเพิ่ม feature ใหม่  
-* จัดการ debt ที่ยังเปิดอยู่ใน 26_Architecture_Debt_Roadmap_2026-04-11 ตามลำดับความเสี่ยง
+* เลือกงานที่เพิ่ม perceived usefulness และ demo value สูงก่อนงานที่เพิ่ม complexity เฉย ๆ
 
 # **6\. Current Risks**
 
@@ -88,4 +93,4 @@
 
 # **7\. Current Verdict**
 
-สถานะล่าสุดของโครงงาน A-lite: foundation remediation ปิดแล้วและ repository กำลังอยู่ใน master refactor program เพื่อยกระดับ domain truth, persistence invariants, authorization truth, frontend contract และ test-fixture discipline ให้แน่นขึ้นก่อนเปิด feature work รอบใหม่
+สถานะล่าสุดของโครงงาน A-lite: foundation remediation และ master refactor program ถูกปิดแล้ว พร้อมทั้ง product-next wave F1-F5 ถูกส่งลงระบบเรียบร้อย ปัจจุบัน repository อยู่ในสถานะที่เหมาะกับการเริ่ม feature wave ถัดไปโดยยึด baseline ที่นิ่ง, regression coverage ที่ใช้ได้จริง, และ canonical docs ที่ตาม implementation ทัน

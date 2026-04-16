@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Domain\Access\Enums\UserRole;
+use App\Http\Controllers\Admin\DuplicateChecklistTemplateController;
 use App\Http\Controllers\Management\DashboardController;
 use App\Livewire\Admin\ChecklistTemplates\Index as TemplateIndex;
 use App\Livewire\Admin\ChecklistTemplates\Manage as TemplateManage;
@@ -50,6 +51,9 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::get('templates/create', TemplateManage::class)
             ->name('templates.create');
+
+        Route::post('templates/{template}/duplicate', DuplicateChecklistTemplateController::class)
+            ->name('templates.duplicate');
 
         Route::get('templates/{template}/edit', TemplateManage::class)
             ->name('templates.edit');

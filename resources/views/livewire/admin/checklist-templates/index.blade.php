@@ -75,9 +75,18 @@
                                             </span>
                                         </td>
                                         <td class="px-4 py-4 text-right text-sm">
-                                            <a href="{{ route('templates.edit', $template) }}" class="ops-button ops-button--secondary" wire:navigate>
-                                                {{ __('Edit template') }}
-                                            </a>
+                                            <div class="flex flex-wrap justify-end gap-2">
+                                                <form method="POST" action="{{ route('templates.duplicate', $template) }}">
+                                                    @csrf
+                                                    <button type="submit" class="ops-button ops-button--secondary">
+                                                        {{ __('Duplicate') }}
+                                                    </button>
+                                                </form>
+
+                                                <a href="{{ route('templates.edit', $template) }}" class="ops-button ops-button--secondary" wire:navigate>
+                                                    {{ __('Edit template') }}
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

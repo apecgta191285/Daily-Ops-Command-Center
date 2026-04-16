@@ -36,6 +36,8 @@ test('admin can access checklist templates inside the main application shell', f
 test('non-admin users cannot access checklist template administration routes', function () {
     $this->actingAs($this->supervisor)->get(route('templates.index'))->assertForbidden();
     $this->actingAs($this->staff)->get(route('templates.index'))->assertForbidden();
+    $this->actingAs($this->supervisor)->post(route('templates.duplicate', $this->activeTemplate))->assertForbidden();
+    $this->actingAs($this->staff)->post(route('templates.duplicate', $this->activeTemplate))->assertForbidden();
 });
 
 test('admin can create a checklist template and making it active retires existing templates', function () {
@@ -126,6 +128,30 @@ test('admin can update an existing template and its checklist items', function (
     expect($template->items()->count())->toBe(2);
     expect($template->items()->where('title', 'ตรวจระบบล็อกประตู')->exists())->toBeTrue();
     expect($template->items()->where('title', 'เปิดไฟและทดสอบไฟส่องสว่าง')->exists())->toBeTrue();
+});
+
+test('admin can duplicate a checklist template into an inactive editable copy', function () {
+    $response = $this->actingAs($this->admin)
+        ->post(route('templates.duplicate', $this->activeTemplate));
+
+    $duplicate = ChecklistTemplate::query()
+        ->where('title', 'Baseline active template (Copy)')
+        ->firstOrFail();
+
+    $response->assertRedirect(route('templates.edit', $duplicate));
+    $response->assertSessionHas('message', 'Checklist template duplicated. Review the copy, then activate it when ready.');
+
+    expect($duplicate->is_active)->toBeFalse();
+    expect($duplicate->scope)->toBe($this->activeTemplate->scope);
+    expect($duplicate->items()->count())->toBe($this->activeTemplate->items()->count());
+});
+
+test('duplicating the same checklist template more than once increments the copy title safely', function () {
+    $this->actingAs($this->admin)->post(route('templates.duplicate', $this->activeTemplate));
+    $this->actingAs($this->admin)->post(route('templates.duplicate', $this->activeTemplate));
+
+    expect(ChecklistTemplate::query()->where('title', 'Baseline active template (Copy)')->exists())->toBeTrue();
+    expect(ChecklistTemplate::query()->where('title', 'Baseline active template (Copy 2)')->exists())->toBeTrue();
 });
 
 test('used checklist items cannot be removed from templates with run history', function () {
