@@ -5,6 +5,7 @@ namespace App\Livewire\Staff\Checklists;
 use App\Application\Checklists\Actions\InitializeDailyRun;
 use App\Application\Checklists\Actions\SubmitDailyRun;
 use App\Application\Checklists\Data\DailyRunContext;
+use App\Application\Checklists\Support\ChecklistIncidentPrefillBuilder;
 use App\Domain\Checklists\Enums\ChecklistResult;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Layout;
@@ -103,27 +104,10 @@ class DailyRun extends Component
 
     public function getIncidentPrefillUrlProperty(): string
     {
-        $notDoneTitles = collect($this->run?->items ?? [])
-            ->filter(fn ($runItem) => ($this->runItems[$runItem->id]['result'] ?? null) === ChecklistResult::NotDone->value)
-            ->map(fn ($runItem) => $runItem->checklistItem->title)
-            ->values();
+        $prefill = app(ChecklistIncidentPrefillBuilder::class)
+            ->fromDailyRun($this->run, $this->template, $this->runItems);
 
-        $description = collect([
-            'Follow-up from the daily checklist.',
-            'Template: '.($this->template?->title ?? '-'),
-            'Run date: '.optional($this->run?->run_date)->format('Y-m-d'),
-            $notDoneTitles->isNotEmpty() ? 'Items marked Not Done: '.$notDoneTitles->join(', ') : null,
-        ])
-            ->filter()
-            ->implode("\n");
-
-        return route('incidents.create', [
-            'from' => 'checklist',
-            'title' => 'Checklist follow-up issue',
-            'category' => 'อื่น ๆ',
-            'severity' => $this->notDoneItems > 0 ? 'Medium' : 'Low',
-            'description' => $description,
-        ]);
+        return route('incidents.create', $prefill->toRouteParameters());
     }
 
     private function applyContext(DailyRunContext $context): void

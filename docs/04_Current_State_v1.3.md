@@ -16,7 +16,7 @@
 * workflow หลักที่เคยกระจุกใน UI ถูกดึงลง application layer แล้วในส่วน checklist, incident, dashboard และ template management  
 * product-next wave F1-F5 ถูกลงระบบแล้ว: dashboard attention, incident triage visibility, checklist progress/recap, product framing และ delivery hardening  
 * post-F5 wave `N1-N4` ถูกส่งลงระบบแล้ว: safer template duplication, lightweight checklist grouping, incident follow-up quality layer, และ incident outcome recap screens  
-* codebase refinement `R1-R2`, `R3`, และ `R4` ถูกส่งลงระบบแล้ว: stale threshold ของ incident มี owner เดียว, incident list query ถูกย้ายออกจาก Livewire component, dashboard summary assembly ถูกแยก owner เพิ่มเติมแล้ว, และ template manage surface ถูกบางลงพร้อม activation cues ที่ชัดขึ้น  
+* codebase refinement `R1-R5` ถูกส่งลงระบบแล้ว: stale threshold ของ incident มี owner เดียว, incident list query ถูกย้ายออกจาก Livewire component, dashboard summary assembly ถูกแยก owner เพิ่มเติมแล้ว, template manage surface ถูกบางลงพร้อม activation cues ที่ชัดขึ้น, และ checklist-to-incident prefill contract มี owner เดียวแล้ว  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -24,7 +24,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N6 complete + R1-R4 complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N6 complete + R1-R5 complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -59,6 +59,7 @@
 * 45_N5_Dashboard_Trend_and_Hotspot_Layer_Execution_Pack_2026-04-16
 * 46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16
 * 47_R3_N6_Template_Manage_Refactor_and_Activation_Cues_Execution_Pack_2026-04-16
+* 48_R5_Checklist_Incident_Prefill_Extraction_Execution_Pack_2026-04-17
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -80,6 +81,7 @@
 * Dashboard ใช้ trend summary แบบ today-vs-yesterday และ hotspot summary ตาม unresolved incident category โดยไม่เพิ่ม schema analytics ใหม่  
 * Dashboard attention, trend, และ hotspot shaping ถูกย้ายไป support classes แยก เพื่อไม่ให้ dashboard query service กลายเป็น giant orchestration file  
 * Template manage surface ใช้ support classes สำหรับ item-editor behavior และ activation-impact messaging เพื่อกันไม่ให้ Livewire form โตเป็น God-form  
+* Checklist follow-up handoff ใช้ prefill data contract และ prefill builder ที่มี owner ชัดเจนแล้ว เพื่อให้ checklist-to-incident context โตต่อได้โดยไม่ฝัง query-shaping logic ใน Livewire component โดยตรง  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null
@@ -110,4 +112,4 @@
 
 # **7\. Current Verdict**
 
-สถานะล่าสุดของโครงงาน A-lite: foundation remediation และ master refactor program ถูกปิดแล้ว พร้อมทั้ง product-next wave `F1-F5`, post-F5 wave `N1-N4`, และ codebase refinement `R1-R2` ถูกส่งลงระบบเรียบร้อย ปัจจุบัน repository อยู่ในสถานะที่เหมาะกับการเริ่ม wave ถัดไปโดยยึด baseline ที่นิ่ง, regression coverage ที่ใช้ได้จริง, และ canonical docs ที่ตาม implementation ทัน
+สถานะล่าสุดของโครงงาน A-lite: foundation remediation และ master refactor program ถูกปิดแล้ว พร้อมทั้ง product-next wave `F1-F5`, post-F5 wave `N1-N6`, และ codebase refinement `R1-R5` ถูกส่งลงระบบเรียบร้อย ปัจจุบัน repository อยู่ในสถานะที่เหมาะกับการเริ่ม wave ถัดไปโดยยึด baseline ที่นิ่ง, regression coverage ที่ใช้ได้จริง, และ canonical docs ที่ตาม implementation ทัน

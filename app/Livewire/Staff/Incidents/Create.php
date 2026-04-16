@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Staff\Incidents;
 
+use App\Application\Checklists\Data\ChecklistIncidentPrefill;
 use App\Application\Incidents\Actions\CreateIncident;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
@@ -36,24 +37,18 @@ class Create extends Component
         $this->categories = IncidentCategory::values();
         $this->severities = IncidentSeverity::values();
 
-        if (request()->string('from')->value() === 'checklist') {
+        $prefill = ChecklistIncidentPrefill::fromRequest(
+            request(),
+            $this->categories,
+            $this->severities,
+        );
+
+        if ($prefill !== null) {
             $this->prefilledFromChecklist = true;
-            $this->title = (string) request()->string('title')->trim()->limit(120);
-
-            $category = request()->string('category')->value();
-            if (in_array($category, $this->categories, true)) {
-                $this->category = $category;
-            }
-
-            $severity = request()->string('severity')->value();
-            if (in_array($severity, $this->severities, true)) {
-                $this->severity = $severity;
-            }
-
-            $description = request()->string('description')->trim()->value();
-            if ($description !== '') {
-                $this->description = $description;
-            }
+            $this->title = $prefill->title;
+            $this->category = $prefill->category ?? '';
+            $this->severity = $prefill->severity ?? '';
+            $this->description = $prefill->description;
         }
     }
 
