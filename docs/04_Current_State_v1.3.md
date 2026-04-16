@@ -15,18 +15,15 @@
 * public self-registration ถูกถอดออกจาก contract ของระบบแล้ว และ account ต้องเป็น active จึงจะใช้งานได้  
 * workflow หลักที่เคยกระจุกใน UI ถูกดึงลง application layer แล้วในส่วน checklist, incident, dashboard และ template management  
 * product-next wave F1-F5 ถูกลงระบบแล้ว: dashboard attention, incident triage visibility, checklist progress/recap, product framing และ delivery hardening  
-* post-F5 safety improvement เริ่มแล้วใน template administration: admin สามารถ duplicate template เพื่อทำ revision ที่ปลอดภัยกว่าเดิมได้โดยไม่ต้องแก้ live template ตรง ๆ  
-* checklist items รองรับ lightweight group label แล้ว ทำให้ daily checklist แบ่ง section ได้โดยไม่ต้องเพิ่ม hierarchy builder เต็มระบบ  
-* incident detail รองรับ latest follow-up direction และ latest resolution summary แล้ว ทำให้ทีม management อ่านสถานะล่าสุดและสรุปการปิดงานได้เร็วขึ้น  
-* incident creation flow มี outcome screen แล้ว ทำให้ staff เห็น recap และเข้าใจขั้นต่อไปหลัง submit สำเร็จ  
-* stale threshold ของ incident ถูกย้ายไปมี owner เดียวแล้ว และ incident list query ถูกแยกออกจาก Livewire component เพื่อให้ขยาย filter ต่อได้สะอาดขึ้น  
+* post-F5 wave `N1-N4` ถูกส่งลงระบบแล้ว: safer template duplication, lightweight checklist grouping, incident follow-up quality layer, และ incident outcome recap screens  
+* codebase refinement `R1-R2` ถูกส่งลงระบบแล้ว: stale threshold ของ incident มี owner เดียว และ incident list query ถูกย้ายออกจาก Livewire component  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
 # **2\. Current Phase**
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1 template iteration safety started |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N4 complete + R1-R2 complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -57,6 +54,7 @@
 * 41_N3_Incident_Follow_Up_Quality_Layer_Execution_Pack_2026-04-16
 * 42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16
 * 43_R1_R2_Incident_Query_and_Stale_Policy_Execution_Pack_2026-04-16
+* 44_Post_N4_Product_and_Codebase_Audit_2026-04-16
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -105,4 +103,4 @@
 
 # **7\. Current Verdict**
 
-สถานะล่าสุดของโครงงาน A-lite: foundation remediation และ master refactor program ถูกปิดแล้ว พร้อมทั้ง product-next wave F1-F5 ถูกส่งลงระบบเรียบร้อย ปัจจุบัน repository อยู่ในสถานะที่เหมาะกับการเริ่ม feature wave ถัดไปโดยยึด baseline ที่นิ่ง, regression coverage ที่ใช้ได้จริง, และ canonical docs ที่ตาม implementation ทัน
+สถานะล่าสุดของโครงงาน A-lite: foundation remediation และ master refactor program ถูกปิดแล้ว พร้อมทั้ง product-next wave `F1-F5`, post-F5 wave `N1-N4`, และ codebase refinement `R1-R2` ถูกส่งลงระบบเรียบร้อย ปัจจุบัน repository อยู่ในสถานะที่เหมาะกับการเริ่ม wave ถัดไปโดยยึด baseline ที่นิ่ง, regression coverage ที่ใช้ได้จริง, และ canonical docs ที่ตาม implementation ทัน

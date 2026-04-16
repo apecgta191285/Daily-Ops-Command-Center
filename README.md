@@ -112,6 +112,7 @@ See also:
 - `docs/41_N3_Incident_Follow_Up_Quality_Layer_Execution_Pack_2026-04-16.md`
 - `docs/42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16.md`
 - `docs/43_R1_R2_Incident_Query_and_Stale_Policy_Execution_Pack_2026-04-16.md`
+- `docs/44_Post_N4_Product_and_Codebase_Audit_2026-04-16.md`
 
 ## Canonical Documentation
 
@@ -141,3 +142,4 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/41_N3_Incident_Follow_Up_Quality_Layer_Execution_Pack_2026-04-16.md`
 - `docs/42_N4_Demo_Friendly_Outcome_Screens_Execution_Pack_2026-04-16.md`
 - `docs/43_R1_R2_Incident_Query_and_Stale_Policy_Execution_Pack_2026-04-16.md`
+- `docs/44_Post_N4_Product_and_Codebase_Audit_2026-04-16.md`
