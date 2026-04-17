@@ -9,6 +9,12 @@
     </x-slot>
 
     <div class="mx-auto max-w-6xl space-y-6">
+        @php
+            $summary = $this->templateSummary;
+            $authoringSignals = $this->authoringSignals;
+            $previewGroups = $this->previewGroups;
+        @endphp
+
         @if (session()->has('message'))
             <div data-alert data-auto-dismiss="5000" role="status" aria-live="polite" class="ops-alert ops-alert--success">
                 <div class="ops-alert__inner">
@@ -45,10 +51,25 @@
                 <aside class="ops-hero__aside">
                     <div>
                         <p class="ops-hero__aside-title">Control note</p>
-                        <p class="ops-hero__aside-value">{{ count($items) }}</p>
+                        <p class="ops-hero__aside-value">{{ $summary['item_count'] }}</p>
                         <p class="ops-hero__aside-copy">
                             Checklist item(s) currently defined in this template draft.
                         </p>
+                    </div>
+
+                    <div class="ops-authoring-metric-grid">
+                        <div class="ops-authoring-metric">
+                            <p class="ops-authoring-metric__label">{{ __('Sections') }}</p>
+                            <p class="ops-authoring-metric__value">{{ max($summary['grouped_section_count'], 1) }}</p>
+                        </div>
+                        <div class="ops-authoring-metric">
+                            <p class="ops-authoring-metric__label">{{ __('Required') }}</p>
+                            <p class="ops-authoring-metric__value">{{ $summary['required_count'] }}</p>
+                        </div>
+                        <div class="ops-authoring-metric">
+                            <p class="ops-authoring-metric__label">{{ __('Optional') }}</p>
+                            <p class="ops-authoring-metric__value">{{ $summary['optional_count'] }}</p>
+                        </div>
                     </div>
 
                     <div class="ops-hero__aside-stack">
@@ -68,6 +89,44 @@
         <form wire:submit="save" class="space-y-6">
             <div class="ops-command-grid ops-command-grid--template">
                 <div class="ops-stack">
+                    <section class="ops-card overflow-hidden">
+                        <div class="ops-section-heading">
+                            <div>
+                                <p class="ops-section-heading__eyebrow">Authoring rhythm</p>
+                                <h3 class="ops-section-heading__title">Build the live checklist in three passes</h3>
+                                <p class="ops-section-heading__body">Define the identity, shape the staff-facing sequence, then confirm the activation impact before this draft becomes the daily operational standard.</p>
+                            </div>
+                        </div>
+
+                        <div class="ops-card__body">
+                            <div class="ops-authoring-rhythm">
+                                <div class="ops-authoring-rhythm__step">
+                                    <span class="ops-step-index">1</span>
+                                    <div>
+                                        <p class="ops-authoring-rhythm__title">{{ __('Frame the template') }}</p>
+                                        <p class="ops-authoring-rhythm__body">{{ __('Choose a clear title, explain the operating moment, and keep the description focused on why the checklist exists.') }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="ops-authoring-rhythm__step">
+                                    <span class="ops-step-index">2</span>
+                                    <div>
+                                        <p class="ops-authoring-rhythm__title">{{ __('Shape execution order') }}</p>
+                                        <p class="ops-authoring-rhythm__body">{{ __('Use group labels and item order to make the run read like a real shift routine instead of a flat collection of tasks.') }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="ops-authoring-rhythm__step">
+                                    <span class="ops-step-index">3</span>
+                                    <div>
+                                        <p class="ops-authoring-rhythm__title">{{ __('Review live impact') }}</p>
+                                        <p class="ops-authoring-rhythm__body">{{ __('Pause on the governance lane before save so you understand whether this draft stays private or replaces the current production checklist.') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
                     <section class="ops-card overflow-hidden">
                         <div class="ops-section-heading">
                             <div>
@@ -110,13 +169,32 @@
 
                             <div class="space-y-4">
                                 @foreach ($items as $index => $item)
-                                    <section class="ops-admin-item">
-                                        <div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_170px]">
-                                            <div class="space-y-5">
+                                    <section class="ops-admin-item ops-admin-item--authoring">
+                                        <div class="ops-admin-item__header">
+                                            <div class="ops-admin-item__identity">
+                                                <span class="ops-step-index">{{ $index + 1 }}</span>
                                                 <div>
-                                                    <p class="ops-admin-item__eyebrow">{{ __('Checklist item') }} {{ $index + 1 }}</p>
+                                                    <p class="ops-admin-item__eyebrow">{{ __('Checklist item') }}</p>
+                                                    <h4 class="ops-admin-item__title">
+                                                        {{ trim($item['title'] ?? '') !== '' ? $item['title'] : __('Untitled checklist item') }}
+                                                    </h4>
                                                 </div>
+                                            </div>
 
+                                            <div class="ops-admin-item__chips">
+                                                <span class="ops-chip {{ ($item['is_required'] ?? false) ? 'ops-chip--info' : '' }}">
+                                                    {{ ($item['is_required'] ?? false) ? __('Required') : __('Optional') }}
+                                                </span>
+                                                <span class="ops-chip">{{ __('Order') }} {{ $item['sort_order'] }}</span>
+                                                @if (trim($item['group_label'] ?? '') !== '')
+                                                    <span class="ops-chip ops-chip--success">{{ $item['group_label'] }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_190px]">
+                                            <div class="space-y-5">
+                                                
                                                 <div>
                                                     <label for="item-title-{{ $index }}" class="ops-field-label">Item title <span class="text-[var(--app-danger-text)]">*</span></label>
                                                     <input id="item-title-{{ $index }}" type="text" wire:model="items.{{ $index }}.title" class="ops-control" placeholder="เช่น ตรวจการเชื่อมต่ออินเทอร์เน็ต">
@@ -138,6 +216,13 @@
                                             </div>
 
                                             <div class="space-y-5">
+                                                <div class="ops-surface-soft px-4 py-4">
+                                                    <p class="ops-admin-item__meta-label">{{ __('Execution cue') }}</p>
+                                                    <p class="ops-admin-item__meta-value">
+                                                        {{ trim($item['group_label'] ?? '') !== '' ? __('Appears under :group', ['group' => $item['group_label']]) : __('Appears in the unlabelled sequence') }}
+                                                    </p>
+                                                </div>
+
                                                 <div>
                                                     <label for="item-order-{{ $index }}" class="ops-field-label">Order</label>
                                                     <input id="item-order-{{ $index }}" type="number" min="1" wire:model="items.{{ $index }}.sort_order" class="ops-control">
@@ -167,6 +252,55 @@
                 </div>
 
                 <div class="ops-stack">
+                    <section class="ops-card overflow-hidden">
+                        <div class="ops-section-heading">
+                            <div>
+                                <p class="ops-section-heading__eyebrow">Authoring pulse</p>
+                                <h3 class="ops-section-heading__title">Checkpoint summary</h3>
+                                <p class="ops-section-heading__body">A quick scan of what is ready, what is still thin, and which decisions will affect staff most once this draft goes live.</p>
+                            </div>
+                        </div>
+
+                        <div class="ops-card__body space-y-4">
+                            @foreach ($authoringSignals as $signal)
+                                <x-ops.callout :title="$signal['title']" :tone="$signal['tone']">
+                                    {{ __($signal['body']) }}
+                                </x-ops.callout>
+                            @endforeach
+                        </div>
+                    </section>
+
+                    <section class="ops-card overflow-hidden">
+                        <div class="ops-section-heading">
+                            <div>
+                                <p class="ops-section-heading__eyebrow">Live execution preview</p>
+                                <h3 class="ops-section-heading__title">How staff will scan this checklist</h3>
+                                <p class="ops-section-heading__body">This compact preview mirrors the way the checklist will read during execution once the draft is active.</p>
+                            </div>
+                        </div>
+
+                        <div class="ops-card__body">
+                            <div class="ops-authoring-preview">
+                                @foreach ($previewGroups as $group)
+                                    <section class="ops-authoring-preview__group">
+                                        <div class="ops-authoring-preview__label">{{ $group['label'] }}</div>
+
+                                        <div class="ops-authoring-preview__items">
+                                            @foreach ($group['items'] as $previewItem)
+                                                <div class="ops-authoring-preview__item">
+                                                    <p class="ops-authoring-preview__title">{{ $previewItem['title'] }}</p>
+                                                    <span class="ops-chip {{ $previewItem['is_required'] ? 'ops-chip--info' : '' }}">
+                                                        {{ $previewItem['is_required'] ? __('Required') : __('Optional') }}
+                                                    </span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </section>
+                                @endforeach
+                            </div>
+                        </div>
+                    </section>
+
                     @if ($template)
                         <section class="ops-card overflow-hidden">
                             <div class="ops-section-heading">

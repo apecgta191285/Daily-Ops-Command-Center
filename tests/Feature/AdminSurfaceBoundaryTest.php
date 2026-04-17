@@ -37,6 +37,8 @@ test('template create page shows activation impact against the current live temp
     $response = $this->actingAs($this->admin)->get(route('templates.create'));
 
     $response->assertOk();
+    $response->assertSee('Authoring pulse');
+    $response->assertSee('Live execution preview');
     $response->assertSee('Activation impact');
     $response->assertSee('Activation will retire the current live template');
     $response->assertSee('Baseline active template');
@@ -54,6 +56,7 @@ test('inactive template edit page shows draft activation guidance and live templ
     $response = $this->actingAs($this->admin)->get(route('templates.edit', $draft));
 
     $response->assertOk();
+    $response->assertSee('How staff will scan this checklist');
     $response->assertSee('Draft mode');
     $response->assertSee('Current live template: Baseline active template');
 });

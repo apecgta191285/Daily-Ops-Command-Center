@@ -54,7 +54,13 @@ test('admin can authenticate and reach checklist template administration in the 
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
         ->assertSee('Checklist Templates')
-        ->assertSee('Create template');
+        ->assertSee('Create template')
+        ->click('Create template')
+        ->assertPathIs('/templates/create')
+        ->assertSee('Authoring pulse')
+        ->assertSee('Live execution preview')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
 });
 
 test('management dashboard drill-down links lead to filtered incident follow-up views', function () {

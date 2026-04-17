@@ -9,6 +9,7 @@ use App\Application\ChecklistTemplates\Support\ChecklistTemplateItemEditor;
 use App\Application\ChecklistTemplates\Support\TemplateActivationImpactBuilder;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistTemplate;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -126,6 +127,138 @@ class Manage extends Component
         );
     }
 
+    /**
+     * @return array{
+     *     item_count: int,
+     *     grouped_section_count: int,
+     *     required_count: int,
+     *     optional_count: int,
+     *     blank_description_count: int
+     * }
+     */
+    public function getTemplateSummaryProperty(): array
+    {
+        $items = $this->itemsCollection();
+        $groupedSections = $items
+            ->pluck('group_label')
+            ->map(fn (mixed $label): string => trim((string) $label))
+            ->filter()
+            ->unique()
+            ->count();
+        $requiredCount = $items->where('is_required', true)->count();
+
+        return [
+            'item_count' => $items->count(),
+            'grouped_section_count' => $groupedSections,
+            'required_count' => $requiredCount,
+            'optional_count' => $items->count() - $requiredCount,
+            'blank_description_count' => $items
+                ->filter(fn (array $item): bool => trim((string) ($item['description'] ?? '')) === '')
+                ->count(),
+        ];
+    }
+
+    /**
+     * @return list<array{
+     *     tone: 'info'|'warning'|'success',
+     *     title: string,
+     *     body: string
+     * }>
+     */
+    public function getAuthoringSignalsProperty(): array
+    {
+        $summary = $this->templateSummary;
+        $signals = [];
+
+        if ($summary['item_count'] < 3) {
+            $signals[] = [
+                'tone' => 'info',
+                'title' => 'Early draft shape',
+                'body' => 'Add a few more items before activation so the daily checklist reads like a complete opening, midday, or closing routine instead of a single isolated check.',
+            ];
+        }
+
+        if ($summary['item_count'] >= 6 && $summary['grouped_section_count'] === 0) {
+            $signals[] = [
+                'tone' => 'warning',
+                'title' => 'Grouping will improve scan speed',
+                'body' => 'This draft is long enough to benefit from group labels. Use lightweight sections so staff can scan the checklist as operational phases instead of one uninterrupted list.',
+            ];
+        }
+
+        if ($summary['blank_description_count'] > 0) {
+            $signals[] = [
+                'tone' => 'info',
+                'title' => 'Add context where ambiguity matters',
+                'body' => "{$summary['blank_description_count']} item(s) still rely on title alone. Short descriptions help staff interpret unusual checks without overloading every row.",
+            ];
+        }
+
+        if ($this->hasRunHistory) {
+            $signals[] = [
+                'tone' => 'warning',
+                'title' => 'Revision safety matters here',
+                'body' => "This template already has {$this->runCount} recorded run(s). Duplicate it before major restructuring when you want the historical meaning of past runs to stay obvious.",
+            ];
+        }
+
+        if ($this->is_active) {
+            $signals[] = [
+                'tone' => 'success',
+                'title' => 'This draft is pointed at live use',
+                'body' => 'Review ordering, section labels, and required flags carefully. Saving active changes the single production checklist staff will execute next.',
+            ];
+        }
+
+        if ($signals === []) {
+            $signals[] = [
+                'tone' => 'success',
+                'title' => 'Authoring baseline looks healthy',
+                'body' => 'This draft already has enough structure to review calmly. Use the live execution preview and activation lane to confirm the staff-facing reading order before save.',
+            ];
+        }
+
+        return $signals;
+    }
+
+    /**
+     * @return list<array{
+     *     label: string,
+     *     items: list<array{
+     *         title: string,
+     *         is_required: bool
+     *     }>
+     * }>
+     */
+    public function getPreviewGroupsProperty(): array
+    {
+        return $this->itemsCollection()
+            ->map(function (array $item): array {
+                return [
+                    'label' => trim((string) ($item['group_label'] ?? '')) ?: 'Unlabelled sequence',
+                    'title' => trim((string) ($item['title'] ?? '')) ?: 'Untitled checklist item',
+                    'is_required' => (bool) ($item['is_required'] ?? false),
+                    'sort_order' => (int) ($item['sort_order'] ?? 0),
+                ];
+            })
+            ->groupBy('label')
+            ->map(function (Collection $items, string $label): array {
+                return [
+                    'label' => $label,
+                    'items' => $items
+                        ->sortBy('sort_order')
+                        ->map(fn (array $item): array => [
+                            'title' => $item['title'],
+                            'is_required' => $item['is_required'],
+                        ])
+                        ->values()
+                        ->all(),
+                ];
+            })
+            ->values()
+            ->all();
+    }
+
     #[Layout('layouts.app')]
     public function render()
     {
@@ -160,5 +293,10 @@ class Manage extends Component
     private function activationImpactBuilder(): TemplateActivationImpactBuilder
     {
         return app(TemplateActivationImpactBuilder::class);
+    }
+
+    private function itemsCollection(): Collection
+    {
+        return collect($this->items);
     }
 }
