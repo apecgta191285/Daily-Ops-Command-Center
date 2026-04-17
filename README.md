@@ -102,6 +102,7 @@ npm run build
 - Frontend FE6 has started delivering screen-depth upgrades through a dashboard signal-depth pass that makes the command view read faster with stronger glance cards, clearer trend emphasis, and ranked hotspot scanability without introducing heavy analytics infrastructure.
 - Frontend FE6 now also upgrades incident detail into a stronger narrative surface, so latest follow-up context, evidence, action lane, and timeline sequence read as one operational story instead of disconnected cards.
 - Frontend FE6 now also adds app-owned motion orchestration across key surfaces, so dashboard, incident detail, and template authoring reveal with intentional cadence while still respecting reduced-motion and Livewire navigation constraints.
+- Frontend FE6 now also cleans up the settings family so profile, security, recovery-code, and destructive-account flows read as one calm control surface instead of leftover utility pages beside the main product.
 - Frontend FE6 now also deepens template authoring into a clearer admin workspace, with authoring checkpoints, live execution preview, and stronger item-level scanability so checklist drafting feels intentional before activation.
 - `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
 
@@ -143,6 +144,7 @@ See also:
 - `docs/59_FE6_Incident_Detail_Narrative_Surface_Execution_Pack_2026-04-17.md`
 - `docs/60_FE6_Template_Authoring_Surface_Depth_Execution_Pack_2026-04-17.md`
 - `docs/61_FE6_Motion_and_Reveal_Orchestration_Execution_Pack_2026-04-17.md`
+- `docs/62_FE6_Settings_Surface_Cleanup_Execution_Pack_2026-04-18.md`
 
 ## Canonical Documentation
 
@@ -189,4 +191,5 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/59_FE6_Incident_Detail_Narrative_Surface_Execution_Pack_2026-04-17.md`
 - `docs/60_FE6_Template_Authoring_Surface_Depth_Execution_Pack_2026-04-17.md`
 - `docs/61_FE6_Motion_and_Reveal_Orchestration_Execution_Pack_2026-04-17.md`
+- `docs/62_FE6_Settings_Surface_Cleanup_Execution_Pack_2026-04-18.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`

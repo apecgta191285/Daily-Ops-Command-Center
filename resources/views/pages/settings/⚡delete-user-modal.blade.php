@@ -27,12 +27,17 @@ new class extends Component {
 
 <flux:modal name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable class="max-w-lg">
     <form method="POST" wire:submit="deleteUser" class="settings-modal__body">
-        <div class="settings-modal__copy">
+        <div class="settings-modal__copy settings-inline-stack">
             <flux:heading size="lg">{{ __('Are you sure you want to delete your account?') }}</flux:heading>
 
             <flux:subheading class="settings-supporting-copy">
                 {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
             </flux:subheading>
+
+            <div class="settings-fact-card">
+                <p class="settings-fact-card__label">{{ __('Permanent action') }}</p>
+                <p class="settings-fact-card__value">{{ __('This operation cannot be undone. Confirm only when you are certain the account should be removed from the product entirely.') }}</p>
+            </div>
         </div>
 
         <flux:input wire:model="password" :label="__('Password')" type="password" viewable />

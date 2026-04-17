@@ -181,6 +181,15 @@ new class extends Component {
                 </div>
             </div>
 
+            <div class="settings-fact-card">
+                <p class="settings-fact-card__label">{{ __('Setup path') }}</p>
+                <p class="settings-fact-card__value">
+                    {{ $showVerificationStep
+                        ? __('Confirm the six-digit code from your authenticator app to finish the setup safely.')
+                        : __('Scan the QR code or copy the manual key first, then continue to verification if confirmation is required.') }}
+                </p>
+            </div>
+
             @if ($showVerificationStep)
                 <div class="space-y-6">
                     <div class="flex flex-col items-center space-y-3 justify-center">

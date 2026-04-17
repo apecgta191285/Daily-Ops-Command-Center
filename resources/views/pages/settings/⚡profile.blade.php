@@ -81,43 +81,83 @@ new #[Title('Profile settings')] class extends Component {
     <flux:heading class="sr-only">{{ __('Profile settings') }}</flux:heading>
 
     <x-pages::settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
-        <form wire:submit="updateProfileInformation" class="settings-form">
-            <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
-
-            <div>
-                <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
-
-                @if ($this->hasUnverifiedEmail)
-                    <div class="settings-note-block">
-                        <flux:text class="settings-note">
-                            {{ __('Your email address is unverified.') }}
-
-                            <flux:link class="settings-link cursor-pointer" wire:click.prevent="resendVerificationNotification">
-                                {{ __('Click here to re-send the verification email.') }}
-                            </flux:link>
-                        </flux:text>
-
-                        @if (session('status') === 'verification-link-sent')
-                            <flux:text class="settings-success-note">
-                                {{ __('A new verification link has been sent to your email address.') }}
-                            </flux:text>
-                        @endif
+        <div class="settings-stack">
+            <section class="settings-surface" data-motion="fade-up" data-motion-delay="40">
+                <div class="settings-surface__header">
+                    <div>
+                        <p class="settings-surface__eyebrow">{{ __('Identity') }}</p>
+                        <h3 class="settings-surface__title">{{ __('Profile details') }}</h3>
+                        <p class="settings-surface__body">{{ __('Keep your displayed name and sign-in email current so the product can present the right ownership and contact context across incidents and checklist history.') }}</p>
                     </div>
-                @endif
-            </div>
 
-            <div class="settings-action-row">
-                <div class="flex items-center justify-end">
-                    <flux:button variant="primary" type="submit" class="w-full" data-test="update-profile-button">
-                        {{ __('Save') }}
-                    </flux:button>
+                    <div class="settings-status-strip">
+                        <span class="settings-status-chip settings-status-chip--info">{{ __('Account owner') }}</span>
+                        <span class="settings-status-chip {{ $this->hasUnverifiedEmail ? 'settings-status-chip--warning' : 'settings-status-chip--success' }}">
+                            {{ $this->hasUnverifiedEmail ? __('Email unverified') : __('Email verified') }}
+                        </span>
+                    </div>
                 </div>
 
-                <x-action-message class="settings-action-message" on="profile-updated">
-                    {{ __('Saved.') }}
-                </x-action-message>
-            </div>
-        </form>
+                <form wire:submit="updateProfileInformation" class="settings-form settings-form--stacked">
+                    <div class="settings-grid settings-grid--single">
+                        <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
+                        <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
+                    </div>
+
+                    @if ($this->hasUnverifiedEmail)
+                        <div class="settings-note-block">
+                            <flux:text class="settings-note">
+                                {{ __('Your email address is unverified.') }}
+
+                                <flux:link class="settings-link cursor-pointer" wire:click.prevent="resendVerificationNotification">
+                                    {{ __('Click here to re-send the verification email.') }}
+                                </flux:link>
+                            </flux:text>
+
+                            @if (session('status') === 'verification-link-sent')
+                                <flux:text class="settings-success-note">
+                                    {{ __('A new verification link has been sent to your email address.') }}
+                                </flux:text>
+                            @endif
+                        </div>
+                    @endif
+
+                    <div class="settings-action-row">
+                        <div class="flex items-center justify-end">
+                            <flux:button variant="primary" type="submit" class="w-full" data-test="update-profile-button">
+                                {{ __('Save') }}
+                            </flux:button>
+                        </div>
+
+                        <x-action-message class="settings-action-message" on="profile-updated">
+                            {{ __('Saved.') }}
+                        </x-action-message>
+                    </div>
+                </form>
+            </section>
+
+            <section class="settings-surface" data-motion="fade-up" data-motion-delay="90">
+                <div class="settings-surface__header">
+                    <div>
+                        <p class="settings-surface__eyebrow">{{ __('Profile context') }}</p>
+                        <h3 class="settings-surface__title">{{ __('What this account controls') }}</h3>
+                        <p class="settings-surface__body">{{ __('These details affect how your name appears in operational history and who the rest of the team sees as the actor behind checklist and incident activity.') }}</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-fact-card">
+                        <p class="settings-fact-card__label">{{ __('Display name') }}</p>
+                        <p class="settings-fact-card__value">{{ $name ?: __('Not set') }}</p>
+                    </div>
+
+                    <div class="settings-fact-card">
+                        <p class="settings-fact-card__label">{{ __('Verification state') }}</p>
+                        <p class="settings-fact-card__value">{{ $this->hasUnverifiedEmail ? __('Pending verification') : __('Verified and active') }}</p>
+                    </div>
+                </div>
+            </section>
+        </div>
 
         @if ($this->showDeleteUser)
             <livewire:pages::settings.delete-user-form />

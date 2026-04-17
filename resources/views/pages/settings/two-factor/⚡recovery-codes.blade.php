@@ -47,14 +47,26 @@ new class extends Component {
 
 <div class="settings-panel" wire:cloak x-data="{ showRecoveryCodes: false }">
     <div class="settings-panel__body space-y-6">
-        <div class="space-y-2">
-            <div class="flex items-center gap-2">
-                <flux:icon.lock-closed variant="outline" class="size-4"/>
-                <flux:heading size="lg" level="3">{{ __('2FA recovery codes') }}</flux:heading>
+        <div class="space-y-3">
+            <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <flux:icon.lock-closed variant="outline" class="size-4"/>
+                    <flux:heading size="lg" level="3">{{ __('2FA recovery codes') }}</flux:heading>
+                </div>
+
+                <div class="settings-status-strip">
+                    <span class="settings-status-chip settings-status-chip--info">{{ __('Backup access') }}</span>
+                </div>
             </div>
+
             <flux:text class="settings-supporting-copy">
                 {{ __('Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.') }}
             </flux:text>
+
+            <div class="settings-fact-card">
+                <p class="settings-fact-card__label">{{ __('Usage note') }}</p>
+                <p class="settings-fact-card__value">{{ __('Each recovery code works once. Keep them somewhere safer than the device you use for sign-in.') }}</p>
+            </div>
         </div>
 
         <div class="settings-button-row settings-button-row--stacked">

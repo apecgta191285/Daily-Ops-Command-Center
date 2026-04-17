@@ -1,4 +1,8 @@
 @layer components {
+    .settings-screen {
+        @apply mx-auto max-w-6xl space-y-6;
+    }
+
     .settings-panel {
         @apply rounded-xl border shadow-sm;
         background-color: var(--app-surface-elevated);
@@ -107,19 +111,47 @@
     }
 
     .settings-page-heading {
-        @apply mb-6 rounded-2xl border px-5 py-4 shadow-sm sm:px-6;
-        background-color: var(--app-shell-bg);
+        @apply relative mb-6 overflow-hidden rounded-2xl border px-5 py-5 shadow-sm sm:px-6;
+        background:
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-action-primary) 16%, transparent), transparent 32%),
+            linear-gradient(145deg, color-mix(in oklab, var(--app-shell-bg) 94%, black), color-mix(in oklab, var(--app-shell-bg-elevated) 88%, black));
         border-color: var(--app-shell-border);
         color: var(--app-shell-text);
     }
 
+    .settings-page-heading::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, color-mix(in srgb, var(--app-shell-border) 22%, transparent) 1px, transparent 1px),
+            linear-gradient(color-mix(in srgb, var(--app-shell-border) 16%, transparent) 1px, transparent 1px);
+        background-size: 26px 26px;
+        opacity: 0.2;
+        pointer-events: none;
+    }
+
+    .settings-page-heading__inner {
+        @apply relative z-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between;
+    }
+
+    .settings-page-heading__eyebrow {
+        @apply text-xs font-semibold uppercase tracking-[0.18em];
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
     .settings-page-heading__title {
+        font-family: var(--font-display);
         color: var(--app-shell-text);
     }
 
     .settings-page-heading__subheading {
         @apply mt-2;
         color: var(--app-shell-muted);
+    }
+
+    .settings-page-heading__chips {
+        @apply flex flex-wrap gap-2;
     }
 
     .settings-shell {
@@ -136,6 +168,31 @@
 
     .settings-shell__body {
         @apply mt-6 w-full max-w-2xl;
+    }
+
+    .settings-nav-card {
+        @apply space-y-5;
+    }
+
+    .settings-nav-card__intro {
+        @apply rounded-2xl border px-4 py-4;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+    }
+
+    .settings-nav-card__eyebrow {
+        @apply text-[0.68rem] font-semibold uppercase tracking-[0.16em];
+        color: var(--app-text-muted);
+    }
+
+    .settings-nav-card__title {
+        @apply mt-2 text-base font-semibold;
+        color: var(--app-heading);
+    }
+
+    .settings-nav-card__body {
+        @apply mt-2 text-sm leading-6;
+        color: var(--app-text-muted);
     }
 
     .settings-nav {
@@ -161,6 +218,7 @@
 
     .settings-section-title {
         @apply text-xl font-semibold tracking-tight;
+        font-family: var(--font-display);
         color: var(--app-heading);
     }
 
@@ -175,6 +233,68 @@
 
     .settings-form--stacked {
         @apply mt-6;
+    }
+
+    .settings-stack {
+        @apply space-y-6;
+    }
+
+    .settings-surface {
+        @apply rounded-2xl border p-5 shadow-sm sm:p-6;
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
+            var(--app-surface);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .settings-surface__header {
+        @apply flex flex-col gap-2 border-b pb-4 sm:flex-row sm:items-end sm:justify-between;
+        border-color: var(--app-border);
+    }
+
+    .settings-surface__eyebrow {
+        @apply text-[0.68rem] font-semibold uppercase tracking-[0.16em];
+        color: var(--app-text-muted);
+    }
+
+    .settings-surface__title {
+        @apply mt-1 text-lg font-semibold;
+        color: var(--app-heading);
+    }
+
+    .settings-surface__body {
+        @apply mt-4 text-sm leading-6;
+        color: var(--app-text-muted);
+    }
+
+    .settings-status-strip {
+        @apply flex flex-wrap gap-2;
+    }
+
+    .settings-status-chip {
+        @apply inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.12em];
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+        color: var(--app-text-muted);
+    }
+
+    .settings-status-chip--success {
+        border-color: var(--app-success-border);
+        background-color: var(--app-success-bg);
+        color: var(--app-success-text);
+    }
+
+    .settings-status-chip--warning {
+        border-color: var(--app-warning-border);
+        background-color: var(--app-warning-bg);
+        color: var(--app-warning-text);
+    }
+
+    .settings-status-chip--info {
+        border-color: var(--app-info-border);
+        background-color: var(--app-info-bg);
+        color: var(--app-info-text);
     }
 
     .settings-action-row {
@@ -214,6 +334,34 @@
     }
 
     .settings-inline-heading {
+        color: var(--app-heading);
+    }
+
+    .settings-inline-stack {
+        @apply space-y-4;
+    }
+
+    .settings-grid {
+        @apply grid gap-4 md:grid-cols-2;
+    }
+
+    .settings-grid--single {
+        @apply md:grid-cols-1;
+    }
+
+    .settings-fact-card {
+        @apply rounded-2xl border px-4 py-4;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+    }
+
+    .settings-fact-card__label {
+        @apply text-[0.68rem] font-semibold uppercase tracking-[0.16em];
+        color: var(--app-text-muted);
+    }
+
+    .settings-fact-card__value {
+        @apply mt-2 text-sm font-semibold leading-6;
         color: var(--app-heading);
     }
 
@@ -340,5 +488,9 @@
 
     .settings-shell [data-flux-modal] [data-flux-button] {
         @apply rounded-xl;
+    }
+
+    .settings-shell [data-flux-modal] [data-flux-heading] {
+        font-family: var(--font-display);
     }
 }
