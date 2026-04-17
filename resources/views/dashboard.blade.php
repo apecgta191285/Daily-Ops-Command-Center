@@ -1,4 +1,29 @@
 <x-layouts::app :title="__('Dashboard')">
+    @php
+        $unresolvedCount = ($incidentCounts['Open'] ?? 0) + ($incidentCounts['In Progress'] ?? 0);
+        $hotspotMaxCount = max(array_map(static fn (array $hotspot): int => $hotspot['unresolvedCount'], $hotspotCategories ?: [['unresolvedCount' => 1]]));
+        $checklistTrendTone = match ($checklistTrend['direction']) {
+            'up' => 'ops-trend-pill--up',
+            'down' => 'ops-trend-pill--down',
+            default => 'ops-trend-pill--flat',
+        };
+        $incidentTrendTone = match ($incidentIntakeTrend['direction']) {
+            'up' => 'ops-trend-pill--down',
+            'down' => 'ops-trend-pill--up',
+            default => 'ops-trend-pill--flat',
+        };
+        $checklistTrendLabel = match ($checklistTrend['direction']) {
+            'up' => 'Improving',
+            'down' => 'Below yesterday',
+            default => 'Holding steady',
+        };
+        $incidentTrendLabel = match ($incidentIntakeTrend['direction']) {
+            'up' => 'Higher intake',
+            'down' => 'Lower intake',
+            default => 'Intake steady',
+        };
+    @endphp
+
     <x-slot name="header">
         <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
@@ -36,18 +61,23 @@
                         </p>
                     </div>
 
-                    <div class="ops-hero__aside-stack">
-                        <div class="ops-shell-chip">
-                            <span>Open incidents</span>
-                            <strong class="font-semibold text-white">{{ $incidentCounts['Open'] }}</strong>
+                    <div class="ops-glance-grid--hero">
+                        <div class="ops-glance-card">
+                            <p class="ops-glance-card__label">Unresolved queue</p>
+                            <p class="ops-glance-card__value">{{ $unresolvedCount }}</p>
+                            <p class="ops-glance-card__meta">Open and in-progress incidents still waiting for management closure.</p>
                         </div>
-                        <div class="ops-shell-chip">
-                            <span>In Progress</span>
-                            <strong class="font-semibold text-white">{{ $incidentCounts['In Progress'] }}</strong>
+
+                        <div class="ops-glance-card">
+                            <p class="ops-glance-card__label">Open now</p>
+                            <p class="ops-glance-card__value">{{ $incidentCounts['Open'] }}</p>
+                            <p class="ops-glance-card__meta">New incidents that still need first response.</p>
                         </div>
-                        <div class="ops-shell-chip">
-                            <span>Resolved</span>
-                            <strong class="font-semibold text-white">{{ $incidentCounts['Resolved'] }}</strong>
+
+                        <div class="ops-glance-card">
+                            <p class="ops-glance-card__label">Resolved visible</p>
+                            <p class="ops-glance-card__value">{{ $incidentCounts['Resolved'] }}</p>
+                            <p class="ops-glance-card__meta">Closed items still visible in the current operational dataset.</p>
                         </div>
                     </div>
                 </aside>
@@ -197,10 +227,20 @@
                     </div>
 
                     <div class="ops-card__body">
-                        <div class="ops-progress-panel">
-                            <p class="text-3xl font-semibold text-[var(--app-heading)]">{{ $checklistTrend['todayRate'] }}%</p>
-                            <p class="mt-2 text-sm text-[var(--app-text-muted)]">Yesterday: {{ $checklistTrend['yesterdayRate'] }}%</p>
-                            <p class="mt-4 text-sm font-medium text-[var(--app-heading)]">
+                        <div class="ops-trend-card">
+                            <div class="ops-trend-card__header">
+                                <div>
+                                    <p class="ops-trend-card__eyebrow">Completion momentum</p>
+                                    <p class="ops-trend-card__value">{{ $checklistTrend['todayRate'] }}%</p>
+                                </div>
+
+                                <span class="ops-trend-pill {{ $checklistTrendTone }}">
+                                    {{ $checklistTrendLabel }}
+                                </span>
+                            </div>
+
+                            <p class="ops-trend-card__meta">Yesterday: {{ $checklistTrend['yesterdayRate'] }}%</p>
+                            <p class="ops-trend-card__copy">
                                 @if ($checklistTrend['direction'] === 'up')
                                     Up {{ $checklistTrend['difference'] }} points from yesterday
                                 @elseif ($checklistTrend['direction'] === 'down')
@@ -209,6 +249,17 @@
                                     Flat versus yesterday
                                 @endif
                             </p>
+
+                            <div class="ops-compare-list">
+                                <div class="ops-compare-list__item">
+                                    <span class="ops-compare-list__label">Today</span>
+                                    <strong class="ops-compare-list__value">{{ $submittedTodayRuns }} / {{ $todayRuns ?: 0 }} submitted</strong>
+                                </div>
+                                <div class="ops-compare-list__item">
+                                    <span class="ops-compare-list__label">Yesterday</span>
+                                    <strong class="ops-compare-list__value">{{ $checklistTrend['yesterdayRate'] }}% completion baseline</strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -223,10 +274,20 @@
                     </div>
 
                     <div class="ops-card__body">
-                        <div class="ops-progress-panel">
-                            <p class="text-3xl font-semibold text-[var(--app-heading)]">{{ $incidentIntakeTrend['todayCount'] }}</p>
-                            <p class="mt-2 text-sm text-[var(--app-text-muted)]">Yesterday: {{ $incidentIntakeTrend['yesterdayCount'] }} reported</p>
-                            <p class="mt-4 text-sm font-medium text-[var(--app-heading)]">
+                        <div class="ops-trend-card">
+                            <div class="ops-trend-card__header">
+                                <div>
+                                    <p class="ops-trend-card__eyebrow">Daily intake</p>
+                                    <p class="ops-trend-card__value">{{ $incidentIntakeTrend['todayCount'] }}</p>
+                                </div>
+
+                                <span class="ops-trend-pill {{ $incidentTrendTone }}">
+                                    {{ $incidentTrendLabel }}
+                                </span>
+                            </div>
+
+                            <p class="ops-trend-card__meta">Yesterday: {{ $incidentIntakeTrend['yesterdayCount'] }} reported</p>
+                            <p class="ops-trend-card__copy">
                                 @if ($incidentIntakeTrend['direction'] === 'up')
                                     Up {{ $incidentIntakeTrend['difference'] }} incidents from yesterday
                                 @elseif ($incidentIntakeTrend['direction'] === 'down')
@@ -235,6 +296,17 @@
                                     Intake is flat versus yesterday
                                 @endif
                             </p>
+
+                            <div class="ops-compare-list">
+                                <div class="ops-compare-list__item">
+                                    <span class="ops-compare-list__label">Open now</span>
+                                    <strong class="ops-compare-list__value">{{ $incidentCounts['Open'] }} waiting for first handling</strong>
+                                </div>
+                                <div class="ops-compare-list__item">
+                                    <span class="ops-compare-list__label">In progress</span>
+                                    <strong class="ops-compare-list__value">{{ $incidentCounts['In Progress'] }} currently active</strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -255,18 +327,24 @@
                                 body="Once unresolved incidents accumulate in one category, this summary will highlight the pressure point."
                             />
                         @else
-                            <ul class="ops-detail-list">
-                                @foreach ($hotspotCategories as $hotspot)
-                                    <li class="ops-detail-list__item">
-                                        <div class="flex items-start justify-between gap-4">
-                                            <div>
-                                                <p class="ops-detail-list__title">{{ $hotspot['category'] }}</p>
-                                                <p class="ops-detail-list__body">
-                                                    {{ $hotspot['unresolvedCount'] }} unresolved
-                                                    @if ($hotspot['staleCount'] > 0)
-                                                        · {{ $hotspot['staleCount'] }} stale
-                                                    @endif
-                                                </p>
+                            <ol class="ops-hotspot-list">
+                                @foreach ($hotspotCategories as $index => $hotspot)
+                                    @php($intensity = max(18, (int) round(($hotspot['unresolvedCount'] / max($hotspotMaxCount, 1)) * 100)))
+                                    <li class="ops-hotspot-list__item">
+                                        <div class="ops-hotspot-list__row">
+                                            <div class="ops-hotspot-list__identity">
+                                                <span class="ops-hotspot-list__rank">{{ $index + 1 }}</span>
+                                                <div class="min-w-0">
+                                                    <p class="ops-hotspot-list__title">{{ $hotspot['category'] }}</p>
+                                                    <p class="ops-hotspot-list__meta">
+                                                        {{ $hotspot['unresolvedCount'] }} unresolved
+                                                        @if ($hotspot['staleCount'] > 0)
+                                                            · {{ $hotspot['staleCount'] }} stale
+                                                        @else
+                                                            · no stale incidents right now
+                                                        @endif
+                                                    </p>
+                                                </div>
                                             </div>
 
                                             @if ($hotspot['url'])
@@ -275,9 +353,13 @@
                                                 </a>
                                             @endif
                                         </div>
+
+                                        <div class="ops-hotspot-list__meter" aria-hidden="true">
+                                            <div class="ops-hotspot-list__meter-fill" style="width: {{ $intensity }}%"></div>
+                                        </div>
                                     </li>
                                 @endforeach
-                            </ul>
+                            </ol>
                         @endif
                     </div>
                 </section>

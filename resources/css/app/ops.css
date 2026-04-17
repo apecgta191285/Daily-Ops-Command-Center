@@ -143,6 +143,33 @@
         @apply space-y-3;
     }
 
+    .ops-glance-grid--hero {
+        @apply grid gap-3 sm:grid-cols-3;
+    }
+
+    .ops-glance-card {
+        @apply rounded-[calc(var(--app-radius-lg)-0.2rem)] border px-4 py-4;
+        border-color: color-mix(in srgb, var(--app-shell-border) 82%, white);
+        background-color: color-mix(in srgb, white 7%, transparent);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .ops-glance-card__label {
+        @apply text-[0.68rem] font-semibold uppercase tracking-[0.16em];
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
+    .ops-glance-card__value {
+        @apply mt-2 text-2xl font-semibold tracking-tight;
+        font-family: var(--font-display);
+        color: var(--app-shell-text);
+    }
+
+    .ops-glance-card__meta {
+        @apply mt-2 text-xs leading-5;
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
     .ops-command-grid {
         @apply grid gap-6;
     }
@@ -289,6 +316,81 @@
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 94%, white), var(--app-surface-elevated)),
             var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-trend-card {
+        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
+            var(--app-surface);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-trend-card__header {
+        @apply flex items-start justify-between gap-3;
+    }
+
+    .ops-trend-card__eyebrow {
+        @apply text-xs font-semibold uppercase tracking-[0.16em];
+        color: var(--app-text-muted);
+    }
+
+    .ops-trend-card__value {
+        @apply mt-3 text-4xl font-semibold tracking-tight;
+        font-family: var(--font-display);
+        color: var(--app-heading);
+    }
+
+    .ops-trend-card__meta {
+        @apply mt-2 text-sm;
+        color: var(--app-text-muted);
+    }
+
+    .ops-trend-card__copy {
+        @apply mt-4 text-sm font-medium;
+        color: var(--app-heading);
+    }
+
+    .ops-trend-pill {
+        @apply inline-flex items-center rounded-full border px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em];
+    }
+
+    .ops-trend-pill--up {
+        background-color: var(--app-success-bg);
+        border-color: var(--app-success-border);
+        color: var(--app-success-text);
+    }
+
+    .ops-trend-pill--down {
+        background-color: var(--app-warning-bg);
+        border-color: var(--app-warning-border);
+        color: var(--app-warning-text);
+    }
+
+    .ops-trend-pill--flat {
+        background-color: var(--app-badge-neutral-bg);
+        border-color: var(--app-badge-neutral-border);
+        color: var(--app-badge-neutral-text);
+    }
+
+    .ops-compare-list {
+        @apply mt-4 space-y-3;
+    }
+
+    .ops-compare-list__item {
+        @apply flex items-center justify-between gap-3 rounded-2xl border px-3 py-3 text-sm;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+    }
+
+    .ops-compare-list__label {
+        color: var(--app-text-muted);
+    }
+
+    .ops-compare-list__value {
+        @apply font-semibold;
+        color: var(--app-heading);
     }
 
     .ops-progress-bar {
@@ -729,6 +831,57 @@
         border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border: 1px solid var(--app-border);
         background-color: color-mix(in srgb, var(--app-surface-elevated) 84%, transparent);
+    }
+
+    .ops-hotspot-list {
+        @apply space-y-3;
+    }
+
+    .ops-hotspot-list__item {
+        @apply rounded-2xl border px-4 py-4;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-hotspot-list__row {
+        @apply flex items-start justify-between gap-4;
+    }
+
+    .ops-hotspot-list__identity {
+        @apply flex min-w-0 items-start gap-3;
+    }
+
+    .ops-hotspot-list__rank {
+        @apply inline-flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold;
+        background-color: var(--app-shell-bg);
+        color: var(--app-shell-text);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-hotspot-list__title {
+        @apply text-sm font-semibold;
+        color: var(--app-heading);
+    }
+
+    .ops-hotspot-list__meta {
+        @apply mt-1 text-sm;
+        color: var(--app-text-muted);
+    }
+
+    .ops-hotspot-list__meter {
+        @apply mt-3 h-2 overflow-hidden rounded-full;
+        background-color: color-mix(in srgb, var(--app-border) 82%, white);
+    }
+
+    .ops-hotspot-list__meter-fill {
+        @apply h-full rounded-full;
+        background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--app-warning-border) 72%, white),
+            color-mix(in srgb, var(--app-danger-border) 92%, white)
+        );
+        transition: width var(--app-duration-slow) var(--app-ease-out);
     }
 
     .ops-step-index {
