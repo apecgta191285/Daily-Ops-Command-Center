@@ -102,7 +102,7 @@
                             </thead>
                             <tbody>
                                 @foreach($incidents as $incident)
-                                    <tr class="bg-white">
+                                    <tr class="ops-table__row">
                                         <td data-label="Title" class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">{{ $incident->title }}</td>
                                         <td data-label="Category" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $incident->category }}</td>
                                         <td data-label="Severity" class="px-4 py-4 text-sm">

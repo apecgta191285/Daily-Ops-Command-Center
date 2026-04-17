@@ -167,13 +167,13 @@
                                     <div class="ops-progress-panel">
                                         <h4 class="text-sm font-semibold text-[var(--app-heading)]">Submission Recap</h4>
                                         <div class="mt-3 flex flex-wrap gap-2 text-xs">
-                                            <span class="ops-badge border-[var(--app-border)] bg-white text-[var(--app-text-muted)]">
+                                            <span class="ops-badge ops-badge--neutral">
                                                 {{ $this->answeredItems }} answered
                                             </span>
-                                            <span class="ops-badge border-[var(--app-border)] bg-white text-[var(--app-text-muted)]">
+                                            <span class="ops-badge ops-badge--neutral">
                                                 {{ $this->notDoneItems }} not done
                                             </span>
-                                            <span class="ops-badge border-[var(--app-border)] bg-white text-[var(--app-text-muted)]">
+                                            <span class="ops-badge ops-badge--neutral">
                                                 {{ $this->notedItems }} note(s)
                                             </span>
                                         </div>
@@ -259,7 +259,7 @@
                                                         <span class="ops-field-error">{{ $message }}</span>
                                                     @enderror
 
-                                                    <input type="text" wire:model="runItems.{{ $runItem->id }}.note" placeholder="Optional note..." class="ops-control {{ $isSubmitted ? 'cursor-not-allowed bg-slate-100 text-[var(--app-text-muted)]' : '' }}" {{ $isSubmitted ? 'disabled' : '' }}>
+                                                    <input type="text" wire:model="runItems.{{ $runItem->id }}.note" placeholder="Optional note..." class="ops-control" {{ $isSubmitted ? 'disabled' : '' }}>
                                                 </div>
                                             </div>
                                         </li>
@@ -303,10 +303,10 @@
                                                 </div>
                                             </div>
                                             <div class="mt-3 flex flex-wrap gap-2 text-xs">
-                                                <span class="ops-badge border-[var(--app-border)] bg-white text-[var(--app-text-muted)]">
+                                                <span class="ops-badge ops-badge--neutral">
                                                     {{ $recentRun['not_done_count'] }} not done
                                                 </span>
-                                                <span class="ops-badge border-[var(--app-border)] bg-white text-[var(--app-text-muted)]">
+                                                <span class="ops-badge ops-badge--neutral">
                                                     {{ $recentRun['noted_items_count'] }} note(s)
                                                 </span>
                                             </div>

@@ -75,7 +75,8 @@
     }
 
     .settings-qr-shell__code-inner {
-        @apply rounded-lg bg-white p-3 shadow-sm;
+        @apply rounded-lg p-3 shadow-sm;
+        background-color: var(--app-surface-elevated);
     }
 
     .settings-key-shell {
@@ -218,7 +219,7 @@
 
     .settings-danger-zone {
         @apply mt-10 rounded-2xl border px-5 py-5 shadow-sm sm:px-6;
-        background-color: #fff8f8;
+        background-color: color-mix(in srgb, var(--app-danger-bg) 72%, white);
         border-color: var(--app-danger-border);
     }
 
@@ -319,7 +320,7 @@
 
     .settings-shell [data-flux-radio-group][data-variant="segmented"] {
         @apply inline-flex rounded-xl border p-1;
-        background-color: #f8fafc;
+        background-color: var(--app-surface-subtle);
         border-color: var(--app-border);
     }
 

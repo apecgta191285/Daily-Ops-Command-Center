@@ -163,7 +163,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($recentIncidents as $incident)
-                                            <tr class="bg-white">
+                                            <tr class="ops-table__row">
                                                 <td data-label="Title" class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">{{ $incident->title }}</td>
                                                 <td data-label="Status" class="px-4 py-4 text-sm">
                                                     <x-incidents.status-badge :status="$incident->status" />

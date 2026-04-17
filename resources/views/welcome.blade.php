@@ -26,19 +26,19 @@
                         </p>
 
                         <div class="grid gap-3 sm:grid-cols-3">
-                            <div class="rounded-2xl border border-[var(--app-border)] bg-white/80 p-4">
+                            <div class="ops-surface-soft p-4">
                                 <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Staff') }}</p>
                                 <p class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ __('Complete daily work clearly') }}</p>
                                 <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('Open today’s checklist, submit it once, and report issues immediately.') }}</p>
                             </div>
 
-                            <div class="rounded-2xl border border-[var(--app-border)] bg-white/80 p-4">
+                            <div class="ops-surface-soft p-4">
                                 <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Supervisor') }}</p>
                                 <p class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ __('See what needs follow-up') }}</p>
                                 <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('Track unresolved incidents, review updates, and watch daily completion from one dashboard.') }}</p>
                             </div>
 
-                            <div class="rounded-2xl border border-[var(--app-border)] bg-white/80 p-4">
+                            <div class="ops-surface-soft p-4">
                                 <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Admin') }}</p>
                                 <p class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ __('Keep the workflow ready') }}</p>
                                 <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('Maintain the active checklist template and keep the daily workflow aligned with real operations.') }}</p>
@@ -61,15 +61,15 @@
                             <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Suggested demo walkthrough') }}</p>
                             <ol class="mt-3 space-y-3 text-sm text-[var(--app-text-muted)]">
                                 <li class="flex gap-3">
-                                    <span class="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-semibold text-[var(--app-heading)]">1</span>
+                                    <span class="ops-step-index">1</span>
                                     <span>{{ __('Log in as staff, open today’s checklist, and see how the system tracks completion before submission.') }}</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-semibold text-[var(--app-heading)]">2</span>
+                                    <span class="ops-step-index">2</span>
                                     <span>{{ __('Create an incident from a checklist issue, then switch to the management dashboard to review stale or high-severity follow-up.') }}</span>
                                 </li>
                                 <li class="flex gap-3">
-                                    <span class="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-semibold text-[var(--app-heading)]">3</span>
+                                    <span class="ops-step-index">3</span>
                                     <span>{{ __('Use the admin template screen to show how one active checklist template keeps daily operations aligned.') }}</span>
                                 </li>
                             </ol>

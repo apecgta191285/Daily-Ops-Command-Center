@@ -16,13 +16,6 @@
                 >
                     {{ __('Security') }}
                 </a>
-                <a
-                    href="{{ route('appearance.edit') }}"
-                    class="settings-nav__item {{ request()->routeIs('appearance.edit') ? 'settings-nav__item--current' : '' }}"
-                    wire:navigate
-                >
-                    {{ __('Appearance') }}
-                </a>
             </nav>
         </div>
     </div>

@@ -10,8 +10,6 @@ Route::middleware(['auth', 'active'])->group(function () {
 });
 
 Route::middleware(['auth', 'active', 'verified'])->group(function () {
-    Route::livewire('settings/appearance', 'pages::settings.appearance')->name('appearance.edit');
-
     Route::livewire('settings/security', 'pages::settings.security')
         ->middleware(
             when(

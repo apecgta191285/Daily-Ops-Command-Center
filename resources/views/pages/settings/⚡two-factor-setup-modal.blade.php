@@ -157,8 +157,8 @@ new class extends Component {
 >
         <div class="settings-panel__body settings-modal__body">
             <div class="settings-modal__intro">
-                <div class="rounded-full border border-[var(--app-border)] bg-white p-0.5 shadow-sm">
-                    <div class="relative overflow-hidden rounded-full border border-[var(--app-border)] bg-[#f8fafc] p-2.5">
+                <div class="rounded-full border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-0.5 shadow-sm">
+                    <div class="relative overflow-hidden rounded-full border border-[var(--app-border)] bg-[var(--app-surface-subtle)] p-2.5">
                         <div class="absolute inset-0 flex h-full w-full items-stretch justify-around divide-x divide-[var(--app-border)] opacity-40 [&>div]:flex-1">
                             @for ($i = 1; $i <= 5; $i++)
                                 <div></div>
@@ -226,10 +226,7 @@ new class extends Component {
                             </div>
                         @else
                             <div x-data class="settings-qr-shell__code">
-                                <div
-                                    class="settings-qr-shell__code-inner"
-                                    :style="($flux.appearance === 'dark' || ($flux.appearance === 'system' && $flux.dark)) ? 'filter: invert(1) brightness(1.5)' : ''"
-                                >
+                                <div class="settings-qr-shell__code-inner">
                                     {!! $qrCodeSvg !!}
                                 </div>
                             </div>

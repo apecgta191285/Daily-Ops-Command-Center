@@ -25,6 +25,7 @@
     .ops-page__header h2,
     .ops-page__header h3 {
         @apply text-2xl font-semibold tracking-tight;
+        font-family: var(--font-display);
         color: var(--app-shell-text);
     }
 
@@ -87,6 +88,7 @@
 
     .ops-hero__title {
         @apply mt-3 text-3xl font-semibold tracking-tight sm:text-4xl;
+        font-family: var(--font-display);
         color: var(--app-shell-text);
     }
 
@@ -173,6 +175,7 @@
 
     .ops-section-heading__title {
         @apply mt-1 text-lg font-semibold tracking-tight;
+        font-family: var(--font-display);
         color: var(--app-heading);
     }
 
@@ -237,6 +240,7 @@
 
     .ops-signal-card__count {
         @apply text-3xl font-semibold tracking-tight;
+        font-family: var(--font-display);
         color: var(--app-heading);
     }
 
@@ -388,6 +392,7 @@
 
     .ops-stat__value {
         @apply mt-3 text-3xl font-semibold tracking-tight;
+        font-family: var(--font-display);
         color: var(--app-heading);
     }
 
@@ -413,6 +418,31 @@
             box-shadow var(--app-duration-normal) var(--app-ease-out),
             background-color var(--app-duration-normal) var(--app-ease-in-out),
             color var(--app-duration-normal) var(--app-ease-in-out);
+    }
+
+    .ops-control:disabled,
+    .ops-control[disabled] {
+        background-color: var(--app-surface-subtle);
+        color: var(--app-text-muted);
+        cursor: not-allowed;
+    }
+
+    .ops-control--file::file-selector-button {
+        margin-right: 0.75rem;
+        border: 0;
+        border-radius: calc(var(--app-radius-md) - 0.2rem);
+        background-color: var(--app-surface-subtle);
+        color: var(--app-text);
+        padding: 0.6rem 0.9rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            color var(--app-duration-fast) var(--app-ease-in-out);
+    }
+
+    .ops-control--file:hover::file-selector-button {
+        background-color: color-mix(in srgb, var(--app-surface-subtle) 82%, white);
     }
 
     .ops-button {
@@ -628,6 +658,17 @@
         border-bottom: 1px solid var(--app-border);
     }
 
+    .ops-table__row {
+        background-color: var(--app-surface-elevated);
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out);
+    }
+
+    .ops-table__row:hover {
+        background-color: color-mix(in srgb, var(--app-surface-subtle) 88%, white);
+    }
+
     .ops-field-label {
         @apply mb-2 block text-sm font-medium;
         color: var(--app-heading);
@@ -682,6 +723,20 @@
 
     .ops-empty__actions {
         @apply mt-4 flex flex-wrap gap-3;
+    }
+
+    .ops-surface-soft {
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
+        border: 1px solid var(--app-border);
+        background-color: color-mix(in srgb, var(--app-surface-elevated) 84%, transparent);
+    }
+
+    .ops-step-index {
+        @apply inline-flex size-6 shrink-0 items-center justify-center text-xs font-semibold;
+        border-radius: 9999px;
+        background-color: var(--app-surface-elevated);
+        color: var(--app-heading);
+        box-shadow: var(--app-shadow-sm);
     }
 
     .ops-timeline {

@@ -109,7 +109,7 @@
 
                             <div>
                                 <label for="attachment" class="ops-field-label">Attachment (Optional)</label>
-                                <input type="file" id="attachment" wire:model="attachment" class="ops-control file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-[var(--app-text)]">
+                                <input type="file" id="attachment" wire:model="attachment" class="ops-control ops-control--file">
                                 @error('attachment') <span class="ops-field-error">{{ $message }}</span> @enderror
                                 <p class="ops-field-help">Max file size: 10MB.</p>
                             </div>

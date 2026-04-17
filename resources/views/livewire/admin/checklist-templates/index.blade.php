@@ -64,7 +64,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($templates as $template)
-                                    <tr class="bg-white">
+                                    <tr class="ops-table__row">
                                         <td data-label="Title" class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">
                                             <div class="space-y-1">
                                                 <p>{{ $template->title }}</p>
