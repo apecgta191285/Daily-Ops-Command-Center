@@ -1,5 +1,12 @@
 @layer base {
     @media (prefers-reduced-motion: reduce) {
+        html[data-js='ready'] [data-motion] {
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+            transition-delay: 0ms !important;
+        }
+
         *,
         ::before,
         ::after {
@@ -12,18 +19,6 @@
 }
 
 @layer components {
-    @keyframes ops-fade-up {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
     @keyframes ops-shimmer {
         0% {
             background-position: 200% 0;
@@ -34,12 +29,43 @@
         }
     }
 
-    .ops-fade-up {
-        animation: ops-fade-up var(--app-duration-slow) var(--app-ease-out) both;
+    html[data-js='ready'] [data-motion] {
+        opacity: 0;
+        transform: translate3d(0, 16px, 0) scale(0.985);
+        filter: saturate(0.94);
+        transition:
+            opacity calc(var(--app-duration-slow) + 80ms) var(--app-ease-out),
+            transform calc(var(--app-duration-slow) + 80ms) var(--app-ease-out),
+            filter calc(var(--app-duration-normal) + 40ms) var(--app-ease-in-out);
+        transition-delay: var(--ops-motion-delay, 0ms);
+        will-change: opacity, transform, filter;
     }
 
-    .ops-fade-up--fast {
-        animation-duration: var(--app-duration-normal);
+    html[data-js='ready'] [data-motion='fade-up'] {
+        transform: translate3d(0, 18px, 0);
+    }
+
+    html[data-js='ready'] [data-motion='fade-right'] {
+        transform: translate3d(-18px, 0, 0);
+    }
+
+    html[data-js='ready'] [data-motion='fade-left'] {
+        transform: translate3d(18px, 0, 0);
+    }
+
+    html[data-js='ready'] [data-motion='scale-soft'] {
+        transform: translate3d(0, 10px, 0) scale(0.97);
+    }
+
+    html[data-js='ready'] [data-motion='glance-rise'] {
+        transform: translate3d(0, 20px, 0) scale(0.98);
+        filter: brightness(0.96);
+    }
+
+    html[data-js='ready'] [data-motion].is-visible {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: none;
     }
 
     .ops-skeleton {
@@ -62,5 +88,9 @@
     [data-alert].is-dismissing {
         opacity: 0;
         transform: translateY(-6px);
+    }
+
+    [data-motion-group] > [data-motion] {
+        transition-delay: var(--ops-motion-delay, 0ms);
     }
 }

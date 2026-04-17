@@ -36,7 +36,7 @@
     </x-slot>
 
     <div class="flex h-full w-full flex-1 flex-col gap-6">
-        <section class="ops-hero">
+        <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
                     <p class="ops-hero__eyebrow">Management Visibility</p>
@@ -86,7 +86,7 @@
 
         <div class="ops-command-grid ops-command-grid--dashboard">
             <div class="ops-stack">
-                <section class="ops-card overflow-hidden">
+                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
                     <div class="ops-section-heading">
                         <div>
                             <p class="ops-section-heading__eyebrow">Priority queue</p>
@@ -139,33 +139,41 @@
                     </div>
                 </section>
 
-                <div class="ops-stat-grid">
+                <div class="ops-stat-grid" data-motion-group>
                     <x-ops.stat-card
                         kicker="Checklist Completion Today"
                         :value="$completionRate.'%'"
                         :meta="$submittedTodayRuns.' of '.$todayRuns.' checklist runs submitted'"
+                        data-motion="scale-soft"
+                        data-motion-delay="70"
                     />
 
                     <x-ops.stat-card
                         kicker="Open Incidents"
                         :value="$incidentCounts['Open']"
                         meta="Incidents still waiting for active handling"
+                        data-motion="scale-soft"
+                        data-motion-delay="110"
                     />
 
                     <x-ops.stat-card
                         kicker="In Progress"
                         :value="$incidentCounts['In Progress']"
                         meta="Incidents currently being worked on"
+                        data-motion="scale-soft"
+                        data-motion-delay="150"
                     />
 
                     <x-ops.stat-card
                         kicker="Resolved"
                         :value="$incidentCounts['Resolved']"
                         meta="Incidents closed in the current dataset"
+                        data-motion="scale-soft"
+                        data-motion-delay="190"
                     />
                 </div>
 
-                <section class="ops-card overflow-hidden">
+                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="120">
                     <div class="ops-section-heading">
                         <div>
                             <p class="ops-section-heading__eyebrow">Live queue</p>
@@ -217,7 +225,7 @@
             </div>
 
             <div class="ops-stack">
-                <section class="ops-card overflow-hidden">
+                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
                     <div class="ops-section-heading">
                         <div>
                             <p class="ops-section-heading__eyebrow">Momentum</p>
@@ -264,7 +272,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden">
+                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
                     <div class="ops-section-heading">
                         <div>
                             <p class="ops-section-heading__eyebrow">Intake pressure</p>
@@ -311,7 +319,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden">
+                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="160">
                     <div class="ops-section-heading">
                         <div>
                             <p class="ops-section-heading__eyebrow">Hotspot scan</p>

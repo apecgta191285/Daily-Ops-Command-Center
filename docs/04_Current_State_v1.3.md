@@ -22,7 +22,7 @@
 * frontend engineering wave `FE3` ถูกส่งลงระบบแล้ว: dashboard, daily checklist, และ template manage surfaces ถูกยก composition ใหม่ให้มี hero band, signal rail, section hierarchy, และ authoring/workflow framing ที่ชัดขึ้นบน app-owned frontend language  
 * frontend engineering wave `FE4` ถูกส่งลงระบบแล้ว: app/auth/guest shells มี skip link และ main landmarks, interactive focus-visible baseline ชัดขึ้น, และ table-heavy surfaces หลักรองรับ mobile stacking แล้ว  
 * frontend engineering wave `FE5` ถูกส่งลงระบบแล้ว: appearance switch ที่ไม่สมบูรณ์ถูก retire ออกจาก product contract, frontend ถูก commit กับ one flagship theme แบบชัดเจน, typography identity มี display layer แล้ว, และ hardcoded visual residue หลักถูกเก็บลง token/component contract มากขึ้น  
-* frontend engineering wave `FE6` เริ่มส่งลงระบบแล้วในก้อน `Dashboard Signal Depth`, `Incident Detail Narrative Surface`, และ `Template Authoring Surface Depth`: dashboard hero aside ถูกยกเป็น glance rail, trend panels ถูกทำให้อ่านผลต่างได้เร็วขึ้น, hotspot list ถูกจัดลำดับพร้อม visual intensity, incident detail ถูกยกเป็น narrative screen ที่มี latest handling lane, evidence lane, action lane, และ sequence timeline ชัดขึ้น, และ template administration ถูกยกเป็น authoring workspace ที่มี checkpoint summary, live execution preview, และ item-level scanability ดีขึ้น โดยยังไม่เพิ่ม analytics infrastructure หรือ builder workflow ใหม่  
+* frontend engineering wave `FE6` เริ่มส่งลงระบบแล้วในก้อน `Dashboard Signal Depth`, `Incident Detail Narrative Surface`, `Template Authoring Surface Depth`, และ `Motion and Reveal Orchestration`: dashboard hero aside ถูกยกเป็น glance rail, trend panels ถูกทำให้อ่านผลต่างได้เร็วขึ้น, hotspot list ถูกจัดลำดับพร้อม visual intensity, incident detail ถูกยกเป็น narrative screen ที่มี latest handling lane, evidence lane, action lane, และ sequence timeline ชัดขึ้น, template administration ถูกยกเป็น authoring workspace ที่มี checkpoint summary, live execution preview, และ item-level scanability ดีขึ้น, และ key product surfaces มี app-owned reveal cadence ที่รองรับ reduced motion และ Livewire navigation โดยยังไม่เพิ่ม analytics infrastructure หรือ builder workflow ใหม่  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -30,7 +30,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6-A complete + FE6-B complete + FE6-C complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6-A complete + FE6-B complete + FE6-C complete + FE6-D complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -78,6 +78,7 @@
 * 58_FE6_Dashboard_Signal_Depth_Execution_Pack_2026-04-17
 * 59_FE6_Incident_Detail_Narrative_Surface_Execution_Pack_2026-04-17
 * 60_FE6_Template_Authoring_Surface_Depth_Execution_Pack_2026-04-17
+* 61_FE6_Motion_and_Reveal_Orchestration_Execution_Pack_2026-04-17
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -109,6 +110,7 @@
 * Dashboard signal depth ถูกยกระดับรอบแรกแล้วใน FE6 โดยยังใช้ snapshot contract เดิม แต่เพิ่ม visual emphasis ให้ glance metrics, trend interpretation, และ hotspot intensity อ่านได้เร็วขึ้นบนหน้า dashboard เดียว  
 * Incident detail narrative surface ถูกยกระดับรอบแรกแล้วใน FE6 โดยยังใช้ incident/livewire contract เดิม แต่เพิ่ม latest handling lane, evidence lane, action lane, และ sequence timeline ให้หน้ารายละเอียดอ่านเป็น operational story ได้เร็วขึ้น  
 * Template authoring surface ถูกยกระดับรอบแรกแล้วใน FE6 โดยยังใช้ template/livewire/save contract เดิม แต่เพิ่ม authoring rhythm, live execution preview, checkpoint summary, และ item-level cueing ให้หน้า template management อ่านเป็น admin workspace ได้ดีขึ้น  
+* Motion orchestration ถูกยกระดับรอบแรกแล้วใน FE6 โดยใช้ app-owned reveal contract ที่ทำงานกับ JS readiness, reduced motion, และ Livewire navigation เพื่อให้ key surfaces หลักมี cadence การเผยเนื้อหาที่ intentional มากขึ้นโดยไม่พึ่ง animation library ภายนอก  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null

@@ -22,7 +22,7 @@
             </div>
         @endif
 
-        <section class="ops-hero">
+        <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
                     <p class="ops-hero__eyebrow">Incident narrative</p>
@@ -79,7 +79,7 @@
         <div class="ops-incident-grid">
             <div class="ops-incident-story">
                 @if ($this->latestNextActionNote || $this->latestResolutionNote)
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
                         <div class="ops-card__body ops-incident-summary-stack">
                             <div class="ops-section-heading">
                                 <div>
@@ -106,7 +106,7 @@
                     </section>
                 @endif
 
-                <section class="ops-card overflow-hidden">
+                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="90">
                     <div class="ops-card__body">
                         <div class="ops-section-heading">
                             <div>
@@ -144,7 +144,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden">
+                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="140">
                     <div class="ops-card__body">
                         <div class="ops-section-heading">
                             <div>
@@ -179,7 +179,7 @@
             </div>
 
             <div class="ops-stack">
-                <section class="ops-card overflow-hidden">
+                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="80">
                     <div class="ops-card__body ops-incident-lane">
                         <div>
                             <p class="ops-section-heading__eyebrow">Action lane</p>
@@ -221,7 +221,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden">
+                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="140">
                     <div class="ops-card__body ops-incident-lane">
                         <div>
                             <p class="ops-section-heading__eyebrow">Reference snapshot</p>

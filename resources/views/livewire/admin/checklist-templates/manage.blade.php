@@ -32,7 +32,7 @@
             </form>
         @endif
 
-        <section class="ops-hero">
+        <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
                     <p class="ops-hero__eyebrow">Template Administration</p>
@@ -89,7 +89,7 @@
         <form wire:submit="save" class="space-y-6">
             <div class="ops-command-grid ops-command-grid--template">
                 <div class="ops-stack">
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">Authoring rhythm</p>
@@ -127,7 +127,7 @@
                         </div>
                     </section>
 
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="80">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">Template identity</p>
@@ -151,7 +151,7 @@
                         </div>
                     </section>
 
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="120">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">Checklist structure</p>
@@ -169,7 +169,7 @@
 
                             <div class="space-y-4">
                                 @foreach ($items as $index => $item)
-                                    <section class="ops-admin-item ops-admin-item--authoring">
+                                    <section class="ops-admin-item ops-admin-item--authoring" data-motion="scale-soft" data-motion-delay="{{ 140 + ($index * 25) }}">
                                         <div class="ops-admin-item__header">
                                             <div class="ops-admin-item__identity">
                                                 <span class="ops-step-index">{{ $index + 1 }}</span>
@@ -252,7 +252,7 @@
                 </div>
 
                 <div class="ops-stack">
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">Authoring pulse</p>
@@ -270,7 +270,7 @@
                         </div>
                     </section>
 
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">Live execution preview</p>
@@ -302,7 +302,7 @@
                     </section>
 
                     @if ($template)
-                        <section class="ops-card overflow-hidden">
+                        <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="160">
                             <div class="ops-section-heading">
                                 <div>
                                     <p class="ops-section-heading__eyebrow">Revision safety</p>
@@ -333,7 +333,7 @@
                         </section>
                     @endif
 
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="210">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">Governance</p>
