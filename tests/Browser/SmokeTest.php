@@ -97,6 +97,38 @@ test('management dashboard shows trend and hotspot sections without browser smok
         ->assertNoConsoleLogs();
 });
 
+test('management incident detail reads as a narrative surface without browser smoke issues', function () {
+    $supervisor = $this->createUserForRole(UserRole::Supervisor);
+
+    $incident = $this->createIncidentWithActivity($supervisor, [
+        'title' => 'Narrative incident detail smoke',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::InProgress->value,
+    ]);
+
+    $incident->activities()->create([
+        'action_type' => 'next_action_note',
+        'summary' => 'Next action: Review this incident through the narrative surface.',
+        'actor_id' => $supervisor->id,
+        'created_at' => now()->addMinutes(20),
+    ]);
+
+    visit('/login')
+        ->fill('email', $supervisor->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->click('Incidents')
+        ->assertPathIs('/incidents')
+        ->click('View details')
+        ->assertSee('Latest handling context')
+        ->assertSee('Description and evidence')
+        ->assertSee('Update status with intent')
+        ->assertSee('Activity timeline')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
+});
+
 test('staff can authenticate into the daily checklist workflow without browser smoke issues', function () {
     $staff = $this->createUserForRole(UserRole::Staff);
 

@@ -100,6 +100,7 @@ npm run build
 - Frontend FE4 polish now adds skip links, consistent focus-visible behavior, and mobile-friendly table stacking for the main data-heavy screens so the product feels more finished beyond desktop-only viewing.
 - Frontend FE5 now commits the product to one flagship visual theme, retires the half-implemented appearance switch, strengthens typography identity with a display layer, and removes the most visible hardcoded surface residue that was still undermining consistency.
 - Frontend FE6 has started delivering screen-depth upgrades through a dashboard signal-depth pass that makes the command view read faster with stronger glance cards, clearer trend emphasis, and ranked hotspot scanability without introducing heavy analytics infrastructure.
+- Frontend FE6 now also upgrades incident detail into a stronger narrative surface, so latest follow-up context, evidence, action lane, and timeline sequence read as one operational story instead of disconnected cards.
 - `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
 
 ## Demo Walkthrough
@@ -137,6 +138,7 @@ See also:
 - `docs/56_FE5_Frontend_Identity_and_Theme_Contract_Resolution_Execution_Pack_2026-04-17.md`
 - `docs/57_Post_FE5_Frontend_Engineering_Audit_and_FE6_Strategy_2026-04-17.md`
 - `docs/58_FE6_Dashboard_Signal_Depth_Execution_Pack_2026-04-17.md`
+- `docs/59_FE6_Incident_Detail_Narrative_Surface_Execution_Pack_2026-04-17.md`
 
 ## Canonical Documentation
 
@@ -180,4 +182,5 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/56_FE5_Frontend_Identity_and_Theme_Contract_Resolution_Execution_Pack_2026-04-17.md`
 - `docs/57_Post_FE5_Frontend_Engineering_Audit_and_FE6_Strategy_2026-04-17.md`
 - `docs/58_FE6_Dashboard_Signal_Depth_Execution_Pack_2026-04-17.md`
+- `docs/59_FE6_Incident_Detail_Narrative_Surface_Execution_Pack_2026-04-17.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`

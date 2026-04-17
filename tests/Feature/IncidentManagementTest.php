@@ -241,6 +241,13 @@ test('no-op status update does not create a new activity row', function () {
 });
 
 test('incident detail page renders incident data timeline and null attachment state', function () {
+    $this->openIncident->activities()->create([
+        'action_type' => 'next_action_note',
+        'summary' => 'Next action: Verify the incident detail narrative lane.',
+        'actor_id' => $this->admin->id,
+        'created_at' => now(),
+    ]);
+
     $response = $this->actingAs($this->admin)->get(route('incidents.show', $this->openIncident));
 
     $response->assertOk();
@@ -248,7 +255,12 @@ test('incident detail page renders incident data timeline and null attachment st
     $response->assertSee($this->openIncident->category);
     $response->assertSee($this->openIncident->severity);
     $response->assertSee($this->openIncident->description);
-    $response->assertSee('Incident reported');
+    $response->assertSee('Latest handling context');
+    $response->assertSee('Description and evidence');
+    $response->assertSee('Update status with intent');
+    $response->assertSee('Activity timeline');
+    $response->assertSee('Next action: Verify the incident detail narrative lane.');
+    $response->assertSee('Reported');
     $response->assertDontSee('View attachment');
 });
 
