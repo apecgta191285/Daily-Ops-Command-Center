@@ -4,8 +4,10 @@
         @include('partials.head')
     </head>
     <body class="auth-shell antialiased">
-        <div class="flex min-h-svh items-center justify-center">
-            <div class="auth-panel">
+        <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
+
+        <main id="main-content" class="flex min-h-svh items-center justify-center">
+            <div class="auth-panel" tabindex="-1">
                 <div class="auth-panel__brand">
                     <p class="auth-panel__kicker">{{ __('Daily Ops Command Center') }}</p>
                     <a href="{{ route('home') }}" class="flex flex-col items-center gap-3" wire:navigate>
@@ -23,7 +25,7 @@
                     {{ $slot }}
                 </div>
             </div>
-        </div>
+        </main>
         @fluxScripts
     </body>
 </html>

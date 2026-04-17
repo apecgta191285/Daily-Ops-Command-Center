@@ -5,7 +5,9 @@
         <title>{{ config('app.name', 'Daily Ops Command Center') }}</title>
     </head>
     <body class="auth-shell antialiased">
-        <main class="mx-auto flex min-h-svh max-w-5xl items-center justify-center px-6 py-10">
+        <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
+
+        <main id="main-content" class="mx-auto flex min-h-svh max-w-5xl items-center justify-center px-6 py-10">
             <section class="w-full max-w-3xl rounded-[2rem] border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-8 text-[var(--app-text)] shadow-lg sm:p-10">
                 <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
                     <div class="max-w-xl space-y-5">

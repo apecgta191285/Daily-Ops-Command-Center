@@ -87,8 +87,8 @@
                         body="Try clearing one or more filters, or wait for staff to report new incidents that match this view."
                     />
                 @else
-                    <div class="overflow-x-auto">
-                        <table class="ops-table min-w-full">
+                    <div class="ops-table-wrap">
+                        <table class="ops-table ops-table--responsive min-w-full">
                             <thead>
                                 <tr>
                                     <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Title</th>
@@ -103,23 +103,23 @@
                             <tbody>
                                 @foreach($incidents as $incident)
                                     <tr class="bg-white">
-                                        <td class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">{{ $incident->title }}</td>
-                                        <td class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $incident->category }}</td>
-                                        <td class="px-4 py-4 text-sm">
+                                        <td data-label="Title" class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">{{ $incident->title }}</td>
+                                        <td data-label="Category" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $incident->category }}</td>
+                                        <td data-label="Severity" class="px-4 py-4 text-sm">
                                             <x-incidents.severity-badge :severity="$incident->severity" />
                                         </td>
-                                        <td class="px-4 py-4 text-sm">
+                                        <td data-label="Status" class="px-4 py-4 text-sm">
                                             <x-incidents.status-badge :status="$incident->status" />
                                         </td>
-                                        <td class="px-4 py-4 text-sm text-[var(--app-text-muted)]">
+                                        <td data-label="Attention" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">
                                             @if ($incident->is_stale_for_attention)
                                                 <span class="ops-badge ops-badge--warning">Stale</span>
                                             @else
                                                 <span class="text-xs">-</span>
                                             @endif
                                         </td>
-                                        <td class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $incident->creator?->name ?? 'Unknown' }}</td>
-                                        <td class="px-4 py-4 text-right text-sm">
+                                        <td data-label="Reported By" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $incident->creator?->name ?? 'Unknown' }}</td>
+                                        <td data-label="Action" class="px-4 py-4 text-right text-sm">
                                             <a href="{{ route('incidents.show', $incident) }}" class="ops-button ops-button--secondary">
                                                 View details
                                             </a>

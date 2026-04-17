@@ -18,7 +18,8 @@ test('guest-facing home and login surfaces render without browser smoke issues',
         ->assertNoConsoleLogs()
         ->assertSee('Daily Ops Command Center')
         ->assertSee('Log in')
-        ->assertSee('Suggested demo walkthrough');
+        ->assertSee('Suggested demo walkthrough')
+        ->assertPresent('a[href="#main-content"]');
 
     $loginPage
         ->assertNoJavaScriptErrors()
@@ -26,6 +27,7 @@ test('guest-facing home and login surfaces render without browser smoke issues',
         ->assertSee('Log in to your account')
         ->assertSee('Local demo accounts')
         ->assertPresent('input[name="email"]')
+        ->assertPresent('a[href="#main-content"]')
         ->assertPresent('[data-test="login-button"]');
 });
 
@@ -112,6 +114,7 @@ test('staff can authenticate into the daily checklist workflow without browser s
         ->assertPathBeginsWith('/checklists/runs/today')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
+        ->assertPresent('main#main-content')
         ->assertSee('Daily Checklist')
         ->assertSee('Today\'s Progress')
         ->assertSee('Recent Submission Context')

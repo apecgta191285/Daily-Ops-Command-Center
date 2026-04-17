@@ -55,4 +55,86 @@
     select:focus[data-flux-control] {
         @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
     }
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible,
+    [role='button']:focus-visible,
+    input[type='checkbox']:focus-visible,
+    input[type='radio']:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-focus-ring) 34%, transparent);
+    }
+}
+
+@layer components {
+    .ops-skip-link {
+        position: fixed;
+        left: 1rem;
+        top: 1rem;
+        z-index: 100;
+        transform: translateY(-140%);
+        border: 1px solid var(--app-shell-border);
+        border-radius: var(--app-radius-md);
+        background-color: var(--app-shell-bg);
+        color: var(--app-shell-text);
+        padding: 0.75rem 1rem;
+        box-shadow: var(--app-shadow-lg);
+        transition:
+            transform var(--app-duration-fast) var(--app-ease-out),
+            background-color var(--app-duration-fast) var(--app-ease-in-out);
+    }
+
+    .ops-skip-link:focus {
+        transform: translateY(0);
+    }
+
+    .ops-table-wrap {
+        @apply overflow-x-auto;
+    }
+
+    @media (max-width: 767px) {
+        .ops-table--responsive thead {
+            display: none;
+        }
+
+        .ops-table--responsive,
+        .ops-table--responsive tbody,
+        .ops-table--responsive tr,
+        .ops-table--responsive td {
+            display: block;
+            width: 100%;
+        }
+
+        .ops-table--responsive tbody {
+            @apply space-y-4;
+        }
+
+        .ops-table--responsive tr {
+            @apply rounded-2xl border p-4;
+            border-color: var(--app-border);
+            background-color: var(--app-surface-elevated);
+            box-shadow: var(--app-shadow-sm);
+        }
+
+        .ops-table--responsive td {
+            @apply flex items-start justify-between gap-4 border-b-0 px-0 py-2 text-right;
+        }
+
+        .ops-table--responsive td::before {
+            content: attr(data-label);
+            @apply text-left text-xs font-semibold uppercase tracking-[0.08em];
+            color: var(--app-text-muted);
+        }
+
+        .ops-table--responsive td[data-label='Detail'],
+        .ops-table--responsive td[data-label='Action'] {
+            @apply pt-3;
+        }
+
+        .ops-table--responsive td[data-label='Detail']::before,
+        .ops-table--responsive td[data-label='Action']::before {
+            @apply self-center;
+        }
+    }
 }

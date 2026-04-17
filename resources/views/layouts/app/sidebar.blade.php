@@ -4,6 +4,8 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-[var(--app-shell-bg)]">
+        <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
+
         <flux:sidebar sticky collapsible="mobile" class="border-e border-[var(--app-shell-border)] bg-[var(--app-shell-bg)]">
             <flux:sidebar.header>
                 <x-app-logo :sidebar="true" href="{{ route(auth()->user()->landingRouteName()) }}" wire:navigate />
@@ -72,7 +74,9 @@
             </flux:dropdown>
         </flux:header>
 
-        {{ $slot }}
+        <main id="main-content">
+            {{ $slot }}
+        </main>
 
         @fluxScripts
     </body>

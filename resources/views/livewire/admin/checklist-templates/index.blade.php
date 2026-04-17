@@ -51,8 +51,8 @@
                         </a>
                     </x-ops.empty-state>
                 @else
-                    <div class="overflow-x-auto">
-                        <table class="ops-table min-w-full">
+                    <div class="ops-table-wrap">
+                        <table class="ops-table ops-table--responsive min-w-full">
                             <thead>
                                 <tr>
                                     <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Title</th>
@@ -65,7 +65,7 @@
                             <tbody>
                                 @foreach ($templates as $template)
                                     <tr class="bg-white">
-                                        <td class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">
+                                        <td data-label="Title" class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">
                                             <div class="space-y-1">
                                                 <p>{{ $template->title }}</p>
                                                 @if (filled($template->description))
@@ -73,14 +73,14 @@
                                                 @endif
                                             </div>
                                         </td>
-                                        <td class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $template->scope }}</td>
-                                        <td class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $template->items_count }}</td>
-                                        <td class="px-4 py-4 text-sm">
+                                        <td data-label="Scope" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $template->scope }}</td>
+                                        <td data-label="Items" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $template->items_count }}</td>
+                                        <td data-label="State" class="px-4 py-4 text-sm">
                                             <span class="ops-badge {{ $template->is_active ? 'ops-badge--success' : 'ops-badge--neutral' }}">
                                                 {{ $template->is_active ? __('Active') : __('Retired') }}
                                             </span>
                                         </td>
-                                        <td class="px-4 py-4 text-right text-sm">
+                                        <td data-label="Action" class="px-4 py-4 text-right text-sm">
                                             <div class="flex flex-wrap justify-end gap-2">
                                                 <form method="POST" action="{{ route('templates.duplicate', $template) }}">
                                                     @csrf

@@ -151,8 +151,8 @@
                                 body="Once staff report an issue, the latest incidents will appear here so supervisors can review and track follow-up from the dashboard."
                             />
                         @else
-                            <div class="overflow-x-auto">
-                                <table class="ops-table min-w-full">
+                            <div class="ops-table-wrap">
+                                <table class="ops-table ops-table--responsive min-w-full">
                                     <thead>
                                         <tr>
                                             <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Title</th>
@@ -164,14 +164,14 @@
                                     <tbody>
                                         @foreach ($recentIncidents as $incident)
                                             <tr class="bg-white">
-                                                <td class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">{{ $incident->title }}</td>
-                                                <td class="px-4 py-4 text-sm">
+                                                <td data-label="Title" class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">{{ $incident->title }}</td>
+                                                <td data-label="Status" class="px-4 py-4 text-sm">
                                                     <x-incidents.status-badge :status="$incident->status" />
                                                 </td>
-                                                <td class="px-4 py-4 text-sm">
+                                                <td data-label="Severity" class="px-4 py-4 text-sm">
                                                     <x-incidents.severity-badge :severity="$incident->severity" />
                                                 </td>
-                                                <td class="px-4 py-4 text-right text-sm">
+                                                <td data-label="Detail" class="px-4 py-4 text-right text-sm">
                                                     <a href="{{ route('incidents.show', $incident) }}" class="ops-button ops-button--secondary">
                                                         View details
                                                     </a>
