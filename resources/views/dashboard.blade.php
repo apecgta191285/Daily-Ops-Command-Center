@@ -19,10 +19,10 @@
 
             <div class="ops-card__body">
                 @if ($attentionItems === [])
-                    <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4">
-                        <p class="text-sm font-medium text-[var(--app-heading)]">No urgent operational alerts right now.</p>
-                        <p class="mt-1 text-sm text-[var(--app-text-muted)]">Current dashboard signals do not show overdue high-risk issues or checklist pressure beyond the expected flow.</p>
-                    </div>
+                    <x-ops.empty-state
+                        title="No urgent operational alerts right now."
+                        body="Current dashboard signals do not show overdue high-risk issues or checklist pressure beyond the expected flow."
+                    />
                 @else
                     <div class="grid gap-4 xl:grid-cols-3">
                         @foreach ($attentionItems as $item)
@@ -143,39 +143,29 @@
         </div>
 
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <section class="ops-card">
-                <div class="ops-card__body">
-                    <p class="text-sm font-medium text-[var(--app-text-muted)]">Checklist Completion Today</p>
-                    <p class="mt-3 text-3xl font-semibold text-[var(--app-heading)]">{{ $completionRate }}%</p>
-                    <p class="mt-2 text-sm text-[var(--app-text-muted)]">
-                        {{ $submittedTodayRuns }} of {{ $todayRuns }} checklist runs submitted
-                    </p>
-                </div>
-            </section>
+            <x-ops.stat-card
+                kicker="Checklist Completion Today"
+                :value="$completionRate.'%'"
+                :meta="$submittedTodayRuns.' of '.$todayRuns.' checklist runs submitted'"
+            />
 
-            <section class="ops-card">
-                <div class="ops-card__body">
-                    <p class="text-sm font-medium text-[var(--app-text-muted)]">Open Incidents</p>
-                    <p class="mt-3 text-3xl font-semibold text-[var(--app-heading)]">{{ $incidentCounts['Open'] }}</p>
-                    <p class="mt-2 text-sm text-[var(--app-text-muted)]">Incidents still waiting for active handling</p>
-                </div>
-            </section>
+            <x-ops.stat-card
+                kicker="Open Incidents"
+                :value="$incidentCounts['Open']"
+                meta="Incidents still waiting for active handling"
+            />
 
-            <section class="ops-card">
-                <div class="ops-card__body">
-                    <p class="text-sm font-medium text-[var(--app-text-muted)]">In Progress</p>
-                    <p class="mt-3 text-3xl font-semibold text-[var(--app-heading)]">{{ $incidentCounts['In Progress'] }}</p>
-                    <p class="mt-2 text-sm text-[var(--app-text-muted)]">Incidents currently being worked on</p>
-                </div>
-            </section>
+            <x-ops.stat-card
+                kicker="In Progress"
+                :value="$incidentCounts['In Progress']"
+                meta="Incidents currently being worked on"
+            />
 
-            <section class="ops-card">
-                <div class="ops-card__body">
-                    <p class="text-sm font-medium text-[var(--app-text-muted)]">Resolved</p>
-                    <p class="mt-3 text-3xl font-semibold text-[var(--app-heading)]">{{ $incidentCounts['Resolved'] }}</p>
-                    <p class="mt-2 text-sm text-[var(--app-text-muted)]">Incidents closed in the current dataset</p>
-                </div>
-            </section>
+            <x-ops.stat-card
+                kicker="Resolved"
+                :value="$incidentCounts['Resolved']"
+                meta="Incidents closed in the current dataset"
+            />
         </div>
 
         <section class="ops-card overflow-hidden">
@@ -186,10 +176,10 @@
 
             <div class="ops-card__body">
                 @if ($recentIncidents->isEmpty())
-                    <div class="rounded-2xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-5">
-                        <p class="text-sm font-medium text-[var(--app-heading)]">No incidents available yet.</p>
-                        <p class="mt-1 text-sm text-[var(--app-text-muted)]">Once staff report an issue, the latest incidents will appear here so supervisors can review and track follow-up from the dashboard.</p>
-                    </div>
+                    <x-ops.empty-state
+                        title="No incidents available yet."
+                        body="Once staff report an issue, the latest incidents will appear here so supervisors can review and track follow-up from the dashboard."
+                    />
                 @else
                     <div class="overflow-x-auto">
                         <table class="ops-table min-w-full">

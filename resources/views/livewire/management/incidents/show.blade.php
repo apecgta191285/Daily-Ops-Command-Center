@@ -40,45 +40,29 @@
                     </a>
                 </div>
 
-                <dl class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
-                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Category</dt>
-                        <dd class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ $incident->category }}</dd>
-                    </div>
-                    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
-                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Severity</dt>
-                        <dd class="mt-2 text-sm">
-                            <x-incidents.severity-badge :severity="$incident->severity" />
-                        </dd>
-                    </div>
-                    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
-                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Current Status</dt>
-                        <dd class="mt-2 text-sm">
-                            <x-incidents.status-badge :status="$incident->status" />
-                        </dd>
-                    </div>
-                    <div class="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-4 py-3">
-                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Resolved At</dt>
-                        <dd class="mt-2 text-sm font-medium text-[var(--app-heading)]">
-                            {{ $incident->resolved_at?->format('M d, Y H:i') ?? 'Not resolved yet' }}
-                        </dd>
-                    </div>
-                </dl>
+                <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                    <x-ops.stat-card kicker="Category" :value="$incident->category" />
+                    <x-ops.stat-card kicker="Severity" value="">
+                        <x-incidents.severity-badge :severity="$incident->severity" />
+                    </x-ops.stat-card>
+                    <x-ops.stat-card kicker="Current Status" value="">
+                        <x-incidents.status-badge :status="$incident->status" />
+                    </x-ops.stat-card>
+                    <x-ops.stat-card kicker="Resolved At" :value="$incident->resolved_at?->format('M d, Y H:i') ?? 'Not resolved yet'" />
+                </div>
 
                 @if ($this->latestNextActionNote || $this->latestResolutionNote)
                     <div class="grid gap-4 xl:grid-cols-2">
                         @if ($this->latestNextActionNote)
-                            <div class="rounded-xl border border-[var(--app-warning-border)] bg-[var(--app-warning-bg)] px-5 py-4">
-                                <h4 class="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--app-warning-text)]">Latest Follow-up Direction</h4>
-                                <p class="mt-3 text-sm leading-6 text-[var(--app-heading)]">{{ $this->latestNextActionNote }}</p>
-                            </div>
+                            <x-ops.callout title="Latest Follow-up Direction" tone="warning">
+                                {{ $this->latestNextActionNote }}
+                            </x-ops.callout>
                         @endif
 
                         @if ($this->latestResolutionNote)
-                            <div class="rounded-xl border border-[var(--app-success-border)] bg-[var(--app-success-bg)] px-5 py-4">
-                                <h4 class="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--app-success-text)]">Latest Resolution Summary</h4>
-                                <p class="mt-3 text-sm leading-6 text-[var(--app-heading)]">{{ $this->latestResolutionNote }}</p>
-                            </div>
+                            <x-ops.callout title="Latest Resolution Summary" tone="success">
+                                {{ $this->latestResolutionNote }}
+                            </x-ops.callout>
                         @endif
                     </div>
                 @endif
@@ -143,16 +127,19 @@
             <div class="ops-card__body">
                 <h3 class="text-base font-semibold text-[var(--app-heading)]">Activity Timeline</h3>
 
-                <ul role="list" class="mt-4 space-y-4">
+                <ul role="list" class="ops-timeline mt-4">
                     @foreach($incident->activities->sortByDesc('created_at') as $activity)
-                        <li class="border-l-2 border-[var(--app-border)] pl-4">
-                            <p class="text-sm font-medium text-[var(--app-heading)]">{{ $activity->summary }}</p>
-                            <p class="mt-1 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">
-                                {{ $this->getActivityTypeLabel($activity->action_type) }}
-                            </p>
-                            <p class="mt-1 text-xs text-[var(--app-text-muted)]">
-                                {{ $activity->actor?->name ?? 'Unknown' }} · {{ $activity->created_at?->format('M d, Y H:i') ?? 'Unknown time' }}
-                            </p>
+                        <li class="ops-timeline__item">
+                            <span class="ops-timeline__dot" aria-hidden="true"></span>
+                            <div class="ops-timeline__card">
+                                <p class="text-sm font-medium text-[var(--app-heading)]">{{ $activity->summary }}</p>
+                                <p class="mt-1 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">
+                                    {{ $this->getActivityTypeLabel($activity->action_type) }}
+                                </p>
+                                <p class="mt-2 text-xs text-[var(--app-text-muted)]">
+                                    {{ $activity->actor?->name ?? 'Unknown' }} · {{ $activity->created_at?->format('M d, Y H:i') ?? 'Unknown time' }}
+                                </p>
+                            </div>
                         </li>
                     @endforeach
                 </ul>

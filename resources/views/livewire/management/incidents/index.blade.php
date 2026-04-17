@@ -70,10 +70,10 @@
                 <div class="ops-card__body flex flex-wrap items-center gap-3 text-sm text-[var(--app-text-muted)]">
                     <span class="font-medium text-[var(--app-heading)]">Active filter context:</span>
                     @if ($unresolved)
-                        <span class="ops-badge ops-badge--info">Unresolved only</span>
+                        <span class="ops-chip ops-chip--info">Unresolved only</span>
                     @endif
                     @if ($stale)
-                        <span class="ops-badge ops-badge--warning">Stale {{ $this->staleThresholdDays }}+ days</span>
+                        <span class="ops-chip ops-chip--warning">Stale {{ $this->staleThresholdDays }}+ days</span>
                     @endif
                 </div>
             </section>
@@ -82,10 +82,10 @@
         <section class="ops-card overflow-hidden">
             <div class="ops-card__body">
                 @if($incidents->isEmpty())
-                    <div class="rounded-2xl border border-dashed border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-5">
-                        <p class="text-sm font-medium text-[var(--app-heading)]">No incidents match the current filters.</p>
-                        <p class="mt-1 text-sm text-[var(--app-text-muted)]">Try clearing one or more filters, or wait for staff to report new incidents that match this view.</p>
-                    </div>
+                    <x-ops.empty-state
+                        title="No incidents match the current filters."
+                        body="Try clearing one or more filters, or wait for staff to report new incidents that match this view."
+                    />
                 @else
                     <div class="overflow-x-auto">
                         <table class="ops-table min-w-full">
