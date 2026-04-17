@@ -152,7 +152,7 @@
                     </div>
 
                     <div class="flex shrink-0">
-                        <a href="{{ route('incidents.create') }}" class="ops-button border-[var(--app-danger-border)] bg-[var(--app-danger-bg)] text-[var(--app-danger-text)] hover:bg-[#fbd7d9]">
+                        <a href="{{ route('incidents.create') }}" class="ops-button ops-button--danger">
                             Report Incident
                         </a>
                     </div>
@@ -160,8 +160,13 @@
 
                 <div class="ops-card__body">
                     @if (session()->has('message'))
-                        <div class="ops-alert ops-alert--success mb-5">
-                            {{ session('message') }}
+                        <div data-alert data-auto-dismiss="5000" role="status" aria-live="polite" class="ops-alert ops-alert--success mb-5">
+                            <div class="ops-alert__inner">
+                                <div class="ops-alert__copy">{{ session('message') }}</div>
+                                <button type="button" class="ops-alert__dismiss" data-dismiss-alert aria-label="{{ __('Dismiss message') }}">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
                         </div>
                     @endif
 

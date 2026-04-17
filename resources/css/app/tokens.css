@@ -29,6 +29,7 @@
         --app-content-bg: #f4f5f7;
         --app-surface: rgba(255, 255, 255, 0.98);
         --app-surface-elevated: #ffffff;
+        --app-surface-subtle: #f8fafc;
         --app-border: #d8dde6;
         --app-text: #172033;
         --app-text-muted: #5f6b85;
@@ -41,6 +42,10 @@
         --app-action-secondary-hover: #eef2f7;
         --app-action-secondary-text: #182338;
         --app-action-secondary-border: #c6cfdb;
+        --app-action-danger: var(--app-danger-bg);
+        --app-action-danger-hover: #fbd7d9;
+        --app-action-danger-text: var(--app-danger-text);
+        --app-action-danger-border: var(--app-danger-border);
 
         --app-success-bg: #e8f7ef;
         --app-success-border: #8fd0aa;
@@ -58,6 +63,32 @@
         --app-badge-neutral-bg: #eef2f7;
         --app-badge-neutral-text: #46546f;
         --app-badge-neutral-border: #d6deea;
+
+        --app-brand-bg: #edf4ff;
+        --app-brand-border: #cfe0ff;
+        --app-brand-text: #1947b7;
+
+        --app-radius-sm: 0.75rem;
+        --app-radius-md: 1rem;
+        --app-radius-lg: 1.5rem;
+        --app-radius-xl: 2rem;
+
+        --app-shadow-sm:
+            0 1px 2px rgba(15, 23, 42, 0.04),
+            0 1px 3px rgba(15, 23, 42, 0.06);
+        --app-shadow-md:
+            0 8px 24px rgba(15, 23, 42, 0.08),
+            0 2px 6px rgba(15, 23, 42, 0.04);
+        --app-shadow-lg:
+            0 18px 42px rgba(15, 23, 42, 0.12),
+            0 8px 18px rgba(15, 23, 42, 0.06);
+
+        --app-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --app-ease-in-out: cubic-bezier(0.45, 0, 0.15, 1);
+        --app-duration-fast: 140ms;
+        --app-duration-normal: 220ms;
+        --app-duration-slow: 360ms;
+
         --app-focus-ring: color-mix(in srgb, var(--app-action-primary) 60%, white);
     }
 

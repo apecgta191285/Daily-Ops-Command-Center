@@ -1,4 +1,17 @@
 @layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        color: var(--app-text);
+        background-color: var(--app-content-bg);
+    }
+
+    ::selection {
+        background-color: color-mix(in srgb, var(--app-action-primary) 22%, white);
+        color: var(--app-heading);
+    }
 
     *,
     ::after,

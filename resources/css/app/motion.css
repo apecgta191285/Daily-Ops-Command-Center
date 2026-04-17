@@ -1,0 +1,66 @@
+@layer base {
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        ::before,
+        ::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+}
+
+@layer components {
+    @keyframes ops-fade-up {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes ops-shimmer {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    .ops-fade-up {
+        animation: ops-fade-up var(--app-duration-slow) var(--app-ease-out) both;
+    }
+
+    .ops-fade-up--fast {
+        animation-duration: var(--app-duration-normal);
+    }
+
+    .ops-skeleton {
+        background-image: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--app-surface-subtle) 86%, white) 0%,
+            color-mix(in srgb, var(--app-surface-subtle) 45%, white) 50%,
+            color-mix(in srgb, var(--app-surface-subtle) 86%, white) 100%
+        );
+        background-size: 200% 100%;
+        animation: ops-shimmer 1.3s linear infinite;
+    }
+
+    [data-alert] {
+        transition:
+            opacity var(--app-duration-normal) var(--app-ease-out),
+            transform var(--app-duration-normal) var(--app-ease-out);
+    }
+
+    [data-alert].is-dismissing {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+}

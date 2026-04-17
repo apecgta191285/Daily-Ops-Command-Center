@@ -5,11 +5,14 @@
     }
 
     .auth-panel {
-        @apply w-full rounded-2xl border p-7 shadow-lg sm:p-8;
+        @apply w-full border p-7 sm:p-8;
         max-width: 28rem;
+        border-radius: var(--app-radius-xl);
         background-color: var(--app-surface-elevated);
         border-color: var(--app-border);
         color: var(--app-text);
+        box-shadow: var(--app-shadow-lg);
+        animation: ops-fade-up var(--app-duration-slow) var(--app-ease-out) both;
     }
 
     .auth-panel__brand {

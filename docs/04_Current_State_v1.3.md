@@ -17,6 +17,7 @@
 * product-next wave F1-F5 ถูกลงระบบแล้ว: dashboard attention, incident triage visibility, checklist progress/recap, product framing และ delivery hardening  
 * post-F5 wave `N1-N7` ถูกส่งลงระบบแล้ว: safer template duplication, lightweight checklist grouping, incident follow-up quality layer, incident outcome recap screens, dashboard trend/hotspot layer, template activation safety cues, และ checklist anomaly memory  
 * codebase refinement `R1-R5` ถูกส่งลงระบบแล้ว: stale threshold ของ incident มี owner เดียว, incident list query ถูกย้ายออกจาก Livewire component, dashboard summary assembly ถูกแยก owner เพิ่มเติมแล้ว, template manage surface ถูกบางลงพร้อม activation cues ที่ชัดขึ้น, และ checklist-to-incident prefill contract มี owner เดียวแล้ว  
+* frontend engineering wave เริ่มแล้วในก้อน `FE1`: token contract ถูก harden เพิ่ม, motion baseline ถูกเพิ่ม, hardcoded visual residue หลักถูกลดลง, และ alert feedback มี app-owned dismiss behavior แล้ว  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -24,7 +25,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -61,6 +62,8 @@
 * 47_R3_N6_Template_Manage_Refactor_and_Activation_Cues_Execution_Pack_2026-04-16
 * 48_R5_Checklist_Incident_Prefill_Extraction_Execution_Pack_2026-04-17
 * 49_N7_Checklist_Anomaly_Memory_Execution_Pack_2026-04-17
+* 50_Frontend_Engineering_Product_Wave_Strategy_2026-04-17
+* 51_FE1_Frontend_Contract_Hardening_Execution_Pack_2026-04-17
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -84,6 +87,7 @@
 * Template manage surface ใช้ support classes สำหรับ item-editor behavior และ activation-impact messaging เพื่อกันไม่ให้ Livewire form โตเป็น God-form  
 * Checklist follow-up handoff ใช้ prefill data contract และ prefill builder ที่มี owner ชัดเจนแล้ว เพื่อให้ checklist-to-incident context โตต่อได้โดยไม่ฝัง query-shaping logic ใน Livewire component โดยตรง  
 * Daily checklist รองรับ anomaly memory แบบเบาแล้ว โดยอิง recent submitted runs ของผู้ใช้ใน template เดียวกัน เพื่อบอกว่า checklist item ไหนเพิ่งถูก mark `Not Done` ซ้ำ โดยไม่เพิ่ม schema analytics ใหม่  
+* Frontend token contract ขยายแล้วให้ครอบคลุม subtle surface, brand token, danger action token, shadow scale, radius scale, และ motion timing baseline และ app-owned alert dismissal ถูกเพิ่มใน JS layer แบบเบา  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null

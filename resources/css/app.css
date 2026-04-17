@@ -2,6 +2,7 @@
 @import '../../vendor/livewire/flux/dist/flux.css';
 @import './app/tokens.css';
 @import './app/base.css';
+@import './app/motion.css';
 @import './app/ops.css';
 @import './app/auth.css';
 @import './app/settings.css';

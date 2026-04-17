@@ -10,8 +10,13 @@
 
     <div class="mx-auto max-w-5xl">
         @if (session()->has('message'))
-            <div class="mb-6 ops-alert ops-alert--success">
-                {{ session('message') }}
+            <div data-alert data-auto-dismiss="5000" role="status" aria-live="polite" class="mb-6 ops-alert ops-alert--success">
+                <div class="ops-alert__inner">
+                    <div class="ops-alert__copy">{{ session('message') }}</div>
+                    <button type="button" class="ops-alert__dismiss" data-dismiss-alert aria-label="{{ __('Dismiss message') }}">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
             </div>
         @endif
 
@@ -152,7 +157,7 @@
                                             <button
                                                 type="button"
                                                 wire:click="removeItem({{ $index }})"
-                                                class="ops-button w-full border-[var(--app-danger-border)] bg-[var(--app-danger-bg)] text-[var(--app-danger-text)] hover:bg-[#fbd7d9]"
+                                                class="ops-button ops-button--danger w-full"
                                                 @disabled(count($items) === 1)
                                             >
                                                 {{ __('Remove item') }}

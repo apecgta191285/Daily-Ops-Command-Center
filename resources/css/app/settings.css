@@ -36,7 +36,7 @@
 
     .settings-code-list {
         @apply grid gap-1 rounded-lg p-4 font-mono text-sm;
-        background-color: #f8fafc;
+        background-color: var(--app-surface-subtle);
     }
 
     .settings-divider {
@@ -62,12 +62,12 @@
         width: 16rem;
         aspect-ratio: 1 / 1;
         border-color: var(--app-border);
-        background-color: #f8fafc;
+        background-color: var(--app-surface-subtle);
     }
 
     .settings-qr-shell__loading {
         @apply absolute inset-0 flex items-center justify-center animate-pulse;
-        background-color: #f8fafc;
+        background-color: var(--app-surface-subtle);
     }
 
     .settings-qr-shell__code {
@@ -86,7 +86,7 @@
 
     .settings-key-shell__loading {
         @apply flex w-full items-center justify-center p-3;
-        background-color: #f8fafc;
+        background-color: var(--app-surface-subtle);
     }
 
     .settings-key-input {
@@ -101,7 +101,7 @@
     }
 
     .settings-key-copy:hover {
-        background-color: #f8fafc;
+        background-color: var(--app-surface-subtle);
         color: var(--app-heading);
     }
 
@@ -149,7 +149,7 @@
 
     .settings-nav__item:hover,
     .settings-nav__item--current {
-        background-color: #f6f8fb;
+        background-color: var(--app-surface-subtle);
         border-color: var(--app-border);
         color: var(--app-heading);
     }
@@ -186,7 +186,7 @@
 
     .settings-note-block {
         @apply mt-4 rounded-xl border px-4 py-3;
-        background-color: #f8fafc;
+        background-color: var(--app-surface-subtle);
         border-color: var(--app-border);
     }
 

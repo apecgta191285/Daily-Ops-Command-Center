@@ -9,8 +9,8 @@
                 <div class="auth-panel__brand">
                     <p class="auth-panel__kicker">{{ __('Daily Ops Command Center') }}</p>
                     <a href="{{ route('home') }}" class="flex flex-col items-center gap-3" wire:navigate>
-                        <span class="flex aspect-square size-11 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-700 shadow-sm">
-                            <x-app-logo-icon class="size-6 fill-current text-blue-700" />
+                        <span class="app-brand-mark size-11">
+                            <x-app-logo-icon class="size-6 fill-current text-current" />
                         </span>
                         <div class="space-y-1">
                             <p class="text-base font-semibold text-[var(--app-heading)]">{{ config('app.name', 'Daily Ops Command Center') }}</p>

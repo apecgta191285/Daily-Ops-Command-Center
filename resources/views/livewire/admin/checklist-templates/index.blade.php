@@ -16,8 +16,13 @@
 
     <div class="space-y-6">
         @if (session()->has('message'))
-            <div class="ops-alert ops-alert--success">
-                {{ session('message') }}
+            <div data-alert data-auto-dismiss="5000" role="status" aria-live="polite" class="ops-alert ops-alert--success">
+                <div class="ops-alert__inner">
+                    <div class="ops-alert__copy">{{ session('message') }}</div>
+                    <button type="button" class="ops-alert__dismiss" data-dismiss-alert aria-label="{{ __('Dismiss message') }}">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
             </div>
         @endif
 

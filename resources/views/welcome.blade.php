@@ -10,8 +10,8 @@
                 <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
                     <div class="max-w-xl space-y-5">
                         <div class="flex items-center gap-4">
-                            <span class="flex aspect-square size-14 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-blue-700 shadow-sm">
-                                <x-app-logo-icon class="size-8 fill-current text-blue-700" />
+                            <span class="app-brand-mark size-14">
+                                <x-app-logo-icon class="size-8 fill-current text-current" />
                             </span>
                             <div class="space-y-1">
                                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--app-text-muted)]">{{ __('Internal operations') }}</p>
@@ -50,12 +50,12 @@
                                 </a>
                             @endif
 
-                            <span class="inline-flex items-center rounded-xl border border-[var(--app-border)] bg-[#f8fafc] px-4 py-2.5 text-sm text-[var(--app-text-muted)]">
+                            <span class="inline-flex items-center rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] px-4 py-2.5 text-sm text-[var(--app-text-muted)]">
                                 {{ __('Role-based access for staff, supervisors, and admins') }}
                             </span>
                         </div>
 
-                        <div class="rounded-2xl border border-[var(--app-border)] bg-[#f8fafc] p-5">
+                        <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] p-5">
                             <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Suggested demo walkthrough') }}</p>
                             <ol class="mt-3 space-y-3 text-sm text-[var(--app-text-muted)]">
                                 <li class="flex gap-3">
@@ -95,7 +95,7 @@
                                 </li>
                             </ul>
 
-                            <div class="mt-5 rounded-2xl border border-[var(--app-border)] bg-[#f8fafc] p-4">
+                            <div class="mt-5 rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] p-4">
                                 <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Why it matters') }}</p>
                                 <p class="mt-2 text-sm text-[var(--app-text-muted)]">
                                     {{ __('Instead of scattered paper notes or chat messages, the team gets one traceable path for routine work and incident follow-up.') }}

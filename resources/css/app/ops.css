@@ -8,10 +8,12 @@
     }
 
     .ops-page__header-inner {
-        @apply rounded-2xl border px-5 py-4 shadow-sm sm:px-6;
+        @apply border px-5 py-4 sm:px-6;
+        border-radius: var(--app-radius-xl);
         background-color: var(--app-shell-bg);
         border-color: var(--app-shell-border);
         color: var(--app-shell-text);
+        box-shadow: var(--app-shadow-md);
     }
 
     .ops-page__body {
@@ -34,10 +36,12 @@
     }
 
     .ops-card {
-        @apply rounded-2xl border shadow-sm;
+        @apply border;
+        border-radius: var(--app-radius-xl);
         background-color: var(--app-surface);
         border-color: var(--app-border);
         color: var(--app-text);
+        box-shadow: var(--app-shadow-sm);
     }
 
     .ops-card__header {
@@ -50,14 +54,34 @@
     }
 
     .ops-control {
-        @apply block w-full rounded-xl border px-3 py-2.5 text-sm shadow-xs transition;
+        @apply block w-full border px-3 py-2.5 text-sm;
+        border-radius: var(--app-radius-md);
         background-color: var(--app-surface-elevated);
         border-color: var(--app-border);
         color: var(--app-text);
+        box-shadow: var(--app-shadow-sm);
+        transition:
+            border-color var(--app-duration-normal) var(--app-ease-in-out),
+            box-shadow var(--app-duration-normal) var(--app-ease-out),
+            background-color var(--app-duration-normal) var(--app-ease-in-out),
+            color var(--app-duration-normal) var(--app-ease-in-out);
     }
 
     .ops-button {
-        @apply inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-medium transition focus:outline-hidden;
+        @apply inline-flex items-center justify-center border px-4 py-2.5 text-sm font-medium focus:outline-hidden;
+        border-radius: var(--app-radius-md);
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            color var(--app-duration-fast) var(--app-ease-in-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out),
+            transform var(--app-duration-fast) var(--app-ease-out);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-button:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--app-shadow-md);
     }
 
     .ops-button--primary {
@@ -81,8 +105,21 @@
         background-color: var(--app-action-secondary-hover);
     }
 
+    .ops-button--danger {
+        background-color: var(--app-action-danger);
+        border-color: var(--app-action-danger-border);
+        color: var(--app-action-danger-text);
+    }
+
+    .ops-button--danger:hover {
+        background-color: var(--app-action-danger-hover);
+        border-color: var(--app-action-danger-border);
+    }
+
     .ops-alert {
-        @apply rounded-2xl border px-4 py-3 text-sm shadow-sm;
+        @apply border px-4 py-3 text-sm;
+        border-radius: var(--app-radius-lg);
+        box-shadow: var(--app-shadow-sm);
     }
 
     .ops-alert--success {
@@ -101,6 +138,30 @@
         background-color: var(--app-danger-bg);
         border-color: var(--app-danger-border);
         color: var(--app-danger-text);
+    }
+
+    .ops-alert__inner {
+        @apply flex items-start gap-3;
+    }
+
+    .ops-alert__copy {
+        @apply min-w-0 flex-1;
+    }
+
+    .ops-alert__dismiss {
+        @apply inline-flex size-8 items-center justify-center border bg-transparent text-xs font-semibold;
+        border-radius: 9999px;
+        border-color: color-mix(in srgb, currentColor 18%, transparent);
+        color: inherit;
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out),
+            transform var(--app-duration-fast) var(--app-ease-out);
+    }
+
+    .ops-alert__dismiss:hover {
+        background-color: color-mix(in srgb, currentColor 10%, white);
+        transform: scale(1.04);
     }
 
     .ops-badge {
@@ -142,7 +203,7 @@
     }
 
     .ops-table thead {
-        background-color: #f6f8fb;
+        background-color: var(--app-surface-subtle);
     }
 
     .ops-table th,
@@ -173,7 +234,16 @@
     }
 
     .ops-choice:hover {
-        background-color: #f8fafc;
+        background-color: var(--app-surface-subtle);
+    }
+
+    .app-brand-mark {
+        @apply flex aspect-square items-center justify-center border shadow-sm;
+        border-radius: var(--app-radius-md);
+        border-color: var(--app-brand-border);
+        background-color: var(--app-brand-bg);
+        color: var(--app-brand-text);
+        box-shadow: var(--app-shadow-sm);
     }
 
     [data-flux-sidebar-item],
@@ -220,7 +290,7 @@
         border: 1px solid var(--app-border);
         background-color: var(--app-surface-elevated);
         color: var(--app-text);
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+        box-shadow: var(--app-shadow-lg);
     }
 
     [data-flux-menu-item] {
@@ -229,7 +299,7 @@
 
     [data-flux-menu-item]:hover,
     [data-flux-menu-item][data-active] {
-        background-color: #f6f8fb;
+        background-color: var(--app-surface-subtle);
         color: var(--app-heading);
     }
 }
