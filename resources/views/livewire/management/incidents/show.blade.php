@@ -1,11 +1,23 @@
 <div>
     <x-slot name="header">
-        <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-            <div>
+        <div class="ops-page-intro">
+            <div class="ops-page-intro__copy">
+                <p class="ops-page-intro__eyebrow">{{ __('Investigation surface') }}</p>
                 <h2 class="ops-page__title">{{ __('Incident Detail') }}</h2>
-                <p class="text-sm">
-                    Review the report, understand the latest handling context, and update the queue with intent.
+                <p class="ops-page-intro__body">
+                    Review the report, understand the latest handling context, and move the queue forward with a clear operational decision.
                 </p>
+                <div class="ops-page-intro__meta">
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Narrative detail') }}</span>
+                    <span class="ops-shell-chip">{{ __($incident->status) }}</span>
+                    <span class="ops-shell-chip">{{ __($incident->severity) }}</span>
+                </div>
+            </div>
+
+            <div class="ops-page-intro__actions">
+                <a href="{{ route('incidents.index') }}" class="ops-button ops-button--secondary">
+                    {{ __('Back to incident list') }}
+                </a>
             </div>
         </div>
     </x-slot>

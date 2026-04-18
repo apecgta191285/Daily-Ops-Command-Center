@@ -1,10 +1,24 @@
 <div>
     <x-slot name="header">
-        <div class="flex flex-col gap-2">
-            <h2 class="ops-page__title">{{ __($this->pageTitle) }}</h2>
-            <p class="text-sm">
-                {{ __($this->pageDescription) }}
-            </p>
+        <div class="ops-page-intro">
+            <div class="ops-page-intro__copy">
+                <p class="ops-page-intro__eyebrow">{{ __('Template authoring') }}</p>
+                <h2 class="ops-page__title">{{ __($this->pageTitle) }}</h2>
+                <p class="ops-page-intro__body">
+                    {{ __($this->pageDescription) }}
+                </p>
+                <div class="ops-page-intro__meta">
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ $template ? __('Revision workspace') : __('New draft') }}</span>
+                    <span class="ops-shell-chip">{{ __('Single active checklist') }}</span>
+                    <span class="ops-shell-chip">{{ __('Admin-owned') }}</span>
+                </div>
+            </div>
+
+            <div class="ops-page-intro__actions">
+                <a href="{{ route('templates.index') }}" class="ops-button ops-button--secondary" wire:navigate>
+                    {{ __('Back to templates') }}
+                </a>
+            </div>
         </div>
     </x-slot>
 

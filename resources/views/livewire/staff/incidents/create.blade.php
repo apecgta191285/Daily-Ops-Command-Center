@@ -1,10 +1,24 @@
 <div>
     <x-slot name="header">
-        <div>
-            <h2 class="ops-page__title">{{ __('Report Incident') }}</h2>
-            <p class="text-sm">
-                Capture the issue clearly so management can triage it quickly.
-            </p>
+        <div class="ops-page-intro">
+            <div class="ops-page-intro__copy">
+                <p class="ops-page-intro__eyebrow">{{ __('Staff escalation') }}</p>
+                <h2 class="ops-page__title">{{ __('Report Incident') }}</h2>
+                <p class="ops-page-intro__body">
+                    Capture the issue clearly so management can triage it quickly without losing the operational context behind the report.
+                </p>
+                <div class="ops-page-intro__meta">
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Structured handoff') }}</span>
+                    <span class="ops-shell-chip">{{ __('Evidence-ready') }}</span>
+                    <span class="ops-shell-chip">{{ __('Management visible') }}</span>
+                </div>
+            </div>
+
+            <div class="ops-page-intro__actions">
+                <a href="{{ route('checklists.runs.today') }}" class="ops-button ops-button--secondary">
+                    {{ __('Back to checklist') }}
+                </a>
+            </div>
         </div>
     </x-slot>
 
