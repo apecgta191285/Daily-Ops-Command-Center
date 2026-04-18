@@ -107,6 +107,7 @@ npm run build
 - Frontend FE7 now adds app-owned visual data primitives, stronger dashboard atmosphere, signal hover depth, and cleaner recap/template surface contracts so the product reads more like a precision command surface than a styled CRUD app.
 - Frontend FE8 now completes staggered reveal orchestration, hotspot meter animation, investigation-weighted incident detail treatment, and font preload hardening while keeping the single flagship theme intact.
 - Frontend FE9 has started with an app-shell architecture repair that restores the authenticated Flux sidebar/header/main relationship, so the left rail acts as the real application frame instead of a detached top-left block.
+- Frontend FE9 now also redesigns auth and welcome entry surfaces into a stronger command-entry experience, so the product’s first impression finally matches the richer operational language already present inside dashboard, incident, checklist, and admin screens.
 - Frontend CSS architecture has now been split into concern-based `ops` and `settings` modules behind the same import contract, so the product keeps its current UI while becoming much easier to maintain and review safely.
 - `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
 
@@ -152,6 +153,7 @@ See also:
 - `docs/63_FE8_Frontend_Hardening_and_CSS_Architecture_Split_Execution_Pack_2026-04-18.md`
 - `docs/65_FE9_Premium_UI_Shell_and_Identity_Master_Plan_2026-04-18.md`
 - `docs/66_FE9_App_Shell_Architecture_Repair_Execution_Pack_2026-04-18.md`
+- `docs/67_FE9_Auth_and_Welcome_Identity_Redesign_Execution_Pack_2026-04-18.md`
 
 ## Canonical Documentation
 
@@ -202,4 +204,5 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/63_FE8_Frontend_Hardening_and_CSS_Architecture_Split_Execution_Pack_2026-04-18.md`
 - `docs/65_FE9_Premium_UI_Shell_and_Identity_Master_Plan_2026-04-18.md`
 - `docs/66_FE9_App_Shell_Architecture_Repair_Execution_Pack_2026-04-18.md`
+- `docs/67_FE9_Auth_and_Welcome_Identity_Redesign_Execution_Pack_2026-04-18.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`

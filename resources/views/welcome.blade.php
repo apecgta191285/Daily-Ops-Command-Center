@@ -7,102 +7,93 @@
     <body class="auth-shell antialiased">
         <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
 
-        <main id="main-content" class="mx-auto flex min-h-svh max-w-5xl items-center justify-center px-6 py-10">
-            <section class="ops-surface-panel w-full max-w-3xl rounded-[2rem] p-8 shadow-lg sm:p-10">
-                <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-                    <div class="max-w-xl space-y-5">
-                        <div class="flex items-center gap-4">
-                            <span class="app-brand-mark size-14">
-                                <x-app-logo-icon class="size-8 fill-current text-current" />
-                            </span>
-                            <div class="space-y-1">
-                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.18em]">{{ __('Internal operations') }}</p>
-                                <h1 class="ops-text-heading text-2xl font-semibold tracking-tight sm:text-3xl">{{ config('app.name', 'Daily Ops Command Center') }}</h1>
+        <main id="main-content" class="auth-stage auth-stage--welcome">
+            <section class="auth-stage__frame auth-stage__frame--welcome">
+                <div class="auth-stage__scene auth-stage__scene--welcome" data-motion="fade-right">
+                    <div class="auth-stage__scene-inner">
+                        <div class="auth-stage__brand-lockup">
+                            <p class="auth-stage__kicker">{{ __('Industrial command') }}</p>
+                            <div class="auth-stage__brand-link">
+                                <span class="app-brand-mark size-14">
+                                    <x-app-logo-icon class="size-8 fill-current text-current" />
+                                </span>
+                                <div class="space-y-1">
+                                    <p class="auth-stage__brand-name">{{ config('app.name', 'Daily Ops Command Center') }}</p>
+                                    <p class="auth-stage__brand-copy">{{ __('One operational system for routine execution, anomaly capture, and follow-up clarity.') }}</p>
+                                </div>
                             </div>
                         </div>
 
-                        <p class="ops-text-muted text-base leading-7 sm:text-lg">
-                            {{ __('Run daily checklists, capture incidents with evidence, and help supervisors see what still needs attention from one shared operations workspace.') }}
-                        </p>
-
-                        <div class="grid gap-3 sm:grid-cols-3">
-                            <div class="ops-surface-soft p-4">
-                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Staff') }}</p>
-                                <p class="ops-text-heading mt-2 text-sm font-medium">{{ __('Complete daily work clearly') }}</p>
-                                <p class="ops-text-muted mt-1 text-sm">{{ __('Open today’s checklist, submit it once, and report issues immediately.') }}</p>
+                        <div class="welcome-stage__hero">
+                            <div class="space-y-4">
+                                <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Precision Ops Workspace') }}</span>
+                                <h1 class="welcome-stage__title">{{ __('Run the day, catch what slips, and keep the team aligned from one shared control room.') }}</h1>
+                                <p class="welcome-stage__lead">{{ __('Designed for small operational teams that need one trustworthy place for daily checklists, incident follow-up, and template stewardship without drifting into chaos or spreadsheet theater.') }}</p>
                             </div>
 
-                            <div class="ops-surface-soft p-4">
-                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Supervisor') }}</p>
-                                <p class="ops-text-heading mt-2 text-sm font-medium">{{ __('See what needs follow-up') }}</p>
-                                <p class="ops-text-muted mt-1 text-sm">{{ __('Track unresolved incidents, review updates, and watch daily completion from one dashboard.') }}</p>
-                            </div>
+                            <div class="welcome-stage__grid">
+                                <article class="auth-signal-card auth-signal-card--wide">
+                                    <p class="auth-signal-card__eyebrow">{{ __('Staff lane') }}</p>
+                                    <p class="auth-signal-card__title">{{ __('Daily work stays explicit') }}</p>
+                                    <p class="auth-signal-card__body">{{ __('Checklist progress, recurring anomalies, and incident handoff all stay visible in one path instead of scattered notes or chat fragments.') }}</p>
+                                </article>
 
-                            <div class="ops-surface-soft p-4">
-                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Admin') }}</p>
-                                <p class="ops-text-heading mt-2 text-sm font-medium">{{ __('Keep the workflow ready') }}</p>
-                                <p class="ops-text-muted mt-1 text-sm">{{ __('Maintain the active checklist template and keep the daily workflow aligned with real operations.') }}</p>
+                                <article class="auth-signal-card">
+                                    <p class="auth-signal-card__eyebrow">{{ __('Supervisor lane') }}</p>
+                                    <p class="auth-signal-card__title">{{ __('Triage without noise') }}</p>
+                                    <p class="auth-signal-card__body">{{ __('See stale issues, follow-up direction, and operational pressure before the day drifts.') }}</p>
+                                </article>
+
+                                <article class="auth-signal-card">
+                                    <p class="auth-signal-card__eyebrow">{{ __('Admin lane') }}</p>
+                                    <p class="auth-signal-card__title">{{ __('Govern the live checklist') }}</p>
+                                    <p class="auth-signal-card__body">{{ __('Keep the active template accurate without letting authoring work fracture the daily runtime.') }}</p>
+                                </article>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="flex flex-col gap-3 sm:flex-row">
+                <div class="welcome-stage__aside" data-motion="fade-left">
+                    <div class="welcome-stage__aside-card">
+                        <div class="welcome-stage__aside-header">
+                            <p class="welcome-stage__aside-eyebrow">{{ __('Suggested demo walkthrough') }}</p>
+                            <h2 class="welcome-stage__aside-title">{{ __('See the system in one short sequence') }}</h2>
+                            <p class="welcome-stage__aside-copy">{{ __('This scope is intentionally compact: one team, one live daily workflow, and one operational thread from checklist to incident follow-up.') }}</p>
+                        </div>
+
+                        <ol class="welcome-stage__steps">
+                            <li class="welcome-stage__step">
+                                <span class="ops-step-index">1</span>
+                                <div>
+                                    <p class="welcome-stage__step-title">{{ __('Run the checklist as staff') }}</p>
+                                    <p class="welcome-stage__step-copy">{{ __('Open today’s checklist, watch progress update, and submit with clear runtime feedback.') }}</p>
+                                </div>
+                            </li>
+                            <li class="welcome-stage__step">
+                                <span class="ops-step-index">2</span>
+                                <div>
+                                    <p class="welcome-stage__step-title">{{ __('Escalate an incident') }}</p>
+                                    <p class="welcome-stage__step-copy">{{ __('Create an incident from operational friction, then review the narrative incident surface from management.') }}</p>
+                                </div>
+                            </li>
+                            <li class="welcome-stage__step">
+                                <span class="ops-step-index">3</span>
+                                <div>
+                                    <p class="welcome-stage__step-title">{{ __('Check the live template') }}</p>
+                                    <p class="welcome-stage__step-copy">{{ __('Move into template administration to see how one active checklist governs the daily runtime.') }}</p>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="welcome-stage__aside-footer">
                             @if (Route::has('login'))
-                                <a href="{{ route('login') }}" class="ops-button ops-button--primary" wire:navigate>
+                                <a href="{{ route('login') }}" class="ops-button ops-button--primary w-full" wire:navigate>
                                     {{ __('Log in') }}
                                 </a>
                             @endif
 
-                            <span class="ops-inline-note">
-                                {{ __('Role-based access for staff, supervisors, and admins') }}
-                            </span>
-                        </div>
-
-                        <div class="ops-surface-panel ops-surface-panel--subtle p-5">
-                            <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Suggested demo walkthrough') }}</p>
-                            <ol class="ops-text-muted mt-3 space-y-3 text-sm">
-                                <li class="flex gap-3">
-                                    <span class="ops-step-index">1</span>
-                                    <span>{{ __('Log in as staff, open today’s checklist, and see how the system tracks completion before submission.') }}</span>
-                                </li>
-                                <li class="flex gap-3">
-                                    <span class="ops-step-index">2</span>
-                                    <span>{{ __('Create an incident from a checklist issue, then switch to the management dashboard to review stale or high-severity follow-up.') }}</span>
-                                </li>
-                                <li class="flex gap-3">
-                                    <span class="ops-step-index">3</span>
-                                    <span>{{ __('Use the admin template screen to show how one active checklist template keeps daily operations aligned.') }}</span>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <div class="ops-card max-w-sm lg:w-[22rem]">
-                        <div class="ops-card__header">
-                            <p class="ops-text-heading text-sm font-semibold">{{ __('What this system already covers') }}</p>
-                            <p class="ops-text-muted mt-1 text-sm">{{ __('This A-lite scope is intentionally small: one team, one daily workflow, and one clear place to follow incidents.') }}</p>
-                        </div>
-                        <div class="ops-card__body">
-                            <ul class="ops-text-muted space-y-3 text-sm">
-                                <li class="flex items-start gap-3">
-                                    <span class="ops-badge ops-badge--info">{{ __('Staff') }}</span>
-                                    <span>{{ __('Checklist today and incident reporting') }}</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <span class="ops-badge ops-badge--warning">{{ __('Supervisor') }}</span>
-                                    <span>{{ __('Incident review, status updates, and dashboard oversight') }}</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <span class="ops-badge ops-badge--success">{{ __('Admin') }}</span>
-                                    <span>{{ __('Dashboard access plus checklist template setup in the same operations workspace') }}</span>
-                                </li>
-                            </ul>
-
-                            <div class="ops-surface-panel ops-surface-panel--subtle mt-5 p-4">
-                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Why it matters') }}</p>
-                                <p class="ops-text-muted mt-2 text-sm">
-                                    {{ __('Instead of scattered paper notes or chat messages, the team gets one traceable path for routine work and incident follow-up.') }}
-                                </p>
-                            </div>
+                            <p class="ops-inline-note">{{ __('Role-based access for staff, supervisors, and admins') }}</p>
                         </div>
                     </div>
                 </div>
