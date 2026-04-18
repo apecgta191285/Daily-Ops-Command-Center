@@ -32,6 +32,7 @@
     }
 
     .ops-content-main {
+        @apply min-w-0;
         background-color: var(--app-content-bg);
     }
 

@@ -1,17 +1,15 @@
 <x-layouts::app.sidebar :title="$title ?? null">
-    <flux:main class="ops-content-main">
-        <div class="ops-page">
-            @isset($header)
-                <div class="ops-page__header">
-                    <div class="ops-page__header-inner">
-                        {{ $header }}
-                    </div>
+    <div class="ops-page">
+        @isset($header)
+            <div class="ops-page__header">
+                <div class="ops-page__header-inner">
+                    {{ $header }}
                 </div>
-            @endisset
-
-            <div class="ops-page__body">
-                {{ $slot }}
             </div>
+        @endisset
+
+        <div class="ops-page__body">
+            {{ $slot }}
         </div>
-    </flux:main>
+    </div>
 </x-layouts::app.sidebar>

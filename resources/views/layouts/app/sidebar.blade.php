@@ -74,9 +74,9 @@
             </flux:dropdown>
         </flux:header>
 
-        <main id="main-content">
+        <flux:main id="main-content" class="ops-content-main">
             {{ $slot }}
-        </main>
+        </flux:main>
 
         @fluxScripts
     </body>
