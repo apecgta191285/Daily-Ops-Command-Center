@@ -95,6 +95,11 @@ test('management dashboard drill-down links lead to filtered incident follow-up 
 
 test('management dashboard shows trend and hotspot sections without browser smoke issues', function () {
     $admin = $this->createUserForRole(UserRole::Admin);
+    $this->createTemplateWithItems([
+        'title' => 'Opening browser scope template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
     $this->createIncidentWithActivity($admin, [
         'title' => 'Browser hotspot incident one',
         'category' => 'เครือข่าย',
@@ -114,6 +119,7 @@ test('management dashboard shows trend and hotspot sections without browser smok
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathIs('/dashboard')
+        ->assertSee('Checklist by Scope')
         ->assertSee('Checklist Trend')
         ->assertSee('Incident Intake Trend')
         ->assertSee('Operational Hotspots')

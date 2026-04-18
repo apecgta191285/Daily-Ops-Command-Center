@@ -26,6 +26,7 @@
             'down' => 'Lower intake',
             default => 'Intake steady',
         };
+        $scopeLaneIncompleteCount = collect($scopeChecklistLanes)->filter(fn (array $lane) => in_array($lane['state'], ['not_started', 'in_progress'], true))->count();
     @endphp
 
     <x-slot name="header">
@@ -34,10 +35,11 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Management surface') }}</p>
                 <h2 class="ops-page__title">{{ __('Dashboard') }}</h2>
                 <p class="ops-page-intro__body">
-                    Track checklist completion, unresolved pressure, and operational drift from one command frame.
+                    Track checklist completion, scope-lane coverage, unresolved pressure, and operational drift from one command frame.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live command view') }}</span>
+                    <span class="ops-shell-chip">{{ __('Scope runtime truth') }}</span>
                     <span class="ops-shell-chip">{{ __('Checklist momentum') }}</span>
                     <span class="ops-shell-chip">{{ __('Incident hotspots') }}</span>
                 </div>
@@ -58,11 +60,12 @@
                     <p class="ops-hero__eyebrow">Management Visibility</p>
                     <h3 class="ops-hero__title">Operational command view for today&apos;s workload.</h3>
                     <p class="ops-hero__lead">
-                        Use this surface to spot unresolved risk, compare today with yesterday, and jump straight into the queue that needs attention first.
+                        Use this surface to spot unresolved risk, compare today with yesterday, and confirm whether opening, midday, and closing work is actually live and complete.
                     </p>
 
                     <div class="ops-hero__meta">
                         <span class="ops-shell-chip ops-shell-chip--accent">Needs Attention Today</span>
+                        <span class="ops-shell-chip">Scope lane status</span>
                         <span class="ops-shell-chip">Checklist Trend</span>
                         <span class="ops-shell-chip">Operational Hotspots</span>
                     </div>
@@ -85,15 +88,15 @@
                         </div>
 
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Open now</p>
-                            <p class="ops-glance-card__value">{{ $incidentCounts['Open'] }}</p>
-                            <p class="ops-glance-card__meta">New incidents that still need first response.</p>
+                            <p class="ops-glance-card__label">Incomplete lanes</p>
+                            <p class="ops-glance-card__value">{{ $scopeLaneIncompleteCount }}</p>
+                            <p class="ops-glance-card__meta">Opening, midday, or closing lanes that still need checklist progress today.</p>
                         </div>
 
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Resolved visible</p>
-                            <p class="ops-glance-card__value">{{ $incidentCounts['Resolved'] }}</p>
-                            <p class="ops-glance-card__meta">Closed items still visible in the current operational dataset.</p>
+                            <p class="ops-glance-card__label">Open now</p>
+                            <p class="ops-glance-card__value">{{ $incidentCounts['Open'] }}</p>
+                            <p class="ops-glance-card__meta">New incidents that still need first response.</p>
                         </div>
                     </div>
                 </aside>
@@ -152,6 +155,73 @@
                                 @endforeach
                             </div>
                         @endif
+                    </div>
+                </section>
+
+                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="80">
+                    <div class="ops-section-heading">
+                        <div>
+                            <p class="ops-section-heading__eyebrow">Runtime coverage</p>
+                            <h2 class="ops-section-heading__title">Checklist by Scope</h2>
+                            <p class="ops-section-heading__body">Check whether opening, midday, and closing lanes are configured and actually moving today.</p>
+                        </div>
+                    </div>
+
+                    <div class="ops-card__body">
+                        <div class="ops-signal-grid">
+                            @foreach ($scopeChecklistLanes as $lane)
+                                @php
+                                    $toneClass = match ($lane['state']) {
+                                        'unavailable' => 'ops-signal-card--danger',
+                                        'not_started', 'in_progress' => 'ops-signal-card--warning',
+                                        default => 'ops-signal-card--neutral',
+                                    };
+                                    $stateLabel = match ($lane['state']) {
+                                        'unavailable' => 'Missing live template',
+                                        'not_started' => 'Not started',
+                                        'in_progress' => 'In progress',
+                                        default => 'Submitted',
+                                    };
+                                @endphp
+
+                                <article class="ops-signal-card {{ $toneClass }}">
+                                    <div class="ops-signal-card__header">
+                                        <div>
+                                            <h3 class="ops-signal-card__title">{{ $lane['scope'] }}</h3>
+                                            <p class="ops-signal-card__body">
+                                                {{ $lane['template_title'] ?? __('No active template') }}
+                                            </p>
+                                        </div>
+
+                                        <div class="text-right">
+                                            <p class="ops-signal-card__count">{{ $lane['completion_percentage'] }}%</p>
+                                            <p class="ops-eyebrow-label">submitted</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="ops-signal-card__body">
+                                        @if ($lane['state'] === 'unavailable')
+                                            Management cannot verify this operating lane yet because no live template is active for the scope.
+                                        @elseif ($lane['state'] === 'not_started')
+                                            A live template exists, but staff have not opened this lane today.
+                                        @elseif ($lane['state'] === 'in_progress')
+                                            Staff have entered this lane, but not every run has been submitted yet.
+                                        @else
+                                            All runs created for this lane today are already submitted.
+                                        @endif
+                                    </div>
+
+                                    <div class="ops-signal-card__footer flex items-center justify-between gap-3">
+                                        <span class="ops-chip {{ $lane['state'] === 'submitted' ? 'ops-chip--success' : ($lane['state'] === 'unavailable' ? '' : 'ops-chip--warning') }}">
+                                            {{ $stateLabel }}
+                                        </span>
+                                        <span class="ops-text-muted text-xs">
+                                            {{ $lane['submitted_runs'] }}/{{ $lane['total_runs'] }} submitted
+                                        </span>
+                                    </div>
+                                </article>
+                            @endforeach
+                        </div>
                     </div>
                 </section>
 

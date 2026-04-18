@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Domain\Access\Enums\UserRole;
+use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\ChecklistRun;
+use App\Models\ChecklistTemplate;
 use App\Models\Incident;
 use App\Models\User;
 use Carbon\Carbon;
@@ -42,6 +46,7 @@ test('management users can visit the dashboard', function () {
     $response->assertSee((string) $inProgressCount);
     $response->assertSee('Resolved');
     $response->assertSee((string) $resolvedCount);
+    $response->assertSee('Checklist by Scope');
     $response->assertSee('Recent Incidents');
 });
 
@@ -73,6 +78,8 @@ test('dashboard handles empty data without crashing', function () {
     $response->assertSee('Checklist Completion Today');
     $response->assertSee('0%');
     $response->assertSee('0 of 0 checklist runs submitted');
+    $response->assertSee('Checklist by Scope');
+    $response->assertSee('Missing live template');
     $response->assertSee('No incidents available yet.');
     $response->assertSee('Once staff report an issue, the latest incidents will appear here');
 });
@@ -168,10 +175,29 @@ test('dashboard shows calm attention state when there are no active alerts', fun
     $admin = User::factory()->create(['role' => UserRole::Admin->value]);
     $this->actingAs($admin);
 
-    ChecklistRun::factory()->submitted($admin->id)->create([
-        'created_by' => $admin->id,
-        'run_date' => today(),
+    ChecklistTemplate::query()->update(['is_active' => false]);
+
+    $openingTemplate = $this->createTemplateWithItems([
+        'title' => 'Calm opening template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
     ]);
+
+    $middayTemplate = $this->createTemplateWithItems([
+        'title' => 'Calm midday template',
+        'scope' => ChecklistScope::MIDDAY->value,
+        'is_active' => true,
+    ]);
+
+    $closingTemplate = $this->createTemplateWithItems([
+        'title' => 'Calm closing template',
+        'scope' => ChecklistScope::CLOSING->value,
+        'is_active' => true,
+    ]);
+
+    $this->createRunForUser($admin, $openingTemplate, submitted: true);
+    $this->createRunForUser($admin, $middayTemplate, submitted: true);
+    $this->createRunForUser($admin, $closingTemplate, submitted: true);
 
     Incident::factory()->create([
         'title' => 'Resolved historical incident',
@@ -251,6 +277,9 @@ test('dashboard shows checklist and intake trends plus hotspot categories', func
     $response = $this->get(route('dashboard'));
 
     $response->assertOk();
+    $response->assertSee('Checklist by Scope');
+    $response->assertSee(ChecklistScope::OPENING->value);
+    $response->assertSee('Missing live template');
     $response->assertSee('Checklist Trend');
     $response->assertSee('Yesterday: 100%');
     $response->assertSee('Down 50 points from yesterday');

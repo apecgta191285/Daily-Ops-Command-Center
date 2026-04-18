@@ -39,6 +39,15 @@ readonly class DashboardSnapshot
      *     staleCount: int,
      *     url: string|null
      * }>  $hotspotCategories
+     * @param  list<array{
+     *     scope: string,
+     *     scope_key: string,
+     *     template_title: ?string,
+     *     state: 'unavailable'|'not_started'|'in_progress'|'submitted',
+     *     total_runs: int,
+     *     submitted_runs: int,
+     *     completion_percentage: int
+     * }>  $scopeChecklistLanes
      * @param  Collection<int, Incident>  $recentIncidents
      */
     public function __construct(
@@ -50,6 +59,7 @@ readonly class DashboardSnapshot
         public array $checklistTrend,
         public array $incidentIntakeTrend,
         public array $hotspotCategories,
+        public array $scopeChecklistLanes,
         public Collection $recentIncidents,
     ) {}
 
@@ -87,6 +97,15 @@ readonly class DashboardSnapshot
      *         staleCount: int,
      *         url: string|null
      *     }>,
+     *     scopeChecklistLanes: list<array{
+     *         scope: string,
+     *         scope_key: string,
+     *         template_title: ?string,
+     *         state: 'unavailable'|'not_started'|'in_progress'|'submitted',
+     *         total_runs: int,
+     *         submitted_runs: int,
+     *         completion_percentage: int
+     *     }>,
      *     recentIncidents: Collection<int, Incident>
      * }
      */
@@ -101,6 +120,7 @@ readonly class DashboardSnapshot
             'checklistTrend' => $this->checklistTrend,
             'incidentIntakeTrend' => $this->incidentIntakeTrend,
             'hotspotCategories' => $this->hotspotCategories,
+            'scopeChecklistLanes' => $this->scopeChecklistLanes,
             'recentIncidents' => $this->recentIncidents,
         ];
     }

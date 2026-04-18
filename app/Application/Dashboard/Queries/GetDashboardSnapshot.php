@@ -7,6 +7,7 @@ namespace App\Application\Dashboard\Queries;
 use App\Application\Dashboard\Data\DashboardSnapshot;
 use App\Application\Dashboard\Support\DashboardAttentionAssembler;
 use App\Application\Dashboard\Support\DashboardHotspotAssembler;
+use App\Application\Dashboard\Support\DashboardScopeLaneBuilder;
 use App\Application\Dashboard\Support\DashboardTrendBuilder;
 use App\Application\Incidents\Support\IncidentStalePolicy;
 use App\Domain\Incidents\Enums\IncidentStatus;
@@ -19,6 +20,7 @@ class GetDashboardSnapshot
         private readonly DashboardAttentionAssembler $attentionAssembler,
         private readonly DashboardTrendBuilder $trendBuilder,
         private readonly DashboardHotspotAssembler $hotspotAssembler,
+        private readonly DashboardScopeLaneBuilder $scopeLaneBuilder,
     ) {}
 
     public function __invoke(): DashboardSnapshot
@@ -27,6 +29,7 @@ class GetDashboardSnapshot
         $yesterday = today()->subDay();
         $checklistCompletionSeries = $this->buildChecklistCompletionSeries();
         $incidentIntakeSeries = $this->buildIncidentIntakeSeries();
+        $scopeChecklistLanes = ($this->scopeLaneBuilder)();
 
         $todayRuns = ChecklistRun::query()
             ->whereDate('run_date', $today)
@@ -81,6 +84,10 @@ class GetDashboardSnapshot
             completionRate: $completionRate,
             highSeverityUnresolvedCount: $highSeverityUnresolvedCount,
             staleUnresolvedCount: $staleUnresolvedCount,
+            scopeLanesMissingTemplateCount: collect($scopeChecklistLanes)->where('state', 'unavailable')->count(),
+            scopeLanesIncompleteCount: collect($scopeChecklistLanes)
+                ->filter(fn (array $lane): bool => in_array($lane['state'], ['not_started', 'in_progress'], true))
+                ->count(),
         );
 
         $recentIncidents = Incident::query()
@@ -117,6 +124,7 @@ class GetDashboardSnapshot
                 'series' => $incidentIntakeSeries,
             ],
             hotspotCategories: ($this->hotspotAssembler)($hotspotRows),
+            scopeChecklistLanes: $scopeChecklistLanes,
             recentIncidents: $recentIncidents,
         );
     }

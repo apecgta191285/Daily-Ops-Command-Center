@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Application\Dashboard\Support\DashboardAttentionAssembler;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
@@ -15,6 +17,8 @@ test('dashboard attention assembler builds checklist and incident attention item
         completionRate: 60,
         highSeverityUnresolvedCount: 2,
         staleUnresolvedCount: 1,
+        scopeLanesMissingTemplateCount: 0,
+        scopeLanesIncompleteCount: 0,
     );
 
     expect($items)->toHaveCount(3)
@@ -24,4 +28,22 @@ test('dashboard attention assembler builds checklist and incident attention item
         ->and($items[1]['url'])->toContain('severity=High')
         ->and($items[2]['title'])->toBe('Unresolved incidents are going stale')
         ->and($items[2]['url'])->toContain('stale=1');
+});
+
+test('dashboard attention assembler adds scope lane warnings when coverage is missing or incomplete', function () {
+    $items = app(DashboardAttentionAssembler::class)(
+        todayRuns: 2,
+        submittedTodayRuns: 2,
+        completionRate: 100,
+        highSeverityUnresolvedCount: 0,
+        staleUnresolvedCount: 0,
+        scopeLanesMissingTemplateCount: 1,
+        scopeLanesIncompleteCount: 2,
+    );
+
+    expect($items)->toHaveCount(2)
+        ->and($items[0]['title'])->toBe('Checklist coverage is missing a live scope lane')
+        ->and($items[0]['count'])->toBe(1)
+        ->and($items[1]['title'])->toBe('Scope lanes are still incomplete today')
+        ->and($items[1]['count'])->toBe(2);
 });

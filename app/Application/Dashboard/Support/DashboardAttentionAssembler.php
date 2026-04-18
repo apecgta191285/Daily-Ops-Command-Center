@@ -25,6 +25,8 @@ class DashboardAttentionAssembler
         int $completionRate,
         int $highSeverityUnresolvedCount,
         int $staleUnresolvedCount,
+        int $scopeLanesMissingTemplateCount,
+        int $scopeLanesIncompleteCount,
     ): array {
         $attentionItems = [];
 
@@ -46,6 +48,28 @@ class DashboardAttentionAssembler
                     $todayRuns,
                 ),
                 'count' => $todayRuns - $submittedTodayRuns,
+                'actionLabel' => null,
+                'url' => null,
+                'tone' => 'info',
+            ];
+        }
+
+        if ($scopeLanesMissingTemplateCount > 0) {
+            $attentionItems[] = [
+                'title' => 'Checklist coverage is missing a live scope lane',
+                'description' => 'At least one operating lane still has no active template, so management cannot confirm that the full daily routine is configured.',
+                'count' => $scopeLanesMissingTemplateCount,
+                'actionLabel' => null,
+                'url' => null,
+                'tone' => 'warning',
+            ];
+        }
+
+        if ($scopeLanesIncompleteCount > 0) {
+            $attentionItems[] = [
+                'title' => 'Scope lanes are still incomplete today',
+                'description' => 'One or more live checklist lanes have not started or are still in progress, so the daily routine is not fully closed yet.',
+                'count' => $scopeLanesIncompleteCount,
                 'actionLabel' => null,
                 'url' => null,
                 'tone' => 'info',
