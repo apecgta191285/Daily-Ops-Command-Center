@@ -158,6 +158,9 @@ See also:
 - `docs/67_FE9_Auth_and_Welcome_Identity_Redesign_Execution_Pack_2026-04-18.md`
 - `docs/68_FE9_Cross_Screen_Shell_Assimilation_Execution_Pack_2026-04-18.md`
 - `docs/69_FE9_Premium_UI_Finish_and_Visual_QA_Execution_Pack_2026-04-18.md`
+- `docs/70_Full_Stack_Product_Evolution_Audit_and_Next_Wave_Master_Plan_2026-04-18.md`
+- `docs/71_WF1_Scoped_Daily_Operations_Runtime_Master_Plan_2026-04-18.md`
+- `docs/72_WF1_A_Domain_and_Runtime_Realignment_Execution_Pack_2026-04-18.md`
 
 ## Canonical Documentation
 
@@ -211,4 +214,7 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/67_FE9_Auth_and_Welcome_Identity_Redesign_Execution_Pack_2026-04-18.md`
 - `docs/68_FE9_Cross_Screen_Shell_Assimilation_Execution_Pack_2026-04-18.md`
 - `docs/69_FE9_Premium_UI_Finish_and_Visual_QA_Execution_Pack_2026-04-18.md`
+- `docs/70_Full_Stack_Product_Evolution_Audit_and_Next_Wave_Master_Plan_2026-04-18.md`
+- `docs/71_WF1_Scoped_Daily_Operations_Runtime_Master_Plan_2026-04-18.md`
+- `docs/72_WF1_A_Domain_and_Runtime_Realignment_Execution_Pack_2026-04-18.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`
