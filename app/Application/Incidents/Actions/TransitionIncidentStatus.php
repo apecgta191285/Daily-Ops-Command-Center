@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Incidents\Actions;
 
 use App\Application\Incidents\Data\IncidentStatusTransitionResult;

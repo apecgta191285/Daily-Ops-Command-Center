@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Staff\Checklists;
 
 use App\Application\Checklists\Actions\InitializeDailyRun;
@@ -144,6 +146,8 @@ class DailyRun extends Component
     #[Layout('layouts.app')]
     public function render()
     {
+        $this->run?->loadMissing('items.checklistItem');
+
         return view('livewire.staff.checklists.daily-run');
     }
 }

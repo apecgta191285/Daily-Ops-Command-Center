@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Checklists\Actions;
 
 use App\Application\Checklists\Data\DailyRunContext;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Management\Incidents;
 
 use App\Application\Incidents\Actions\TransitionIncidentStatus;
@@ -105,6 +107,8 @@ class Show extends Component
     #[Layout('layouts.app')]
     public function render()
     {
+        $this->incident->loadMissing(['creator', 'activities.actor']);
+
         return view('livewire.management.incidents.show');
     }
 }

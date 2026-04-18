@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Staff\Incidents;
 
 use App\Application\Checklists\Data\ChecklistIncidentPrefill;

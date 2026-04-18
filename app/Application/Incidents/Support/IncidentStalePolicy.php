@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Incidents\Support;
 
 use App\Domain\Incidents\Enums\IncidentStatus;
