@@ -263,5 +263,6 @@ test('dashboard shows checklist and intake trends plus hotspot categories', func
     $response->assertSee('2 unresolved');
     $response->assertSee('1 stale');
     $response->assertSee('data-hotspot-rank="1"', false);
+    $response->assertSee('data-meter-target', false);
     $response->assertSee('category='.urlencode('เครือข่าย'), false);
 });

@@ -260,6 +260,7 @@ test('incident detail page renders incident data timeline and null attachment st
     $response->assertSee('Update status with intent');
     $response->assertSee('Activity timeline');
     $response->assertSee('Next action: Verify the incident detail narrative lane.');
+    $response->assertSee('data-severity="'.$this->openIncident->severity.'"', false);
     $response->assertSee('Reported');
     $response->assertDontSee('View attachment');
 });

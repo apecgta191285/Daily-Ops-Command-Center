@@ -31,6 +31,70 @@ const revealMotionElement = (element) => {
     element.classList.add('is-visible');
 };
 
+const bootStaggerGroups = () => {
+    document.querySelectorAll('[data-motion-group]').forEach((group) => {
+        const baseDelay = Number.parseInt(group.dataset.staggerBase ?? '40', 10);
+        const stepDelay = Number.parseInt(group.dataset.staggerUnit ?? '30', 10);
+        const maxDelay = Number.parseInt(group.dataset.staggerMax ?? '400', 10);
+
+        group.querySelectorAll('[data-motion]').forEach((item, index) => {
+            if (item.dataset.motionDelay != null) {
+                item.style.setProperty('--ops-motion-delay', `${item.dataset.motionDelay}ms`);
+
+                return;
+            }
+
+            const computedDelay = Math.min(baseDelay + (index * stepDelay), maxDelay);
+            item.style.setProperty('--ops-motion-delay', `${computedDelay}ms`);
+        });
+    });
+};
+
+const bootMeterAnimation = () => {
+    const meters = [...document.querySelectorAll('[data-meter-target]')];
+
+    if (meters.length === 0) {
+        return;
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        meters.forEach((meter) => {
+            meter.style.width = `${meter.dataset.meterTarget ?? '0'}%`;
+        });
+
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+                return;
+            }
+
+            const meter = entry.target;
+            const target = Number.parseInt(meter.dataset.meterTarget ?? '0', 10);
+
+            window.setTimeout(() => {
+                meter.style.width = `${Math.max(0, Math.min(target, 100))}%`;
+            }, 120);
+
+            observer.unobserve(meter);
+        });
+    }, {
+        threshold: 0.45,
+    });
+
+    meters.forEach((meter) => {
+        if (meter.dataset.meterBound === 'true') {
+            return;
+        }
+
+        meter.dataset.meterBound = 'true';
+        meter.style.width = '0%';
+        observer.observe(meter);
+    });
+};
+
 const bootMotionSystem = () => {
     const elements = [...document.querySelectorAll('[data-motion]')];
 
@@ -88,10 +152,14 @@ document.addEventListener('click', (event) => {
 document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.dataset.js = 'ready';
     bootAlertSystem();
+    bootStaggerGroups();
     bootMotionSystem();
+    bootMeterAnimation();
 });
 
 document.addEventListener('livewire:navigated', () => {
     bootAlertSystem();
+    bootStaggerGroups();
     bootMotionSystem();
+    bootMeterAnimation();
 });

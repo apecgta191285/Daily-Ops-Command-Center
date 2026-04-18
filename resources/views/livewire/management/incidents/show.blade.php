@@ -117,13 +117,13 @@
                         </div>
 
                         <div class="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(18rem,1fr)]">
-                            <article class="ops-incident-panel">
+                            <article class="ops-incident-panel" data-severity="{{ $incident->severity }}">
                                 <p class="ops-incident-panel__eyebrow">Description</p>
                                 <h3 class="ops-incident-panel__title">What was reported</h3>
                                 <p class="ops-incident-panel__body whitespace-pre-line">{{ $incident->description }}</p>
                             </article>
 
-                            <article class="ops-incident-panel">
+                            <article class="ops-incident-panel" data-severity="{{ $incident->severity }}">
                                 <p class="ops-incident-panel__eyebrow">Attachment</p>
                                 <h3 class="ops-incident-panel__title">{{ $incident->attachment_path ? 'Supporting evidence available' : 'No attachment provided' }}</h3>
                                 <p class="ops-incident-panel__body">

@@ -92,6 +92,18 @@ test('management dashboard drill-down links lead to filtered incident follow-up 
 
 test('management dashboard shows trend and hotspot sections without browser smoke issues', function () {
     $admin = $this->createUserForRole(UserRole::Admin);
+    $this->createIncidentWithActivity($admin, [
+        'title' => 'Browser hotspot incident one',
+        'category' => 'เครือข่าย',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::Open->value,
+    ]);
+    $this->createIncidentWithActivity($admin, [
+        'title' => 'Browser hotspot incident two',
+        'category' => 'เครือข่าย',
+        'severity' => IncidentSeverity::Medium->value,
+        'status' => IncidentStatus::InProgress->value,
+    ]);
 
     $page = visit('/login');
 
@@ -104,6 +116,7 @@ test('management dashboard shows trend and hotspot sections without browser smok
         ->assertSee('Operational Hotspots')
         ->assertPresent('svg.ops-arc')
         ->assertPresent('svg.ops-sparkline')
+        ->assertPresent('[data-meter-target]')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });
@@ -136,6 +149,7 @@ test('management incident detail reads as a narrative surface without browser sm
         ->assertSee('Description and evidence')
         ->assertSee('Update status with intent')
         ->assertSee('Activity timeline')
+        ->assertPresent('[data-severity="High"]')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });

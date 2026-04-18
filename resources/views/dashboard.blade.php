@@ -143,13 +143,12 @@
                     </div>
                 </section>
 
-                <div class="ops-stat-grid" data-motion-group>
+                <div class="ops-stat-grid" data-motion-group data-stagger-base="70" data-stagger-unit="40" data-stagger-max="220">
                     <x-ops.stat-card
                         kicker="Checklist Completion Today"
                         :value="$completionRate.'%'"
                         :meta="$submittedTodayRuns.' of '.$todayRuns.' checklist runs submitted'"
                         data-motion="scale-soft"
-                        data-motion-delay="70"
                     >
                         <x-slot:visual>
                             <div class="ops-arc-wrapper">
@@ -164,7 +163,6 @@
                         :value="$incidentCounts['Open']"
                         meta="Incidents still waiting for active handling"
                         data-motion="scale-soft"
-                        data-motion-delay="110"
                     >
                         <x-slot:visual>
                             <div class="ops-arc-wrapper">
@@ -179,7 +177,6 @@
                         :value="$incidentCounts['In Progress']"
                         meta="Incidents currently being worked on"
                         data-motion="scale-soft"
-                        data-motion-delay="150"
                     >
                         <x-slot:visual>
                             <div class="ops-arc-wrapper">
@@ -194,7 +191,6 @@
                         :value="$incidentCounts['Resolved']"
                         meta="Incidents closed in the current dataset"
                         data-motion="scale-soft"
-                        data-motion-delay="190"
                     >
                         <x-slot:visual>
                             <div class="ops-arc-wrapper">
@@ -412,7 +408,7 @@
                                         </div>
 
                                         <div class="ops-hotspot-list__meter" aria-hidden="true">
-                                            <div class="ops-hotspot-list__meter-fill" style="width: {{ $intensity }}%"></div>
+                                            <div class="ops-hotspot-list__meter-fill" data-meter-target="{{ $intensity }}"></div>
                                         </div>
                                     </li>
                                 @endforeach
