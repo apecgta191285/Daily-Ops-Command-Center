@@ -81,7 +81,7 @@
                                 <span class="ops-step-index">3</span>
                                 <div>
                                     <p class="welcome-stage__step-title">{{ __('Check the live template') }}</p>
-                                    <p class="welcome-stage__step-copy">{{ __('Move into template administration to see how one active checklist governs the daily runtime.') }}</p>
+                                    <p class="welcome-stage__step-copy">{{ __('Move into template administration to see how each scope owns its own live checklist runtime.') }}</p>
                                 </div>
                             </li>
                         </ol>

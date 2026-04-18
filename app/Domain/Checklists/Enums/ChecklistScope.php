@@ -14,4 +14,23 @@ enum ChecklistScope: string
     {
         return array_column(self::cases(), 'value');
     }
+
+    public function routeKey(): string
+    {
+        return match ($this) {
+            self::OPENING => 'opening',
+            self::MIDDAY => 'midday',
+            self::CLOSING => 'closing',
+        };
+    }
+
+    public static function fromRouteKey(?string $routeKey): ?self
+    {
+        return match ($routeKey) {
+            'opening' => self::OPENING,
+            'midday' => self::MIDDAY,
+            'closing' => self::CLOSING,
+            default => null,
+        };
+    }
 }

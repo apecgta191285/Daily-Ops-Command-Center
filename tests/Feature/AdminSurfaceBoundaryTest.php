@@ -34,21 +34,21 @@ test('admin can access checklist templates inside the main application shell', f
     $response->assertSee('data-template-active="true"', false);
 });
 
-test('template create page shows activation impact against the current live template', function () {
+test('template create page shows activation impact against the current live template for the selected scope', function () {
     $response = $this->actingAs($this->admin)->get(route('templates.create'));
 
     $response->assertOk();
     $response->assertSee('Authoring pulse');
     $response->assertSee('Live execution preview');
     $response->assertSee('Activation impact');
-    $response->assertSee('Activation will retire the current live template');
+    $response->assertSee('Activation will retire the current live template for this scope');
     $response->assertSee('Baseline active template');
 });
 
 test('inactive template edit page shows draft activation guidance and live template context', function () {
     $draft = $this->createTemplateWithItems([
         'title' => 'Inactive draft template',
-        'scope' => ChecklistScope::MIDDAY->value,
+        'scope' => ChecklistScope::OPENING->value,
         'is_active' => false,
     ], [
         ['title' => 'Draft item 1'],
@@ -59,7 +59,7 @@ test('inactive template edit page shows draft activation guidance and live templ
     $response->assertOk();
     $response->assertSee('How staff will scan this checklist');
     $response->assertSee('Draft mode');
-    $response->assertSee('Current live template: Baseline active template');
+    $response->assertSee('Current live template for this scope: Baseline active template');
 });
 
 test('non-admin users cannot access checklist template administration routes', function () {
@@ -69,14 +69,21 @@ test('non-admin users cannot access checklist template administration routes', f
     $this->actingAs($this->staff)->post(route('templates.duplicate', $this->activeTemplate))->assertForbidden();
 });
 
-test('admin can create a checklist template and making it active retires existing templates', function () {
+test('admin can create a checklist template and making it active retires only the live template in the same scope', function () {
     $existingActive = $this->activeTemplate;
+    $otherScopeActive = $this->createTemplateWithItems([
+        'title' => 'Live midday template',
+        'scope' => ChecklistScope::MIDDAY->value,
+        'is_active' => true,
+    ], [
+        ['title' => 'Midday item 1'],
+    ]);
 
     Livewire::actingAs($this->admin)
         ->test(Manage::class)
         ->set('title', 'ตรวจระหว่างวัน')
         ->set('description', 'ตรวจความพร้อมระหว่างชั่วโมงใช้งาน')
-        ->set('scope', ChecklistScope::MIDDAY->value)
+        ->set('scope', ChecklistScope::OPENING->value)
         ->set('is_active', true)
         ->set('items', [
             [
@@ -104,6 +111,7 @@ test('admin can create a checklist template and making it active retires existin
     expect($newTemplate->is_active)->toBeTrue();
     expect($newTemplate->items()->count())->toBe(2);
     expect($existingActive->fresh()->is_active)->toBeFalse();
+    expect($otherScopeActive->fresh()->is_active)->toBeTrue();
 });
 
 test('admin can update an existing template and its checklist items', function () {
@@ -248,7 +256,7 @@ test('database forbids creating a second active checklist template directly', fu
     expect(fn () => ChecklistTemplate::query()->create([
         'title' => 'เทมเพลต active ซ้ำ',
         'description' => 'ต้องถูกปฏิเสธโดย persistence invariant',
-        'scope' => ChecklistScope::MIDDAY->value,
+        'scope' => ChecklistScope::OPENING->value,
         'is_active' => true,
     ]))->toThrow(QueryException::class);
 });

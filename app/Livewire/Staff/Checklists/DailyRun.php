@@ -7,15 +7,19 @@ namespace App\Livewire\Staff\Checklists;
 use App\Application\Checklists\Actions\InitializeDailyRun;
 use App\Application\Checklists\Actions\SubmitDailyRun;
 use App\Application\Checklists\Data\DailyRunContext;
+use App\Application\Checklists\Queries\BuildDailyScopeBoard;
 use App\Application\Checklists\Support\ChecklistIncidentPrefillBuilder;
 use App\Domain\Checklists\Enums\ChecklistResult;
+use App\Domain\Checklists\Enums\ChecklistScope;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class DailyRun extends Component
 {
-    public $errorState = null; // 'zero' or 'multiple'
+    public $errorState = null; // 'zero', 'scope_required', or 'scope_missing'
+
+    public ?string $scopeRouteKey = null;
 
     public $run;
 
@@ -29,9 +33,12 @@ class DailyRun extends Component
 
     public $isSubmitted = false;
 
-    public function mount(): void
+    public array $scopeBoard = [];
+
+    public function mount(?string $scope = null): void
     {
-        $this->applyContext(app(InitializeDailyRun::class)(auth()->id()));
+        $this->scopeRouteKey = $scope;
+        $this->loadState();
     }
 
     public function submit(): void
@@ -111,7 +118,10 @@ class DailyRun extends Component
         $prefill = app(ChecklistIncidentPrefillBuilder::class)
             ->fromDailyRun($this->run, $this->template, $this->runItems);
 
-        return route('incidents.create', $prefill->toRouteParameters());
+        return route('incidents.create', [
+            ...$prefill->toRouteParameters(),
+            'checklist_scope' => $this->scopeRouteKey,
+        ]);
     }
 
     /**
@@ -141,6 +151,25 @@ class DailyRun extends Component
         $this->recentRuns = $context->recentRuns;
         $this->itemAnomalyMemory = $context->itemAnomalyMemory;
         $this->isSubmitted = $context->isSubmitted;
+    }
+
+    public function getScopeLabelProperty(): ?string
+    {
+        return ChecklistScope::fromRouteKey($this->scopeRouteKey)?->value;
+    }
+
+    private function loadState(): void
+    {
+        $this->scopeBoard = app(BuildDailyScopeBoard::class)(auth()->id());
+
+        $selectedScope = ChecklistScope::fromRouteKey($this->scopeRouteKey);
+        $context = app(InitializeDailyRun::class)(auth()->id(), $selectedScope);
+
+        $this->applyContext($context);
+
+        if ($this->scopeRouteKey === null && $context->template !== null) {
+            $this->scopeRouteKey = ChecklistScope::from($context->template->scope)->routeKey();
+        }
     }
 
     #[Layout('layouts.app')]

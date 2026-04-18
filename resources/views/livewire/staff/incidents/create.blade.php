@@ -15,7 +15,7 @@
             </div>
 
             <div class="ops-page-intro__actions">
-                <a href="{{ route('checklists.runs.today') }}" class="ops-button ops-button--secondary">
+                <a href="{{ route('checklists.runs.today', $checklistReturnScope ? ['scope' => $checklistReturnScope] : []) }}" class="ops-button ops-button--secondary">
                     {{ __('Back to checklist') }}
                 </a>
             </div>
@@ -71,7 +71,7 @@
 
                         <div class="ops-divider-top flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:justify-end">
                             @if ($submissionRecap['from_checklist'])
-                                <a href="{{ route('checklists.runs.today') }}" class="ops-button ops-button--secondary">
+                                <a href="{{ route('checklists.runs.today', $checklistReturnScope ? ['scope' => $checklistReturnScope] : []) }}" class="ops-button ops-button--secondary">
                                     Back to today&apos;s checklist
                                 </a>
                             @endif
@@ -130,7 +130,7 @@
                         </div>
 
                         <div class="ops-divider-top flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:justify-end">
-                            <a href="{{ route('checklists.runs.today') }}" class="ops-button ops-button--secondary">
+                            <a href="{{ route('checklists.runs.today', $checklistReturnScope ? ['scope' => $checklistReturnScope] : []) }}" class="ops-button ops-button--secondary">
                                 Cancel
                             </a>
                             <button type="submit" class="ops-button ops-button--primary min-w-44">

@@ -5,10 +5,11 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Admin workspace') }}</p>
                 <h2 class="ops-page__title">{{ __('Checklist Templates') }}</h2>
                 <p class="ops-page-intro__body">
-                    Govern the one live checklist runtime, shape draft revisions safely, and keep daily operations aligned with the real workflow.
+                    Govern the live checklist runtime by scope, shape draft revisions safely, and keep daily operations aligned with the real workflow.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live template control') }}</span>
+                    <span class="ops-shell-chip">{{ __('Scope-aware runtime') }}</span>
                     <span class="ops-shell-chip">{{ __('Draft-safe editing') }}</span>
                     <span class="ops-shell-chip">{{ __('Admin only') }}</span>
                 </div>
@@ -41,7 +42,7 @@
                         This screen now lives inside the main application shell so template administration uses the same navigation, authentication, and visual language as the rest of the product.
                     </p>
                     <p class="mt-3">
-                        Scope is currently a classification label for template organization and reporting. The runtime still executes exactly one active daily checklist template at a time, so saving an active template will automatically retire the others.
+                        Each checklist scope now owns its own live runtime lane. Saving a template as active only retires the currently active template inside the same scope.
                     </p>
                 </x-ops.callout>
             </div>

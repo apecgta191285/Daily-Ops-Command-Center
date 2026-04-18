@@ -6,6 +6,7 @@ namespace App\Application\Checklists\Actions;
 
 use App\Application\Checklists\Data\DailyRunContext;
 use App\Application\Checklists\Support\ChecklistAnomalyMemoryBuilder;
+use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistTemplate;
 
@@ -15,7 +16,7 @@ class InitializeDailyRun
         private readonly ChecklistAnomalyMemoryBuilder $anomalyMemoryBuilder,
     ) {}
 
-    public function __invoke(int $userId): DailyRunContext
+    public function __invoke(int $userId, ?ChecklistScope $scope = null): DailyRunContext
     {
         $templates = ChecklistTemplate::query()
             ->where('is_active', true)
@@ -26,11 +27,27 @@ class InitializeDailyRun
             return new DailyRunContext(errorState: 'zero');
         }
 
-        if ($templates->count() > 1) {
-            return new DailyRunContext(errorState: 'multiple');
+        if ($scope === null) {
+            if ($templates->count() > 1) {
+                return new DailyRunContext(errorState: 'scope_required');
+            }
+
+            $scope = ($templates->first()?->scope !== null)
+                ? ChecklistScope::from($templates->first()->scope)
+                : null;
         }
 
-        $template = $templates->first();
+        if ($scope === null) {
+            return new DailyRunContext(errorState: 'zero');
+        }
+
+        /** @var ChecklistTemplate|null $template */
+        $template = $templates->first(fn (ChecklistTemplate $template): bool => $template->scope === $scope->value);
+
+        if ($template === null) {
+            return new DailyRunContext(errorState: 'scope_missing');
+        }
+
         $today = now()->format('Y-m-d 00:00:00');
 
         $run = ChecklistRun::query()->firstOrCreate(
@@ -62,6 +79,7 @@ class InitializeDailyRun
 
         $recentRuns = ChecklistRun::query()
             ->where('created_by', $userId)
+            ->where('assigned_team_or_scope', $scope->value)
             ->where('submitted_at', '!=', null)
             ->whereKeyNot($run->id)
             ->with('items')

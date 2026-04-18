@@ -56,11 +56,50 @@ test('initialize daily run returns zero error when no active template exists', f
     expect($context->run)->toBeNull();
 });
 
-test('persistence invariant prevents creating multiple active templates in normal execution', function () {
-    expect(fn () => ChecklistTemplate::query()->create([
-        'title' => 'อีกหนึ่งเทมเพลต active',
-        'description' => 'ต้องถูกปฏิเสธโดยฐานข้อมูล',
+test('initialize daily run requires scope selection when multiple live scopes exist', function () {
+    $middayTemplate = $this->createTemplateWithItems([
+        'title' => 'Active midday template',
         'scope' => ChecklistScope::MIDDAY->value,
+        'is_active' => true,
+    ]);
+
+    $context = app(InitializeDailyRun::class)($this->operator->id);
+
+    expect($context->errorState)->toBe('scope_required');
+    expect($context->run)->toBeNull();
+    expect($context->template)->toBeNull();
+
+    $openingContext = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::OPENING);
+
+    expect($openingContext->errorState)->toBeNull();
+    expect($openingContext->template?->id)->toBe($this->activeTemplate->id);
+
+    $middayContext = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::MIDDAY);
+
+    expect($middayContext->errorState)->toBeNull();
+    expect($middayContext->template?->id)->toBe($middayTemplate->id);
+});
+
+test('initialize daily run returns scope missing when selected lane has no active template', function () {
+    $context = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::CLOSING);
+
+    expect($context->errorState)->toBe('scope_missing');
+    expect($context->run)->toBeNull();
+    expect($context->template)->toBeNull();
+});
+
+test('persistence invariant allows one active template per scope and forbids duplicates in the same scope', function () {
+    expect(fn () => ChecklistTemplate::query()->create([
+        'title' => 'Midday active template',
+        'description' => 'อีก scope ยังควรผ่านได้',
+        'scope' => ChecklistScope::MIDDAY->value,
+        'is_active' => true,
+    ]))->not->toThrow(QueryException::class);
+
+    expect(fn () => ChecklistTemplate::query()->create([
+        'title' => 'Opening active template duplicate',
+        'description' => 'scope เดิมต้องถูกปฏิเสธโดยฐานข้อมูล',
+        'scope' => ChecklistScope::OPENING->value,
         'is_active' => true,
     ]))->toThrow(QueryException::class);
 });

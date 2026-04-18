@@ -6,6 +6,7 @@ namespace App\Livewire\Staff\Incidents;
 
 use App\Application\Checklists\Data\ChecklistIncidentPrefill;
 use App\Application\Incidents\Actions\CreateIncident;
+use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use Livewire\Attributes\Layout;
@@ -34,6 +35,8 @@ class Create extends Component
 
     public array $severities = [];
 
+    public ?string $checklistReturnScope = null;
+
     public function mount(): void
     {
         $this->categories = IncidentCategory::values();
@@ -52,6 +55,9 @@ class Create extends Component
             $this->severity = $prefill->severity ?? '';
             $this->description = $prefill->description;
         }
+
+        $scopeRouteKey = request()->string('checklist_scope')->value();
+        $this->checklistReturnScope = ChecklistScope::fromRouteKey($scopeRouteKey)?->routeKey();
     }
 
     public function submit(): void

@@ -12,6 +12,7 @@ test('template activation impact builder explains draft live and replacement sta
     $draftImpact = $builder(
         editingTemplate: null,
         isActive: false,
+        scopeLabel: 'Opening',
         currentLiveTemplate: null,
     );
 
@@ -27,11 +28,13 @@ test('template activation impact builder explains draft live and replacement sta
     $replacementImpact = $builder(
         editingTemplate: null,
         isActive: true,
+        scopeLabel: 'Opening',
         currentLiveTemplate: $liveTemplate,
     );
 
-    expect($replacementImpact['title'])->toBe('Activation will retire the current live template')
+    expect($replacementImpact['title'])->toBe('Activation will retire the current live template for this scope')
         ->and($replacementImpact['description'])->toContain('Current live template')
+        ->and($replacementImpact['description'])->toContain('live Opening use')
         ->and($replacementImpact['description'])->toContain('3 recorded run(s)')
         ->and($replacementImpact['tone'])->toBe('warning');
 });

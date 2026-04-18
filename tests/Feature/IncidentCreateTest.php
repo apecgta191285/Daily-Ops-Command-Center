@@ -142,6 +142,7 @@ test('incident creation without attachment still succeeds', function () {
 test('incident create page can prefill checklist follow-up context from query string', function () {
     Livewire::withQueryParams([
         'from' => 'checklist',
+        'checklist_scope' => 'opening',
         'title' => 'Checklist follow-up issue',
         'category' => 'อื่น ๆ',
         'severity' => 'Medium',
@@ -149,6 +150,7 @@ test('incident create page can prefill checklist follow-up context from query st
     ])
         ->actingAs($this->operatorA)
         ->test(Create::class)
+        ->assertSet('checklistReturnScope', 'opening')
         ->assertSet('title', 'Checklist follow-up issue')
         ->assertSet('category', 'อื่น ๆ')
         ->assertSet('severity', 'Medium')
@@ -175,6 +177,7 @@ test('incident creation outcome screen can reset back to a fresh form', function
 test('incident creation outcome screen keeps checklist return path when prefilled from checklist', function () {
     Livewire::withQueryParams([
         'from' => 'checklist',
+        'checklist_scope' => 'opening',
         'title' => 'Checklist follow-up issue',
         'category' => 'อื่น ๆ',
         'severity' => 'Medium',
@@ -189,5 +192,6 @@ test('incident creation outcome screen keeps checklist return path when prefille
         ->call('submit')
         ->assertHasNoErrors()
         ->assertSeeHtml('Back to today&apos;s checklist')
+        ->assertSeeHtml('/checklists/runs/today/opening')
         ->assertSee('This report is linked to a checklist follow-up flow');
 });

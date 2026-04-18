@@ -31,7 +31,7 @@
 * frontend engineering wave `FE9` เดินต่อแล้วในก้อน `Cross-Screen Shell Assimilation`: dashboard, incident list, template index, และ daily checklist ถูกผูกเข้ากับ page-intro/header contract เดียวกัน เพื่อให้ shell-aware framing, meta chips, และ action rhythm ของหน้าหลักอ่านเป็น product family เดียวกันมากขึ้นหลังจาก shell repair และ auth/welcome redesign  
 * frontend engineering wave `FE9` ถูกปิดเพิ่มในก้อน `Premium UI Finish and Visual QA`: incident detail, template authoring, และ staff incident reporting ถูกผูกเข้ากับ shell-intro contract เดียวกันเพื่อเก็บ workflow seams สุดท้ายให้เป็น family เดียวกับ dashboard, incidents, templates, และ checklist runtime และทำให้ perception ของทั้งระบบเข้าใกล้คำว่า premium product มากขึ้นจริง  
 * post-FE9 full-stack product audit ถูกสรุปแล้ว และคำตัดสินหลักคือ codebase ไม่ได้ติดที่ foundation หรือ frontend identity อีกต่อไป แต่ติดที่ product usefulness layer โดยเฉพาะ runtime model, incident accountability, user administration, และ history surfaces  
-* next-wave planning ถูกล็อกแล้วโดยให้ `WF1 Scoped Daily Operations Runtime` เป็น product wave ถัดไปที่คุ้มที่สุด: เป้าหมายคือทำให้ `ChecklistScope` กลายเป็น runtime dimension จริงแบบ `opening / midday / closing` โดยยังคง A-lite scope และปฏิเสธ workflow enterprise เกินจำเป็น  
+* next product wave `WF1 Scoped Daily Operations Runtime` เริ่มถูกส่งลงระบบแล้ว: persistence invariant เปลี่ยนเป็น `one active template per scope`, staff runtime รองรับ scope-aware entry, และ checklist-to-incident handoff รักษา scope context ได้แล้ว โดยยังคง A-lite scope และปฏิเสธ workflow enterprise เกินจำเป็น  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -39,7 +39,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 planning locked |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1-A complete + minimum WF1-B runtime entry complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -129,8 +129,8 @@
 * Guest/auth entry surfaces ถูกยกแล้วใน FE9-B ด้วย command-entry framing ที่ใช้ atmospheric shell scene, brand-first narrative, และ stronger role/demo guidance แทน centered white panel บนพื้นหลังมืดแบบเดิม เพื่อให้ first-use impression ของระบบไม่หลุดจาก `Precision Ops Control Room` direction  
 * Major authenticated screens ถูก assimilate เพิ่มใน FE9-C ผ่าน shared page-intro contract เพื่อให้ top framing, shell chips, และ action rhythm ของ dashboard, incidents, templates, และ staff runtime เข้ากันเป็นระบบเดียวมากขึ้นโดยไม่ต้องแตก visual language ใหม่ทีละหน้า  
 * Workflow seams สุดท้ายถูกเก็บแล้วใน FE9-D โดย extend shell-intro contract ไปยัง incident detail, template manage, และ incident create เพื่อให้ management, admin, และ staff-critical flows ปิด perception gap ได้ครบกว่าเดิมและพร้อมสำหรับการทดสอบ visual QA เชิง product มากขึ้น  
-* Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
-* wave ถัดไปถูกล็อกแล้วว่าควรเริ่มจาก `WF1 Scoped Daily Operations Runtime` เพื่อเปลี่ยน `ChecklistScope` จาก metadata ไปเป็น runtime dimension จริง โดยออกแบบให้หนึ่ง scope มี live template ได้หนึ่งอัน และ staff เห็นวันทำงานเป็นหลาย operational moments แทน singular checklist lane เดิม  
+* Daily checklist runtime ปัจจุบันรองรับ `one active template per scope` แล้ว และ `Checklist Scope` ไม่ได้เป็นแค่ classification metadata อีกต่อไป: มันถูกใช้ทั้งใน template activation invariant, staff runtime entry, run retrieval, และ checklist-to-incident return flow  
+* `WF1 Scoped Daily Operations Runtime` เริ่มถูกส่งลงระบบแล้วในก้อน `WF1-A + minimum WF1-B`: staff จะ auto-enter ได้เมื่อมี live scope เดียว, จะเห็น runtime board เมื่อมีหลาย live scopes, และจะได้รับ `scope missing` state เมื่อเลือก lane ที่ยังไม่มี active template แทน configuration error แบบเก่า  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null
 

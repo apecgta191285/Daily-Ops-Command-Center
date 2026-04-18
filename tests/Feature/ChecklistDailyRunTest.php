@@ -49,6 +49,18 @@ test('route and access audit', function () {
     $this->actingAs($this->operatorA)->get('/checklists/runs/today')->assertOk();
 });
 
+test('daily checklist shows a runtime board when multiple scope templates are live', function () {
+    $this->template2->update(['is_active' => true]);
+
+    Livewire::actingAs($this->operatorB)
+        ->test(DailyRun::class)
+        ->assertSet('errorState', 'scope_required')
+        ->assertSee('Choose today&apos;s checklist lane', escape: false)
+        ->assertSee('Opening')
+        ->assertSee('Closing')
+        ->assertSee('Enter lane');
+});
+
 test('auto-create and no-duplicate proof', function () {
     $runCountBefore = ChecklistRun::where('created_by', $this->operatorB->id)
         ->where('checklist_template_id', $this->template1->id)
@@ -154,6 +166,16 @@ test('daily checklist shows recent submission context for the current operator',
         ->assertSee('2 note(s)');
 });
 
+test('daily checklist can load a selected scope lane directly from the route key', function () {
+    $this->template2->update(['is_active' => true]);
+
+    Livewire::actingAs($this->operatorB)
+        ->test(DailyRun::class, ['scope' => ChecklistScope::CLOSING->routeKey()])
+        ->assertSet('errorState', null)
+        ->assertSet('scopeRouteKey', ChecklistScope::CLOSING->routeKey())
+        ->assertSee($this->template2->title);
+});
+
 test('daily checklist shows lightweight anomaly memory for items with recent not-done history', function () {
     $this->createRunForUser(
         $this->operatorB,
@@ -235,6 +257,7 @@ test('submitted checklist recap offers a follow-up incident shortcut when items 
     expect($prefillUrl)->toContain('/incidents/new');
     expect(urldecode($prefillUrl))->toContain('Checklist follow-up issue');
     expect(urldecode($prefillUrl))->toContain('Unlock main door');
+    expect($prefillUrl)->toContain('checklist_scope=opening');
 
     $component
         ->assertSee('Submission Recap')

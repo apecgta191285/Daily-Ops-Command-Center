@@ -42,7 +42,6 @@ class Manage extends Component
     {
         $this->scopes = ChecklistScope::values();
         $this->template = $template;
-        $this->loadCurrentLiveTemplateContext();
 
         if ($this->template) {
             $this->runCount = $this->template->runs()->count();
@@ -52,12 +51,14 @@ class Manage extends Component
             $this->scope = $this->template->scope;
             $this->is_active = $this->template->is_active;
             $this->items = $this->itemEditor()->fromTemplate($this->template);
+            $this->loadCurrentLiveTemplateContext();
 
             return;
         }
 
         $this->scope = $this->scopes[0];
         $this->addItem();
+        $this->loadCurrentLiveTemplateContext();
     }
 
     public function addItem(): void
@@ -123,6 +124,7 @@ class Manage extends Component
         return $this->activationImpactBuilder()(
             $this->template,
             $this->is_active,
+            $this->scope,
             $this->currentLiveTemplate(),
         );
     }
@@ -206,7 +208,7 @@ class Manage extends Component
             $signals[] = [
                 'tone' => 'success',
                 'title' => 'This draft is pointed at live use',
-                'body' => 'Review ordering, section labels, and required flags carefully. Saving active changes the single production checklist staff will execute next.',
+                'body' => 'Review ordering, section labels, and required flags carefully. Saving active changes the production checklist staff will execute next for this scope.',
             ];
         }
 
@@ -265,6 +267,11 @@ class Manage extends Component
         return view('livewire.admin.checklist-templates.manage');
     }
 
+    public function updatedScope(): void
+    {
+        $this->loadCurrentLiveTemplateContext();
+    }
+
     private function loadCurrentLiveTemplateContext(): void
     {
         $currentLiveTemplate = $this->currentLiveTemplate();
@@ -277,6 +284,7 @@ class Manage extends Component
     {
         return ChecklistTemplate::query()
             ->withCount('runs')
+            ->where('scope', $this->scope)
             ->where('is_active', true)
             ->when(
                 $this->template?->exists,

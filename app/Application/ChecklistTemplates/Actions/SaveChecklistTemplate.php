@@ -14,6 +14,7 @@ class SaveChecklistTemplate
     {
         return DB::transaction(function () use ($template, $attributes): ChecklistTemplate {
             $template ??= new ChecklistTemplate;
+            $targetScope = $attributes['scope'];
 
             if ((bool) $attributes['is_active']) {
                 ChecklistTemplate::query()
@@ -21,6 +22,7 @@ class SaveChecklistTemplate
                         $template->exists,
                         fn ($query) => $query->whereKeyNot($template->getKey()),
                     )
+                    ->where('scope', $targetScope)
                     ->where('is_active', true)
                     ->update(['is_active' => false]);
             }

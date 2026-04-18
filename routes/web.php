@@ -25,7 +25,7 @@ Route::middleware(['auth', 'active'])->group(function () {
 
     // ── Staff-only routes ────────────────────────────────
     Route::middleware('role:'.UserRole::Staff->value)->group(function () {
-        Route::get('checklists/runs/today', DailyRun::class)
+        Route::get('checklists/runs/today/{scope?}', DailyRun::class)
             ->name('checklists.runs.today');
 
         Route::get('incidents/new', Create::class)

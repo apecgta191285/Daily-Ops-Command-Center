@@ -9,7 +9,7 @@
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ $template ? __('Revision workspace') : __('New draft') }}</span>
-                    <span class="ops-shell-chip">{{ __('Single active checklist') }}</span>
+                    <span class="ops-shell-chip">{{ __('Scope-aware activation') }}</span>
                     <span class="ops-shell-chip">{{ __('Admin-owned') }}</span>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                     <div class="ops-hero__meta">
                         <span class="ops-shell-chip ops-shell-chip--accent">{{ $template ? __('Template revision mode') : __('New template draft') }}</span>
                         <span class="ops-shell-chip">{{ __('Admin-only surface') }}</span>
-                        <span class="ops-shell-chip">{{ __('Single active daily template') }}</span>
+                        <span class="ops-shell-chip">{{ __('One live template per scope') }}</span>
                     </div>
                 </div>
 
@@ -330,14 +330,14 @@
                                     @if ($hasRunHistory)
                                         {{ __('This template already has :count recorded run(s). Duplicate it before major structural edits so historical runs stay easy to interpret.', ['count' => $runCount]) }}
                                     @elseif ($is_active)
-                                        {{ __('This template is currently active. Duplicate it if you want to prepare a revised version without changing the live daily checklist immediately.') }}
+                                        {{ __('This template is currently active for its scope. Duplicate it if you want to prepare a revised version without changing that live runtime immediately.') }}
                                     @else
                                         {{ __('Duplicate this template when you want to branch a new revision instead of overwriting the current draft.') }}
                                     @endif
                                 </x-ops.callout>
                                 @if ($currentLiveTemplateTitle)
                                     <p class="ops-text-muted mt-3 text-sm">
-                                        {{ __('Current live template: :title', ['title' => $currentLiveTemplateTitle]) }}
+                                        {{ __('Current live template for this scope: :title', ['title' => $currentLiveTemplateTitle]) }}
                                     </p>
                                 @endif
                                 <button type="submit" form="duplicate-template-form" class="ops-button ops-button--secondary mt-4 w-full">
@@ -352,7 +352,7 @@
                             <div>
                                 <p class="ops-section-heading__eyebrow">Governance</p>
                                 <h3 class="ops-section-heading__title">Activation impact</h3>
-                                <p class="ops-section-heading__body">Scope currently classifies the template for administration and reporting. Runtime still executes exactly one active daily checklist template at a time.</p>
+                                <p class="ops-section-heading__body">Each scope owns its own live template. Activation only replaces the currently active template inside the selected operating lane.</p>
                             </div>
                         </div>
 
@@ -364,7 +364,7 @@
                                         <option value="{{ $scopeOption }}">{{ $scopeOption }}</option>
                                     @endforeach
                                 </select>
-                                <p class="ops-field-help">Scope currently classifies the template for administration and reporting. It does not create a parallel daily execution flow yet.</p>
+                                <p class="ops-field-help">Scope determines which live runtime lane this template can own. Only one active template may exist within each scope.</p>
                                 @error('scope') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
@@ -381,7 +381,7 @@
                             <label class="ops-choice w-full justify-between">
                                 <span>
                                     <span class="ops-text-heading block font-medium">{{ __('Active template') }}</span>
-                                    <span class="ops-text-muted mt-1 block text-xs">{{ __('Saving as active will automatically retire every other template.') }}</span>
+                                    <span class="ops-text-muted mt-1 block text-xs">{{ __('Saving as active will automatically retire the current live template in this scope only.') }}</span>
                                 </span>
                                 <input type="checkbox" wire:model="is_active" class="ops-choice__control">
                             </label>

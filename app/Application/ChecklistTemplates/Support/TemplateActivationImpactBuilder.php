@@ -18,20 +18,21 @@ class TemplateActivationImpactBuilder
     public function __invoke(
         ?ChecklistTemplate $editingTemplate,
         bool $isActive,
+        string $scopeLabel,
         ?ChecklistTemplate $currentLiveTemplate,
     ): array {
         if (! $isActive) {
             return [
                 'title' => 'Draft mode',
-                'description' => 'This template will stay inactive after saving. Use this when you want to prepare a revision without changing the live daily checklist yet.',
+                'description' => "This template will stay inactive after saving. Use this when you want to prepare a {$scopeLabel} revision without changing the live runtime yet.",
                 'tone' => 'info',
             ];
         }
 
         if ($editingTemplate?->exists && $editingTemplate->is_active) {
             return [
-                'title' => 'Live template stays in place',
-                'description' => 'This template is already the live daily checklist. Saving keeps it active and updates the current production version directly.',
+                'title' => 'Live scope template stays in place',
+                'description' => "This template is already the live {$scopeLabel} checklist. Saving keeps it active and updates the current production version for that scope directly.",
                 'tone' => 'info',
             ];
         }
@@ -42,15 +43,15 @@ class TemplateActivationImpactBuilder
                 : '';
 
             return [
-                'title' => 'Activation will retire the current live template',
-                'description' => "Saving this template as active will retire \"{$currentLiveTemplate->title}\" from live use and replace the daily checklist immediately.{$historyNote}",
+                'title' => 'Activation will retire the current live template for this scope',
+                'description' => "Saving this template as active will retire \"{$currentLiveTemplate->title}\" from live {$scopeLabel} use and replace that scope immediately.{$historyNote}",
                 'tone' => 'warning',
             ];
         }
 
         return [
-            'title' => 'This becomes the first live template',
-            'description' => 'No other active template exists right now, so saving this template as active will make it the live daily checklist.',
+            'title' => 'This becomes the first live template for this scope',
+            'description' => "No other active {$scopeLabel} template exists right now, so saving this template as active will make it the live checklist for that scope.",
             'tone' => 'info',
         ];
     }
