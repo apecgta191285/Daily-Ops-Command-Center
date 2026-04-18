@@ -1,11 +1,23 @@
 <div>
     <x-slot name="header">
-        <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-            <div>
+        <div class="ops-page-intro">
+            <div class="ops-page-intro__copy">
+                <p class="ops-page-intro__eyebrow">{{ __('Management queue') }}</p>
                 <h2 class="ops-page__title">{{ __('Incident List') }}</h2>
-                <p class="text-sm">
-                    Review, filter, and inspect reported incidents without changing workflow behavior.
+                <p class="ops-page-intro__body">
+                    Review incoming incidents, narrow the queue with operational filters, and move quickly into detail and follow-up.
                 </p>
+                <div class="ops-page-intro__meta">
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live triage') }}</span>
+                    <span class="ops-shell-chip">{{ __('Filterable queue') }}</span>
+                    <span class="ops-shell-chip">{{ __('Management follow-up') }}</span>
+                </div>
+            </div>
+
+            <div class="ops-page-intro__actions">
+                <a href="{{ route('dashboard') }}" class="ops-button ops-button--secondary">
+                    {{ __('Back to dashboard') }}
+                </a>
             </div>
         </div>
     </x-slot>

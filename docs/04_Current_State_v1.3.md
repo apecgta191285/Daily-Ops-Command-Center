@@ -28,6 +28,7 @@
 * frontend hardening phase หลัง FE8 ถูกส่งลงระบบแล้ว: giant stylesheet เดิมถูกแยกเป็น concern-based modules สำหรับ `ops` และ `settings` โดยยังคง import contract เดิมไว้, ทำให้ ownership ของ shell/layout/data/forms/tables/incident/admin/utilities ชัดขึ้น และทำให้ frontend architecture เข้าใกล้ production-grade baseline ที่ maintain ได้จริงมากกว่าเดิม  
 * frontend engineering wave `FE9` เริ่มแล้วในก้อน `App Shell Architecture Repair`: authenticated shell ถูกจัด ownership ใหม่ให้ `flux:sidebar`, `flux:header`, และ `flux:main` กลับมาเป็น top-level siblings ตาม contract ของ Flux เพื่อให้ left rail ทำหน้าที่เป็น application frame จริงอีกครั้ง และลดความรู้สึกว่า navigation เป็นแค่ block ที่ไปกองมุมซ้ายบนของหน้าจอ  
 * frontend engineering wave `FE9` เดินต่อแล้วในก้อน `Auth and Welcome Identity Redesign`: auth/login และ guest entry surfaces ถูกยกจาก centered panel บน dark background ไปเป็น command-entry composition ที่มี atmosphere, branded scene, stronger asymmetry, และ entry narrative ชัดขึ้น เพื่อให้ first impression ของระบบสอดคล้องกับภาษาการออกแบบภายใน product shell มากขึ้น  
+* frontend engineering wave `FE9` เดินต่อแล้วในก้อน `Cross-Screen Shell Assimilation`: dashboard, incident list, template index, และ daily checklist ถูกผูกเข้ากับ page-intro/header contract เดียวกัน เพื่อให้ shell-aware framing, meta chips, และ action rhythm ของหน้าหลักอ่านเป็น product family เดียวกันมากขึ้นหลังจาก shell repair และ auth/welcome redesign  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -35,7 +36,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -123,6 +124,7 @@
 * Frontend CSS architecture ถูกแยกแล้วหลัง FE8: `ops` ถูก split ตาม concern ของ shell/layout/data/forms/tables/incident/admin/utilities และ `settings` ถูก split ระหว่าง surface/layout concerns กับ Flux override concerns โดยยังคง import contract เดิมเพื่อกัน integration churn  
 * Authenticated application shell ถูกจัด ownership ใหม่แล้วใน FE9-A โดยให้ Flux shell contract กลับมาเป็น `sidebar + header + main` ที่อยู่ในระดับเดียวกัน ทำให้ left rail มีโอกาส render เป็น app frame จริงทั้ง dashboard, incidents, templates, settings, และ staff flows แทนการถูกทำลายด้วย nested `flux:main` pattern  
 * Guest/auth entry surfaces ถูกยกแล้วใน FE9-B ด้วย command-entry framing ที่ใช้ atmospheric shell scene, brand-first narrative, และ stronger role/demo guidance แทน centered white panel บนพื้นหลังมืดแบบเดิม เพื่อให้ first-use impression ของระบบไม่หลุดจาก `Precision Ops Control Room` direction  
+* Major authenticated screens ถูก assimilate เพิ่มใน FE9-C ผ่าน shared page-intro contract เพื่อให้ top framing, shell chips, และ action rhythm ของ dashboard, incidents, templates, และ staff runtime เข้ากันเป็นระบบเดียวมากขึ้นโดยไม่ต้องแตก visual language ใหม่ทีละหน้า  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null

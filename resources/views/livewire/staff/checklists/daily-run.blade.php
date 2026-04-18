@@ -1,16 +1,26 @@
 <div>
     <x-slot name="header">
-        <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-            <div>
+        <div class="ops-page-intro">
+            <div class="ops-page-intro__copy">
+                <p class="ops-page-intro__eyebrow">{{ __('Staff runtime') }}</p>
                 <h2 class="ops-page__title">{{ __('Daily Checklist') }}</h2>
-                <p class="text-sm">
-                    Complete today&apos;s assigned checklist and report any issues immediately.
+                <p class="ops-page-intro__body">
+                    Complete the live checklist, keep evidence quality tight, and escalate real issues without losing operational context.
                 </p>
+                @if (! $errorState)
+                    <div class="ops-page-intro__meta">
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live daily run') }}</span>
+                        <span class="ops-shell-chip">{{ $this->answeredItems }}/{{ $this->totalItems }} {{ __('answered') }}</span>
+                        <span class="ops-shell-chip">{{ $isSubmitted ? __('Submitted') : __('Pending') }}</span>
+                    </div>
+                @endif
             </div>
 
             @if (! $errorState)
-                <div class="text-sm">
-                    {{ \Carbon\Carbon::parse($run->run_date)->format('M d, Y') }}
+                <div class="ops-page-intro__actions">
+                    <span class="ops-shell-chip">
+                        {{ \Carbon\Carbon::parse($run->run_date)->format('M d, Y') }}
+                    </span>
                 </div>
             @endif
         </div>

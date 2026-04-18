@@ -8,12 +8,26 @@
     }
 
     .ops-page__header-inner {
-        @apply border px-5 py-4 sm:px-6;
+        @apply relative overflow-hidden border px-5 py-4 sm:px-6;
         border-radius: var(--app-radius-xl);
-        background-color: var(--app-shell-bg);
+        background:
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-action-primary) 14%, transparent), transparent 34%),
+            linear-gradient(145deg, color-mix(in oklab, var(--app-shell-bg) 95%, black), color-mix(in oklab, var(--app-shell-bg-elevated) 88%, black));
         border-color: var(--app-shell-border);
         color: var(--app-shell-text);
         box-shadow: var(--app-shadow-md);
+    }
+
+    .ops-page__header-inner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, color-mix(in srgb, var(--app-shell-border) 22%, transparent) 1px, transparent 1px),
+            linear-gradient(color-mix(in srgb, var(--app-shell-border) 15%, transparent) 1px, transparent 1px);
+        background-size: 24px 24px;
+        opacity: 0.18;
+        pointer-events: none;
     }
 
     .ops-page__body {
@@ -34,6 +48,32 @@
     .ops-page__header .text-gray-600,
     .ops-page__header .text-zinc-500 {
         color: var(--app-shell-muted) !important;
+    }
+
+    .ops-page-intro {
+        @apply relative z-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between;
+    }
+
+    .ops-page-intro__copy {
+        @apply max-w-3xl;
+    }
+
+    .ops-page-intro__eyebrow {
+        @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
+    .ops-page-intro__body {
+        @apply mt-2 text-sm leading-6;
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
+    .ops-page-intro__meta {
+        @apply mt-4 flex flex-wrap gap-2;
+    }
+
+    .ops-page-intro__actions {
+        @apply relative z-10 flex flex-wrap items-center gap-3;
     }
 
     .ops-card {

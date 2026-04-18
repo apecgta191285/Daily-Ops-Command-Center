@@ -1,16 +1,24 @@
 <div>
     <x-slot name="header">
-        <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
+        <div class="ops-page-intro">
+            <div class="ops-page-intro__copy">
+                <p class="ops-page-intro__eyebrow">{{ __('Admin workspace') }}</p>
                 <h2 class="ops-page__title">{{ __('Checklist Templates') }}</h2>
-                <p class="text-sm">
-                    Admin-only template setup for the daily checklist workflow used by staff.
+                <p class="ops-page-intro__body">
+                    Govern the one live checklist runtime, shape draft revisions safely, and keep daily operations aligned with the real workflow.
                 </p>
+                <div class="ops-page-intro__meta">
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live template control') }}</span>
+                    <span class="ops-shell-chip">{{ __('Draft-safe editing') }}</span>
+                    <span class="ops-shell-chip">{{ __('Admin only') }}</span>
+                </div>
             </div>
 
-            <a href="{{ route('templates.create') }}" class="ops-button ops-button--primary" wire:navigate>
-                {{ __('Create template') }}
-            </a>
+            <div class="ops-page-intro__actions">
+                <a href="{{ route('templates.create') }}" class="ops-button ops-button--primary" wire:navigate>
+                    {{ __('Create template') }}
+                </a>
+            </div>
         </div>
     </x-slot>
 

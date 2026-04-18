@@ -29,12 +29,24 @@
     @endphp
 
     <x-slot name="header">
-        <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-            <div>
+        <div class="ops-page-intro">
+            <div class="ops-page-intro__copy">
+                <p class="ops-page-intro__eyebrow">{{ __('Management surface') }}</p>
                 <h2 class="ops-page__title">{{ __('Dashboard') }}</h2>
-                <p class="text-sm">
-                    Track checklist completion and monitor live incident workload at a glance.
+                <p class="ops-page-intro__body">
+                    Track checklist completion, unresolved pressure, and operational drift from one command frame.
                 </p>
+                <div class="ops-page-intro__meta">
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live command view') }}</span>
+                    <span class="ops-shell-chip">{{ __('Checklist momentum') }}</span>
+                    <span class="ops-shell-chip">{{ __('Incident hotspots') }}</span>
+                </div>
+            </div>
+
+            <div class="ops-page-intro__actions">
+                <a href="{{ route('incidents.index') }}" class="ops-button ops-button--secondary">
+                    {{ __('Review incidents') }}
+                </a>
             </div>
         </div>
     </x-slot>
