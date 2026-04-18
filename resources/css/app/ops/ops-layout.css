@@ -1,0 +1,236 @@
+@layer components {
+    .ops-page {
+        @apply min-h-full px-4 py-6 sm:px-6 lg:px-8;
+    }
+
+    .ops-page__header {
+        @apply mx-auto mb-6 max-w-7xl;
+    }
+
+    .ops-page__header-inner {
+        @apply border px-5 py-4 sm:px-6;
+        border-radius: var(--app-radius-xl);
+        background-color: var(--app-shell-bg);
+        border-color: var(--app-shell-border);
+        color: var(--app-shell-text);
+        box-shadow: var(--app-shadow-md);
+    }
+
+    .ops-page__body {
+        @apply mx-auto max-w-7xl;
+    }
+
+    .ops-page__title,
+    .ops-page__header h1,
+    .ops-page__header h2,
+    .ops-page__header h3 {
+        @apply text-2xl font-semibold tracking-tight;
+        font-family: var(--font-display);
+        color: var(--app-shell-text);
+    }
+
+    .ops-page__header p,
+    .ops-page__header .text-gray-500,
+    .ops-page__header .text-gray-600,
+    .ops-page__header .text-zinc-500 {
+        color: var(--app-shell-muted) !important;
+    }
+
+    .ops-card {
+        @apply border;
+        border-radius: var(--app-radius-xl);
+        background-color: var(--app-surface);
+        border-color: var(--app-border);
+        color: var(--app-text);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-card__header {
+        @apply border-b px-6 py-4;
+        border-color: var(--app-border);
+    }
+
+    .ops-card__body {
+        @apply px-6 py-5;
+    }
+
+    .ops-hero {
+        @apply relative overflow-hidden border;
+        border-radius: var(--app-radius-xl);
+        border-color: var(--app-shell-border);
+        background:
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='opsNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23opsNoise)' opacity='0.04'/%3E%3C/svg%3E"),
+            radial-gradient(ellipse 62% 55% at 84% 18%, color-mix(in srgb, var(--app-action-primary) var(--app-hero-glow-strength), transparent), transparent 68%),
+            radial-gradient(ellipse 42% 55% at 12% 86%, color-mix(in srgb, var(--app-info-border) 16%, transparent), transparent 58%),
+            linear-gradient(145deg, color-mix(in oklab, var(--app-shell-bg) 94%, black), color-mix(in oklab, var(--app-shell-bg-elevated) 88%, black));
+        color: var(--app-shell-text);
+        box-shadow: var(--app-shadow-lg);
+    }
+
+    .ops-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, color-mix(in srgb, var(--app-shell-border) 24%, transparent) 1px, transparent 1px),
+            linear-gradient(color-mix(in srgb, var(--app-shell-border) 16%, transparent) 1px, transparent 1px);
+        background-size: 24px 24px;
+        opacity: var(--app-hero-grid-opacity);
+        pointer-events: none;
+    }
+
+    .ops-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            transparent 4%,
+            color-mix(in srgb, white 12%, transparent) 26%,
+            color-mix(in srgb, var(--app-action-primary) 28%, white) 58%,
+            transparent 92%
+        );
+        pointer-events: none;
+    }
+
+    .ops-hero__inner {
+        @apply relative z-10 grid gap-6 px-6 py-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.95fr)] lg:px-8 lg:py-8;
+    }
+
+    .ops-hero__eyebrow {
+        @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
+        color: var(--app-shell-muted);
+    }
+
+    .ops-hero__title {
+        @apply mt-3 text-4xl font-bold tracking-tighter sm:text-5xl;
+        font-family: var(--font-display);
+        color: var(--app-shell-text);
+    }
+
+    .ops-hero__lead {
+        @apply mt-4 max-w-2xl text-sm leading-7 sm:text-base;
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
+    .ops-hero__meta {
+        @apply mt-5 flex flex-wrap gap-2;
+    }
+
+    .ops-hero__aside {
+        @apply space-y-4 border px-5 py-5;
+        border-radius: calc(var(--app-radius-xl) - 0.5rem);
+        border-color: color-mix(in srgb, var(--app-shell-border) 82%, white);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 55%),
+            color-mix(in srgb, white 8%, transparent);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            0 10px 24px rgba(0, 0, 0, 0.16);
+        backdrop-filter: blur(var(--app-glass-blur));
+        -webkit-backdrop-filter: blur(var(--app-glass-blur));
+    }
+
+    .ops-hero__aside-title {
+        @apply text-xs font-semibold uppercase tracking-[0.16em];
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
+    .ops-hero__aside-value {
+        @apply mt-2 font-bold;
+        font-size: var(--app-text-hero-value);
+        letter-spacing: -0.04em;
+        line-height: 1;
+        color: var(--app-shell-text);
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
+    }
+
+    .ops-hero__aside-copy {
+        @apply mt-2 text-sm leading-6;
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
+    .ops-hero__aside-stack {
+        @apply space-y-3;
+    }
+
+    .ops-command-grid {
+        @apply grid gap-6;
+    }
+
+    .ops-command-grid--dashboard {
+        @apply xl:grid-cols-[minmax(0,1.55fr)_minmax(19rem,1fr)];
+    }
+
+    .ops-command-grid--checklist {
+        @apply xl:grid-cols-[minmax(0,1.5fr)_minmax(22rem,1fr)];
+    }
+
+    .ops-command-grid--template {
+        @apply xl:grid-cols-[minmax(0,1.5fr)_minmax(21rem,1fr)];
+    }
+
+    .ops-stack {
+        @apply space-y-6;
+    }
+
+    .ops-section-heading {
+        @apply flex flex-col gap-2 border-b px-6 py-4 sm:flex-row sm:items-end sm:justify-between;
+        border-color: var(--app-border);
+    }
+
+    .ops-section-heading__eyebrow {
+        @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
+        color: var(--app-text-muted);
+    }
+
+    .ops-section-heading__title {
+        @apply mt-1 text-2xl font-bold tracking-tight;
+        font-family: var(--font-display);
+        color: var(--app-heading);
+    }
+
+    .ops-section-heading__body {
+        @apply mt-2 max-w-3xl text-sm leading-6;
+        color: var(--app-text-muted);
+    }
+
+    .ops-item-stack {
+        @apply space-y-5;
+    }
+
+    .ops-item-group {
+        @apply border-t pt-5 first:border-t-0 first:pt-0;
+        border-color: var(--app-border);
+    }
+
+    .ops-item-group__label {
+        @apply mb-4 rounded-2xl border px-4 py-3 text-sm font-semibold uppercase tracking-[0.1em];
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+        color: var(--app-heading);
+    }
+
+    .ops-item-card {
+        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border px-4 py-5;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-item-card__content {
+        @apply grid gap-4 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start lg:gap-6;
+    }
+
+    .ops-item-card__title {
+        @apply text-sm font-semibold;
+        color: var(--app-heading);
+    }
+
+    .ops-item-card__description {
+        @apply mt-2 text-sm leading-6;
+        color: var(--app-text-muted);
+    }
+}

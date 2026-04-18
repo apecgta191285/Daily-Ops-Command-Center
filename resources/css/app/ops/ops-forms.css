@@ -1,0 +1,287 @@
+@layer components {
+    .ops-control {
+        @apply block w-full border px-3 py-2.5 text-sm font-medium;
+        border-radius: var(--app-radius-sm);
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-text);
+        box-shadow: inset 0 1px 2px rgba(9, 9, 11, 0.03);
+        transition:
+            border-color var(--app-duration-normal) var(--app-ease-in-out),
+            box-shadow var(--app-duration-normal) var(--app-ease-out),
+            background-color var(--app-duration-normal) var(--app-ease-in-out),
+            color var(--app-duration-normal) var(--app-ease-in-out);
+    }
+
+    .ops-control:disabled,
+    .ops-control[disabled] {
+        background-color: var(--app-surface-subtle);
+        color: var(--app-text-muted);
+        cursor: not-allowed;
+    }
+
+    .ops-control--file::file-selector-button {
+        margin-right: 0.75rem;
+        border: 0;
+        border-radius: calc(var(--app-radius-md) - 0.2rem);
+        background-color: var(--app-surface-subtle);
+        color: var(--app-text);
+        padding: 0.6rem 0.9rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            color var(--app-duration-fast) var(--app-ease-in-out);
+    }
+
+    .ops-control--file:hover::file-selector-button {
+        background-color: color-mix(in srgb, var(--app-surface-subtle) 82%, white);
+    }
+
+    .ops-button {
+        @apply inline-flex items-center justify-center border px-4 py-2.5 text-sm font-bold focus:outline-hidden;
+        border-radius: var(--app-radius-sm);
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            color var(--app-duration-fast) var(--app-ease-in-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out),
+            transform var(--app-duration-fast) var(--app-ease-out);
+        box-shadow: var(--app-shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .ops-button:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--app-shadow-md);
+    }
+
+    .ops-button--primary {
+        background-color: var(--app-action-primary);
+        border-color: var(--app-action-primary);
+        color: var(--app-action-primary-text);
+        box-shadow: var(--app-shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .ops-button--primary:hover {
+        background-color: var(--app-action-primary-hover);
+        border-color: var(--app-action-primary-hover);
+        box-shadow: var(--app-shadow-md), var(--app-glow-primary-sm), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .ops-button--secondary {
+        background-color: var(--app-action-secondary);
+        border-color: var(--app-action-secondary-border);
+        color: var(--app-action-secondary-text);
+    }
+
+    .ops-button--secondary:hover {
+        background-color: var(--app-action-secondary-hover);
+    }
+
+    .ops-button--danger {
+        background-color: var(--app-action-danger);
+        border-color: var(--app-action-danger-border);
+        color: var(--app-action-danger-text);
+    }
+
+    .ops-button--danger:hover {
+        background-color: var(--app-action-danger-hover);
+        border-color: var(--app-action-danger-border);
+    }
+
+    .ops-alert {
+        @apply border px-4 py-3 text-sm;
+        border-radius: var(--app-radius-lg);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-alert--success {
+        background-color: var(--app-success-bg);
+        border-color: var(--app-success-border);
+        color: var(--app-success-text);
+    }
+
+    .ops-alert--warning {
+        background-color: var(--app-warning-bg);
+        border-color: var(--app-warning-border);
+        color: var(--app-warning-text);
+    }
+
+    .ops-alert--danger {
+        background-color: var(--app-danger-bg);
+        border-color: var(--app-danger-border);
+        color: var(--app-danger-text);
+    }
+
+    .ops-callout {
+        @apply border px-5 py-4;
+        border-radius: var(--app-radius-lg);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-callout--neutral {
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+        color: var(--app-text);
+    }
+
+    .ops-callout--info {
+        border-color: var(--app-info-border);
+        background-color: var(--app-info-bg);
+        color: var(--app-info-text);
+    }
+
+    .ops-callout--success {
+        border-color: var(--app-success-border);
+        background-color: var(--app-success-bg);
+        color: var(--app-success-text);
+    }
+
+    .ops-callout--warning {
+        border-color: var(--app-warning-border);
+        background-color: var(--app-warning-bg);
+        color: var(--app-warning-text);
+    }
+
+    .ops-callout__title {
+        @apply text-sm font-semibold uppercase tracking-[0.08em];
+    }
+
+    .ops-callout__body {
+        @apply mt-3 text-sm leading-6;
+        color: var(--app-heading);
+    }
+
+    .ops-alert__inner {
+        @apply flex items-start gap-3;
+    }
+
+    .ops-alert__copy {
+        @apply min-w-0 flex-1;
+    }
+
+    .ops-alert__dismiss {
+        @apply inline-flex size-8 items-center justify-center border bg-transparent text-xs font-semibold;
+        border-radius: 9999px;
+        border-color: color-mix(in srgb, currentColor 18%, transparent);
+        color: inherit;
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out),
+            transform var(--app-duration-fast) var(--app-ease-out);
+    }
+
+    .ops-alert__dismiss:hover {
+        background-color: color-mix(in srgb, currentColor 10%, white);
+        transform: scale(1.04);
+    }
+
+    .ops-badge {
+        @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium;
+    }
+
+    .ops-badge--neutral {
+        background-color: var(--app-badge-neutral-bg);
+        border-color: var(--app-badge-neutral-border);
+        color: var(--app-badge-neutral-text);
+    }
+
+    .ops-badge--info {
+        background-color: var(--app-info-bg);
+        border-color: var(--app-info-border);
+        color: var(--app-info-text);
+    }
+
+    .ops-badge--success {
+        background-color: var(--app-success-bg);
+        border-color: var(--app-success-border);
+        color: var(--app-success-text);
+    }
+
+    .ops-badge--warning {
+        background-color: var(--app-warning-bg);
+        border-color: var(--app-warning-border);
+        color: var(--app-warning-text);
+    }
+
+    .ops-badge--danger {
+        background-color: var(--app-danger-bg);
+        border-color: var(--app-danger-border);
+        color: var(--app-danger-text);
+    }
+
+    .ops-chip {
+        @apply inline-flex items-center gap-2 border px-3 py-1.5 text-xs font-medium;
+        border-radius: 9999px;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+        color: var(--app-text-muted);
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out),
+            color var(--app-duration-fast) var(--app-ease-in-out);
+    }
+
+    .ops-chip--info {
+        border-color: var(--app-info-border);
+        background-color: var(--app-info-bg);
+        color: var(--app-info-text);
+    }
+
+    .ops-chip--warning {
+        border-color: var(--app-warning-border);
+        background-color: var(--app-warning-bg);
+        color: var(--app-warning-text);
+    }
+
+    .ops-chip--success {
+        border-color: var(--app-success-border);
+        background-color: var(--app-success-bg);
+        color: var(--app-success-text);
+    }
+
+    .ops-field-label {
+        @apply mb-2 block text-sm font-medium;
+        color: var(--app-heading);
+    }
+
+    .ops-field-help {
+        @apply mt-2 text-xs;
+        color: var(--app-text-muted);
+    }
+
+    .ops-field-error {
+        @apply mt-2 text-xs font-medium;
+        color: var(--app-danger-text);
+    }
+
+    .ops-choice {
+        @apply inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium transition;
+        background-color: var(--app-surface-elevated);
+        border-color: var(--app-border);
+        color: var(--app-text);
+    }
+
+    .ops-choice:hover {
+        background-color: var(--app-surface-subtle);
+    }
+
+    .ops-choice__control {
+        @apply size-4 rounded border;
+        border-color: var(--app-border);
+        color: var(--app-action-primary);
+        accent-color: var(--app-action-primary);
+    }
+
+    .ops-choice__control--danger {
+        color: var(--app-danger-text);
+        accent-color: var(--app-danger-text);
+    }
+
+    .ops-choice__control:focus {
+        outline: none;
+        box-shadow:
+            0 0 0 2px var(--app-surface),
+            0 0 0 4px color-mix(in srgb, var(--app-focus-ring) 34%, transparent);
+    }
+}

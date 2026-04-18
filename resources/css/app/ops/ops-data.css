@@ -1,0 +1,476 @@
+@layer components {
+    .ops-glance-grid--hero {
+        @apply grid gap-3 sm:grid-cols-3;
+    }
+
+    .ops-glance-card {
+        @apply rounded-[calc(var(--app-radius-lg)-0.2rem)] border px-4 py-4;
+        border-color: color-mix(in srgb, var(--app-shell-border) 82%, white);
+        background-color: color-mix(in srgb, white 7%, transparent);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .ops-glance-card__label {
+        @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
+        color: var(--app-shell-muted);
+    }
+
+    .ops-glance-card__value {
+        @apply mt-2 text-3xl font-bold tracking-tighter;
+        font-family: var(--font-display);
+        color: var(--app-shell-text);
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
+    }
+
+    .ops-glance-card__meta {
+        @apply mt-2 text-xs leading-5;
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
+    .ops-signal-grid {
+        @apply grid gap-4 xl:grid-cols-3;
+    }
+
+    .ops-signal-card {
+        @apply relative overflow-hidden border px-5 py-5;
+        border-radius: calc(var(--app-radius-xl) - 0.4rem);
+        box-shadow: var(--app-shadow-sm);
+        transition:
+            transform var(--app-duration-fast) var(--app-ease-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out);
+    }
+
+    .ops-signal-card::after {
+        content: '';
+        position: absolute;
+        inset: auto 0 0 0;
+        height: 3px;
+        opacity: 0.95;
+    }
+
+    .ops-signal-card--neutral {
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+    }
+
+    .ops-signal-card--neutral::after {
+        background: linear-gradient(90deg, var(--app-border), color-mix(in srgb, var(--app-shell-border) 48%, white));
+    }
+
+    .ops-signal-card--warning {
+        border-color: var(--app-warning-border);
+        background-color: var(--app-warning-bg);
+    }
+
+    .ops-signal-card--warning::after {
+        background: linear-gradient(90deg, color-mix(in srgb, var(--app-warning-text) 60%, white), var(--app-warning-border));
+    }
+
+    .ops-signal-card--danger {
+        border-color: var(--app-danger-border);
+        background-color: var(--app-danger-bg);
+    }
+
+    .ops-signal-card--danger::after {
+        background: linear-gradient(90deg, color-mix(in srgb, var(--app-danger-text) 60%, white), var(--app-danger-border));
+    }
+
+    .ops-signal-card__header {
+        @apply flex items-start justify-between gap-4;
+    }
+
+    .ops-signal-card__title {
+        @apply text-sm font-semibold;
+        color: var(--app-heading);
+    }
+
+    .ops-signal-card__count {
+        @apply mt-2 text-4xl font-bold tracking-tighter;
+        font-family: var(--font-display);
+        color: var(--app-heading);
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
+    }
+
+    .ops-signal-card__body {
+        @apply mt-3 text-sm leading-6;
+        color: var(--app-text-muted);
+    }
+
+    .ops-signal-card__footer {
+        @apply mt-5;
+    }
+
+    .ops-stat-grid {
+        @apply grid gap-4 md:grid-cols-2 xl:grid-cols-4;
+    }
+
+    .ops-glance-grid {
+        @apply grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.15fr)];
+    }
+
+    .ops-detail-list {
+        @apply space-y-3;
+    }
+
+    .ops-detail-list__item {
+        @apply rounded-2xl border px-4 py-4;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-detail-list__title {
+        @apply text-sm font-semibold;
+        color: var(--app-heading);
+    }
+
+    .ops-detail-list__body {
+        @apply mt-1 text-sm leading-6;
+        color: var(--app-text-muted);
+    }
+
+    .ops-progress-panel {
+        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 94%, white), var(--app-surface-elevated)),
+            var(--app-surface-elevated);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-trend-card {
+        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
+            var(--app-surface);
+        box-shadow: var(--app-shadow-sm);
+        transition:
+            transform var(--app-duration-fast) var(--app-ease-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out);
+    }
+
+    .ops-trend-card__header {
+        @apply flex items-start justify-between gap-3;
+    }
+
+    .ops-trend-card__eyebrow {
+        @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
+        color: var(--app-text-muted);
+    }
+
+    .ops-trend-card__value {
+        @apply mt-3 font-bold tracking-tighter;
+        font-size: var(--app-text-flagship-value);
+        font-family: var(--font-display);
+        color: var(--app-heading);
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
+    }
+
+    .ops-trend-card__visual {
+        @apply shrink-0 rounded-2xl border px-3 py-2;
+        border-color: color-mix(in srgb, var(--app-border) 86%, white);
+        background-color: color-mix(in srgb, var(--app-surface-subtle) 74%, white);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .ops-trend-card__meta {
+        @apply mt-2 text-sm;
+        color: var(--app-text-muted);
+    }
+
+    .ops-trend-card__copy {
+        @apply mt-4 text-sm font-medium;
+        color: var(--app-heading);
+    }
+
+    .ops-trend-pill {
+        @apply inline-flex items-center rounded-full border px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em];
+    }
+
+    .ops-trend-pill--up {
+        background-color: var(--app-success-bg);
+        border-color: var(--app-success-border);
+        color: var(--app-success-text);
+    }
+
+    .ops-trend-pill--down {
+        background-color: var(--app-warning-bg);
+        border-color: var(--app-warning-border);
+        color: var(--app-warning-text);
+    }
+
+    .ops-trend-pill--flat {
+        background-color: var(--app-badge-neutral-bg);
+        border-color: var(--app-badge-neutral-border);
+        color: var(--app-badge-neutral-text);
+    }
+
+    .ops-compare-list {
+        @apply mt-4 space-y-3;
+    }
+
+    .ops-compare-list__item {
+        @apply flex items-center justify-between gap-3 rounded-2xl border px-3 py-3 text-sm;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+    }
+
+    .ops-compare-list__label {
+        color: var(--app-text-muted);
+    }
+
+    .ops-compare-list__value {
+        @apply font-semibold;
+        color: var(--app-heading);
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
+    }
+
+    .ops-progress-bar {
+        @apply h-2 overflow-hidden rounded-full;
+        background-color: color-mix(in srgb, var(--app-border) 82%, white);
+    }
+
+    .ops-progress-bar__value {
+        @apply h-full rounded-full transition-all;
+        background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--app-action-primary) 92%, white),
+            color-mix(in srgb, var(--app-info-border) 90%, white)
+        );
+        transition-duration: var(--app-duration-slow);
+        transition-timing-function: var(--app-ease-out);
+    }
+
+    .ops-stat {
+        @apply relative overflow-hidden border;
+        border-radius: var(--app-radius-xl);
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
+            var(--app-surface);
+        box-shadow: var(--app-shadow-sm);
+        transition:
+            transform var(--app-duration-fast) var(--app-ease-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out);
+    }
+
+    .ops-stat::after {
+        content: '';
+        position: absolute;
+        inset: auto 0 0 0;
+        height: 3px;
+        background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--app-action-primary) 68%, white),
+            color-mix(in srgb, var(--app-info-border) 72%, white)
+        );
+        opacity: 0.92;
+    }
+
+    .ops-stat__header {
+        @apply flex items-start justify-between gap-4;
+    }
+
+    .ops-stat__body {
+        @apply px-6 py-5;
+    }
+
+    .ops-stat__kicker {
+        @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
+        color: var(--app-text-muted);
+    }
+
+    .ops-stat__visual {
+        @apply shrink-0;
+    }
+
+    .ops-stat__value {
+        @apply mt-3 font-bold tracking-tighter;
+        font-size: var(--app-text-stat-value);
+        font-family: var(--font-display);
+        color: var(--app-heading);
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
+    }
+
+    .ops-stat__meta {
+        @apply mt-2 text-sm;
+        color: var(--app-text-muted);
+    }
+
+    .ops-stat__emphasis {
+        @apply mt-3 text-sm font-medium;
+        color: var(--app-heading);
+    }
+
+    .ops-hotspot-list {
+        @apply space-y-3;
+    }
+
+    .ops-hotspot-list__item {
+        @apply rounded-2xl border px-4 py-4;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+        box-shadow: var(--app-shadow-sm);
+        transition:
+            transform var(--app-duration-fast) var(--app-ease-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out);
+    }
+
+    .ops-hotspot-list__row {
+        @apply flex items-start justify-between gap-4;
+    }
+
+    .ops-hotspot-list__identity {
+        @apply flex min-w-0 items-start gap-3;
+    }
+
+    .ops-hotspot-list__rank {
+        @apply inline-flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold;
+        background-color: var(--app-shell-bg);
+        color: var(--app-shell-text);
+        box-shadow: var(--app-shadow-sm);
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out);
+    }
+
+    .ops-hotspot-list__title {
+        @apply text-sm font-semibold;
+        color: var(--app-heading);
+    }
+
+    .ops-hotspot-list__meta {
+        @apply mt-1 text-sm;
+        color: var(--app-text-muted);
+    }
+
+    .ops-hotspot-list__meter {
+        @apply mt-3 h-2 overflow-hidden rounded-full;
+        background-color: color-mix(in srgb, var(--app-border) 82%, white);
+    }
+
+    .ops-hotspot-list__meter-fill {
+        @apply h-full rounded-full;
+        background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--app-warning-border) 72%, white),
+            color-mix(in srgb, var(--app-danger-border) 92%, white)
+        );
+        transition: width var(--app-duration-slow) var(--app-ease-out);
+    }
+
+    .ops-hotspot-list__item[data-hotspot-rank='1'] .ops-hotspot-list__rank {
+        background: linear-gradient(
+            135deg,
+            var(--app-action-primary),
+            color-mix(in srgb, var(--app-action-primary) 68%, var(--app-info-border))
+        );
+        box-shadow: var(--app-shadow-sm), var(--app-glow-primary-sm);
+    }
+
+    .ops-hotspot-list__item[data-hotspot-rank='1'] .ops-hotspot-list__meter-fill {
+        background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--app-danger-text) 76%, white),
+            color-mix(in srgb, var(--app-danger-border) 96%, white)
+        );
+    }
+
+    .ops-step-index {
+        @apply inline-flex size-6 shrink-0 items-center justify-center text-xs font-semibold;
+        border-radius: 9999px;
+        background-color: var(--app-surface-elevated);
+        color: var(--app-heading);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-arc {
+        display: block;
+        overflow: visible;
+        transform: rotate(-90deg);
+    }
+
+    .ops-arc__track {
+        fill: none;
+        stroke: color-mix(in srgb, var(--app-border) 88%, white);
+        stroke-width: 2.75;
+    }
+
+    .ops-arc__fill {
+        fill: none;
+        stroke-width: 2.75;
+        stroke-linecap: round;
+        transition: stroke-dasharray var(--app-duration-slow) var(--app-ease-out);
+    }
+
+    .ops-arc-wrapper {
+        @apply relative inline-flex items-center justify-center;
+    }
+
+    .ops-arc-wrapper__label {
+        @apply pointer-events-none absolute inset-0 flex items-center justify-center text-[0.68rem] font-semibold;
+        color: var(--app-heading);
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
+    }
+
+    .ops-sparkline {
+        display: block;
+        overflow: visible;
+    }
+
+    .ops-sparkline__line {
+        fill: none;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .ops-signal-card:hover,
+        .ops-glance-card:hover,
+        .ops-trend-card:hover,
+        .ops-hotspot-list__item:hover {
+            transform: translateY(var(--app-card-hover-translate));
+            box-shadow: var(--app-card-hover-shadow);
+        }
+
+        .ops-stat:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--app-card-hover-shadow);
+        }
+
+        .ops-glance-card:hover {
+            border-color: color-mix(in srgb, var(--app-action-primary) 24%, white);
+            background-color: color-mix(in srgb, white 9%, transparent);
+        }
+
+        .ops-signal-card--danger:hover {
+            border-color: color-mix(in srgb, var(--app-danger-border) 82%, var(--app-danger-text) 18%);
+            box-shadow: var(--app-card-hover-shadow), var(--app-glow-danger-sm);
+        }
+
+        .ops-signal-card--warning:hover {
+            border-color: color-mix(in srgb, var(--app-warning-border) 82%, var(--app-warning-text) 18%);
+            box-shadow: var(--app-card-hover-shadow), var(--app-glow-warning-sm);
+        }
+
+        .ops-signal-card--neutral:hover,
+        .ops-trend-card:hover,
+        .ops-stat:hover,
+        .ops-hotspot-list__item:hover {
+            border-color: color-mix(in srgb, var(--app-border) 74%, var(--app-action-primary) 18%);
+        }
+    }
+}

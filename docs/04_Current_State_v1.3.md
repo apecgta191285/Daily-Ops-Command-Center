@@ -23,6 +23,9 @@
 * frontend engineering wave `FE4` ถูกส่งลงระบบแล้ว: app/auth/guest shells มี skip link และ main landmarks, interactive focus-visible baseline ชัดขึ้น, และ table-heavy surfaces หลักรองรับ mobile stacking แล้ว  
 * frontend engineering wave `FE5` ถูกส่งลงระบบแล้ว: appearance switch ที่ไม่สมบูรณ์ถูก retire ออกจาก product contract, frontend ถูก commit กับ one flagship theme แบบชัดเจน, typography identity มี display layer แล้ว, และ hardcoded visual residue หลักถูกเก็บลง token/component contract มากขึ้น  
 * frontend engineering wave `FE6` ถูกส่งลงระบบครบแล้วในก้อน `Dashboard Signal Depth`, `Incident Detail Narrative Surface`, `Template Authoring Surface Depth`, `Motion and Reveal Orchestration`, และ `Settings Surface Cleanup`: dashboard hero aside ถูกยกเป็น glance rail, trend panels ถูกทำให้อ่านผลต่างได้เร็วขึ้น, hotspot list ถูกจัดลำดับพร้อม visual intensity, incident detail ถูกยกเป็น narrative screen ที่มี latest handling lane, evidence lane, action lane, และ sequence timeline ชัดขึ้น, template administration ถูกยกเป็น authoring workspace ที่มี checkpoint summary, live execution preview, และ item-level scanability ดีขึ้น, key product surfaces มี app-owned reveal cadence ที่รองรับ reduced motion และ Livewire navigation, และ settings family ถูกทำให้เป็น control surface ชุดเดียวกับ product หลักโดยยังไม่เพิ่ม analytics infrastructure หรือ builder workflow ใหม่  
+* frontend engineering wave `FE7` ถูกส่งลงระบบแล้ว: dashboard ได้ visual data layer แบบ app-owned ด้วย arc/sparkline components, hero atmosphere เข้มขึ้น, interaction depth ถูกยกด้วย hover/glow contract, typography/numeric presence หนักแน่นขึ้น, template rows และ incident outcome recap ถูกผูกเข้ากับ token/component contract เดียวกัน, และ Tailwind source discovery ถูกล็อกเพื่อตัด build warning ที่ไม่เกี่ยวกับ runtime ออก  
+* frontend engineering wave `FE8` ถูกส่งลงระบบแล้ว: accessibility bug ใน hero metrics ถูกแก้, motion orchestration ถูกปิดด้วย stagger groups และ hotspot meter animation, incident detail ได้ severity-aware investigation weighting, font preload ถูกเพิ่ม, และ dashboard/incidents/template authoring surfaces ถูกปิดให้เป็น `Industrial Command / Precision Ops` ที่ coherent ขึ้นอีกขั้น  
+* frontend hardening phase หลัง FE8 ถูกส่งลงระบบแล้ว: giant stylesheet เดิมถูกแยกเป็น concern-based modules สำหรับ `ops` และ `settings` โดยยังคง import contract เดิมไว้, ทำให้ ownership ของ shell/layout/data/forms/tables/incident/admin/utilities ชัดขึ้น และทำให้ frontend architecture เข้าใกล้ production-grade baseline ที่ maintain ได้จริงมากกว่าเดิม  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -30,7 +33,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -80,6 +83,7 @@
 * 60_FE6_Template_Authoring_Surface_Depth_Execution_Pack_2026-04-17
 * 61_FE6_Motion_and_Reveal_Orchestration_Execution_Pack_2026-04-17
 * 62_FE6_Settings_Surface_Cleanup_Execution_Pack_2026-04-18
+* 63_FE8_Frontend_Hardening_and_CSS_Architecture_Split_Execution_Pack_2026-04-18
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -113,6 +117,8 @@
 * Template authoring surface ถูกยกระดับรอบแรกแล้วใน FE6 โดยยังใช้ template/livewire/save contract เดิม แต่เพิ่ม authoring rhythm, live execution preview, checkpoint summary, และ item-level cueing ให้หน้า template management อ่านเป็น admin workspace ได้ดีขึ้น  
 * Motion orchestration ถูกยกระดับรอบแรกแล้วใน FE6 โดยใช้ app-owned reveal contract ที่ทำงานกับ JS readiness, reduced motion, และ Livewire navigation เพื่อให้ key surfaces หลักมี cadence การเผยเนื้อหาที่ intentional มากขึ้นโดยไม่พึ่ง animation library ภายนอก  
 * Settings surface cleanup ถูกส่งลงระบบแล้วใน FE6 โดยยังใช้ account/security route และ Livewire contract เดิม แต่เพิ่ม settings navigation rail, section card rhythm, modal consistency, และ supporting context ให้ profile/security/two-factor flows ดูเป็น control surface ชุดเดียวกับ product หลัก  
+* Dashboard, incident detail, และ template authoring surfaces ถูกยกระดับต่อใน FE7-FE8 ด้วย app-owned visual data primitives, stronger signal emphasis, staggered reveal orchestration, severity-aware investigation weighting, และ font delivery hardening โดยไม่เพิ่ม dependency ฝั่ง chart/motion ใดๆ  
+* Frontend CSS architecture ถูกแยกแล้วหลัง FE8: `ops` ถูก split ตาม concern ของ shell/layout/data/forms/tables/incident/admin/utilities และ `settings` ถูก split ระหว่าง surface/layout concerns กับ Flux override concerns โดยยังคง import contract เดิมเพื่อกัน integration churn  
 * Daily checklist runtime ปัจจุบันยังรองรับ active template เพียง 1 อันทั้งระบบ และ `Checklist Scope` ยังทำหน้าที่เป็น classification metadata เท่านั้น  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null

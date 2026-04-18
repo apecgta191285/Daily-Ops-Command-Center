@@ -1,0 +1,91 @@
+@layer components {
+    .ops-table {
+        @apply w-full border-separate border-spacing-0 overflow-hidden rounded-2xl;
+    }
+
+    .ops-table thead {
+        background-color: var(--app-surface-subtle);
+    }
+
+    .ops-table th,
+    .ops-table td {
+        border-bottom: 1px solid var(--app-border);
+    }
+
+    .ops-table th {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--app-text-muted);
+        white-space: nowrap;
+    }
+
+    .ops-table th:last-child {
+        text-align: right;
+    }
+
+    .ops-table__row {
+        background-color: var(--app-surface-elevated);
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out);
+    }
+
+    .ops-table__row:hover {
+        background-color: color-mix(in srgb, var(--app-surface-subtle) 88%, white);
+    }
+
+    .ops-table__row[data-template-active='true'] {
+        background:
+            linear-gradient(
+                90deg,
+                color-mix(in srgb, var(--app-success-bg) 70%, var(--app-surface-elevated)),
+                var(--app-surface-elevated)
+            );
+        box-shadow:
+            inset 2px 0 0 var(--app-success-text),
+            var(--app-shadow-sm);
+    }
+
+    .ops-table__row[data-template-active='true']:hover {
+        background:
+            linear-gradient(
+                90deg,
+                color-mix(in srgb, var(--app-success-bg) 82%, var(--app-surface-subtle)),
+                var(--app-surface-subtle)
+            );
+    }
+
+    .ops-empty {
+        @apply relative overflow-hidden border border-dashed p-5;
+        border-radius: var(--app-radius-xl);
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+    }
+
+    .ops-empty__pattern {
+        @apply pointer-events-none absolute inset-0 opacity-25;
+        color: color-mix(in srgb, var(--app-border) 65%, white);
+    }
+
+    .ops-empty__content {
+        @apply relative z-10 max-w-2xl;
+    }
+
+    .ops-empty__title {
+        @apply text-sm font-medium;
+        color: var(--app-heading);
+    }
+
+    .ops-empty__body {
+        @apply mt-1 text-sm;
+        color: var(--app-text-muted);
+    }
+
+    .ops-empty__actions {
+        @apply mt-4 flex flex-wrap gap-3;
+    }
+}

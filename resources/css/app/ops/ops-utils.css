@@ -1,0 +1,119 @@
+@layer components {
+    .ops-text-muted {
+        color: var(--app-text-muted);
+    }
+
+    .ops-text-heading {
+        color: var(--app-heading);
+    }
+
+    .ops-text-shell-muted {
+        color: var(--app-shell-muted);
+    }
+
+    .ops-text-success {
+        color: var(--app-success-text);
+    }
+
+    .ops-required-mark {
+        color: var(--app-danger-text);
+    }
+
+    .ops-divider-top {
+        border-top: 1px solid var(--app-border);
+    }
+
+    .ops-eyebrow-label {
+        @apply text-xs font-semibold uppercase tracking-[0.08em];
+        color: var(--app-text-muted);
+    }
+
+    .ops-metric-value {
+        @apply mt-1;
+        color: var(--app-heading);
+    }
+
+    .ops-tone-warning {
+        border-color: var(--app-warning-border);
+        background-color: var(--app-warning-bg);
+        color: var(--app-warning-text);
+    }
+
+    .ops-surface-soft {
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
+        border: 1px solid var(--app-border);
+        background-color: color-mix(in srgb, var(--app-surface-elevated) 84%, transparent);
+    }
+
+    .ops-surface-panel {
+        @apply border shadow-sm;
+        border-radius: calc(var(--app-radius-xl) - 0.1rem);
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+    }
+
+    .ops-surface-panel--subtle {
+        background-color: var(--app-surface-subtle);
+    }
+
+    .ops-inline-note {
+        @apply inline-flex items-center rounded-xl border px-4 py-2.5 text-sm;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+        color: var(--app-text-muted);
+    }
+
+    .ops-recap-grid {
+        @apply grid gap-4 md:grid-cols-2;
+    }
+
+    .ops-recap-panel {
+        @apply border px-5 py-4;
+        border-radius: calc(var(--app-radius-xl) - 0.1rem);
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
+            var(--app-surface);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-recap-panel--subtle {
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 92%, white), var(--app-surface-subtle)),
+            var(--app-surface-subtle);
+    }
+
+    .ops-recap-panel__title {
+        @apply text-base font-semibold;
+        color: var(--app-heading);
+    }
+
+    .ops-detail-stack {
+        @apply mt-4 space-y-3 text-sm;
+    }
+
+    .ops-detail-stack__label {
+        @apply text-xs font-semibold uppercase tracking-[0.08em];
+        color: var(--app-text-muted);
+    }
+
+    .ops-detail-stack__value {
+        @apply mt-1;
+        color: var(--app-heading);
+    }
+
+    .ops-next-steps {
+        @apply mt-4 space-y-3 text-sm;
+        color: var(--app-text-muted);
+    }
+
+    .ops-next-steps__item {
+        @apply flex items-start gap-3 leading-6;
+    }
+
+    .ops-next-steps__bullet {
+        @apply mt-2 block size-2 shrink-0 rounded-full;
+        background: linear-gradient(135deg, var(--app-action-primary), color-mix(in srgb, var(--app-info-border) 85%, white));
+        box-shadow: var(--app-glow-primary-sm);
+    }
+}
