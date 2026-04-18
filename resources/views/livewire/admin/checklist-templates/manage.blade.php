@@ -138,7 +138,7 @@
 
                         <div class="ops-card__body space-y-6">
                             <div>
-                                <label for="title" class="ops-field-label">Title <span class="text-[var(--app-danger-text)]">*</span></label>
+                                <label for="title" class="ops-field-label">Title <span class="ops-required-mark">*</span></label>
                                 <input id="title" type="text" wire:model="title" class="ops-control" placeholder="เช่น เปิดห้องปฏิบัติการ">
                                 @error('title') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
@@ -196,7 +196,7 @@
                                             <div class="space-y-5">
                                                 
                                                 <div>
-                                                    <label for="item-title-{{ $index }}" class="ops-field-label">Item title <span class="text-[var(--app-danger-text)]">*</span></label>
+                                                    <label for="item-title-{{ $index }}" class="ops-field-label">Item title <span class="ops-required-mark">*</span></label>
                                                     <input id="item-title-{{ $index }}" type="text" wire:model="items.{{ $index }}.title" class="ops-control" placeholder="เช่น ตรวจการเชื่อมต่ออินเทอร์เน็ต">
                                                     @error('items.'.$index.'.title') <span class="ops-field-error">{{ $message }}</span> @enderror
                                                 </div>
@@ -230,8 +230,8 @@
                                                 </div>
 
                                                 <label class="ops-choice w-full justify-between">
-                                                    <span class="text-sm font-medium text-[var(--app-heading)]">{{ __('Required') }}</span>
-                                                    <input type="checkbox" wire:model="items.{{ $index }}.is_required" class="size-4 rounded border-[var(--app-border)] text-[var(--app-action-primary)]">
+                                                    <span class="ops-text-heading text-sm font-medium">{{ __('Required') }}</span>
+                                                    <input type="checkbox" wire:model="items.{{ $index }}.is_required" class="ops-choice__control">
                                                 </label>
 
                                                 <button
@@ -322,7 +322,7 @@
                                     @endif
                                 </x-ops.callout>
                                 @if ($currentLiveTemplateTitle)
-                                    <p class="mt-3 text-sm text-[var(--app-text-muted)]">
+                                    <p class="ops-text-muted mt-3 text-sm">
                                         {{ __('Current live template: :title', ['title' => $currentLiveTemplateTitle]) }}
                                     </p>
                                 @endif
@@ -344,7 +344,7 @@
 
                         <div class="ops-card__body space-y-6">
                             <div>
-                                <label for="scope" class="ops-field-label">Scope <span class="text-[var(--app-danger-text)]">*</span></label>
+                                <label for="scope" class="ops-field-label">Scope <span class="ops-required-mark">*</span></label>
                                 <select id="scope" wire:model="scope" class="ops-control">
                                     @foreach ($scopes as $scopeOption)
                                         <option value="{{ $scopeOption }}">{{ $scopeOption }}</option>
@@ -366,17 +366,17 @@
 
                             <label class="ops-choice w-full justify-between">
                                 <span>
-                                    <span class="block font-medium text-[var(--app-heading)]">{{ __('Active template') }}</span>
-                                    <span class="mt-1 block text-xs text-[var(--app-text-muted)]">{{ __('Saving as active will automatically retire every other template.') }}</span>
+                                    <span class="ops-text-heading block font-medium">{{ __('Active template') }}</span>
+                                    <span class="ops-text-muted mt-1 block text-xs">{{ __('Saving as active will automatically retire every other template.') }}</span>
                                 </span>
-                                <input type="checkbox" wire:model="is_active" class="size-4 rounded border-[var(--app-border)] text-[var(--app-action-primary)]">
+                                <input type="checkbox" wire:model="is_active" class="ops-choice__control">
                             </label>
                         </div>
                     </section>
                 </div>
             </div>
 
-            <div class="flex flex-col-reverse gap-3 border-t border-[var(--app-border)] pt-6 sm:flex-row sm:justify-end">
+            <div class="ops-divider-top flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:justify-end">
                 <a href="{{ route('templates.index') }}" class="ops-button ops-button--secondary" wire:navigate>
                     {{ __('Cancel') }}
                 </a>

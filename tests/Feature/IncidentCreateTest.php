@@ -47,6 +47,8 @@ test('incident creation with all required fields persists correctly', function (
         ->assertHasNoErrors()
         ->assertSee('Submission Recap')
         ->assertSee('What Happens Next')
+        ->assertSeeHtml('ops-recap-panel')
+        ->assertSeeHtml('ops-next-steps')
         ->assertSee('Report another incident');
 
     // Verify incident was created

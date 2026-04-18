@@ -11,7 +11,7 @@
     </x-slot>
 
     <div class="space-y-6">
-        <section class="ops-card overflow-hidden">
+        <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
             <div class="ops-card__body">
                 <div class="grid gap-4 md:grid-cols-3">
                     <div>
@@ -47,12 +47,12 @@
 
                 <div class="mt-4 flex flex-wrap items-center gap-3">
                     <label class="ops-choice">
-                        <input type="checkbox" wire:model.live="unresolved" class="h-4 w-4 border-[var(--app-border)] text-[var(--app-action-primary)] focus:ring-[var(--app-action-primary)]">
+                        <input type="checkbox" wire:model.live="unresolved" class="ops-choice__control">
                         <span>Only unresolved incidents</span>
                     </label>
 
                     <label class="ops-choice">
-                        <input type="checkbox" wire:model.live="stale" class="h-4 w-4 border-[var(--app-border)] text-[var(--app-action-primary)] focus:ring-[var(--app-action-primary)]">
+                        <input type="checkbox" wire:model.live="stale" class="ops-choice__control">
                         <span>Only stale incidents ({{ $this->staleThresholdDays }}+ days)</span>
                     </label>
 
@@ -66,9 +66,9 @@
         </section>
 
         @if ($unresolved || $stale)
-            <section class="ops-card overflow-hidden">
-                <div class="ops-card__body flex flex-wrap items-center gap-3 text-sm text-[var(--app-text-muted)]">
-                    <span class="font-medium text-[var(--app-heading)]">Active filter context:</span>
+            <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="80">
+                <div class="ops-card__body ops-text-muted flex flex-wrap items-center gap-3 text-sm">
+                    <span class="ops-text-heading font-medium">Active filter context:</span>
                     @if ($unresolved)
                         <span class="ops-chip ops-chip--info">Unresolved only</span>
                     @endif
@@ -79,7 +79,7 @@
             </section>
         @endif
 
-        <section class="ops-card overflow-hidden">
+        <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="{{ ($unresolved || $stale) ? '120' : '80' }}">
             <div class="ops-card__body">
                 @if($incidents->isEmpty())
                     <x-ops.empty-state
@@ -91,34 +91,34 @@
                         <table class="ops-table ops-table--responsive min-w-full">
                             <thead>
                                 <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Title</th>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Category</th>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Severity</th>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Status</th>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Attention</th>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Reported By</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Action</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Severity</th>
+                                    <th>Status</th>
+                                    <th>Attention</th>
+                                    <th>Reported By</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($incidents as $incident)
-                                    <tr class="ops-table__row">
-                                        <td data-label="Title" class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">{{ $incident->title }}</td>
-                                        <td data-label="Category" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $incident->category }}</td>
+                                @foreach($incidents as $index => $incident)
+                                    <tr class="ops-table__row" data-motion="scale-soft" data-motion-delay="{{ 140 + ($index * 15) }}">
+                                        <td data-label="Title" class="ops-text-heading px-4 py-4 text-sm font-medium">{{ $incident->title }}</td>
+                                        <td data-label="Category" class="ops-text-muted px-4 py-4 text-sm">{{ $incident->category }}</td>
                                         <td data-label="Severity" class="px-4 py-4 text-sm">
                                             <x-incidents.severity-badge :severity="$incident->severity" />
                                         </td>
                                         <td data-label="Status" class="px-4 py-4 text-sm">
                                             <x-incidents.status-badge :status="$incident->status" />
                                         </td>
-                                        <td data-label="Attention" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">
+                                        <td data-label="Attention" class="ops-text-muted px-4 py-4 text-sm">
                                             @if ($incident->is_stale_for_attention)
                                                 <span class="ops-badge ops-badge--warning">Stale</span>
                                             @else
                                                 <span class="text-xs">-</span>
                                             @endif
                                         </td>
-                                        <td data-label="Reported By" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $incident->creator?->name ?? 'Unknown' }}</td>
+                                        <td data-label="Reported By" class="ops-text-muted px-4 py-4 text-sm">{{ $incident->creator?->name ?? 'Unknown' }}</td>
                                         <td data-label="Action" class="px-4 py-4 text-right text-sm">
                                             <a href="{{ route('incidents.show', $incident) }}" class="ops-button ops-button--secondary">
                                                 View details

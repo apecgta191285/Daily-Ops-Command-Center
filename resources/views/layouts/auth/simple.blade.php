@@ -15,8 +15,8 @@
                             <x-app-logo-icon class="size-6 fill-current text-current" />
                         </span>
                         <div class="space-y-1">
-                            <p class="text-base font-semibold text-[var(--app-heading)]">{{ config('app.name', 'Daily Ops Command Center') }}</p>
-                            <p class="text-sm text-[var(--app-text-muted)]">{{ __('Checklist, incident, and supervisor workflows in one operations console.') }}</p>
+                            <p class="ops-text-heading text-base font-semibold">{{ config('app.name', 'Daily Ops Command Center') }}</p>
+                            <p class="ops-text-muted text-sm">{{ __('Checklist, incident, and supervisor workflows in one operations console.') }}</p>
                         </div>
                     </a>
                 </div>

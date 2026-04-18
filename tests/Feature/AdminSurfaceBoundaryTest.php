@@ -31,6 +31,7 @@ test('admin can access checklist templates inside the main application shell', f
     $response->assertSee('Checklist Templates');
     $response->assertSee('Create template');
     $response->assertSee('Baseline active template');
+    $response->assertSee('data-template-active="true"', false);
 });
 
 test('template create page shows activation impact against the current live template', function () {

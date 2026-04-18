@@ -9,7 +9,7 @@
     </x-slot>
 
     <div class="mx-auto max-w-3xl">
-        <section class="ops-card overflow-hidden">
+        <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
             <div class="ops-card__body">
                 @if ($submissionRecap)
                     <div class="space-y-6">
@@ -17,45 +17,45 @@
                             Incident reported successfully. Management can now see it in the dashboard and incident follow-up views.
                         </div>
 
-                        <div class="grid gap-4 md:grid-cols-2">
-                            <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] px-5 py-4">
-                                <h3 class="text-base font-semibold text-[var(--app-heading)]">Submission Recap</h3>
-                                <dl class="mt-4 space-y-3 text-sm">
+                        <div class="ops-recap-grid">
+                            <div class="ops-recap-panel">
+                                <h3 class="ops-recap-panel__title">Submission Recap</h3>
+                                <dl class="ops-detail-stack">
                                     <div>
-                                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Title</dt>
-                                        <dd class="mt-1 text-[var(--app-heading)]">{{ $submissionRecap['title'] }}</dd>
+                                        <dt class="ops-detail-stack__label">Title</dt>
+                                        <dd class="ops-detail-stack__value">{{ $submissionRecap['title'] }}</dd>
                                     </div>
                                     <div>
-                                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Category</dt>
-                                        <dd class="mt-1 text-[var(--app-heading)]">{{ $submissionRecap['category'] }}</dd>
+                                        <dt class="ops-detail-stack__label">Category</dt>
+                                        <dd class="ops-detail-stack__value">{{ $submissionRecap['category'] }}</dd>
                                     </div>
                                     <div>
-                                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Severity</dt>
-                                        <dd class="mt-1 text-[var(--app-heading)]">{{ $submissionRecap['severity'] }}</dd>
+                                        <dt class="ops-detail-stack__label">Severity</dt>
+                                        <dd class="ops-detail-stack__value">{{ $submissionRecap['severity'] }}</dd>
                                     </div>
                                     <div>
-                                        <dt class="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Created At</dt>
-                                        <dd class="mt-1 text-[var(--app-heading)]">{{ $submissionRecap['created_at'] }}</dd>
+                                        <dt class="ops-detail-stack__label">Created At</dt>
+                                        <dd class="ops-detail-stack__value">{{ $submissionRecap['created_at'] }}</dd>
                                     </div>
                                 </dl>
                             </div>
 
-                            <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] px-5 py-4">
-                                <h3 class="text-base font-semibold text-[var(--app-heading)]">What Happens Next</h3>
-                                <ul role="list" class="mt-4 space-y-3 text-sm text-[var(--app-text-muted)]">
-                                    <li>Management users will see the incident in the dashboard attention and incident follow-up screens.</li>
-                                    <li>The incident starts as <span class="font-medium text-[var(--app-heading)]">{{ $submissionRecap['status'] }}</span> until someone updates it.</li>
+                            <div class="ops-recap-panel ops-recap-panel--subtle">
+                                <h3 class="ops-recap-panel__title">What Happens Next</h3>
+                                <ul role="list" class="ops-next-steps">
+                                    <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>Management users will see the incident in the dashboard attention and incident follow-up screens.</span></li>
+                                    <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>The incident starts as <span class="ops-text-heading font-medium">{{ $submissionRecap['status'] }}</span> until someone updates it.</span></li>
                                     @if ($submissionRecap['has_attachment'])
-                                        <li>Your attachment was included with the report.</li>
+                                        <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>Your attachment was included with the report.</span></li>
                                     @endif
                                     @if ($submissionRecap['from_checklist'])
-                                        <li>This report is linked to a checklist follow-up flow, so you can return and continue the daily operations path.</li>
+                                        <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>This report is linked to a checklist follow-up flow, so you can return and continue the daily operations path.</span></li>
                                     @endif
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="flex flex-col-reverse gap-3 border-t border-[var(--app-border)] pt-6 sm:flex-row sm:justify-end">
+                        <div class="ops-divider-top flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:justify-end">
                             @if ($submissionRecap['from_checklist'])
                                 <a href="{{ route('checklists.runs.today') }}" class="ops-button ops-button--secondary">
                                     Back to today&apos;s checklist
@@ -71,14 +71,14 @@
                     <form wire:submit="submit" class="space-y-6">
                         <div class="grid gap-6">
                             <div>
-                                <label for="title" class="ops-field-label">Title <span class="text-[var(--app-danger-text)]">*</span></label>
+                                <label for="title" class="ops-field-label">Title <span class="ops-required-mark">*</span></label>
                                 <input type="text" id="title" wire:model="title" class="ops-control" placeholder="e.g. เครื่อง PC-03 เปิดไม่ติด">
                                 @error('title') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="grid gap-6 md:grid-cols-2">
                                 <div>
-                                    <label for="category" class="ops-field-label">Category <span class="text-[var(--app-danger-text)]">*</span></label>
+                                    <label for="category" class="ops-field-label">Category <span class="ops-required-mark">*</span></label>
                                     <select id="category" wire:model="category" class="ops-control">
                                         <option value="">-- Select Category --</option>
                                         @foreach($categories as $cat)
@@ -89,7 +89,7 @@
                                 </div>
 
                                 <div>
-                                    <label for="severity" class="ops-field-label">Severity <span class="text-[var(--app-danger-text)]">*</span></label>
+                                    <label for="severity" class="ops-field-label">Severity <span class="ops-required-mark">*</span></label>
                                     <select id="severity" wire:model="severity" class="ops-control">
                                         <option value="">-- Select Severity --</option>
                                         @foreach($severities as $sev)
@@ -102,7 +102,7 @@
                             </div>
 
                             <div>
-                                <label for="description" class="ops-field-label">Description <span class="text-[var(--app-danger-text)]">*</span></label>
+                                <label for="description" class="ops-field-label">Description <span class="ops-required-mark">*</span></label>
                                 <textarea id="description" wire:model="description" rows="5" class="ops-control"></textarea>
                                 @error('description') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
@@ -115,7 +115,7 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col-reverse gap-3 border-t border-[var(--app-border)] pt-6 sm:flex-row sm:justify-end">
+                        <div class="ops-divider-top flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:justify-end">
                             <a href="{{ route('checklists.runs.today') }}" class="ops-button ops-button--secondary">
                                 Cancel
                             </a>

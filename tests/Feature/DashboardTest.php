@@ -34,6 +34,8 @@ test('management users can visit the dashboard', function () {
     $response->assertSee('Checklist Completion Today');
     $response->assertSee("{$completionRate}%");
     $response->assertSee("{$submittedTodayRuns} of {$todayRuns} checklist runs submitted");
+    $response->assertSee('ops-arc', false);
+    $response->assertSee('ops-sparkline', false);
     $response->assertSee('Open Incidents');
     $response->assertSee((string) $openCount);
     $response->assertSee('In Progress');
@@ -252,6 +254,7 @@ test('dashboard shows checklist and intake trends plus hotspot categories', func
     $response->assertSee('Checklist Trend');
     $response->assertSee('Yesterday: 100%');
     $response->assertSee('Down 50 points from yesterday');
+    $response->assertSee('ops-sparkline', false);
     $response->assertSee('Incident Intake Trend');
     $response->assertSee('Yesterday: 1 reported');
     $response->assertSee('Up 1 incidents from yesterday');
@@ -259,5 +262,6 @@ test('dashboard shows checklist and intake trends plus hotspot categories', func
     $response->assertSee('เครือข่าย');
     $response->assertSee('2 unresolved');
     $response->assertSee('1 stale');
+    $response->assertSee('data-hotspot-rank="1"', false);
     $response->assertSee('category='.urlencode('เครือข่าย'), false);
 });

@@ -30,7 +30,7 @@
                     <p class="ops-hero__lead">
                         Use this screen to understand what was reported, what the latest reviewer decided, and what should happen next in the operational queue.
                     </p>
-                    <p class="mt-3 text-sm text-[var(--app-shell-muted)]">
+                    <p class="ops-text-shell-muted mt-3 text-sm">
                         Reported by {{ $incident->creator?->name ?? 'Unknown' }} on {{ $incident->created_at->format('M d, Y H:i') }}
                     </p>
 
@@ -211,7 +211,7 @@
                                 @error('followUpNote') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
-                            <div class="flex justify-end border-t border-[var(--app-border)] pt-5">
+                            <div class="ops-divider-top flex justify-end pt-5">
                                 <button type="submit" class="ops-button ops-button--primary min-w-44">
                                     <span wire:loading.remove wire:target="updateStatus">Update Status</span>
                                     <span wire:loading wire:target="updateStatus">Updating...</span>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Dashboard\Queries;
 
 use App\Application\Dashboard\Data\DashboardSnapshot;
@@ -23,6 +25,8 @@ class GetDashboardSnapshot
     {
         $today = today();
         $yesterday = today()->subDay();
+        $checklistCompletionSeries = $this->buildChecklistCompletionSeries();
+        $incidentIntakeSeries = $this->buildIncidentIntakeSeries();
 
         $todayRuns = ChecklistRun::query()
             ->whereDate('run_date', $today)
@@ -104,10 +108,77 @@ class GetDashboardSnapshot
             completionRate: $completionRate,
             incidentCounts: $incidentCounts,
             attentionItems: $attentionItems,
-            checklistTrend: $this->trendBuilder->buildRateTrend($completionRate, $yesterdayCompletionRate),
-            incidentIntakeTrend: $this->trendBuilder->buildCountTrend($todayIncidentIntake, $yesterdayIncidentIntake),
+            checklistTrend: [
+                ...$this->trendBuilder->buildRateTrend($completionRate, $yesterdayCompletionRate),
+                'series' => $checklistCompletionSeries,
+            ],
+            incidentIntakeTrend: [
+                ...$this->trendBuilder->buildCountTrend($todayIncidentIntake, $yesterdayIncidentIntake),
+                'series' => $incidentIntakeSeries,
+            ],
             hotspotCategories: ($this->hotspotAssembler)($hotspotRows),
             recentIncidents: $recentIncidents,
         );
+    }
+
+    /**
+     * @return list<int>
+     */
+    private function buildChecklistCompletionSeries(int $days = 7): array
+    {
+        $startDate = today()->subDays($days - 1);
+
+        $rows = ChecklistRun::query()
+            ->selectRaw('DATE(run_date) as run_day')
+            ->selectRaw('COUNT(*) as total_runs')
+            ->selectRaw('SUM(CASE WHEN submitted_at IS NOT NULL THEN 1 ELSE 0 END) as submitted_runs')
+            ->whereDate('run_date', '>=', $startDate)
+            ->groupBy('run_day')
+            ->orderBy('run_day')
+            ->get()
+            ->keyBy('run_day');
+
+        $series = [];
+
+        for ($offset = $days - 1; $offset >= 0; $offset--) {
+            $date = today()->subDays($offset)->toDateString();
+            $row = $rows->get($date);
+            $totalRuns = (int) ($row->total_runs ?? 0);
+            $submittedRuns = (int) ($row->submitted_runs ?? 0);
+
+            $series[] = $totalRuns > 0
+                ? (int) round(($submittedRuns / $totalRuns) * 100)
+                : 0;
+        }
+
+        return $series;
+    }
+
+    /**
+     * @return list<int>
+     */
+    private function buildIncidentIntakeSeries(int $days = 7): array
+    {
+        $startDate = today()->subDays($days - 1);
+
+        $rows = Incident::query()
+            ->selectRaw('DATE(created_at) as report_day')
+            ->selectRaw('COUNT(*) as reported_count')
+            ->whereDate('created_at', '>=', $startDate)
+            ->groupBy('report_day')
+            ->orderBy('report_day')
+            ->get()
+            ->keyBy('report_day');
+
+        $series = [];
+
+        for ($offset = $days - 1; $offset >= 0; $offset--) {
+            $date = today()->subDays($offset)->toDateString();
+            $row = $rows->get($date);
+
+            $series[] = (int) ($row->reported_count ?? 0);
+        }
+
+        return $series;
     }
 }

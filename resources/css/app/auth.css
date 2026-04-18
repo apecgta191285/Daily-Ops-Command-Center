@@ -60,4 +60,16 @@
         @apply text-center text-sm;
         color: var(--app-text-muted);
     }
+
+    .auth-callout {
+        @apply rounded-2xl border p-4 text-sm;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+        color: var(--app-text-muted);
+    }
+
+    .auth-callout__eyebrow {
+        @apply text-xs font-semibold uppercase tracking-[0.12em];
+        color: var(--app-text-muted);
+    }
 }

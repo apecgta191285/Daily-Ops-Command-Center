@@ -7,7 +7,15 @@
 
 <section {{ $attributes->merge(['class' => 'ops-stat']) }}>
     <div class="ops-stat__body">
-        <p class="ops-stat__kicker">{{ $kicker }}</p>
+        <div class="ops-stat__header">
+            <p class="ops-stat__kicker">{{ $kicker }}</p>
+
+            @if (isset($visual) && ! $visual->isEmpty())
+                <div class="ops-stat__visual">
+                    {{ $visual }}
+                </div>
+            @endif
+        </div>
 
         @if (filled($value))
             <p class="ops-stat__value">{{ $value }}</p>

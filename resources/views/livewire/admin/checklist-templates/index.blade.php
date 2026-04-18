@@ -55,26 +55,26 @@
                         <table class="ops-table ops-table--responsive min-w-full">
                             <thead>
                                 <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Title</th>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Scope</th>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Items</th>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">State</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Action</th>
+                                    <th>Title</th>
+                                    <th>Scope</th>
+                                    <th>Items</th>
+                                    <th>State</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($templates as $template)
-                                    <tr class="ops-table__row">
-                                        <td data-label="Title" class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">
+                                    <tr class="ops-table__row" data-template-active="{{ $template->is_active ? 'true' : 'false' }}">
+                                        <td data-label="Title" class="ops-text-heading px-4 py-4 text-sm font-medium">
                                             <div class="space-y-1">
                                                 <p>{{ $template->title }}</p>
                                                 @if (filled($template->description))
-                                                    <p class="text-xs text-[var(--app-text-muted)]">{{ $template->description }}</p>
+                                                    <p class="ops-text-muted text-xs">{{ $template->description }}</p>
                                                 @endif
                                             </div>
                                         </td>
-                                        <td data-label="Scope" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $template->scope }}</td>
-                                        <td data-label="Items" class="px-4 py-4 text-sm text-[var(--app-text-muted)]">{{ $template->items_count }}</td>
+                                        <td data-label="Scope" class="ops-text-muted px-4 py-4 text-sm">{{ $template->scope }}</td>
+                                        <td data-label="Items" class="ops-text-muted px-4 py-4 text-sm">{{ $template->items_count }}</td>
                                         <td data-label="State" class="px-4 py-4 text-sm">
                                             <span class="ops-badge {{ $template->is_active ? 'ops-badge--success' : 'ops-badge--neutral' }}">
                                                 {{ $template->is_active ? __('Active') : __('Retired') }}

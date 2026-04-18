@@ -8,7 +8,7 @@
         <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
 
         <main id="main-content" class="mx-auto flex min-h-svh max-w-5xl items-center justify-center px-6 py-10">
-            <section class="w-full max-w-3xl rounded-[2rem] border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-8 text-[var(--app-text)] shadow-lg sm:p-10">
+            <section class="ops-surface-panel w-full max-w-3xl rounded-[2rem] p-8 shadow-lg sm:p-10">
                 <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
                     <div class="max-w-xl space-y-5">
                         <div class="flex items-center gap-4">
@@ -16,32 +16,32 @@
                                 <x-app-logo-icon class="size-8 fill-current text-current" />
                             </span>
                             <div class="space-y-1">
-                                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--app-text-muted)]">{{ __('Internal operations') }}</p>
-                                <h1 class="text-2xl font-semibold tracking-tight text-[var(--app-heading)] sm:text-3xl">{{ config('app.name', 'Daily Ops Command Center') }}</h1>
+                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.18em]">{{ __('Internal operations') }}</p>
+                                <h1 class="ops-text-heading text-2xl font-semibold tracking-tight sm:text-3xl">{{ config('app.name', 'Daily Ops Command Center') }}</h1>
                             </div>
                         </div>
 
-                        <p class="text-base leading-7 text-[var(--app-text-muted)] sm:text-lg">
+                        <p class="ops-text-muted text-base leading-7 sm:text-lg">
                             {{ __('Run daily checklists, capture incidents with evidence, and help supervisors see what still needs attention from one shared operations workspace.') }}
                         </p>
 
                         <div class="grid gap-3 sm:grid-cols-3">
                             <div class="ops-surface-soft p-4">
-                                <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Staff') }}</p>
-                                <p class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ __('Complete daily work clearly') }}</p>
-                                <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('Open today’s checklist, submit it once, and report issues immediately.') }}</p>
+                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Staff') }}</p>
+                                <p class="ops-text-heading mt-2 text-sm font-medium">{{ __('Complete daily work clearly') }}</p>
+                                <p class="ops-text-muted mt-1 text-sm">{{ __('Open today’s checklist, submit it once, and report issues immediately.') }}</p>
                             </div>
 
                             <div class="ops-surface-soft p-4">
-                                <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Supervisor') }}</p>
-                                <p class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ __('See what needs follow-up') }}</p>
-                                <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('Track unresolved incidents, review updates, and watch daily completion from one dashboard.') }}</p>
+                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Supervisor') }}</p>
+                                <p class="ops-text-heading mt-2 text-sm font-medium">{{ __('See what needs follow-up') }}</p>
+                                <p class="ops-text-muted mt-1 text-sm">{{ __('Track unresolved incidents, review updates, and watch daily completion from one dashboard.') }}</p>
                             </div>
 
                             <div class="ops-surface-soft p-4">
-                                <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Admin') }}</p>
-                                <p class="mt-2 text-sm font-medium text-[var(--app-heading)]">{{ __('Keep the workflow ready') }}</p>
-                                <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('Maintain the active checklist template and keep the daily workflow aligned with real operations.') }}</p>
+                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Admin') }}</p>
+                                <p class="ops-text-heading mt-2 text-sm font-medium">{{ __('Keep the workflow ready') }}</p>
+                                <p class="ops-text-muted mt-1 text-sm">{{ __('Maintain the active checklist template and keep the daily workflow aligned with real operations.') }}</p>
                             </div>
                         </div>
 
@@ -52,14 +52,14 @@
                                 </a>
                             @endif
 
-                            <span class="inline-flex items-center rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] px-4 py-2.5 text-sm text-[var(--app-text-muted)]">
+                            <span class="ops-inline-note">
                                 {{ __('Role-based access for staff, supervisors, and admins') }}
                             </span>
                         </div>
 
-                        <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] p-5">
-                            <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Suggested demo walkthrough') }}</p>
-                            <ol class="mt-3 space-y-3 text-sm text-[var(--app-text-muted)]">
+                        <div class="ops-surface-panel ops-surface-panel--subtle p-5">
+                            <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Suggested demo walkthrough') }}</p>
+                            <ol class="ops-text-muted mt-3 space-y-3 text-sm">
                                 <li class="flex gap-3">
                                     <span class="ops-step-index">1</span>
                                     <span>{{ __('Log in as staff, open today’s checklist, and see how the system tracks completion before submission.') }}</span>
@@ -78,11 +78,11 @@
 
                     <div class="ops-card max-w-sm lg:w-[22rem]">
                         <div class="ops-card__header">
-                            <p class="text-sm font-semibold text-[var(--app-heading)]">{{ __('What this system already covers') }}</p>
-                            <p class="mt-1 text-sm text-[var(--app-text-muted)]">{{ __('This A-lite scope is intentionally small: one team, one daily workflow, and one clear place to follow incidents.') }}</p>
+                            <p class="ops-text-heading text-sm font-semibold">{{ __('What this system already covers') }}</p>
+                            <p class="ops-text-muted mt-1 text-sm">{{ __('This A-lite scope is intentionally small: one team, one daily workflow, and one clear place to follow incidents.') }}</p>
                         </div>
                         <div class="ops-card__body">
-                            <ul class="space-y-3 text-sm text-[var(--app-text-muted)]">
+                            <ul class="ops-text-muted space-y-3 text-sm">
                                 <li class="flex items-start gap-3">
                                     <span class="ops-badge ops-badge--info">{{ __('Staff') }}</span>
                                     <span>{{ __('Checklist today and incident reporting') }}</span>
@@ -97,9 +97,9 @@
                                 </li>
                             </ul>
 
-                            <div class="mt-5 rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] p-4">
-                                <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Why it matters') }}</p>
-                                <p class="mt-2 text-sm text-[var(--app-text-muted)]">
+                            <div class="ops-surface-panel ops-surface-panel--subtle mt-5 p-4">
+                                <p class="ops-text-muted text-xs font-semibold uppercase tracking-[0.12em]">{{ __('Why it matters') }}</p>
+                                <p class="ops-text-muted mt-2 text-sm">
                                     {{ __('Instead of scattered paper notes or chat messages, the team gets one traceable path for routine work and incident follow-up.') }}
                                 </p>
                             </div>

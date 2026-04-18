@@ -3,10 +3,10 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-[var(--app-shell-bg)]">
+    <body class="ops-shell-body">
         <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
 
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-[var(--app-shell-border)] bg-[var(--app-shell-bg)]">
+        <flux:sidebar sticky collapsible="mobile" class="ops-shell-sidebar">
             <flux:sidebar.header>
                 <x-app-logo :sidebar="true" href="{{ route(auth()->user()->landingRouteName()) }}" wire:navigate />
                 <flux:sidebar.collapse class="lg:hidden" />
@@ -20,7 +20,7 @@
         </flux:sidebar>
 
         <!-- Mobile User Menu -->
-        <flux:header class="border-b border-[var(--app-shell-border)] bg-[var(--app-shell-bg)] lg:hidden">
+        <flux:header class="ops-shell-header lg:hidden">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             <flux:spacer />

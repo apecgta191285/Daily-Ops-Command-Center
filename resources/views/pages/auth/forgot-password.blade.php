@@ -28,7 +28,7 @@
             </button>
         </form>
 
-        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-[var(--app-text-muted)]">
+        <div class="ops-text-muted space-x-1 text-center text-sm rtl:space-x-reverse">
             <span>{{ __('Or, return to') }}</span>
             <a href="{{ route('login') }}" class="auth-link" wire:navigate>{{ __('log in') }}</a>
         </div>

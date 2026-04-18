@@ -21,82 +21,117 @@
 
 @layer theme {
     :root {
-        --app-shell-bg: var(--color-zinc-900);
-        --app-shell-bg-elevated: color-mix(in oklab, var(--color-zinc-800) 86%, black);
-        --app-shell-border: color-mix(in oklab, var(--color-zinc-700) 72%, black);
-        --app-shell-text: var(--color-zinc-100);
-        --app-shell-muted: var(--color-zinc-400);
+        /*
+          PRECISION OPERATIONS AESTHETIC 
+          A high-contrast, strict editorial palette designed to emulate 
+          physical instruments and authoritative command surfaces. 
+        */
 
-        --app-content-bg: #f4f5f7;
-        --app-surface: rgba(255, 255, 255, 0.98);
+        --app-shell-bg: #09090b; /* Stark OLED Black */
+        --app-shell-bg-elevated: #161619;
+        --app-shell-border: #27272a;
+        --app-shell-text: #ffffff;
+        --app-shell-muted: #a1a1aa;
+
+        /* Canvas: Extremely subtle cold grey / paper */
+        --app-content-bg: #f5f6f8;
+        
+        /* Surfaces: Pure stark white for maximum contrast */
+        --app-surface: #ffffff;
         --app-surface-elevated: #ffffff;
-        --app-surface-subtle: #f8fafc;
-        --app-border: #d8dde6;
-        --app-text: #172033;
-        --app-text-muted: #5f6b85;
-        --app-heading: #0f172a;
-        --app-heading-soft: #22314c;
+        --app-surface-subtle: #f9fafb;
+        
+        /* Borders: Razor thin, barely visible architectural lines */
+        --app-border: #e4e4e7;
+        
+        /* Text: Absolute hierarchy. Pitch black for primary, stark slate for muted */
+        --app-text: #27272a;
+        --app-text-muted: #71717a;
+        --app-heading: #09090b;
+        --app-heading-soft: #18181b;
 
-        --app-action-primary: #155eef;
-        --app-action-primary-hover: #004ee6;
+        /* Actions: Replacing generic blue with an intense Electric Ultramarine */
+        --app-action-primary: #0036ee; 
+        --app-action-primary-hover: #002ac0;
         --app-action-primary-text: #ffffff;
         --app-action-secondary: #ffffff;
-        --app-action-secondary-hover: #eef2f7;
-        --app-action-secondary-text: #182338;
-        --app-action-secondary-border: #c6cfdb;
-        --app-action-danger: var(--app-danger-bg);
-        --app-action-danger-hover: #fbd7d9;
-        --app-action-danger-text: var(--app-danger-text);
-        --app-action-danger-border: var(--app-danger-border);
+        --app-action-secondary-hover: #f4f4f5;
+        --app-action-secondary-text: #09090b;
+        --app-action-secondary-border: #d4d4d8;
+        --app-action-danger: #fff1f2;
+        --app-action-danger-hover: #ffe4e6;
+        --app-action-danger-text: #e11d48;
+        --app-action-danger-border: #fecdd3;
 
-        --app-success-bg: #e8f7ef;
-        --app-success-border: #8fd0aa;
-        --app-success-text: #17603d;
-        --app-warning-bg: #fff3d6;
-        --app-warning-border: #f0c15a;
-        --app-warning-text: #8a5a00;
-        --app-danger-bg: #fde7e7;
-        --app-danger-border: #efb1b4;
-        --app-danger-text: #9f1d2a;
-        --app-info-bg: #e8f0ff;
-        --app-info-border: #a8c1ff;
-        --app-info-text: #1947b7;
+        /* Status Panels: Paper-tinted surfaces with hyper-saturated text ranges */
+        --app-success-bg: #f0fdf4;
+        --app-success-border: #bbf7d0;
+        --app-success-text: #166534;
+        --app-warning-bg: #fefce8;
+        --app-warning-border: #fef08a;
+        --app-warning-text: #854d0e;
+        --app-danger-bg: #fff1f2;
+        --app-danger-border: #fecdd3;
+        --app-danger-text: #9f1239;
+        --app-info-bg: #eff6ff;
+        --app-info-border: #bfdbfe;
+        --app-info-text: #1e40af;
 
-        --app-badge-neutral-bg: #eef2f7;
-        --app-badge-neutral-text: #46546f;
-        --app-badge-neutral-border: #d6deea;
+        --app-badge-neutral-bg: #f4f4f5;
+        --app-badge-neutral-text: #52525b;
+        --app-badge-neutral-border: #e4e4e7;
 
-        --app-brand-bg: #edf4ff;
-        --app-brand-border: #cfe0ff;
-        --app-brand-text: #1947b7;
+        --app-brand-bg: #eff6ff;
+        --app-brand-border: #bfdbfe;
+        --app-brand-text: #1d4ed8;
 
-        --app-radius-sm: 0.75rem;
-        --app-radius-md: 1rem;
-        --app-radius-lg: 1.5rem;
-        --app-radius-xl: 2rem;
+        /* Shape Geometry: Slightly tighter corners for a more formal 'software' feel */
+        --app-radius-sm: 0.5rem;
+        --app-radius-md: 0.75rem;
+        --app-radius-lg: 1rem;
+        --app-radius-xl: 1.25rem;
 
-        --app-shadow-sm:
-            0 1px 2px rgba(15, 23, 42, 0.04),
-            0 1px 3px rgba(15, 23, 42, 0.06);
-        --app-shadow-md:
-            0 8px 24px rgba(15, 23, 42, 0.08),
-            0 2px 6px rgba(15, 23, 42, 0.04);
-        --app-shadow-lg:
-            0 18px 42px rgba(15, 23, 42, 0.12),
-            0 8px 18px rgba(15, 23, 42, 0.06);
+        /* 
+          Architectural Shadows: 
+          Moving away from "generic glow" to layered, sharp drops 
+          that simulate physical light sources hitting hard material.
+        */
+        --app-shadow-sm: 
+            0 1px 2px rgba(9, 9, 11, 0.05),
+            0 1px 0 rgba(9, 9, 11, 0.02);
+        --app-shadow-md: 
+            0 4px 12px rgba(9, 9, 11, 0.04),
+            0 2px 4px rgba(9, 9, 11, 0.03);
+        --app-shadow-lg: 
+            0 12px 32px rgba(9, 9, 11, 0.05),
+            0 4px 12px rgba(9, 9, 11, 0.03),
+            0 0 0 1px rgba(9, 9, 11, 0.02);
+
+        --app-glow-primary-sm: 0 0 18px color-mix(in srgb, var(--app-action-primary) 24%, transparent);
+        --app-glow-primary: 0 0 28px color-mix(in srgb, var(--app-action-primary) 34%, transparent);
+        --app-glow-danger-sm: 0 0 18px color-mix(in srgb, var(--app-danger-text) 20%, transparent);
+        --app-glow-warning-sm: 0 0 18px color-mix(in srgb, var(--app-warning-text) 18%, transparent);
+
+        --app-card-hover-translate: -2px;
+        --app-card-hover-shadow:
+            0 14px 34px rgba(9, 9, 11, 0.08),
+            0 6px 14px rgba(9, 9, 11, 0.05),
+            0 0 0 1px rgba(9, 9, 11, 0.03);
+
+        --app-text-hero-value: clamp(2.75rem, 6vw, 4.75rem);
+        --app-text-stat-value: clamp(2.1rem, 3.2vw, 3.4rem);
+        --app-text-flagship-value: clamp(2.6rem, 4vw, 3.8rem);
+
+        --app-hero-grid-opacity: 0.34;
+        --app-hero-glow-strength: 28%;
+        --app-glass-blur: 14px;
 
         --app-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         --app-ease-in-out: cubic-bezier(0.45, 0, 0.15, 1);
-        --app-duration-fast: 140ms;
-        --app-duration-normal: 220ms;
-        --app-duration-slow: 360ms;
+        --app-duration-fast: 160ms;
+        --app-duration-normal: 240ms;
+        --app-duration-slow: 400ms;
 
-        --app-focus-ring: color-mix(in srgb, var(--app-action-primary) 60%, white);
-    }
-
-    .dark {
-        --color-accent: var(--color-white);
-        --color-accent-content: var(--color-white);
-        --color-accent-foreground: var(--color-neutral-800);
+        --app-focus-ring: color-mix(in srgb, var(--app-action-primary) 50%, transparent);
     }
 }

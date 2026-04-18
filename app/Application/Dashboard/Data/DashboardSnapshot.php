@@ -23,13 +23,15 @@ readonly class DashboardSnapshot
      *     todayRate: int,
      *     yesterdayRate: int,
      *     difference: int,
-     *     direction: 'up'|'down'|'flat'
+     *     direction: 'up'|'down'|'flat',
+     *     series: list<int>
      * }  $checklistTrend
      * @param  array{
      *     todayCount: int,
      *     yesterdayCount: int,
      *     difference: int,
-     *     direction: 'up'|'down'|'flat'
+     *     direction: 'up'|'down'|'flat',
+     *     series: list<int>
      * }  $incidentIntakeTrend
      * @param  list<array{
      *     category: string,
@@ -69,13 +71,15 @@ readonly class DashboardSnapshot
      *         todayRate: int,
      *         yesterdayRate: int,
      *         difference: int,
-     *         direction: 'up'|'down'|'flat'
+     *         direction: 'up'|'down'|'flat',
+     *         series: list<int>
      *     },
      *     incidentIntakeTrend: array{
      *         todayCount: int,
      *         yesterdayCount: int,
      *         difference: int,
-     *         direction: 'up'|'down'|'flat'
+     *         direction: 'up'|'down'|'flat',
+     *         series: list<int>
      *     },
      *     hotspotCategories: list<array{
      *         category: string,

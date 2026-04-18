@@ -26,6 +26,39 @@
         @apply space-y-2 text-center;
     }
 
+    .settings-modal__icon-shell {
+        @apply rounded-full border p-0.5 shadow-sm;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+    }
+
+    .settings-modal__icon-shell-inner {
+        @apply relative overflow-hidden rounded-full border p-2.5;
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+    }
+
+    .settings-modal__grid {
+        @apply absolute inset-0 flex h-full w-full items-stretch justify-around opacity-40;
+    }
+
+    .settings-modal__grid--vertical {
+        @apply divide-x;
+    }
+
+    .settings-modal__grid--horizontal {
+        @apply flex-col justify-around divide-y;
+    }
+
+    .settings-modal__grid > div {
+        @apply flex-1;
+    }
+
+    .settings-modal__grid--vertical > :not([hidden]) ~ :not([hidden]),
+    .settings-modal__grid--horizontal > :not([hidden]) ~ :not([hidden]) {
+        border-color: var(--app-border);
+    }
+
     .settings-button-row {
         @apply flex items-center gap-3;
     }

@@ -80,7 +80,7 @@
                     </button>
                 </div>
 
-                <div class="mt-5 space-x-0.5 text-sm leading-5 text-center text-[var(--app-text-muted)]">
+                <div class="ops-text-muted mt-5 space-x-0.5 text-center text-sm leading-5">
                     <span>{{ __('or you can') }}</span>
                     <div class="auth-link inline cursor-pointer">
                         <span x-show="!showRecoveryInput" @click="toggleInput()">{{ __('login using a recovery code') }}</span>

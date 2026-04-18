@@ -1,6 +1,10 @@
 <x-layouts::app :title="__('Dashboard')">
     @php
         $unresolvedCount = ($incidentCounts['Open'] ?? 0) + ($incidentCounts['In Progress'] ?? 0);
+        $totalVisibleIncidents = max(array_sum($incidentCounts), 1);
+        $openIncidentShare = (int) round((($incidentCounts['Open'] ?? 0) / $totalVisibleIncidents) * 100);
+        $inProgressIncidentShare = (int) round((($incidentCounts['In Progress'] ?? 0) / $totalVisibleIncidents) * 100);
+        $resolvedIncidentShare = (int) round((($incidentCounts['Resolved'] ?? 0) / $totalVisibleIncidents) * 100);
         $hotspotMaxCount = max(array_map(static fn (array $hotspot): int => $hotspot['unresolvedCount'], $hotspotCategories ?: [['unresolvedCount' => 1]]));
         $checklistTrendTone = match ($checklistTrend['direction']) {
             'up' => 'ops-trend-pill--up',
@@ -121,7 +125,7 @@
 
                                             <div class="text-right">
                                                 <p class="ops-signal-card__count">{{ $item['count'] }}</p>
-                                                <p class="text-xs uppercase tracking-[0.12em] text-[var(--app-text-muted)]">items</p>
+                                                <p class="ops-eyebrow-label">items</p>
                                             </div>
                                         </div>
 
@@ -146,7 +150,14 @@
                         :meta="$submittedTodayRuns.' of '.$todayRuns.' checklist runs submitted'"
                         data-motion="scale-soft"
                         data-motion-delay="70"
-                    />
+                    >
+                        <x-slot:visual>
+                            <div class="ops-arc-wrapper">
+                                <x-ops.arc :value="$completionRate" :size="58" />
+                                <span class="ops-arc-wrapper__label">{{ $completionRate }}%</span>
+                            </div>
+                        </x-slot:visual>
+                    </x-ops.stat-card>
 
                     <x-ops.stat-card
                         kicker="Open Incidents"
@@ -154,7 +165,14 @@
                         meta="Incidents still waiting for active handling"
                         data-motion="scale-soft"
                         data-motion-delay="110"
-                    />
+                    >
+                        <x-slot:visual>
+                            <div class="ops-arc-wrapper">
+                                <x-ops.arc :value="$openIncidentShare" :size="58" tone="danger" />
+                                <span class="ops-arc-wrapper__label">{{ $openIncidentShare }}%</span>
+                            </div>
+                        </x-slot:visual>
+                    </x-ops.stat-card>
 
                     <x-ops.stat-card
                         kicker="In Progress"
@@ -162,7 +180,14 @@
                         meta="Incidents currently being worked on"
                         data-motion="scale-soft"
                         data-motion-delay="150"
-                    />
+                    >
+                        <x-slot:visual>
+                            <div class="ops-arc-wrapper">
+                                <x-ops.arc :value="$inProgressIncidentShare" :size="58" tone="warning" />
+                                <span class="ops-arc-wrapper__label">{{ $inProgressIncidentShare }}%</span>
+                            </div>
+                        </x-slot:visual>
+                    </x-ops.stat-card>
 
                     <x-ops.stat-card
                         kicker="Resolved"
@@ -170,7 +195,14 @@
                         meta="Incidents closed in the current dataset"
                         data-motion="scale-soft"
                         data-motion-delay="190"
-                    />
+                    >
+                        <x-slot:visual>
+                            <div class="ops-arc-wrapper">
+                                <x-ops.arc :value="$resolvedIncidentShare" :size="58" tone="success" />
+                                <span class="ops-arc-wrapper__label">{{ $resolvedIncidentShare }}%</span>
+                            </div>
+                        </x-slot:visual>
+                    </x-ops.stat-card>
                 </div>
 
                 <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="120">
@@ -193,16 +225,16 @@
                                 <table class="ops-table ops-table--responsive min-w-full">
                                     <thead>
                                         <tr>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Title</th>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Status</th>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Severity</th>
-                                            <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">Detail</th>
+                                            <th>Title</th>
+                                            <th>Status</th>
+                                            <th>Severity</th>
+                                            <th>Detail</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($recentIncidents as $incident)
                                             <tr class="ops-table__row">
-                                                <td data-label="Title" class="px-4 py-4 text-sm font-medium text-[var(--app-heading)]">{{ $incident->title }}</td>
+                                                <td data-label="Title" class="ops-text-heading px-4 py-4 text-sm font-medium">{{ $incident->title }}</td>
                                                 <td data-label="Status" class="px-4 py-4 text-sm">
                                                     <x-incidents.status-badge :status="$incident->status" />
                                                 </td>
@@ -241,6 +273,12 @@
                                     <p class="ops-trend-card__eyebrow">Completion momentum</p>
                                     <p class="ops-trend-card__value">{{ $checklistTrend['todayRate'] }}%</p>
                                 </div>
+
+                                @if (($checklistTrend['series'] ?? []) !== [])
+                                    <div class="ops-trend-card__visual">
+                                        <x-ops.sparkline :points="$checklistTrend['series']" :width="88" :height="30" />
+                                    </div>
+                                @endif
 
                                 <span class="ops-trend-pill {{ $checklistTrendTone }}">
                                     {{ $checklistTrendLabel }}
@@ -288,6 +326,17 @@
                                     <p class="ops-trend-card__eyebrow">Daily intake</p>
                                     <p class="ops-trend-card__value">{{ $incidentIntakeTrend['todayCount'] }}</p>
                                 </div>
+
+                                @if (($incidentIntakeTrend['series'] ?? []) !== [])
+                                    <div class="ops-trend-card__visual">
+                                        <x-ops.sparkline
+                                            :points="$incidentIntakeTrend['series']"
+                                            :width="88"
+                                            :height="30"
+                                            :tone="$incidentIntakeTrend['direction'] === 'up' ? 'warning' : ($incidentIntakeTrend['direction'] === 'down' ? 'success' : 'primary')"
+                                        />
+                                    </div>
+                                @endif
 
                                 <span class="ops-trend-pill {{ $incidentTrendTone }}">
                                     {{ $incidentTrendLabel }}
@@ -338,7 +387,7 @@
                             <ol class="ops-hotspot-list">
                                 @foreach ($hotspotCategories as $index => $hotspot)
                                     @php($intensity = max(18, (int) round(($hotspot['unresolvedCount'] / max($hotspotMaxCount, 1)) * 100)))
-                                    <li class="ops-hotspot-list__item">
+                                    <li class="ops-hotspot-list__item" data-hotspot-rank="{{ $index + 1 }}">
                                         <div class="ops-hotspot-list__row">
                                             <div class="ops-hotspot-list__identity">
                                                 <span class="ops-hotspot-list__rank">{{ $index + 1 }}</span>

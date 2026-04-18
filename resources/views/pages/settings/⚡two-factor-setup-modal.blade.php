@@ -157,21 +157,21 @@ new class extends Component {
 >
         <div class="settings-panel__body settings-modal__body">
             <div class="settings-modal__intro">
-                <div class="rounded-full border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-0.5 shadow-sm">
-                    <div class="relative overflow-hidden rounded-full border border-[var(--app-border)] bg-[var(--app-surface-subtle)] p-2.5">
-                        <div class="absolute inset-0 flex h-full w-full items-stretch justify-around divide-x divide-[var(--app-border)] opacity-40 [&>div]:flex-1">
+                <div class="settings-modal__icon-shell">
+                    <div class="settings-modal__icon-shell-inner">
+                        <div class="settings-modal__grid settings-modal__grid--vertical">
                             @for ($i = 1; $i <= 5; $i++)
                                 <div></div>
                             @endfor
                         </div>
 
-                        <div class="absolute inset-0 flex h-full w-full flex-col items-stretch justify-around divide-y divide-[var(--app-border)] opacity-40 [&>div]:flex-1">
+                        <div class="settings-modal__grid settings-modal__grid--horizontal">
                             @for ($i = 1; $i <= 5; $i++)
                                 <div></div>
                             @endfor
                         </div>
 
-                        <flux:icon.qr-code class="relative z-20 text-[var(--app-heading)]"/>
+                        <flux:icon.qr-code class="ops-text-heading relative z-20"/>
                     </div>
                 </div>
 

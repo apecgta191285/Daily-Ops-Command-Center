@@ -18,17 +18,17 @@
 
     <div class="space-y-6">
         @if ($errorState === 'zero')
-            <div class="ops-alert ops-alert--danger">
+            <div data-motion="fade-up" class="ops-alert ops-alert--danger">
                 <strong class="font-semibold">Configuration Error:</strong>
                 <span class="block sm:inline">No active checklist template exists. Please contact an administrator.</span>
             </div>
         @elseif ($errorState === 'multiple')
-            <div class="ops-alert ops-alert--danger">
+            <div data-motion="fade-up" class="ops-alert ops-alert--danger">
                 <strong class="font-semibold">Configuration Error:</strong>
                 <span class="block sm:inline">Multiple active checklist templates are currently active. The current baseline supports exactly one active daily checklist template for the whole system, so an administrator must retire the extras before staff can continue.</span>
             </div>
         @else
-            <section class="ops-hero">
+            <section class="ops-hero" data-motion="glance-rise">
                 <div class="ops-hero__inner">
                     <div>
                         <p class="ops-hero__eyebrow">Daily Checklist</p>
@@ -73,7 +73,7 @@
 
             <div class="ops-command-grid ops-command-grid--checklist">
                 <div class="ops-stack">
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">Run state</p>
@@ -85,27 +85,27 @@
                         <div class="ops-card__body space-y-4">
                             <div class="grid gap-3 sm:grid-cols-3">
                                 <div class="ops-progress-panel">
-                                    <div class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--app-text-muted)]">Answered</div>
-                                    <div class="mt-2 text-2xl font-semibold text-[var(--app-heading)]">
+                                    <div class="ops-eyebrow-label">Answered</div>
+                                    <div class="ops-metric-value mt-2 text-2xl font-semibold">
                                         {{ $this->answeredItems }}/{{ $this->totalItems }}
                                     </div>
                                 </div>
                                 <div class="ops-progress-panel">
-                                    <div class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--app-text-muted)]">Remaining</div>
-                                    <div class="mt-2 text-2xl font-semibold text-[var(--app-heading)]">
+                                    <div class="ops-eyebrow-label">Remaining</div>
+                                    <div class="ops-metric-value mt-2 text-2xl font-semibold">
                                         {{ $this->remainingItems }}
                                     </div>
                                 </div>
                                 <div class="ops-progress-panel">
-                                    <div class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--app-text-muted)]">Marked Not Done</div>
-                                    <div class="mt-2 text-2xl font-semibold text-[var(--app-heading)]">
+                                    <div class="ops-eyebrow-label">Marked Not Done</div>
+                                    <div class="ops-metric-value mt-2 text-2xl font-semibold">
                                         {{ $this->notDoneItems }}
                                     </div>
                                 </div>
                             </div>
 
                             <div class="space-y-2">
-                                <div class="flex items-center justify-between text-sm text-[var(--app-text-muted)]">
+                                <div class="ops-text-muted flex items-center justify-between text-sm">
                                     <span>Completion</span>
                                     <span>{{ $this->completionPercentage }}%</span>
                                 </div>
@@ -135,7 +135,7 @@
                         </div>
                     </section>
 
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="90">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">Execution surface</p>
@@ -165,7 +165,7 @@
                             @if ($isSubmitted)
                                 <div class="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
                                     <div class="ops-progress-panel">
-                                        <h4 class="text-sm font-semibold text-[var(--app-heading)]">Submission Recap</h4>
+                                        <h4 class="ops-text-heading text-sm font-semibold">Submission Recap</h4>
                                         <div class="mt-3 flex flex-wrap gap-2 text-xs">
                                             <span class="ops-badge ops-badge--neutral">
                                                 {{ $this->answeredItems }} answered
@@ -177,7 +177,7 @@
                                                 {{ $this->notedItems }} note(s)
                                             </span>
                                         </div>
-                                        <p class="mt-3 text-sm text-[var(--app-text-muted)]">
+                                        <p class="ops-text-muted mt-3 text-sm">
                                             @if ($this->notDoneItems > 0)
                                                 This run includes items marked Not Done. If they reflect a real operational problem, file an incident so management can track follow-up.
                                             @else
@@ -185,7 +185,7 @@
                                             @endif
                                         </p>
                                         @if ($this->repeatedNotDoneTitles !== [])
-                                            <div class="mt-3 rounded-2xl border border-[var(--app-warning-border)] bg-[var(--app-warning-bg)] px-3 py-3 text-sm text-[var(--app-warning-text)]">
+                                            <div class="ops-tone-warning mt-3 rounded-2xl border px-3 py-3 text-sm">
                                                 <span class="font-semibold">Repeated issue memory:</span>
                                                 {{ collect($this->repeatedNotDoneTitles)->join(', ') }}
                                                 {{ count($this->repeatedNotDoneTitles) > 1 ? 'have' : 'has' }}
@@ -205,24 +205,24 @@
                             <form wire:submit="submit" class="space-y-5">
                                 @php($previousGroupLabel = null)
                                 <ul role="list" class="ops-item-stack">
-                                    @foreach($run->items as $runItem)
+                                    @foreach($run->items as $index => $runItem)
                                         @php($groupLabel = $runItem->checklistItem->group_label ?: 'General checks')
                                         @php($showGroupHeader = $groupLabel !== $previousGroupLabel)
 
                                         @if ($showGroupHeader)
-                                            <li class="ops-item-group">
+                                            <li class="ops-item-group" data-motion="fade-up" data-motion-delay="{{ 110 + ($index * 15) }}">
                                                 <div class="ops-item-group__label">{{ $groupLabel }}</div>
                                                 @php($previousGroupLabel = $groupLabel)
                                             </li>
                                         @endif
 
-                                        <li class="ops-item-card">
+                                        <li class="ops-item-card" data-motion="scale-soft" data-motion-delay="{{ 130 + ($index * 20) }}">
                                             <div class="ops-item-card__content">
                                                 <div class="min-w-0">
                                                     <h4 class="ops-item-card__title">
                                                         {{ $runItem->checklistItem->title }}
                                                         @if($runItem->checklistItem->is_required)
-                                                            <span class="text-[var(--app-danger-text)]">*</span>
+                                                            <span class="ops-required-mark">*</span>
                                                         @endif
                                                     </h4>
                                                     @if($runItem->checklistItem->description)
@@ -230,7 +230,7 @@
                                                     @endif
                                                     @php($anomalyMemory = $itemAnomalyMemory[$runItem->checklist_item_id] ?? null)
                                                     @if (($anomalyMemory['recent_not_done_count'] ?? 0) > 0)
-                                                        <div class="mt-3 rounded-2xl border border-[var(--app-warning-border)] bg-[var(--app-warning-bg)] px-3 py-2 text-xs text-[var(--app-warning-text)]">
+                                                        <div class="ops-tone-warning mt-3 rounded-2xl border px-3 py-2 text-xs">
                                                             <span class="font-semibold">Recent issue memory:</span>
                                                             marked Not Done {{ $anomalyMemory['recent_not_done_count'] }} time(s)
                                                             in the last {{ $anomalyMemory['sample_run_count'] }} submitted run(s).
@@ -247,11 +247,11 @@
                                                 <div class="flex flex-col gap-3">
                                                     <div class="flex flex-wrap gap-3">
                                                         <label class="ops-choice {{ $isSubmitted ? 'opacity-70' : '' }}">
-                                                            <input type="radio" wire:model="runItems.{{ $runItem->id }}.result" value="Done" class="h-4 w-4 border-[var(--app-border)] text-[var(--app-action-primary)] focus:ring-[var(--app-action-primary)]" {{ $isSubmitted ? 'disabled' : '' }}>
+                                                            <input type="radio" wire:model="runItems.{{ $runItem->id }}.result" value="Done" class="ops-choice__control" {{ $isSubmitted ? 'disabled' : '' }}>
                                                             <span>Done</span>
                                                         </label>
                                                         <label class="ops-choice {{ $isSubmitted ? 'opacity-70' : '' }}">
-                                                            <input type="radio" wire:model="runItems.{{ $runItem->id }}.result" value="Not Done" class="h-4 w-4 border-[var(--app-border)] text-[var(--app-danger-text)] focus:ring-[var(--app-danger-text)]" {{ $isSubmitted ? 'disabled' : '' }}>
+                                                            <input type="radio" wire:model="runItems.{{ $runItem->id }}.result" value="Not Done" class="ops-choice__control ops-choice__control--danger" {{ $isSubmitted ? 'disabled' : '' }}>
                                                             <span>Not Done</span>
                                                         </label>
                                                     </div>
@@ -267,7 +267,7 @@
                                 </ul>
 
                                 @if(!$isSubmitted)
-                                    <div class="flex justify-end border-t border-[var(--app-border)] pt-5">
+                                    <div class="ops-divider-top flex justify-end pt-5">
                                         <button type="submit" class="ops-button ops-button--primary min-w-44 disabled:opacity-50">
                                             <span wire:loading.remove wire:target="submit">Submit Checklist</span>
                                             <span wire:loading wire:target="submit">Submitting...</span>
@@ -280,7 +280,7 @@
                 </div>
 
                 <div class="ops-stack">
-                    <section class="ops-card overflow-hidden">
+                    <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">Reference memory</p>
@@ -295,10 +295,10 @@
                                     @foreach ($recentRuns as $recentRun)
                                         <li class="ops-detail-list__item">
                                             <div class="flex flex-wrap items-center justify-between gap-2">
-                                                <div class="text-sm font-semibold text-[var(--app-heading)]">
+                                                <div class="ops-text-heading text-sm font-semibold">
                                                     {{ \Carbon\Carbon::parse($recentRun['run_date'])->format('M d, Y') }}
                                                 </div>
-                                                <div class="text-xs text-[var(--app-text-muted)]">
+                                                <div class="ops-text-muted text-xs">
                                                     Submitted {{ \Carbon\Carbon::parse($recentRun['submitted_at'])->diffForHumans() }}
                                                 </div>
                                             </div>

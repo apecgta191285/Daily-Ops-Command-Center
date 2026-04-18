@@ -1,5 +1,5 @@
 <x-layouts::app.sidebar :title="$title ?? null">
-    <flux:main class="bg-[var(--app-content-bg)]">
+    <flux:main class="ops-content-main">
         <div class="ops-page">
             @isset($header)
                 <div class="ops-page__header">

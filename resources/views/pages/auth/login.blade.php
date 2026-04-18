@@ -5,12 +5,12 @@
         <x-auth-session-status class="text-center" :status="session('status')" />
 
         @if (app()->environment(['local', 'testing']))
-            <div class="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-subtle)] p-4 text-sm text-[var(--app-text-muted)]">
-                <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">{{ __('Local demo accounts') }}</p>
+            <div class="auth-callout">
+                <p class="auth-callout__eyebrow">{{ __('Local demo accounts') }}</p>
                 <ul class="mt-3 space-y-2">
-                    <li><strong class="text-[var(--app-heading)]">Admin</strong>: <code>admin@example.com</code> / <code>password</code> — {{ __('dashboard, triage, and checklist template administration') }}</li>
-                    <li><strong class="text-[var(--app-heading)]">Supervisor</strong>: <code>supervisor@example.com</code> / <code>password</code> — {{ __('dashboard and incident follow-up without template administration') }}</li>
-                    <li><strong class="text-[var(--app-heading)]">Staff</strong>: <code>operatora@example.com</code> / <code>password</code> — {{ __('daily checklist execution and incident reporting') }}</li>
+                    <li><strong class="ops-text-heading">Admin</strong>: <code>admin@example.com</code> / <code>password</code> — {{ __('dashboard, triage, and checklist template administration') }}</li>
+                    <li><strong class="ops-text-heading">Supervisor</strong>: <code>supervisor@example.com</code> / <code>password</code> — {{ __('dashboard and incident follow-up without template administration') }}</li>
+                    <li><strong class="ops-text-heading">Staff</strong>: <code>operatora@example.com</code> / <code>password</code> — {{ __('daily checklist execution and incident reporting') }}</li>
                 </ul>
             </div>
         @endif
