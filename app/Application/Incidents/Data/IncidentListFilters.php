@@ -12,5 +12,9 @@ readonly class IncidentListFilters
         public string $severity = '',
         public bool $unresolved = false,
         public bool $stale = false,
+        public bool $unowned = false,
+        public bool $mine = false,
+        public bool $overdue = false,
+        public ?int $actorId = null,
     ) {}
 }

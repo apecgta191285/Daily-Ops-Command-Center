@@ -117,6 +117,61 @@ test('incident list honors unresolved and stale query-driven filters', function 
         ->assertSee('Stale');
 });
 
+test('incident list honors accountability query-driven filters', function () {
+    $ownedByAdmin = Incident::create([
+        'title' => 'Owned by admin in queue',
+        'category' => 'อื่น ๆ',
+        'severity' => 'Medium',
+        'status' => 'In Progress',
+        'description' => 'Owned queue incident.',
+        'created_by' => $this->staff->id,
+        'owner_id' => $this->admin->id,
+        'follow_up_due_at' => today()->addDay(),
+    ]);
+
+    $unownedIncident = Incident::create([
+        'title' => 'Unowned queue incident',
+        'category' => 'เครือข่าย',
+        'severity' => 'High',
+        'status' => 'Open',
+        'description' => 'Needs an owner.',
+        'created_by' => $this->staff->id,
+    ]);
+
+    $overdueIncident = Incident::create([
+        'title' => 'Overdue queue incident',
+        'category' => 'ความปลอดภัย',
+        'severity' => 'High',
+        'status' => 'Open',
+        'description' => 'Follow-up target has passed.',
+        'created_by' => $this->staff->id,
+        'owner_id' => $this->supervisor->id,
+        'follow_up_due_at' => today()->subDay(),
+    ]);
+
+    $this->actingAs($this->admin)
+        ->get(route('incidents.index', ['mine' => 1]))
+        ->assertOk()
+        ->assertSee($ownedByAdmin->title)
+        ->assertDontSee($unownedIncident->title)
+        ->assertDontSee($overdueIncident->title)
+        ->assertSee('Owned by me');
+
+    $this->actingAs($this->admin)
+        ->get(route('incidents.index', ['unowned' => 1]))
+        ->assertOk()
+        ->assertSee($unownedIncident->title)
+        ->assertDontSee($ownedByAdmin->title)
+        ->assertSee('Unowned');
+
+    $this->actingAs($this->admin)
+        ->get(route('incidents.index', ['overdue' => 1]))
+        ->assertOk()
+        ->assertSee($overdueIncident->title)
+        ->assertDontSee($ownedByAdmin->title)
+        ->assertSee('Overdue follow-up');
+});
+
 test('incident list sanitizes unknown query-driven filters and allows filters to be cleared', function () {
     Livewire::actingAs($this->admin)
         ->withQueryParams([
@@ -299,6 +354,7 @@ test('incident detail page renders incident data timeline and null attachment st
     $response->assertSee($this->openIncident->severity);
     $response->assertSee($this->openIncident->description);
     $response->assertSee('Latest handling context');
+    $response->assertSee('Ownership still missing');
     $response->assertSee('Description and evidence');
     $response->assertSee('Accountability lane');
     $response->assertSee('Update status with intent');
@@ -361,4 +417,30 @@ test('incident detail page shows age and stale indicators for old unresolved inc
     $response->assertOk();
     $response->assertSee('Open for 3 days');
     $response->assertSee('Stale');
+});
+
+test('incident detail page highlights overdue follow-up pressure', function () {
+    $overdueIncident = Incident::create([
+        'title' => 'Overdue follow-up detail incident',
+        'category' => 'เครือข่าย',
+        'severity' => 'High',
+        'status' => 'In Progress',
+        'description' => 'Needs review because the follow-up date passed.',
+        'created_by' => $this->staff->id,
+        'owner_id' => $this->supervisor->id,
+        'follow_up_due_at' => today()->subDay(),
+    ]);
+
+    $overdueIncident->activities()->create([
+        'action_type' => 'created',
+        'summary' => 'Incident reported',
+        'actor_id' => $this->staff->id,
+        'created_at' => now()->subDays(2),
+    ]);
+
+    $response = $this->actingAs($this->supervisor)->get(route('incidents.show', $overdueIncident));
+
+    $response->assertOk();
+    $response->assertSee('Follow-up target overdue');
+    $response->assertSee('Follow-up overdue');
 });

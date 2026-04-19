@@ -31,6 +31,15 @@ class Index extends Component
     #[Url(except: false)]
     public bool $stale = false;
 
+    #[Url(except: false)]
+    public bool $unowned = false;
+
+    #[Url(except: false)]
+    public bool $mine = false;
+
+    #[Url(except: false)]
+    public bool $overdue = false;
+
     public array $statuses = [];
 
     public array $categories = [];
@@ -63,6 +72,23 @@ class Index extends Component
         $this->severity = '';
         $this->unresolved = false;
         $this->stale = false;
+        $this->unowned = false;
+        $this->mine = false;
+        $this->overdue = false;
+    }
+
+    public function updatedMine(bool $value): void
+    {
+        if ($value) {
+            $this->unowned = false;
+        }
+    }
+
+    public function updatedUnowned(bool $value): void
+    {
+        if ($value) {
+            $this->mine = false;
+        }
     }
 
     public function getStaleThresholdDaysProperty(): int
@@ -79,6 +105,10 @@ class Index extends Component
             severity: $this->severity,
             unresolved: $this->unresolved,
             stale: $this->stale,
+            unowned: $this->unowned,
+            mine: $this->mine,
+            overdue: $this->overdue,
+            actorId: auth()->id(),
         ));
 
         return view('livewire.management.incidents.index', [

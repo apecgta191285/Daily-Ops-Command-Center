@@ -6,6 +6,7 @@ namespace App\Livewire\Management\Incidents;
 
 use App\Application\Incidents\Actions\TransitionIncidentStatus;
 use App\Application\Incidents\Actions\UpdateIncidentAccountability;
+use App\Application\Incidents\Support\IncidentFollowUpPolicy;
 use App\Application\Incidents\Support\IncidentStalePolicy;
 use App\Domain\Access\Enums\UserRole;
 use App\Domain\Incidents\Enums\IncidentStatus;
@@ -144,6 +145,17 @@ class Show extends Component
             ->sortByDesc('created_at')
             ->first()
             ?->summary;
+    }
+
+    public function getIsFollowUpOverdueProperty(): bool
+    {
+        return IncidentFollowUpPolicy::isOverdue($this->incident->follow_up_due_at, $this->incident->status);
+    }
+
+    public function getNeedsOwnerProperty(): bool
+    {
+        return $this->incident->status !== IncidentStatus::Resolved->value
+            && $this->incident->owner_id === null;
     }
 
     public function getActivityTypeLabel(string $actionType): string

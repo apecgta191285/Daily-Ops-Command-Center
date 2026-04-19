@@ -51,6 +51,12 @@
                         @if ($this->isStale)
                             <span class="ops-badge ops-badge--warning">Stale {{ $this->staleThresholdDays }}+ days</span>
                         @endif
+                        @if ($this->needsOwner)
+                            <span class="ops-badge ops-badge--warning">Needs owner</span>
+                        @endif
+                        @if ($this->isFollowUpOverdue)
+                            <span class="ops-badge ops-badge--danger">Follow-up overdue</span>
+                        @endif
                         @if ($incident->owner)
                             <span class="ops-badge ops-badge--neutral">Owner: {{ $incident->owner->name }}</span>
                         @endif
@@ -132,6 +138,22 @@
                                     </x-ops.callout>
                                 @endif
                             </div>
+                        </div>
+                    </section>
+                @endif
+
+                @if ($this->needsOwner || $this->isFollowUpOverdue)
+                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="65">
+                        <div class="ops-card__body">
+                            @if ($this->isFollowUpOverdue)
+                                <x-ops.callout title="Follow-up target overdue" tone="danger">
+                                    {{ $incident->follow_up_due_at?->format('M d, Y') }} has passed and this incident is still unresolved. Review ownership and the next move before this record turns into passive queue debt.
+                                </x-ops.callout>
+                            @elseif ($this->needsOwner)
+                                <x-ops.callout title="Ownership still missing" tone="warning">
+                                    This unresolved incident does not currently have a management owner. Assign one in the accountability lane so the next move is clearly carried by someone.
+                                </x-ops.callout>
+                            @endif
                         </div>
                     </section>
                 @endif

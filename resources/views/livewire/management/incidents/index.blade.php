@@ -68,7 +68,22 @@
                         <span>Only stale incidents ({{ $this->staleThresholdDays }}+ days)</span>
                     </label>
 
-                    @if ($status !== '' || $category !== '' || $severity !== '' || $unresolved || $stale)
+                    <label class="ops-choice">
+                        <input type="checkbox" wire:model.live="unowned" class="ops-choice__control">
+                        <span>Only unowned incidents</span>
+                    </label>
+
+                    <label class="ops-choice">
+                        <input type="checkbox" wire:model.live="mine" class="ops-choice__control">
+                        <span>Only my incidents</span>
+                    </label>
+
+                    <label class="ops-choice">
+                        <input type="checkbox" wire:model.live="overdue" class="ops-choice__control">
+                        <span>Only overdue follow-up</span>
+                    </label>
+
+                    @if ($status !== '' || $category !== '' || $severity !== '' || $unresolved || $stale || $unowned || $mine || $overdue)
                         <button type="button" wire:click="clearFilters" class="ops-button ops-button--secondary">
                             Clear filters
                         </button>
@@ -77,7 +92,7 @@
             </div>
         </section>
 
-        @if ($unresolved || $stale)
+        @if ($unresolved || $stale || $unowned || $mine || $overdue)
             <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="80">
                 <div class="ops-card__body ops-text-muted flex flex-wrap items-center gap-3 text-sm">
                     <span class="ops-text-heading font-medium">Active filter context:</span>
@@ -87,11 +102,20 @@
                     @if ($stale)
                         <span class="ops-chip ops-chip--warning">Stale {{ $this->staleThresholdDays }}+ days</span>
                     @endif
+                    @if ($unowned)
+                        <span class="ops-chip ops-chip--warning">Unowned</span>
+                    @endif
+                    @if ($mine)
+                        <span class="ops-chip ops-chip--info">Owned by me</span>
+                    @endif
+                    @if ($overdue)
+                        <span class="ops-chip ops-chip--danger">Overdue follow-up</span>
+                    @endif
                 </div>
             </section>
         @endif
 
-        <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="{{ ($unresolved || $stale) ? '120' : '80' }}">
+        <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="{{ ($unresolved || $stale || $unowned || $mine || $overdue) ? '120' : '80' }}">
             <div class="ops-card__body">
                 @if($incidents->isEmpty())
                     <x-ops.empty-state
@@ -107,6 +131,8 @@
                                     <th>Category</th>
                                     <th>Severity</th>
                                     <th>Status</th>
+                                    <th>Owner</th>
+                                    <th>Follow-up</th>
                                     <th>Attention</th>
                                     <th>Reported By</th>
                                     <th>Action</th>
@@ -123,9 +149,34 @@
                                         <td data-label="Status" class="px-4 py-4 text-sm">
                                             <x-incidents.status-badge :status="$incident->status" />
                                         </td>
+                                        <td data-label="Owner" class="ops-text-muted px-4 py-4 text-sm">
+                                            @if ($incident->owner)
+                                                <span class="ops-text-heading font-medium">{{ $incident->owner->name }}</span>
+                                            @elseif ($incident->status !== 'Resolved')
+                                                <span class="ops-badge ops-badge--warning">Unowned</span>
+                                            @else
+                                                <span class="text-xs">-</span>
+                                            @endif
+                                        </td>
+                                        <td data-label="Follow-up" class="ops-text-muted px-4 py-4 text-sm">
+                                            @if ($incident->follow_up_due_at)
+                                                <div class="flex flex-wrap items-center gap-2">
+                                                    <span>{{ $incident->follow_up_due_at->format('M d, Y') }}</span>
+                                                    @if ($incident->is_overdue_follow_up)
+                                                        <span class="ops-badge ops-badge--danger">Overdue</span>
+                                                    @endif
+                                                </div>
+                                            @else
+                                                <span class="text-xs">Not set</span>
+                                            @endif
+                                        </td>
                                         <td data-label="Attention" class="ops-text-muted px-4 py-4 text-sm">
-                                            @if ($incident->is_stale_for_attention)
+                                            @if ($incident->is_overdue_follow_up)
+                                                <span class="ops-badge ops-badge--danger">Follow-up overdue</span>
+                                            @elseif ($incident->is_stale_for_attention)
                                                 <span class="ops-badge ops-badge--warning">Stale</span>
+                                            @elseif ($incident->status !== 'Resolved' && $incident->owner_id === null)
+                                                <span class="ops-badge ops-badge--warning">Needs owner</span>
                                             @else
                                                 <span class="text-xs">-</span>
                                             @endif

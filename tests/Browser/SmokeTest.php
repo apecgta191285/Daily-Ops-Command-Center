@@ -96,6 +96,40 @@ test('management dashboard drill-down links lead to filtered incident follow-up 
         ->assertNoConsoleLogs();
 });
 
+test('management incident queue shows accountability filters and fields without browser smoke issues', function () {
+    $admin = $this->createUserForRole(UserRole::Admin);
+    $supervisor = $this->createUserForRole(UserRole::Supervisor);
+
+    $this->createIncidentWithActivity($admin, [
+        'title' => 'Browser owned accountability incident',
+        'status' => IncidentStatus::InProgress->value,
+        'owner_id' => $admin->id,
+        'follow_up_due_at' => today()->addDay(),
+    ]);
+
+    $this->createIncidentWithActivity($supervisor, [
+        'title' => 'Browser overdue accountability incident',
+        'status' => IncidentStatus::Open->value,
+        'owner_id' => $supervisor->id,
+        'follow_up_due_at' => today()->subDay(),
+    ]);
+
+    visit('/login')
+        ->fill('email', $admin->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->click('Incidents')
+        ->assertPathIs('/incidents')
+        ->assertSee('Only unowned incidents')
+        ->assertSee('Only my incidents')
+        ->assertSee('Only overdue follow-up')
+        ->assertSee('Owner')
+        ->assertSee('Follow-up')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
+});
+
 test('management dashboard shows trend and hotspot sections without browser smoke issues', function () {
     $admin = $this->createUserForRole(UserRole::Admin);
     $this->createTemplateWithItems([
