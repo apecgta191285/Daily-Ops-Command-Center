@@ -6,6 +6,7 @@ namespace App\Livewire\Management\Checklists;
 
 use App\Application\Checklists\Data\ChecklistRunHistoryFilters;
 use App\Application\Checklists\Queries\ListChecklistRunHistory;
+use App\Application\Checklists\Support\ChecklistRunArchiveContextBuilder;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\User;
 use Livewire\Attributes\Layout;
@@ -53,16 +54,22 @@ class HistoryIndex extends Component
     #[Layout('layouts.app')]
     public function render()
     {
+        $runs = app(ListChecklistRunHistory::class)(new ChecklistRunHistoryFilters(
+            runDate: $this->runDate,
+            scopeRouteKey: $this->scope,
+            operatorId: $this->operator,
+        ));
+
         return view('livewire.management.checklists.history-index', [
-            'runs' => app(ListChecklistRunHistory::class)(new ChecklistRunHistoryFilters(
-                runDate: $this->runDate,
-                scopeRouteKey: $this->scope,
-                operatorId: $this->operator,
-            )),
+            'runs' => $runs,
             'operators' => User::query()
                 ->where('role', 'staff')
                 ->orderBy('name')
                 ->get(['id', 'name']),
+            'archiveContext' => app(ChecklistRunArchiveContextBuilder::class)(
+                $runs,
+                $this->runDate !== '' ? $this->runDate : null,
+            ),
         ]);
     }
 }

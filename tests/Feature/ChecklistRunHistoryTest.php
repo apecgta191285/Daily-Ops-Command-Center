@@ -79,6 +79,9 @@ test('checklist run archive lists only submitted runs and respects date scope an
 
     $response->assertOk();
     $response->assertSee('Checklist Run Archive');
+    $response->assertSee('Archive day context');
+    $response->assertSee('Opening');
+    $response->assertSee('Closing');
     $response->assertSee($this->openingTemplate->title);
     $response->assertSee($this->closingTemplate->title);
     $response->assertSee($this->operatorA->name);
@@ -129,6 +132,9 @@ test('historical run recap shows grouped responses and hides unsubmitted runs', 
     $response->assertSee('Check projector');
     $response->assertSee('Projector lamp issue');
     $response->assertSee('Follow-up worth reviewing');
+    $response->assertSee('Review same day');
+    $response->assertSee('Review same scope');
+    $response->assertSee('Review same operator');
 
     $this->actingAs($this->supervisor)
         ->get(route('checklists.history.show', $draftRun))

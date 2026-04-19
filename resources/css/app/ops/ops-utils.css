@@ -121,6 +121,10 @@
         @apply grid gap-3 sm:grid-cols-2;
     }
 
+    .ops-history-summary-grid--wide {
+        @apply xl:grid-cols-3;
+    }
+
     .ops-history-summary-card {
         @apply border px-4 py-4;
         border-radius: calc(var(--app-radius-xl) - 0.45rem);
@@ -153,5 +157,15 @@
     .ops-history-answer-card__note {
         @apply text-sm leading-6;
         color: var(--app-text);
+    }
+
+    .ops-inline-link {
+        @apply text-xs font-medium underline-offset-4 transition;
+        color: var(--app-action-primary);
+        text-decoration: underline;
+    }
+
+    .ops-inline-link:hover {
+        color: color-mix(in srgb, var(--app-action-primary) 78%, black);
     }
 }

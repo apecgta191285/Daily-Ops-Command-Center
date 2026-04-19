@@ -100,6 +100,21 @@
                         <dd class="ops-detail-stack__value">{{ $run->submitted_at?->format('M d, Y H:i') ?? __('Unknown') }}</dd>
                     </div>
                 </dl>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <a href="{{ $this->dateArchiveUrl }}" class="ops-button ops-button--secondary" wire:navigate>
+                        {{ __('Review same day') }}
+                    </a>
+                    <a href="{{ $this->scopeArchiveUrl }}" class="ops-button ops-button--secondary" wire:navigate>
+                        {{ __('Review same scope') }}
+                    </a>
+                    <a href="{{ $this->operatorArchiveUrl }}" class="ops-button ops-button--secondary" wire:navigate>
+                        {{ __('Review same operator') }}
+                    </a>
+                    <a href="{{ route('incidents.index', ['unresolved' => 1]) }}" class="ops-button ops-button--secondary" wire:navigate>
+                        {{ __('Review active incidents') }}
+                    </a>
+                </div>
             </div>
         </section>
 

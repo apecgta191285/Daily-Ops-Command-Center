@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Management\Checklists;
 
 use App\Application\Checklists\Support\ChecklistRunArchiveRecapBuilder;
+use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistRun;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
@@ -47,6 +48,30 @@ class HistoryShow extends Component
         return Str::of($this->run->template?->title ?? 'Checklist run')
             ->append(' recap')
             ->toString();
+    }
+
+    public function getDateArchiveUrlProperty(): string
+    {
+        return route('checklists.history.index', [
+            'runDate' => $this->run->run_date->toDateString(),
+        ]);
+    }
+
+    public function getScopeArchiveUrlProperty(): string
+    {
+        $scope = ChecklistScope::tryFrom($this->scopeLabel);
+
+        return route('checklists.history.index', [
+            'runDate' => $this->run->run_date->toDateString(),
+            'scope' => $scope?->routeKey(),
+        ]);
+    }
+
+    public function getOperatorArchiveUrlProperty(): string
+    {
+        return route('checklists.history.index', [
+            'operator' => (string) $this->run->created_by,
+        ]);
     }
 
     #[Layout('layouts.app')]
