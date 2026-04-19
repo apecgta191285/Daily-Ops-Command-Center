@@ -38,7 +38,7 @@
 * `WF2 Incident Ownership Lite` ถูกปิด wave แล้วในก้อน `WF2-D`: canonical docs, system spec, data definition, decision history, และ architecture references ถูกเก็บให้ตรงกับ lightweight ownership truth ชุดเดียวกับ code/tests แล้ว ทำให้ incident accountability ไม่ได้เป็นเพียง UI polish หรือ queue filter เพิ่มเติม แต่กลายเป็น product language ที่ล็อกอย่างเป็นทางการทั้ง detail, queue, และ dashboard  
 * `WF3 User Administration Lite` ถูกปิด wave แล้ว: repository มี admin-owned account lifecycle capability ภายใน app shell แล้วทั้งในระดับ application owners, admin surfaces, lifecycle guard rails, regression proof, และ canonical docs โดยยังคง intentionally lightweight และไม่ขยายไปเป็น RBAC platform, invitation workflow, หรือ external identity integration  
 * `WF4 Operational History and Run Archive` ถูกปิดครบแล้วในก้อน `WF4-D`: management สามารถ review ทั้ง checklist run archive และ recent incident history ได้ใน product shell, checklist history รองรับ day/scope/operator pivots, incident history รองรับ opened / resolved / still-active carryover, และ canonical docs ตอนนี้ถูกเก็บให้ตรงกับ operational-history baseline เดียวกันแล้ว  
-* `WF5 Dashboard Workboard Upgrade` ลงต่อแล้วใน `WF5-B`: dashboard ไม่ได้อ่าน ownership pressure เป็นแค่ count หรือ compare-list อีกต่อไป แต่ยก overdue, unowned, และ actor-owned work ขึ้นมาเป็น ownership buckets ที่ drill-down เข้าคิวงานจริงได้ โดยยังไม่กลายเป็น incident queue clone หรือ analytics theatre  
+* `WF5 Dashboard Workboard Upgrade` ลงต่อแล้วใน `WF5-C`: dashboard มี history-aware command layer แล้วโดยใช้ checklist archive context และ incident history slices ที่มีอยู่จริงมาช่วยบอกว่าช่วงล่าสุดดูนิ่ง อยู่ในโหมดเฝ้าดู หรือยังมี carryover จากวันก่อน โดยยังคงให้ history เป็น supporting context ไม่ใช่ report center  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -46,7 +46,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 complete + WF2 complete + WF3 complete + WF4 complete + WF5-B complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 complete + WF2 complete + WF3 complete + WF4 complete + WF5-C complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 

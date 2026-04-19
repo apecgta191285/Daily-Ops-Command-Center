@@ -204,6 +204,7 @@ See also:
 - `docs/96_WF5_A_Workboard_Framing_and_Pending_Lane_Truth_Execution_Pack_2026-04-19.md`
 - `docs/97_WF5_A_Workboard_Framing_and_Pending_Lane_Truth_Implementation_Execution_Pack_2026-04-19.md`
 - `docs/98_WF5_B_Ownership_and_Work_Buckets_Execution_Pack_2026-04-20.md`
+- `docs/99_WF5_C_History_Aware_Command_Layer_Execution_Pack_2026-04-20.md`
 
 ## Canonical Documentation
 

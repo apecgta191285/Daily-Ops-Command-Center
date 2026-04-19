@@ -87,6 +87,27 @@ readonly class DashboardSnapshot
      *     }>
      * }  $ownershipBuckets
      * @param  array{
+     *   state:'calm'|'watch'|'unstable',
+     *   headline:string,
+     *   body:string,
+     *   archive:array{
+     *     focus_date:?string,
+     *     total_runs:int,
+     *     total_not_done_items:int,
+     *     total_noted_items:int,
+     *     covered_lanes:int,
+     *     warning_lanes:int,
+     *     url:string|null
+     *   },
+     *   incidents:array{
+     *     days:int,
+     *     opened_count:int,
+     *     resolved_count:int,
+     *     still_active_count:int,
+     *     url:string|null
+     *   }
+     * }  $recentHistoryContext
+     * @param  array{
      *     unownedCount: int,
      *     overdueCount: int,
      *     ownedByActorCount: int,
@@ -111,6 +132,7 @@ readonly class DashboardSnapshot
         public array $scopeChecklistLanes,
         public array $workboard,
         public array $ownershipBuckets,
+        public array $recentHistoryContext,
         public array $ownershipPressure,
         public Collection $recentIncidents,
     ) {}
@@ -196,6 +218,27 @@ readonly class DashboardSnapshot
      *             tone: 'danger'|'warning'|'info'
      *         }>
      *     },
+     *     recentHistoryContext: array{
+     *       state:'calm'|'watch'|'unstable',
+     *       headline:string,
+     *       body:string,
+     *       archive:array{
+     *         focus_date:?string,
+     *         total_runs:int,
+     *         total_not_done_items:int,
+     *         total_noted_items:int,
+     *         covered_lanes:int,
+     *         warning_lanes:int,
+     *         url:string|null
+     *       },
+     *       incidents:array{
+     *         days:int,
+     *         opened_count:int,
+     *         resolved_count:int,
+     *         still_active_count:int,
+     *         url:string|null
+     *       }
+     *     },
      *     ownershipPressure: array{
      *         unownedCount: int,
      *         overdueCount: int,
@@ -224,6 +267,7 @@ readonly class DashboardSnapshot
             'scopeChecklistLanes' => $this->scopeChecklistLanes,
             'workboard' => $this->workboard,
             'ownershipBuckets' => $this->ownershipBuckets,
+            'recentHistoryContext' => $this->recentHistoryContext,
             'ownershipPressure' => $this->ownershipPressure,
             'recentIncidents' => $this->recentIncidents,
         ];

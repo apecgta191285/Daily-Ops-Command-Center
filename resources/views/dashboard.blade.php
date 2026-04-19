@@ -34,6 +34,11 @@
         $ownershipBucketToneClass = ($ownershipBuckets['state'] ?? 'active') === 'calm'
             ? 'ops-bucket-board--calm'
             : 'ops-bucket-board--active';
+        $recentHistoryToneClass = match ($recentHistoryContext['state'] ?? 'watch') {
+            'calm' => 'ops-context-board--calm',
+            'unstable' => 'ops-context-board--unstable',
+            default => 'ops-context-board--watch',
+        };
     @endphp
 
     <x-slot name="header">
@@ -441,6 +446,106 @@
             </div>
 
             <div class="ops-stack">
+                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="55">
+                    <div class="ops-section-heading">
+                        <div>
+                            <p class="ops-section-heading__eyebrow">Recent operating context</p>
+                            <h2 class="ops-section-heading__title">History-Aware Command Layer</h2>
+                            <p class="ops-section-heading__body">Use lightweight recent context to judge whether today looks calm, behind, or recently unstable.</p>
+                        </div>
+                    </div>
+
+                    <div class="ops-card__body">
+                        <section class="ops-context-board {{ $recentHistoryToneClass }}">
+                            <div class="ops-context-board__summary">
+                                <div>
+                                    <p class="ops-context-board__eyebrow">
+                                        {{ match ($recentHistoryContext['state'] ?? 'watch') {
+                                            'calm' => 'Stable recent record',
+                                            'unstable' => 'Recent carryover detected',
+                                            default => 'Recent review recommended',
+                                        } }}
+                                    </p>
+                                    <h3 class="ops-context-board__title">{{ $recentHistoryContext['headline'] }}</h3>
+                                    <p class="ops-context-board__body">{{ $recentHistoryContext['body'] }}</p>
+                                </div>
+
+                                <span class="ops-trend-pill {{ match ($recentHistoryContext['state'] ?? 'watch') {
+                                    'calm' => 'ops-trend-pill--up',
+                                    'unstable' => 'ops-trend-pill--down',
+                                    default => 'ops-trend-pill--flat',
+                                } }}">
+                                    {{ match ($recentHistoryContext['state'] ?? 'watch') {
+                                        'calm' => 'Settled',
+                                        'unstable' => 'Carryover',
+                                        default => 'Review',
+                                    } }}
+                                </span>
+                            </div>
+
+                            <div class="ops-context-board__grid">
+                                <article class="ops-context-card">
+                                    <div class="ops-context-card__header">
+                                        <div>
+                                            <p class="ops-context-card__eyebrow">Checklist archive</p>
+                                            <h4 class="ops-context-card__title">
+                                                {{ $recentHistoryContext['archive']['focus_date'] ? \Carbon\Carbon::parse($recentHistoryContext['archive']['focus_date'])->format('M d, Y') : __('No recent archived day') }}
+                                            </h4>
+                                        </div>
+
+                                        <strong class="ops-context-card__count">{{ $recentHistoryContext['archive']['total_runs'] }}</strong>
+                                    </div>
+
+                                    <p class="ops-context-card__copy">
+                                        {{ $recentHistoryContext['archive']['covered_lanes'] }} covered lane(s),
+                                        {{ $recentHistoryContext['archive']['warning_lanes'] }} missing lane(s),
+                                        {{ $recentHistoryContext['archive']['total_not_done_items'] }} not-done item(s).
+                                    </p>
+
+                                    <div class="ops-context-card__meta">
+                                        <span>{{ $recentHistoryContext['archive']['total_noted_items'] }} noted item(s)</span>
+                                    </div>
+
+                                    @if ($recentHistoryContext['archive']['url'])
+                                        <div class="ops-context-card__footer">
+                                            <a href="{{ $recentHistoryContext['archive']['url'] }}" class="ops-button ops-button--secondary">
+                                                Review archive day
+                                            </a>
+                                        </div>
+                                    @endif
+                                </article>
+
+                                <article class="ops-context-card">
+                                    <div class="ops-context-card__header">
+                                        <div>
+                                            <p class="ops-context-card__eyebrow">Incident history</p>
+                                            <h4 class="ops-context-card__title">Last {{ $recentHistoryContext['incidents']['days'] }} days</h4>
+                                        </div>
+
+                                        <strong class="ops-context-card__count">{{ $recentHistoryContext['incidents']['still_active_count'] }}</strong>
+                                    </div>
+
+                                    <p class="ops-context-card__copy">
+                                        {{ $recentHistoryContext['incidents']['opened_count'] }} opened, {{ $recentHistoryContext['incidents']['resolved_count'] }} resolved, {{ $recentHistoryContext['incidents']['still_active_count'] }} still active from the recent record.
+                                    </p>
+
+                                    <div class="ops-context-card__meta">
+                                        <span>Recent operational carryover</span>
+                                    </div>
+
+                                    @if ($recentHistoryContext['incidents']['url'])
+                                        <div class="ops-context-card__footer">
+                                            <a href="{{ $recentHistoryContext['incidents']['url'] }}" class="ops-button ops-button--secondary">
+                                                Review incident history
+                                            </a>
+                                        </div>
+                                    @endif
+                                </article>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
                     <div class="ops-section-heading">
                         <div>

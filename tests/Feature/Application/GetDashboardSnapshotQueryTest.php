@@ -103,3 +103,46 @@ test('dashboard snapshot query exposes ownership pressure summary', function () 
     expect(collect($snapshot->ownershipBuckets['buckets'])->pluck('title')->all())
         ->toBe(['Overdue follow-up', 'Unowned incidents', 'Owned by you']);
 });
+
+test('dashboard snapshot query exposes recent history context', function () {
+    $admin = User::factory()->create();
+
+    ChecklistTemplate::query()->update(['is_active' => false]);
+
+    $openingTemplate = $this->createTemplateWithItems([
+        'title' => 'History-aware opening template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
+
+    $run = $this->createRunForUser(
+        $admin,
+        $openingTemplate,
+        submitted: true,
+        itemStates: [
+            ['result' => 'Not Done', 'note' => 'Carryover issue'],
+        ],
+        runDate: now()->subDay()->toDateString(),
+    );
+
+    $run->loadCount([
+        'items',
+        'items as not_done_items_count' => fn ($query) => $query->where('result', 'Not Done'),
+        'items as noted_items_count' => fn ($query) => $query->whereNotNull('note'),
+    ]);
+
+    Incident::factory()->create([
+        'title' => 'Recent still-active incident',
+        'status' => 'Open',
+        'created_by' => $admin->id,
+        'created_at' => now()->subDay(),
+    ]);
+
+    $snapshot = app(GetDashboardSnapshot::class)($admin->id);
+
+    expect($snapshot->recentHistoryContext['state'])->toBe('unstable');
+    expect($snapshot->recentHistoryContext['headline'])->toBe('Recent operating record still shows carryover');
+    expect($snapshot->recentHistoryContext['archive']['focus_date'])->toBe(now()->subDay()->toDateString());
+    expect($snapshot->recentHistoryContext['archive']['total_not_done_items'])->toBeGreaterThanOrEqual(1);
+    expect($snapshot->recentHistoryContext['incidents']['opened_count'])->toBeGreaterThanOrEqual(1);
+});

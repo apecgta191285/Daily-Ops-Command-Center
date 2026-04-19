@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Application\Dashboard\Queries;
 
+use App\Application\Checklists\Support\ChecklistRunArchiveContextBuilder;
 use App\Application\Dashboard\Data\DashboardSnapshot;
 use App\Application\Dashboard\Support\DashboardAttentionAssembler;
 use App\Application\Dashboard\Support\DashboardHotspotAssembler;
 use App\Application\Dashboard\Support\DashboardOwnershipBucketBuilder;
 use App\Application\Dashboard\Support\DashboardOwnershipPressureBuilder;
+use App\Application\Dashboard\Support\DashboardRecentHistoryContextBuilder;
 use App\Application\Dashboard\Support\DashboardScopeLaneBuilder;
 use App\Application\Dashboard\Support\DashboardTrendBuilder;
 use App\Application\Dashboard\Support\DashboardWorkboardBuilder;
+use App\Application\Incidents\Queries\ListIncidentHistorySlices;
 use App\Application\Incidents\Support\IncidentFollowUpPolicy;
 use App\Application\Incidents\Support\IncidentStalePolicy;
+use App\Domain\Checklists\Enums\ChecklistResult;
 use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\ChecklistRun;
 use App\Models\Incident;
@@ -27,7 +31,10 @@ class GetDashboardSnapshot
         private readonly DashboardScopeLaneBuilder $scopeLaneBuilder,
         private readonly DashboardOwnershipBucketBuilder $ownershipBucketBuilder,
         private readonly DashboardOwnershipPressureBuilder $ownershipPressureBuilder,
+        private readonly DashboardRecentHistoryContextBuilder $recentHistoryContextBuilder,
         private readonly DashboardWorkboardBuilder $workboardBuilder,
+        private readonly ChecklistRunArchiveContextBuilder $checklistArchiveContextBuilder,
+        private readonly ListIncidentHistorySlices $listIncidentHistorySlices,
     ) {}
 
     public function __invoke(?int $actorId = null): DashboardSnapshot
@@ -127,6 +134,30 @@ class GetDashboardSnapshot
             attentionItems: $attentionItems,
         );
 
+        $recentArchiveRuns = ChecklistRun::query()
+            ->whereNotNull('submitted_at')
+            ->whereDate('run_date', '<', $today)
+            ->whereDate('run_date', '>=', $today->copy()->subDays(6))
+            ->with(['template', 'creator', 'submitter'])
+            ->withCount([
+                'items',
+                'items as not_done_items_count' => fn ($query) => $query->where('result', ChecklistResult::NotDone->value),
+                'items as noted_items_count' => fn ($query) => $query->whereNotNull('note'),
+            ])
+            ->orderByDesc('run_date')
+            ->orderByDesc('submitted_at')
+            ->get();
+
+        $recentArchiveFocusDate = $recentArchiveRuns->first()?->run_date?->toDateString();
+
+        $recentHistoryContext = ($this->recentHistoryContextBuilder)(
+            archiveContext: ($this->checklistArchiveContextBuilder)(
+                $recentArchiveRuns,
+                $recentArchiveFocusDate,
+            ),
+            incidentHistory: ($this->listIncidentHistorySlices)(7),
+        );
+
         $recentIncidents = Incident::query()
             ->orderByDesc('created_at')
             ->orderByDesc('id')
@@ -164,6 +195,7 @@ class GetDashboardSnapshot
             scopeChecklistLanes: $scopeChecklistLanes,
             workboard: $workboard,
             ownershipBuckets: $ownershipBuckets,
+            recentHistoryContext: $recentHistoryContext,
             ownershipPressure: $ownershipPressure,
             recentIncidents: $recentIncidents,
         );

@@ -270,6 +270,107 @@
         @apply mt-5 flex flex-wrap gap-3;
     }
 
+    .ops-context-board {
+        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
+            var(--app-surface);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-context-board--calm {
+        border-color: color-mix(in srgb, var(--app-success-border) 56%, var(--app-border));
+        background:
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-success-text) 10%, transparent), transparent 34%),
+            linear-gradient(180deg, color-mix(in srgb, var(--app-success-bg) 55%, white), var(--app-surface)),
+            var(--app-surface);
+    }
+
+    .ops-context-board--watch {
+        border-color: color-mix(in srgb, var(--app-info-border) 52%, var(--app-border));
+        background:
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-info-border) 10%, transparent), transparent 34%),
+            linear-gradient(180deg, color-mix(in srgb, var(--app-info-bg) 52%, white), var(--app-surface)),
+            var(--app-surface);
+    }
+
+    .ops-context-board--unstable {
+        border-color: color-mix(in srgb, var(--app-warning-border) 70%, var(--app-border));
+        background:
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-warning-text) 10%, transparent), transparent 34%),
+            linear-gradient(180deg, color-mix(in srgb, var(--app-warning-bg) 64%, white), var(--app-surface)),
+            var(--app-surface);
+    }
+
+    .ops-context-board__summary {
+        @apply flex flex-col gap-4 border-b pb-5 sm:flex-row sm:items-start sm:justify-between;
+        border-color: color-mix(in srgb, var(--app-border) 84%, white);
+    }
+
+    .ops-context-board__eyebrow {
+        @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
+        color: var(--app-text-muted);
+    }
+
+    .ops-context-board__title {
+        @apply mt-2 text-2xl font-bold tracking-tight;
+        font-family: var(--font-display);
+        color: var(--app-heading);
+    }
+
+    .ops-context-board__body {
+        @apply mt-2 text-sm leading-6;
+        color: var(--app-text-muted);
+    }
+
+    .ops-context-board__grid {
+        @apply mt-5 grid gap-4;
+    }
+
+    .ops-context-card {
+        @apply rounded-2xl border px-4 py-4;
+        border-color: color-mix(in srgb, var(--app-border) 84%, white);
+        background-color: color-mix(in srgb, var(--app-surface-elevated) 95%, white);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-context-card__header {
+        @apply flex items-start justify-between gap-4;
+    }
+
+    .ops-context-card__eyebrow {
+        @apply text-[0.68rem] font-semibold uppercase tracking-[0.18em];
+        color: var(--app-text-muted);
+    }
+
+    .ops-context-card__title {
+        @apply mt-2 text-sm font-semibold;
+        color: var(--app-heading);
+    }
+
+    .ops-context-card__count {
+        @apply text-4xl font-bold tracking-tighter;
+        font-family: var(--font-display);
+        color: var(--app-heading);
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
+    }
+
+    .ops-context-card__copy {
+        @apply mt-3 text-sm leading-6;
+        color: var(--app-text-muted);
+    }
+
+    .ops-context-card__meta {
+        @apply mt-3 flex flex-wrap items-center gap-3 text-xs font-medium;
+        color: var(--app-heading);
+    }
+
+    .ops-context-card__footer {
+        @apply mt-4;
+    }
+
     .ops-signal-card {
         @apply relative overflow-hidden border px-5 py-5;
         border-radius: calc(var(--app-radius-xl) - 0.4rem);

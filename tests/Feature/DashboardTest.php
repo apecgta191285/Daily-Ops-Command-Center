@@ -170,6 +170,7 @@ test('dashboard attention panel highlights unresolved high severity and stale in
     $response->assertSee('Active operating pressure');
     $response->assertSee('Today still has open operating lanes');
     $response->assertSee('Ownership and Work Buckets');
+    $response->assertSee('History-Aware Command Layer');
     $response->assertSee('Review incidents you own');
     $response->assertSee('High severity incidents need attention');
     $response->assertSee('Review high severity incidents');
@@ -220,6 +221,9 @@ test('dashboard shows ownership pressure signals and drill-down actions', functi
     $response->assertSee('Ownership and Work Buckets');
     $response->assertSee('Active accountability state');
     $response->assertSee('Follow-up has started slipping past target');
+    $response->assertSee('History-Aware Command Layer');
+    $response->assertSee('Recent carryover detected');
+    $response->assertSee('Recent operating record still shows carryover');
     $response->assertSee('Overdue follow-up');
     $response->assertSee('Unowned incidents');
     $response->assertSee('Owned by you');
@@ -276,6 +280,8 @@ test('dashboard shows calm attention state when there are no active alerts', fun
     $response->assertSee('No pending checklist lanes remain today.');
     $response->assertSee('Calm accountability state');
     $response->assertSee('Ownership pressure is currently under control');
+    $response->assertSee('Stable recent record');
+    $response->assertSee('Recent operating record looks settled');
     $response->assertDontSee('Review high severity incidents');
     $response->assertDontSee('Review stale incidents');
 });
