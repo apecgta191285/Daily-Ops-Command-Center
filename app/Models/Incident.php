@@ -23,12 +23,15 @@ class Incident extends Model
         'description',
         'attachment_path',
         'created_by',
+        'owner_id',
+        'follow_up_due_at',
         'resolved_at',
     ];
 
     protected function casts(): array
     {
         return [
+            'follow_up_due_at' => 'date',
             'resolved_at' => 'datetime',
         ];
     }
@@ -38,6 +41,11 @@ class Incident extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function activities(): HasMany

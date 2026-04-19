@@ -193,6 +193,49 @@ test('management user can add a next action note when updating incident status',
     expect($incident->activities()->where('action_type', 'next_action_note')->exists())->toBeTrue();
 });
 
+test('management user can assign incident owner and follow-up target', function () {
+    Livewire::actingAs($this->admin)
+        ->test(Show::class, ['incident' => $this->openIncident])
+        ->set('ownerId', (string) $this->supervisor->id)
+        ->set('followUpDueAt', '2026-04-21')
+        ->call('updateAccountability')
+        ->assertHasNoErrors()
+        ->assertSee('Incident accountability updated successfully.')
+        ->assertSee($this->supervisor->name)
+        ->assertSee('Apr 21, 2026');
+
+    $incident = $this->openIncident->fresh();
+
+    expect($incident->owner_id)->toBe($this->supervisor->id);
+    expect($incident->follow_up_due_at?->toDateString())->toBe('2026-04-21');
+});
+
+test('incident owner must be management-capable', function () {
+    Livewire::actingAs($this->admin)
+        ->test(Show::class, ['incident' => $this->openIncident])
+        ->set('ownerId', (string) $this->staff->id)
+        ->call('updateAccountability')
+        ->assertHasErrors(['ownerId']);
+});
+
+test('management user can clear accountability fields', function () {
+    $this->openIncident->update([
+        'owner_id' => $this->admin->id,
+        'follow_up_due_at' => '2026-04-21',
+    ]);
+
+    Livewire::actingAs($this->supervisor)
+        ->test(Show::class, ['incident' => $this->openIncident->fresh()])->set('ownerId', '')
+        ->set('followUpDueAt', '')
+        ->call('updateAccountability')
+        ->assertHasNoErrors();
+
+    $incident = $this->openIncident->fresh();
+
+    expect($incident->owner_id)->toBeNull();
+    expect($incident->follow_up_due_at)->toBeNull();
+});
+
 test('management user can add a resolution summary when resolving an incident', function () {
     Livewire::actingAs($this->admin)
         ->test(Show::class, ['incident' => $this->openIncident])
@@ -257,6 +300,7 @@ test('incident detail page renders incident data timeline and null attachment st
     $response->assertSee($this->openIncident->description);
     $response->assertSee('Latest handling context');
     $response->assertSee('Description and evidence');
+    $response->assertSee('Accountability lane');
     $response->assertSee('Update status with intent');
     $response->assertSee('Activity timeline');
     $response->assertSee('Next action: Verify the incident detail narrative lane.');

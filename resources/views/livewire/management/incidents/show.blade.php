@@ -51,6 +51,12 @@
                         @if ($this->isStale)
                             <span class="ops-badge ops-badge--warning">Stale {{ $this->staleThresholdDays }}+ days</span>
                         @endif
+                        @if ($incident->owner)
+                            <span class="ops-badge ops-badge--neutral">Owner: {{ $incident->owner->name }}</span>
+                        @endif
+                        @if ($incident->follow_up_due_at)
+                            <span class="ops-badge ops-badge--warning">Follow-up {{ $incident->follow_up_due_at->format('M d, Y') }}</span>
+                        @endif
                         <x-incidents.status-badge :status="$incident->status" />
                         <x-incidents.severity-badge :severity="$incident->severity" />
                     </div>
@@ -82,6 +88,18 @@
                             <p class="ops-glance-card__label">Age</p>
                             <p class="ops-glance-card__value">{{ $this->ageInDays }}</p>
                             <p class="ops-glance-card__meta">Days since the incident first entered the queue.</p>
+                        </div>
+
+                        <div class="ops-glance-card">
+                            <p class="ops-glance-card__label">Owner</p>
+                            <p class="ops-glance-card__value">{{ $incident->owner?->name ?? 'Unowned' }}</p>
+                            <p class="ops-glance-card__meta">The management person currently accountable for moving this issue forward.</p>
+                        </div>
+
+                        <div class="ops-glance-card">
+                            <p class="ops-glance-card__label">Follow-up target</p>
+                            <p class="ops-glance-card__value">{{ $incident->follow_up_due_at?->format('M d, Y') ?? 'Not set' }}</p>
+                            <p class="ops-glance-card__meta">Operational target date for the next meaningful review or action.</p>
                         </div>
                     </div>
                 </aside>
@@ -191,6 +209,49 @@
             </div>
 
             <div class="ops-stack">
+                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="40">
+                    <div class="ops-card__body ops-incident-lane">
+                        <div>
+                            <p class="ops-section-heading__eyebrow">Accountability lane</p>
+                            <h2 class="ops-incident-lane__title">Set owner and follow-up target</h2>
+                            <p class="ops-incident-lane__body">Use this lane to make accountability explicit without changing incident status. Keep ownership light, visible, and honest.</p>
+                        </div>
+
+                        <form wire:submit="updateAccountability" class="space-y-4">
+                            <div>
+                                <label for="owner-id" class="ops-field-label">Incident Owner</label>
+                                <select id="owner-id" wire:model="ownerId" class="ops-control">
+                                    <option value="">{{ __('Unowned') }}</option>
+                                    @foreach($managementOwners as $owner)
+                                        <option value="{{ $owner['id'] }}">{{ $owner['name'] }} ({{ ucfirst($owner['role']) }})</option>
+                                    @endforeach
+                                </select>
+                                <p class="ops-field-help">Only administrators and supervisors can own active incident follow-up.</p>
+                                @error('ownerId') <span class="ops-field-error">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div>
+                                <label for="follow-up-due-at" class="ops-field-label">Follow-up Target Date</label>
+                                <input
+                                    id="follow-up-due-at"
+                                    type="date"
+                                    wire:model="followUpDueAt"
+                                    class="ops-control"
+                                >
+                                <p class="ops-field-help">This is an internal target date for the next review or operational action, not a formal SLA.</p>
+                                @error('followUpDueAt') <span class="ops-field-error">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="ops-divider-top flex justify-end pt-5">
+                                <button type="submit" class="ops-button ops-button--secondary min-w-44">
+                                    <span wire:loading.remove wire:target="updateAccountability">Save accountability</span>
+                                    <span wire:loading wire:target="updateAccountability">Saving...</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="80">
                     <div class="ops-card__body ops-incident-lane">
                         <div>
@@ -243,6 +304,8 @@
 
                         <div class="ops-stat-grid">
                             <x-ops.stat-card kicker="Category" :value="$incident->category" />
+                            <x-ops.stat-card kicker="Owner" :value="$incident->owner?->name ?? 'Unowned'" />
+                            <x-ops.stat-card kicker="Follow-up Target" :value="$incident->follow_up_due_at?->format('M d, Y') ?? 'Not set'" />
                             <x-ops.stat-card kicker="Resolved At" :value="$incident->resolved_at?->format('M d, Y H:i') ?? 'Not resolved yet'" />
                         </div>
                     </div>

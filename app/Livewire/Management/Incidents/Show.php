@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Livewire\Management\Incidents;
 
 use App\Application\Incidents\Actions\TransitionIncidentStatus;
+use App\Application\Incidents\Actions\UpdateIncidentAccountability;
 use App\Application\Incidents\Support\IncidentStalePolicy;
+use App\Domain\Access\Enums\UserRole;
 use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\Incident;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -19,13 +23,32 @@ class Show extends Component
 
     public string $followUpNote = '';
 
+    public string $ownerId = '';
+
+    public string $followUpDueAt = '';
+
     public array $statuses = [];
+
+    public array $managementOwners = [];
 
     public function mount(Incident $incident): void
     {
         $this->statuses = IncidentStatus::values();
-        $this->incident = $incident->load(['creator', 'activities.actor']);
+        $this->incident = $incident->load(['creator', 'owner', 'activities.actor']);
         $this->status = $this->incident->status;
+        $this->ownerId = (string) ($this->incident->owner_id ?? '');
+        $this->followUpDueAt = $this->incident->follow_up_due_at?->toDateString() ?? '';
+        $this->managementOwners = User::query()
+            ->whereIn('role', UserRole::managementValues())
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'role'])
+            ->map(fn (User $user): array => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'role' => $user->role,
+            ])
+            ->all();
     }
 
     public function updateStatus(): void
@@ -44,6 +67,36 @@ class Show extends Component
 
         $this->followUpNote = '';
         session()->flash('message', 'Incident status updated successfully.');
+    }
+
+    public function updateAccountability(): void
+    {
+        $payload = [
+            'ownerId' => filled($this->ownerId) ? $this->ownerId : null,
+            'followUpDueAt' => filled($this->followUpDueAt) ? $this->followUpDueAt : null,
+        ];
+
+        $validated = Validator::make($payload, [
+            'ownerId' => 'nullable|integer|exists:users,id',
+            'followUpDueAt' => 'nullable|date',
+        ])->validate();
+
+        $result = app(UpdateIncidentAccountability::class)(
+            $this->incident,
+            isset($validated['ownerId']) ? (int) $validated['ownerId'] : null,
+            $validated['followUpDueAt'] ?? null,
+            auth()->id(),
+        );
+
+        $this->incident = $result->incident;
+        $this->ownerId = (string) ($this->incident->owner_id ?? '');
+        $this->followUpDueAt = $this->incident->follow_up_due_at?->toDateString() ?? '';
+
+        if (! $result->changed) {
+            return;
+        }
+
+        session()->flash('message', 'Incident accountability updated successfully.');
     }
 
     public function getIsStaleProperty(): bool
@@ -97,6 +150,8 @@ class Show extends Component
     {
         return match ($actionType) {
             'status_changed' => 'Status update',
+            'owner_changed' => 'Ownership update',
+            'follow_up_due_at_changed' => 'Follow-up target',
             'next_action_note' => 'Next action',
             'resolution_note' => 'Resolution note',
             'created' => 'Reported',
@@ -107,7 +162,7 @@ class Show extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        $this->incident->loadMissing(['creator', 'activities.actor']);
+        $this->incident->loadMissing(['creator', 'owner', 'activities.actor']);
 
         return view('livewire.management.incidents.show');
     }

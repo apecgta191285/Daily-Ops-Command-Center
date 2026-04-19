@@ -87,4 +87,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Incident::class, 'created_by');
     }
+
+    public function ownedIncidents(): HasMany
+    {
+        return $this->hasMany(Incident::class, 'owner_id');
+    }
 }

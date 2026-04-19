@@ -26,7 +26,7 @@ class TransitionIncidentStatus
 
         if ($nextStatus === $previousStatus) {
             return new IncidentStatusTransitionResult(
-                incident: $incident->load(['creator', 'activities.actor']),
+                incident: $incident->load(['creator', 'owner', 'activities.actor']),
                 changed: false,
                 previousStatus: $previousStatus,
             );
@@ -60,7 +60,7 @@ class TransitionIncidentStatus
         });
 
         return new IncidentStatusTransitionResult(
-            incident: $incident->fresh(['creator', 'activities.actor']),
+            incident: $incident->fresh(['creator', 'owner', 'activities.actor']),
             changed: true,
             previousStatus: $previousStatus,
         );

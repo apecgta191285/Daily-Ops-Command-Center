@@ -159,8 +159,11 @@ test('management incident detail reads as a narrative surface without browser sm
         ->click('View details')
         ->assertSee('Latest handling context')
         ->assertSee('Description and evidence')
+        ->assertSee('Accountability lane')
         ->assertSee('Update status with intent')
         ->assertSee('Activity timeline')
+        ->assertPresent('select[wire\\:model="ownerId"]')
+        ->assertPresent('input[wire\\:model="followUpDueAt"]')
         ->assertPresent('[data-severity="High"]')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
