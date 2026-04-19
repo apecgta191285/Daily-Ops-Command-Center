@@ -73,6 +73,20 @@ readonly class DashboardSnapshot
      *     }>
      * }  $workboard
      * @param  array{
+     *     state: 'active'|'calm',
+     *     headline: string,
+     *     body: string,
+     *     buckets: list<array{
+     *         key: 'overdue'|'unowned'|'mine',
+     *         title: string,
+     *         count: int,
+     *         description: string,
+     *         action_label: string,
+     *         url: string|null,
+     *         tone: 'danger'|'warning'|'info'
+     *     }>
+     * }  $ownershipBuckets
+     * @param  array{
      *     unownedCount: int,
      *     overdueCount: int,
      *     ownedByActorCount: int,
@@ -96,6 +110,7 @@ readonly class DashboardSnapshot
         public array $hotspotCategories,
         public array $scopeChecklistLanes,
         public array $workboard,
+        public array $ownershipBuckets,
         public array $ownershipPressure,
         public Collection $recentIncidents,
     ) {}
@@ -167,6 +182,20 @@ readonly class DashboardSnapshot
      *             tone: 'primary'|'secondary'
      *         }>
      *     },
+     *     ownershipBuckets: array{
+     *         state: 'active'|'calm',
+     *         headline: string,
+     *         body: string,
+     *         buckets: list<array{
+     *             key: 'overdue'|'unowned'|'mine',
+     *             title: string,
+     *             count: int,
+     *             description: string,
+     *             action_label: string,
+     *             url: string|null,
+     *             tone: 'danger'|'warning'|'info'
+     *         }>
+     *     },
      *     ownershipPressure: array{
      *         unownedCount: int,
      *         overdueCount: int,
@@ -194,6 +223,7 @@ readonly class DashboardSnapshot
             'hotspotCategories' => $this->hotspotCategories,
             'scopeChecklistLanes' => $this->scopeChecklistLanes,
             'workboard' => $this->workboard,
+            'ownershipBuckets' => $this->ownershipBuckets,
             'ownershipPressure' => $this->ownershipPressure,
             'recentIncidents' => $this->recentIncidents,
         ];

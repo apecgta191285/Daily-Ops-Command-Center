@@ -98,4 +98,8 @@ test('dashboard snapshot query exposes ownership pressure summary', function () 
     expect($snapshot->ownershipPressure['ownedByActorCount'])->toBeGreaterThanOrEqual(1);
     expect(collect($snapshot->ownershipPressure['actions'])->pluck('label')->all())
         ->toContain('Review unowned incidents', 'Review overdue follow-up', 'Review incidents you own');
+    expect($snapshot->ownershipBuckets['state'])->toBe('active');
+    expect($snapshot->ownershipBuckets['headline'])->toBe('Follow-up has started slipping past target');
+    expect(collect($snapshot->ownershipBuckets['buckets'])->pluck('title')->all())
+        ->toBe(['Overdue follow-up', 'Unowned incidents', 'Owned by you']);
 });

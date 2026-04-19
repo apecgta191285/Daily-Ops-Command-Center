@@ -31,6 +31,9 @@
         $workboardToneClass = ($workboard['state'] ?? 'attention') === 'calm'
             ? 'ops-workboard--calm'
             : 'ops-workboard--attention';
+        $ownershipBucketToneClass = ($ownershipBuckets['state'] ?? 'active') === 'calm'
+            ? 'ops-bucket-board--calm'
+            : 'ops-bucket-board--active';
     @endphp
 
     <x-slot name="header">
@@ -495,42 +498,52 @@
                     <div class="ops-section-heading">
                         <div>
                             <p class="ops-section-heading__eyebrow">Ownership pressure</p>
-                            <h2 class="ops-section-heading__title">Accountability Signals</h2>
-                            <p class="ops-section-heading__body">Compact ownership cues for work that still needs a clear person or a timely next review.</p>
+                            <h2 class="ops-section-heading__title">Ownership and Work Buckets</h2>
+                            <p class="ops-section-heading__body">Action buckets for unresolved work that still needs a clear owner or a timely next move.</p>
                         </div>
                     </div>
 
                     <div class="ops-card__body">
-                        <div class="ops-trend-card">
-                            <div class="ops-trend-card__header">
+                        <section class="ops-bucket-board {{ $ownershipBucketToneClass }}">
+                            <div class="ops-bucket-board__summary">
                                 <div>
-                                    <p class="ops-trend-card__eyebrow">Incidents you currently own</p>
-                                    <p class="ops-trend-card__value">{{ $ownershipPressure['ownedByActorCount'] }}</p>
+                                    <p class="ops-bucket-board__eyebrow">
+                                        {{ ($ownershipBuckets['state'] ?? 'active') === 'calm' ? 'Calm accountability state' : 'Active accountability state' }}
+                                    </p>
+                                    <h3 class="ops-bucket-board__title">{{ $ownershipBuckets['headline'] }}</h3>
+                                    <p class="ops-bucket-board__body">{{ $ownershipBuckets['body'] }}</p>
                                 </div>
 
-                                <span class="ops-trend-pill ops-trend-pill--flat">
-                                    Ownership pressure
+                                <span class="ops-trend-pill {{ ($ownershipBuckets['state'] ?? 'active') === 'calm' ? 'ops-trend-pill--up' : 'ops-trend-pill--flat' }}">
+                                    {{ ($ownershipBuckets['state'] ?? 'active') === 'calm' ? 'Under control' : 'Needs review' }}
                                 </span>
                             </div>
 
-                            <p class="ops-trend-card__meta">Unowned: {{ $ownershipPressure['unownedCount'] }} · Overdue: {{ $ownershipPressure['overdueCount'] }}</p>
-                            <p class="ops-trend-card__copy">
-                                Keep ownership explicit so unresolved incidents do not turn into passive queue debt.
-                            </p>
+                            <div class="ops-bucket-board__grid">
+                                @foreach (($ownershipBuckets['buckets'] ?? []) as $bucket)
+                                    <article class="ops-bucket-card ops-bucket-card--{{ $bucket['tone'] }}">
+                                        <div class="ops-bucket-card__header">
+                                            <div>
+                                                <p class="ops-bucket-card__title">{{ $bucket['title'] }}</p>
+                                                <p class="ops-bucket-card__copy">{{ $bucket['description'] }}</p>
+                                            </div>
 
-                            <div class="ops-compare-list">
-                                <div class="ops-compare-list__item">
-                                    <span class="ops-compare-list__label">Unowned</span>
-                                    <strong class="ops-compare-list__value">{{ $ownershipPressure['unownedCount'] }} incidents still need a management owner</strong>
-                                </div>
-                                <div class="ops-compare-list__item">
-                                    <span class="ops-compare-list__label">Overdue</span>
-                                    <strong class="ops-compare-list__value">{{ $ownershipPressure['overdueCount'] }} incidents have already passed follow-up target</strong>
-                                </div>
+                                            <strong class="ops-bucket-card__count">{{ $bucket['count'] }}</strong>
+                                        </div>
+
+                                        <div class="ops-bucket-card__footer">
+                                            @if ($bucket['url'])
+                                                <a href="{{ $bucket['url'] }}" class="ops-button ops-button--secondary">
+                                                    {{ $bucket['action_label'] }}
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </article>
+                                @endforeach
                             </div>
 
                             @if ($ownershipActions !== [])
-                                <div class="mt-4 flex flex-wrap gap-3">
+                                <div class="ops-bucket-board__actions">
                                     @foreach ($ownershipActions as $action)
                                         <a href="{{ $action['url'] }}" class="ops-button ops-button--secondary">
                                             {{ $action['label'] }}
@@ -538,7 +551,7 @@
                                     @endforeach
                                 </div>
                             @endif
-                        </div>
+                        </section>
                     </div>
                 </section>
 

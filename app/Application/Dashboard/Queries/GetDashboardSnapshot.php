@@ -7,6 +7,7 @@ namespace App\Application\Dashboard\Queries;
 use App\Application\Dashboard\Data\DashboardSnapshot;
 use App\Application\Dashboard\Support\DashboardAttentionAssembler;
 use App\Application\Dashboard\Support\DashboardHotspotAssembler;
+use App\Application\Dashboard\Support\DashboardOwnershipBucketBuilder;
 use App\Application\Dashboard\Support\DashboardOwnershipPressureBuilder;
 use App\Application\Dashboard\Support\DashboardScopeLaneBuilder;
 use App\Application\Dashboard\Support\DashboardTrendBuilder;
@@ -24,6 +25,7 @@ class GetDashboardSnapshot
         private readonly DashboardTrendBuilder $trendBuilder,
         private readonly DashboardHotspotAssembler $hotspotAssembler,
         private readonly DashboardScopeLaneBuilder $scopeLaneBuilder,
+        private readonly DashboardOwnershipBucketBuilder $ownershipBucketBuilder,
         private readonly DashboardOwnershipPressureBuilder $ownershipPressureBuilder,
         private readonly DashboardWorkboardBuilder $workboardBuilder,
     ) {}
@@ -114,6 +116,12 @@ class GetDashboardSnapshot
             ownedByActorCount: $ownedByActorCount,
         );
 
+        $ownershipBuckets = ($this->ownershipBucketBuilder)(
+            unownedCount: $unownedUnresolvedCount,
+            overdueCount: $overdueFollowUpCount,
+            ownedByActorCount: $ownedByActorCount,
+        );
+
         $workboard = ($this->workboardBuilder)(
             scopeChecklistLanes: $scopeChecklistLanes,
             attentionItems: $attentionItems,
@@ -155,6 +163,7 @@ class GetDashboardSnapshot
             hotspotCategories: ($this->hotspotAssembler)($hotspotRows),
             scopeChecklistLanes: $scopeChecklistLanes,
             workboard: $workboard,
+            ownershipBuckets: $ownershipBuckets,
             ownershipPressure: $ownershipPressure,
             recentIncidents: $recentIncidents,
         );

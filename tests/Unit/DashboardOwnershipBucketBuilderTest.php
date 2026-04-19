@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Application\Dashboard\Support\DashboardOwnershipBucketBuilder;
+use Tests\TestCase;
+
+uses(TestCase::class);
+
+test('dashboard ownership bucket builder creates actionable buckets and calm state', function () {
+    $builder = app(DashboardOwnershipBucketBuilder::class);
+
+    $active = $builder(unownedCount: 2, overdueCount: 1, ownedByActorCount: 3);
+
+    expect($active['state'])->toBe('active');
+    expect($active['headline'])->toBe('Follow-up has started slipping past target');
+    expect($active['buckets'])->toHaveCount(3);
+    expect(collect($active['buckets'])->pluck('title')->all())
+        ->toBe(['Overdue follow-up', 'Unowned incidents', 'Owned by you']);
+    expect(collect($active['buckets'])->pluck('count', 'key')->all())
+        ->toMatchArray([
+            'overdue' => 1,
+            'unowned' => 2,
+            'mine' => 3,
+        ]);
+
+    $calm = $builder(unownedCount: 0, overdueCount: 0, ownedByActorCount: 0);
+
+    expect($calm['state'])->toBe('calm');
+    expect($calm['headline'])->toBe('Ownership pressure is currently under control');
+});
