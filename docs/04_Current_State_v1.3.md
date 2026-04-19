@@ -32,6 +32,7 @@
 * frontend engineering wave `FE9` ถูกปิดเพิ่มในก้อน `Premium UI Finish and Visual QA`: incident detail, template authoring, และ staff incident reporting ถูกผูกเข้ากับ shell-intro contract เดียวกันเพื่อเก็บ workflow seams สุดท้ายให้เป็น family เดียวกับ dashboard, incidents, templates, และ checklist runtime และทำให้ perception ของทั้งระบบเข้าใกล้คำว่า premium product มากขึ้นจริง  
 * post-FE9 full-stack product audit ถูกสรุปแล้ว และคำตัดสินหลักคือ codebase ไม่ได้ติดที่ foundation หรือ frontend identity อีกต่อไป แต่ติดที่ product usefulness layer โดยเฉพาะ runtime model, incident accountability, user administration, และ history surfaces  
 * next product wave `WF1 Scoped Daily Operations Runtime` ถูกปิดครบแล้วในก้อน `WF1-E`: canonical docs, decision history, system spec, data definition, และ architecture references ถูกเก็บให้ตรงกับความจริงใหม่ของ per-scope runtime แล้ว ทำให้ code, tests, และเอกสารหลักกลับมาอ้างอิง product truth ชุดเดียวกันอีกครั้ง  
+* next product wave ถัดไปถูกล็อกในระดับ planning แล้วเป็น `WF2 Incident Ownership Lite`: เป้าคือเพิ่ม owner และ follow-up target แบบ lightweight ให้ unresolved incidents โดยยังปฏิเสธ notification/SLA/escalation workflows และยังไม่เปิด assignment matrix แบบ enterprise  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -39,7 +40,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 complete + WF2 planning locked |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
