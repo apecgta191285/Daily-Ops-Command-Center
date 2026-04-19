@@ -122,7 +122,7 @@ class Manage extends Component
             $signals[] = [
                 'tone' => 'info',
                 'title' => 'You are editing your own account',
-                'body' => 'Double-check role and active state carefully. WF3-B exposes lifecycle honestly, but later guard rails will harden self-management scenarios further.',
+                'body' => 'Role and active-state guard rails apply here. You can still update identity details and set a new password, but you cannot deactivate or demote your own administrator account in this workflow.',
             ];
         }
 
@@ -149,6 +149,18 @@ class Manage extends Component
                 'body' => 'This account can be updated safely from inside the product shell without falling back to manual database edits.',
             ]]
             : $signals;
+    }
+
+    public function getBlocksSelfAdminRoleChangeProperty(): bool
+    {
+        return (bool) ($this->user && auth()->id() === $this->user->id && auth()->user()?->isAdmin());
+    }
+
+    public function getPasswordHandoffNoteProperty(): string
+    {
+        return $this->user
+            ? 'Use this only when an admin needs to set a replacement password directly, then hand it off through your real internal communication path.'
+            : 'Set an explicit initial password here, then hand it off through your real internal onboarding path. WF3 does not depend on invitation email delivery.';
     }
 
     /**

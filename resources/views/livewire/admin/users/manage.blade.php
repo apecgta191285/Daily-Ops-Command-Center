@@ -159,11 +159,14 @@
                         <div class="ops-card__body space-y-6">
                             <div>
                                 <label for="role" class="ops-field-label">Role <span class="ops-required-mark">*</span></label>
-                                <select id="role" wire:model.live="role" class="ops-control">
+                                <select id="role" wire:model.live="role" class="ops-control" @disabled($this->blocksSelfAdminRoleChange)>
                                     @foreach ($roles as $roleOption)
                                         <option value="{{ $roleOption }}">{{ \Illuminate\Support\Str::headline($roleOption) }}</option>
                                     @endforeach
                                 </select>
+                                @if ($this->blocksSelfAdminRoleChange)
+                                    <p class="ops-field-help">{{ __('Your own administrator role cannot be changed from this workflow.') }}</p>
+                                @endif
                                 @error('role') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
@@ -172,8 +175,11 @@
                                     <span class="ops-text-heading text-sm font-medium">{{ __('Active account') }}</span>
                                     <span class="ops-text-muted mt-1 block text-sm">{{ __('When off, the user cannot authenticate even if the password is correct.') }}</span>
                                 </span>
-                                <input type="checkbox" wire:model="is_active" class="ops-choice__control">
+                                <input type="checkbox" wire:model="is_active" class="ops-choice__control" @disabled($this->blocksSelfAdminRoleChange)>
                             </label>
+                            @if ($this->blocksSelfAdminRoleChange)
+                                <p class="ops-field-help">{{ __('Your own administrator access cannot be deactivated from this workflow.') }}</p>
+                            @endif
 
                             <div class="ops-surface-soft px-4 py-4">
                                 <p class="ops-admin-item__meta-label">{{ __('Access meaning') }}</p>
@@ -192,9 +198,7 @@
                                 <p class="ops-section-heading__eyebrow">Password control</p>
                                 <h3 class="ops-section-heading__title">{{ $user ? __('Optional password reset') : __('Initial password') }}</h3>
                                 <p class="ops-section-heading__body">
-                                    {{ $user
-                                        ? __('Leave the fields blank to keep the existing password. Fill both fields only when you want to replace it explicitly.')
-                                        : __('WF3 keeps password setup internal and explicit. There is no invitation email dependency in this workflow.') }}
+                                    {{ __($this->passwordHandoffNote) }}
                                 </p>
                             </div>
                         </div>

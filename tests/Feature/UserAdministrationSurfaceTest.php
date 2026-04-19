@@ -57,6 +57,8 @@ test('edit user page shows existing lifecycle state and self-edit note when appl
     $response->assertOk();
     $response->assertSee('Edit User Account');
     $response->assertSee('You are editing your own account');
+    $response->assertSee('Your own administrator role cannot be changed from this workflow.');
+    $response->assertSee('Your own administrator access cannot be deactivated from this workflow.');
     $response->assertSee('Save account changes');
 });
 
@@ -104,4 +106,18 @@ test('admin can update a managed user through the livewire administration surfac
         ->and($this->staff->email)->toBe('shift.lead@example.com')
         ->and($this->staff->role)->toBe(UserRole::Supervisor->value)
         ->and($this->staff->is_active)->toBeFalse();
+});
+
+test('admin cannot deactivate or demote their own account through the livewire administration surface', function () {
+    Livewire::actingAs($this->admin)
+        ->test(Manage::class, ['user' => $this->admin])
+        ->set('role', UserRole::Supervisor->value)
+        ->set('is_active', false)
+        ->call('save')
+        ->assertHasErrors(['role', 'is_active']);
+
+    $this->admin->refresh();
+
+    expect($this->admin->role)->toBe(UserRole::Admin->value)
+        ->and($this->admin->is_active)->toBeTrue();
 });

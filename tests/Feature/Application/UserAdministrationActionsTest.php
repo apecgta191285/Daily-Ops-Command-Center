@@ -136,3 +136,50 @@ test('update managed user rejects duplicate email safely', function () {
         $this->admin,
     ))->toThrow(ValidationException::class);
 });
+
+test('admin cannot deactivate their own administrator account', function () {
+    expect(fn () => app(UpdateManagedUser::class)(
+        $this->admin,
+        [
+            'name' => $this->admin->name,
+            'email' => $this->admin->email,
+            'role' => UserRole::Admin->value,
+            'is_active' => false,
+        ],
+        $this->admin,
+    ))->toThrow(ValidationException::class);
+});
+
+test('admin cannot remove administrator role from their own account', function () {
+    expect(fn () => app(UpdateManagedUser::class)(
+        $this->admin,
+        [
+            'name' => $this->admin->name,
+            'email' => $this->admin->email,
+            'role' => UserRole::Supervisor->value,
+            'is_active' => true,
+        ],
+        $this->admin,
+    ))->toThrow(ValidationException::class);
+});
+
+test('admin can deactivate another administrator when another active admin still remains', function () {
+    $secondAdmin = User::factory()->admin()->create([
+        'name' => 'Second Admin',
+        'email' => 'second-admin@example.com',
+        'password' => 'password',
+    ]);
+
+    $updated = app(UpdateManagedUser::class)(
+        $secondAdmin,
+        [
+            'name' => $secondAdmin->name,
+            'email' => $secondAdmin->email,
+            'role' => UserRole::Admin->value,
+            'is_active' => false,
+        ],
+        $this->admin,
+    );
+
+    expect($updated->is_active)->toBeFalse();
+});

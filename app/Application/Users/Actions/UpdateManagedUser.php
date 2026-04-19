@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Users\Actions;
 
 use App\Application\Users\Support\UserAdministrationValidator;
+use App\Application\Users\Support\UserLifecycleGuardRail;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,7 @@ class UpdateManagedUser
 {
     public function __construct(
         private readonly UserAdministrationValidator $validator,
+        private readonly UserLifecycleGuardRail $guardRail,
     ) {}
 
     /**
@@ -23,6 +25,7 @@ class UpdateManagedUser
         $this->ensureAdmin($actor);
 
         $validated = $this->validator->validateUpdate($user, $attributes);
+        $this->guardRail->enforce($user, $validated, $actor);
 
         DB::transaction(function () use ($user, $validated): void {
             $payload = [
