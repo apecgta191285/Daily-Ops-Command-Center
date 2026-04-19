@@ -37,7 +37,7 @@
 * `WF2 Incident Ownership Lite` เดินต่อแล้วในก้อน `WF2-C`: dashboard snapshot รองรับ ownership pressure แบบ actor-aware แล้ว, dashboard attention สามารถเตือนเรื่อง `unowned` และ `overdue follow-up` พร้อม drill-down เข้าคิว incident ได้ตรงๆ, และ dashboard มี `Accountability Signals` card เพื่อสรุป `owned by me / unowned / overdue` โดยยังไม่กลายเป็น analytics surface หรือ queue replica  
 * `WF2 Incident Ownership Lite` ถูกปิด wave แล้วในก้อน `WF2-D`: canonical docs, system spec, data definition, decision history, และ architecture references ถูกเก็บให้ตรงกับ lightweight ownership truth ชุดเดียวกับ code/tests แล้ว ทำให้ incident accountability ไม่ได้เป็นเพียง UI polish หรือ queue filter เพิ่มเติม แต่กลายเป็น product language ที่ล็อกอย่างเป็นทางการทั้ง detail, queue, และ dashboard  
 * `WF3 User Administration Lite` ถูกปิด wave แล้ว: repository มี admin-owned account lifecycle capability ภายใน app shell แล้วทั้งในระดับ application owners, admin surfaces, lifecycle guard rails, regression proof, และ canonical docs โดยยังคง intentionally lightweight และไม่ขยายไปเป็น RBAC platform, invitation workflow, หรือ external identity integration  
-* next product wave `WF4 Operational History and Run Archive` ถูกล็อก planning baseline แล้ว: codebase มี checklist runs, run items, operator ownership, และ scoped runtime truth พร้อมอยู่แล้ว แต่ยังไม่มี first-class archive surface สำหรับ management review ดังนั้น wave ถัดไปจะโฟกัสการทำให้ประวัติ checklist กลายเป็น product capability ที่ review ได้จริง โดยไม่ไหลไปเป็น analytics/reporting system  
+* `WF4 Operational History and Run Archive` เริ่มลงระบบแล้วในก้อน `WF4-A`: management มี route family `/checklists/history` และ `/checklists/history/{run}` แล้ว, archive index สามารถ filter ตามวันที่, scope lane, และ operator ได้, submitted runs ถูกยกขึ้นเป็น first-class review surface, และ run recap อ่านเป็น operational history แทนการบังคับให้ผู้ใช้พึ่ง raw data หรือ seed-memory  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -122,6 +122,7 @@
 * 88_WF3_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19
 * 89_WF4_Operational_History_and_Run_Archive_Master_Plan_2026-04-19
 * 90_WF4_A_Checklist_Run_Archive_Core_Execution_Pack_2026-04-19
+* 91_WF4_A_Checklist_Run_Archive_Core_Implementation_Execution_Pack_2026-04-19
 
 # **4\. สิ่งที่ล็อกแล้ว**
 

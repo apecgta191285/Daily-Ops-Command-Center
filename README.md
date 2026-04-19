@@ -106,6 +106,7 @@ npm run build
 - WF3-C is now live as well: administrator lifecycle now has app-owned guard rails that block self-deactivation, self-demotion, and removal of the last active admin while keeping the workflow lightweight and internal.
 - WF3 is now closed as a complete product wave: user lifecycle is part of the canonical repository truth across application owners, admin surfaces, guard rails, regression proof, and long-lived documentation without expanding into invitations, RBAC matrix design, or external identity integration.
 - WF4 planning is now locked as the next usefulness wave: the next step is a lightweight operational history layer centered on checklist run archive and recap review, not a reporting warehouse or analytics product.
+- WF4-A is now live as the first history slice: management can review submitted checklist runs through `/checklists/history`, filter archive records by date/scope/operator, and open one run as a recap surface without turning the product into an analytics suite.
 - Frontend contract hardening has started: shared visual tokens now cover subtle surfaces, danger/brand actions, motion timing, shadows, and radius scales, while alert feedback can dismiss cleanly without page reloads.
 - Frontend component language now includes reusable stat cards, empty states, callouts, chips, and timeline shells so major product surfaces can evolve on shared primitives instead of ad-hoc markup.
 - Frontend FE3 surface redesign now gives the dashboard, daily checklist, and template manage screens a stronger command-surface composition so the product reads as one intentional system instead of a collection of forms and cards.
@@ -191,6 +192,7 @@ See also:
 - `docs/88_WF3_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
 - `docs/89_WF4_Operational_History_and_Run_Archive_Master_Plan_2026-04-19.md`
 - `docs/90_WF4_A_Checklist_Run_Archive_Core_Execution_Pack_2026-04-19.md`
+- `docs/91_WF4_A_Checklist_Run_Archive_Core_Implementation_Execution_Pack_2026-04-19.md`
 
 ## Canonical Documentation
 
@@ -265,4 +267,5 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/88_WF3_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
 - `docs/89_WF4_Operational_History_and_Run_Archive_Master_Plan_2026-04-19.md`
 - `docs/90_WF4_A_Checklist_Run_Archive_Core_Execution_Pack_2026-04-19.md`
+- `docs/91_WF4_A_Checklist_Run_Archive_Core_Implementation_Execution_Pack_2026-04-19.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`

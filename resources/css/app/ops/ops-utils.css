@@ -116,4 +116,42 @@
         background: linear-gradient(135deg, var(--app-action-primary), color-mix(in srgb, var(--app-info-border) 85%, white));
         box-shadow: var(--app-glow-primary-sm);
     }
+
+    .ops-history-summary-grid {
+        @apply grid gap-3 sm:grid-cols-2;
+    }
+
+    .ops-history-summary-card {
+        @apply border px-4 py-4;
+        border-radius: calc(var(--app-radius-xl) - 0.45rem);
+        border-color: color-mix(in srgb, var(--app-glass-border) 88%, white 12%);
+        background-color: color-mix(in srgb, white 5%, transparent);
+    }
+
+    .ops-history-answer-grid {
+        @apply mt-6 grid gap-4 xl:grid-cols-2;
+    }
+
+    .ops-history-answer-card {
+        @apply border px-4 py-4;
+        border-radius: calc(var(--app-radius-xl) - 0.45rem);
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-history-answer-card--warning {
+        border-color: var(--app-warning-border);
+        background:
+            linear-gradient(90deg, color-mix(in srgb, var(--app-warning-bg) 54%, var(--app-surface-elevated)), var(--app-surface-elevated) 24%);
+    }
+
+    .ops-history-answer-card__header {
+        @apply mb-3 flex flex-wrap items-start justify-between gap-3;
+    }
+
+    .ops-history-answer-card__note {
+        @apply text-sm leading-6;
+        color: var(--app-text);
+    }
 }

@@ -33,24 +33,26 @@ test('post-login redirect lands on role-appropriate starting page', function () 
     expect($staffResponse->getTargetUrl())->toContain(route('checklists.runs.today', absolute: false));
 });
 
-test('admin sees management navigation links for dashboard incidents checklist templates and users', function () {
+test('admin sees management navigation links for dashboard incidents run history checklist templates and users', function () {
     $response = $this->actingAs($this->admin)->get(route('dashboard'));
 
     $response->assertOk();
     $response->assertSee('Dashboard');
     $response->assertSee('Incidents');
+    $response->assertSee('Run History');
     $response->assertSee('Checklist Templates');
     $response->assertSee('Users');
     $response->assertDontSee('Checklist Today');
     $response->assertDontSee('Report Incident');
 });
 
-test('supervisor sees dashboard and incidents navigation but not templates', function () {
+test('supervisor sees dashboard incidents and run history navigation but not templates', function () {
     $response = $this->actingAs($this->supervisor)->get(route('dashboard'));
 
     $response->assertOk();
     $response->assertSee('Dashboard');
     $response->assertSee('Incidents');
+    $response->assertSee('Run History');
     $response->assertDontSee('Checklist Templates');
     $response->assertDontSee('Users');
     $response->assertDontSee('Checklist Today');
@@ -63,6 +65,7 @@ test('staff sees checklist and incident creation navigation instead of forbidden
     $response->assertSee('Checklist Today');
     $response->assertSee('Report Incident');
     $response->assertDontSee('Dashboard');
+    $response->assertDontSee('Run History');
     $response->assertDontSee('Checklist Templates');
     $response->assertDontSee('Users');
 });

@@ -145,6 +145,51 @@ test('management incident queue shows accountability filters and fields without 
         ->assertNoConsoleLogs();
 });
 
+test('management can browse checklist run archive without browser smoke issues', function () {
+    $admin = $this->createUserForRole(UserRole::Admin);
+    $operator = $this->createUserForRole(UserRole::Staff, ['name' => 'Archive Browser Operator']);
+
+    $template = $this->createTemplateWithItems([
+        'title' => 'Browser archive template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ], [
+        ['title' => 'Unlock room', 'description' => 'Prepare lab', 'group_label' => 'Opening checks'],
+        ['title' => 'Check projector', 'description' => 'Verify display', 'group_label' => 'Opening checks'],
+    ]);
+
+    $this->createRunForUser(
+        $operator,
+        $template,
+        submitted: true,
+        itemStates: [
+            ['result' => 'Done', 'note' => null],
+            ['result' => 'Not Done', 'note' => 'Lamp issue'],
+        ],
+        runDate: now()->subDay()->toDateString(),
+    );
+
+    visit('/login')
+        ->fill('email', $admin->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->click('Run History')
+        ->assertPathIs('/checklists/history')
+        ->assertSee('Checklist Run Archive')
+        ->assertSee('Submitted runs only')
+        ->assertSee('Browser archive template')
+        ->assertSee('View recap')
+        ->click('View recap')
+        ->assertPathBeginsWith('/checklists/history/')
+        ->assertSee('Historical recap')
+        ->assertSee('Follow-up worth reviewing')
+        ->assertSee('Opening checks')
+        ->assertSee('Lamp issue')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
+});
+
 test('management dashboard shows trend and hotspot sections without browser smoke issues', function () {
     $admin = $this->createUserForRole(UserRole::Admin);
     $supervisor = $this->createUserForRole(UserRole::Supervisor);

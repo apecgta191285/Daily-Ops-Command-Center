@@ -6,6 +6,9 @@
         <flux:sidebar.item icon="clipboard-document-list" :href="route('incidents.index')" :current="request()->routeIs('incidents.index') || request()->routeIs('incidents.show')" wire:navigate>
             {{ __('Incidents') }}
         </flux:sidebar.item>
+        <flux:sidebar.item icon="archive-box" :href="route('checklists.history.index')" :current="request()->routeIs('checklists.history.index') || request()->routeIs('checklists.history.show')" wire:navigate>
+            {{ __('Run History') }}
+        </flux:sidebar.item>
         @if (auth()->user()->isAdmin())
             <flux:sidebar.item icon="rectangle-stack" :href="route('templates.index')" :current="request()->routeIs('templates.index') || request()->routeIs('templates.create') || request()->routeIs('templates.edit')" wire:navigate>
                 {{ __('Checklist Templates') }}

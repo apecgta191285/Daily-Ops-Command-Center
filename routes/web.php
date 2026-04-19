@@ -9,6 +9,8 @@ use App\Livewire\Admin\ChecklistTemplates\Index as TemplateIndex;
 use App\Livewire\Admin\ChecklistTemplates\Manage as TemplateManage;
 use App\Livewire\Admin\Users\Index as UserIndex;
 use App\Livewire\Admin\Users\Manage as UserManage;
+use App\Livewire\Management\Checklists\HistoryIndex as ChecklistHistoryIndex;
+use App\Livewire\Management\Checklists\HistoryShow as ChecklistHistoryShow;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
 use App\Livewire\Staff\Checklists\DailyRun;
@@ -38,6 +40,12 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::middleware('role:'.UserRole::Admin->value.','.UserRole::Supervisor->value)->group(function () {
         Route::get('dashboard', DashboardController::class)
             ->name('dashboard');
+
+        Route::get('checklists/history', ChecklistHistoryIndex::class)
+            ->name('checklists.history.index');
+
+        Route::get('checklists/history/{run}', ChecklistHistoryShow::class)
+            ->name('checklists.history.show');
 
         Route::get('incidents', Index::class)
             ->name('incidents.index');
