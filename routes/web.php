@@ -11,6 +11,7 @@ use App\Livewire\Admin\Users\Index as UserIndex;
 use App\Livewire\Admin\Users\Manage as UserManage;
 use App\Livewire\Management\Checklists\HistoryIndex as ChecklistHistoryIndex;
 use App\Livewire\Management\Checklists\HistoryShow as ChecklistHistoryShow;
+use App\Livewire\Management\Incidents\HistoryIndex as IncidentHistoryIndex;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
 use App\Livewire\Staff\Checklists\DailyRun;
@@ -49,6 +50,9 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::get('incidents', Index::class)
             ->name('incidents.index');
+
+        Route::get('incidents/history', IncidentHistoryIndex::class)
+            ->name('incidents.history.index');
 
         Route::get('incidents/{incident}', Show::class)
             ->name('incidents.show');

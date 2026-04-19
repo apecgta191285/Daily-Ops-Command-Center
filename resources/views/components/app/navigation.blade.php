@@ -6,6 +6,9 @@
         <flux:sidebar.item icon="clipboard-document-list" :href="route('incidents.index')" :current="request()->routeIs('incidents.index') || request()->routeIs('incidents.show')" wire:navigate>
             {{ __('Incidents') }}
         </flux:sidebar.item>
+        <flux:sidebar.item icon="clock" :href="route('incidents.history.index')" :current="request()->routeIs('incidents.history.index')" wire:navigate>
+            {{ __('Incident History') }}
+        </flux:sidebar.item>
         <flux:sidebar.item icon="archive-box" :href="route('checklists.history.index')" :current="request()->routeIs('checklists.history.index') || request()->routeIs('checklists.history.show')" wire:navigate>
             {{ __('Run History') }}
         </flux:sidebar.item>

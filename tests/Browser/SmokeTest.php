@@ -145,6 +145,43 @@ test('management incident queue shows accountability filters and fields without 
         ->assertNoConsoleLogs();
 });
 
+test('management can browse incident history slices without browser smoke issues', function () {
+    $admin = $this->createUserForRole(UserRole::Admin);
+    $owner = $this->createUserForRole(UserRole::Supervisor, ['name' => 'Browser History Owner']);
+
+    $this->createIncidentWithActivity($admin, [
+        'title' => 'Browser incident history open record',
+        'status' => IncidentStatus::Open->value,
+        'severity' => IncidentSeverity::High->value,
+        'owner_id' => $owner->id,
+        'created_at' => now()->subDay(),
+    ]);
+
+    $this->createIncidentWithActivity($owner, [
+        'title' => 'Browser incident history resolved record',
+        'status' => IncidentStatus::Resolved->value,
+        'severity' => IncidentSeverity::Medium->value,
+        'owner_id' => $owner->id,
+        'created_at' => now()->subDays(2),
+        'resolved_at' => now()->subDay(),
+    ]);
+
+    visit('/login')
+        ->fill('email', $admin->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->click('Incident History')
+        ->assertPathIs('/incidents/history')
+        ->assertSee('Incident History')
+        ->assertSee('Recent incident movement')
+        ->assertSee('Still active')
+        ->assertSee('Browser incident history open record')
+        ->assertSee('Browser incident history resolved record')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
+});
+
 test('management can browse checklist run archive without browser smoke issues', function () {
     $admin = $this->createUserForRole(UserRole::Admin);
     $operator = $this->createUserForRole(UserRole::Staff, ['name' => 'Archive Browser Operator']);
