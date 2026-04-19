@@ -231,3 +231,16 @@ After WF4 completes, the product should feel like:
 - a system that retains believable operational memory without pretending to be enterprise BI
 
 That is the smallest next wave that materially improves product usefulness without breaking solo-dev realism.
+
+## 9. Current Status
+
+WF4 is now complete across:
+
+- `WF4-A Checklist Run Archive Core`
+- `WF4-B Historical Context and Cross-Linking`
+- `WF4-C Incident History Slice`
+- `WF4-D Quality Hardening and Documentation`
+
+Closure reference:
+
+- `94_WF4_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`

@@ -314,3 +314,11 @@ Decision: guard rails ของ WF3 ต้องอยู่ใน application l
 Rationale: เมื่อ user administration กลายเป็น capability จริงใน app shell แล้ว ความเสี่ยงหลักคือ accidental self-lockout หรือ admin coverage collapse ซึ่งไม่ควรถูกปล่อยให้เป็นแค่ Blade-level affordance problem
 
 Impact: UpdateManagedUser action, admin user surface, regression tests, System Spec, Architecture Boundary, Domain Normalization, Current State, และ README ต้องสะท้อน lifecycle safety contract เดียวกัน
+
+**D-036 | Locked**
+
+Decision: หลังการส่งมอบ `WF4 Operational History and Run Archive` ความจริงปัจจุบันของ repository คือ product มี lightweight operational history layer แล้วผ่าน `/checklists/history` และ `/incidents/history` โดยตั้งใจให้เป็น review surface ไม่ใช่ analytics/reporting subsystem
+
+Rationale: หลังจาก WF4-A/B/C ลงระบบแล้ว repository สามารถ review งานที่เกิดขึ้นจริงในช่วงที่ผ่านมาได้แล้ว หาก canonical docs ยังมอง history เป็นเพียง planning artifact หรือปล่อยให้คนตีความต่อไปเป็น exports/KPIs/reassignment reporting จะทำให้ truth แตกอีกครั้งและเสี่ยงต่อ scope drift
+
+Impact: 02_System_Spec, 04_Current_State, 06_Data_Definition, 22_Architecture_Boundary_and_Execution_Standards, 24_Domain_Normalization_Design, 26_Architecture_Debt_Roadmap, README, และ WF4 execution packs ต้องสะท้อน operational-history-as-review truth นี้ให้ตรงกัน

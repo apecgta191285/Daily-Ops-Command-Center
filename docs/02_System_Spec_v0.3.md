@@ -34,6 +34,7 @@
 | FR-05 | Admin และ Supervisor เปลี่ยนสถานะ incident ได้ และสามารถตั้ง owner/follow-up target แบบ lightweight ได้ | Must |
 | FR-06 | ระบบแสดง dashboard พื้นฐานของ checklist และ incident ได้ | Must |
 | FR-07 | ระบบมีประวัติการกระทำขั้นต่ำเพื่อ trace ผู้ใช้และเวลาได้ | Should |
+| FR-08 | Management review ประวัติ checklist run และ incident ล่าสุดในระบบได้โดยไม่ต้องพึ่ง analytics/reporting subsystem | Should |
 
 # **3\. Authorization Boundary ที่ล็อก**
 
@@ -53,6 +54,7 @@
 5. Supervisor หรือ Admin เปิด dashboard → เห็น completion summary, scope-lane coverage, incident overview, และ ownership pressure แบบย่อ
 6. Admin เปิดหน้า template administration → เห็น live runtime ownership ของแต่ละ scope, duplicate draft อย่างปลอดภัย, และ activate template เฉพาะ lane ที่เกี่ยวข้อง
 7. Admin เปิดหน้า user administration → เห็น roster ปัจจุบัน, สร้าง account ภายใน, ปรับ role/active state, และตั้งหรือเปลี่ยน password แบบ explicit จากใน app shell
+8. Supervisor หรือ Admin เปิดหน้า checklist/incident history → review สิ่งที่เกิดขึ้นในช่วงที่ผ่านมา, pivot ไปยัง recap/detail ที่เกี่ยวข้อง, และใช้ประวัติในระบบเพื่อทบทวนงานจริงโดยไม่ต้องพึ่ง reporting layer ภายนอก
 
 # **5\. Business Rules**
 
@@ -66,6 +68,7 @@
 * Incident ใน v1 หลัง WF2 อาจมี `owner_id` และ `follow_up_due_at` แบบ optional ได้ โดย owner ต้องเป็น management-capable user เท่านั้น  
 * Incident status ใน v1 จำกัดที่ Open / In Progress / Resolved  
 * การอัปเดต incident status อนุญาตเฉพาะ Admin และ Supervisor เท่านั้น  
+* Operational history ใน v1 หลัง WF4 เป็น lightweight review layer เท่านั้น: รองรับ checklist run archive และ incident history slices โดยยังไม่มี exports, analytics warehouse, retrospective KPI builder, หรือ reassignment history
 * User administration ใน v1 เป็น admin-only route family แบบ lightweight: `/users`, `/users/create`, `/users/{user}/edit`
 * `is_active` เป็น access gate หลักของ user lifecycle; inactive accounts ต้องไม่สามารถ authenticate ได้
 * Admin lifecycle ต้องไม่อนุญาตให้ระบบไม่มี active admin เหลืออยู่ และต้องกัน self-deactivation / self-demotion ภายใน workflow เดียวกัน
@@ -93,6 +96,7 @@
 * Checklist run บันทึกผลแต่ละข้อ, submit ได้จริง และดึงกลับมาอ่านได้จริง  
 * Incident สร้างและเปลี่ยนสถานะได้จริงโดยไม่ใช้ข้อมูลจำลองลอย ๆ  
 * Dashboard แสดงตัวเลข completion, scope-lane coverage, incidents, และ accountability pressure จากฐานข้อมูลจริง  
+* Management ต้องสามารถเปิด `/checklists/history` และ `/incidents/history` เพื่อ review operational history ล่าสุดได้จากข้อมูลจริงในระบบ
 * ระบบไม่เปิด route หรือ action ที่ไม่เกี่ยวข้องให้บทบาทที่ไม่มีสิทธิ์เข้าถึง  
 * Staff พยายามอัปเดต status incident แล้วต้องถูกปฏิเสธอย่างถูกต้อง
 * Management ต้องสามารถเห็น incident ที่ไม่มี owner, incident ที่ follow-up เลยกำหนด, และ incident ที่ตัวเองรับผิดชอบอยู่ได้โดยไม่ต้องตีความจาก activity timeline อย่างเดียว

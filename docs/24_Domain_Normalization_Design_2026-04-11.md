@@ -203,6 +203,8 @@ These belong in use-case orchestration:
 - clearing incident resolution timestamp when status leaves resolved
 - updating incident owner and follow-up target safely
 - evaluating unowned / overdue / actor-owned accountability pressure
+- shaping checklist run archive context from submitted run truth
+- shaping incident history slices from created/resolved timestamps plus current status
 - writing incident activity trail on create and status transitions
 - creating internal users safely
 - updating role, active state, and password safely
@@ -260,6 +262,19 @@ Target ownership:
 - persistence stores optional `owner_id` and optional `follow_up_due_at`
 - application actions own accountability updates
 - support/policy owners define overdue pressure semantics for presentation and dashboard summary consumers
+
+### Operational history truth
+
+Current state:
+
+- checklist run archive and incident history are now app-owned review surfaces
+- both surfaces intentionally operate on current runtime records rather than analytics-specific storage
+
+Target ownership:
+
+- persistence remains the source of checklist run and incident timestamps
+- application queries/builders own archive context and recent incident-movement slicing
+- presentation owns filters, layout, and review framing only
 
 ### Checklist completion rules
 

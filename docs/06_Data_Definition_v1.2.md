@@ -130,6 +130,14 @@ Template T-002: ปิดห้องปฏิบัติการ
 | Incident.follow_up_due_at | optional target date สำหรับการทบทวนหรือ follow-up ครั้งถัดไป; เป็น operational reminder ไม่ใช่ SLA |
 | IncidentActivity.action_type | อย่างน้อยต้องรองรับ `created`, `status_changed`, `next_action_note`, `resolution_note`, `owner_changed`, และ `follow_up_due_at_changed` |
 
+# **10.1 Operational History Baseline หลัง WF4**
+
+* `/checklists/history` ใช้ review submitted checklist runs เท่านั้น; draft หรือ in-progress runs ต้องไม่แสดงใน archive surface
+* checklist history รองรับ pivot เฉพาะสิ่งที่ product shell ใช้จริง: same day, same scope, และ same operator
+* `/incidents/history` ใช้ review recent incident movement แบบ lightweight ภายในช่วงวันที่กำหนด
+* incident history ต้องสื่ออย่างน้อยว่าอะไรถูกเปิด, อะไรถูก resolve, และมีอะไรจากช่วงนั้นที่ยัง active อยู่
+* operational history ใน v1 เป็น review surface ไม่ใช่ analytics/export/report builder
+
 # **11\. Data Constraints และกติกาการตั้งชื่อ**
 
 * Checklist Template ต้องมีชื่อไม่ซ้ำกันภายใน repository baseline ปัจจุบัน  

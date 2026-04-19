@@ -172,6 +172,26 @@ Recommended handling:
 - keep accountability semantics lightweight
 - do not expand into reassignment history, notifications, SLA math, or approval routing unless a later product wave explicitly reopens scope
 
+### Operational-history usefulness debt
+
+Status: materially reduced
+
+Evidence:
+
+- checklist run archive exists as a management review surface
+- archive context can pivot by same day, scope, and operator
+- incident history exists as a recent record for opened, resolved, and still-active carryover
+
+Why it matters:
+
+- the product now remembers believable recent work instead of only showing the present tense
+- management can review what happened recently without leaving the app or inventing spreadsheet sidecars
+
+Recommended handling:
+
+- keep history intentionally review-oriented
+- do not expand the baseline into analytics exports, retrospective scoring, or BI framing unless a future wave explicitly reopens scope
+
 ### Persistence-invariant coverage debt
 
 Status: open but partially reduced

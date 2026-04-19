@@ -40,12 +40,16 @@ Current repository owner:
 - staff checklist execution
 - staff incident creation
 - management incident list/detail/update
+- management checklist run archive and incident history review
 - management incident accountability and ownership pressure surfaces
 - admin checklist template list/create/edit
 - admin user roster and lifecycle management
 
 Authoritative route family:
 
+- `/checklists/history`
+- `/checklists/history/{run}`
+- `/incidents/history`
 - `/templates`
 - `/templates/create`
 - `/templates/{template}/edit`
@@ -68,6 +72,7 @@ Decision:
 - future application-layer extraction will happen behind these flows rather than replacing them wholesale
 - the current daily checklist runtime is now scope-aware; template `scope` is part of runtime truth and not just classification metadata
 - legacy `/admin/*` checklist-template URLs are retired and must not be reintroduced as compatibility aliases without an explicit new decision
+- operational history surfaces remain custom Livewire-owned and intentionally lightweight
 
 ### Volt / Flux page-owned
 
