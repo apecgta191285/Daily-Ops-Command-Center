@@ -178,6 +178,8 @@ See also:
 - `docs/80_WF2_B_Queue_and_Detail_Surface_Upgrade_Execution_Pack_2026-04-19.md`
 - `docs/81_WF2_C_Dashboard_Ownership_Pressure_Execution_Pack_2026-04-19.md`
 - `docs/82_WF2_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
+- `docs/83_WF3_User_Administration_Lite_Master_Plan_2026-04-19.md`
+- `docs/84_WF3_A_User_Lifecycle_and_Provisioning_Core_Execution_Pack_2026-04-19.md`
 
 ## Canonical Documentation
 
@@ -244,4 +246,6 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/80_WF2_B_Queue_and_Detail_Surface_Upgrade_Execution_Pack_2026-04-19.md`
 - `docs/81_WF2_C_Dashboard_Ownership_Pressure_Execution_Pack_2026-04-19.md`
 - `docs/82_WF2_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
+- `docs/83_WF3_User_Administration_Lite_Master_Plan_2026-04-19.md`
+- `docs/84_WF3_A_User_Lifecycle_and_Provisioning_Core_Execution_Pack_2026-04-19.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`
