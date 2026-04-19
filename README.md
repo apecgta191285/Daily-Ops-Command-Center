@@ -110,6 +110,7 @@ npm run build
 - WF4-B is now live as well: the archive now gives day-level scope coverage context and recap pages can pivot by same day, same scope, and same operator so management history review feels operational instead of flat.
 - WF4-C is now live as well: management can review `/incidents/history` as a recent incident record that shows what opened, what resolved, and what from that same window is still active without turning incident history into analytics theater.
 - WF4 is now closed as a complete usefulness wave: checklist and incident history are now part of the canonical product truth, and the repository baseline treats operational history as a lightweight review surface rather than a reporting subsystem.
+- WF5 planning is now locked as the next wave: the dashboard should evolve from command summary into a true today-first workboard built on existing scope, ownership, and history truth rather than decorative dashboard expansion.
 - Frontend contract hardening has started: shared visual tokens now cover subtle surfaces, danger/brand actions, motion timing, shadows, and radius scales, while alert feedback can dismiss cleanly without page reloads.
 - Frontend component language now includes reusable stat cards, empty states, callouts, chips, and timeline shells so major product surfaces can evolve on shared primitives instead of ad-hoc markup.
 - Frontend FE3 surface redesign now gives the dashboard, daily checklist, and template manage screens a stronger command-surface composition so the product reads as one intentional system instead of a collection of forms and cards.
@@ -199,6 +200,8 @@ See also:
 - `docs/92_WF4_B_Historical_Context_and_Cross_Linking_Execution_Pack_2026-04-19.md`
 - `docs/93_WF4_C_Incident_History_Slice_Execution_Pack_2026-04-19.md`
 - `docs/94_WF4_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
+- `docs/95_WF5_Dashboard_Workboard_Upgrade_Master_Plan_2026-04-19.md`
+- `docs/96_WF5_A_Workboard_Framing_and_Pending_Lane_Truth_Execution_Pack_2026-04-19.md`
 
 ## Canonical Documentation
 
@@ -277,4 +280,6 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/92_WF4_B_Historical_Context_and_Cross_Linking_Execution_Pack_2026-04-19.md`
 - `docs/93_WF4_C_Incident_History_Slice_Execution_Pack_2026-04-19.md`
 - `docs/94_WF4_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
+- `docs/95_WF5_Dashboard_Workboard_Upgrade_Master_Plan_2026-04-19.md`
+- `docs/96_WF5_A_Workboard_Framing_and_Pending_Lane_Truth_Execution_Pack_2026-04-19.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`
