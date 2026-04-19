@@ -31,7 +31,7 @@
 | FR-02 | Admin สร้าง/แก้ไข Checklist Template ได้ | Must |
 | FR-03 | Staff เปิด checklist ของวันและทำรายการตรวจเช็กได้ โดยระบบต้องสร้าง checklist run อัตโนมัติถ้ายังไม่มี run ของวันนั้น | Must |
 | FR-04 | Staff สร้าง incident พร้อมหมวด/ความรุนแรง/รายละเอียด และ optional attachment ได้ | Must |
-| FR-05 | Admin และ Supervisor เปลี่ยนสถานะ incident ได้ | Must |
+| FR-05 | Admin และ Supervisor เปลี่ยนสถานะ incident ได้ และสามารถตั้ง owner/follow-up target แบบ lightweight ได้ | Must |
 | FR-06 | ระบบแสดง dashboard พื้นฐานของ checklist และ incident ได้ | Must |
 | FR-07 | ระบบมีประวัติการกระทำขั้นต่ำเพื่อ trace ผู้ใช้และเวลาได้ | Should |
 
@@ -49,8 +49,8 @@
 2. Staff login → เปิด checklist run ของวัน; ถ้ายังไม่มีระบบสร้างให้อัตโนมัติ → ติ๊กแต่ละข้อ / ใส่หมายเหตุ → submit  
 2.1 ถ้ามี live checklist หลาย scope ระบบต้องแสดง workboard ของวันเพื่อให้ staff เลือก lane เช่น เปิดห้อง / ตรวจระหว่างวัน / ปิดห้อง ก่อนเข้า run ของ scope นั้น  
 3. Staff พบปัญหา → สร้าง incident → ระบุ category + severity + description + optional attachment → บันทึก  
-4. Supervisor หรือ Admin เปิดหน้า incidents → ดูรายการ open → อัปเดตสถานะเป็น In Progress / Resolved  
-5. Supervisor หรือ Admin เปิด dashboard → เห็น completion summary, scope-lane coverage, และ incident overview
+4. Supervisor หรือ Admin เปิดหน้า incidents → ดูรายการ open → ตั้ง owner/follow-up target เมื่อจำเป็น → อัปเดตสถานะเป็น In Progress / Resolved  
+5. Supervisor หรือ Admin เปิด dashboard → เห็น completion summary, scope-lane coverage, incident overview, และ ownership pressure แบบย่อ
 6. Admin เปิดหน้า template administration → เห็น live runtime ownership ของแต่ละ scope, duplicate draft อย่างปลอดภัย, และ activate template เฉพาะ lane ที่เกี่ยวข้อง
 
 # **5\. Business Rules**
@@ -62,11 +62,13 @@
 * เมื่อมี live scope มากกว่า 1 อัน `/checklists/runs/today` ต้องแสดง scope-aware workboard แทนการ force เข้า checklist เดียวทั้งระบบ
 * Checklist run ใน v1 ไม่มี draft state อย่างเป็นทางการ; ใช้ `submitted_at` เป็นตัวบอกว่าถูก submit แล้วหรือยัง  
 * Incident ต้องมี category, severity, status, description และผู้สร้างอย่างน้อย  
+* Incident ใน v1 หลัง WF2 อาจมี `owner_id` และ `follow_up_due_at` แบบ optional ได้ โดย owner ต้องเป็น management-capable user เท่านั้น  
 * Incident status ใน v1 จำกัดที่ Open / In Progress / Resolved  
 * การอัปเดต incident status อนุญาตเฉพาะ Admin และ Supervisor เท่านั้น  
+* Ownership model ของ incident ใน v1 เป็น lightweight accountability เท่านั้น: 1 owner แบบ optional, 1 follow-up target date แบบ optional, ไม่มี reassignment history, notification, SLA, หรือ escalation workflow  
 * Incident attachments เป็น optional และเก็บไฟล์แบบ local public disk เท่านั้น  
-* Dashboard ใช้ข้อมูลจริงจาก checklist runs และ incidents เท่านั้น และต้องสามารถสะท้อน missing / incomplete scope lanes ของวันได้  
-* v1 ไม่รองรับ workflow approval, incident assignment/reassignment หรือ checklist draft workflow
+* Dashboard ใช้ข้อมูลจริงจาก checklist runs และ incidents เท่านั้น และต้องสามารถสะท้อน missing / incomplete scope lanes ของวัน รวมถึง `unowned / overdue / owned by me` accountability pressure ได้แบบย่อ  
+* v1 ไม่รองรับ workflow approval, incident reassignment history, notifications, SLA engine, หรือ checklist draft workflow
 
 # **6\. Core Data Model**
 
@@ -77,7 +79,7 @@
 | ChecklistItem | id, template_id, title, description, sort_order, is_required |
 | ChecklistRun | id, template_id, run_date, assigned_team_or_scope, created_by, submitted_at, submitted_by |
 | ChecklistRunItem | id, run_id, item_id, result, note, checked_by, checked_at |
-| Incident | id, title, category, severity, status, description, attachment_path, created_by, created_at, resolved_at |
+| Incident | id, title, category, severity, status, description, attachment_path, created_by, owner_id, follow_up_due_at, created_at, resolved_at |
 | IncidentActivity | id, incident_id, action_type, summary, actor_id, created_at |
 
 # **7\. Acceptance Criteria**
@@ -86,9 +88,10 @@
 * Staff เปิด checklist run ของวันแล้วระบบสร้าง run ให้อัตโนมัติได้จริงเมื่อยังไม่มี และสามารถเลือก scope lane ได้เมื่อมีหลาย live scopes  
 * Checklist run บันทึกผลแต่ละข้อ, submit ได้จริง และดึงกลับมาอ่านได้จริง  
 * Incident สร้างและเปลี่ยนสถานะได้จริงโดยไม่ใช้ข้อมูลจำลองลอย ๆ  
-* Dashboard แสดงตัวเลข completion, scope-lane coverage, และ incidents จากฐานข้อมูลจริง  
+* Dashboard แสดงตัวเลข completion, scope-lane coverage, incidents, และ accountability pressure จากฐานข้อมูลจริง  
 * ระบบไม่เปิด route หรือ action ที่ไม่เกี่ยวข้องให้บทบาทที่ไม่มีสิทธิ์เข้าถึง  
 * Staff พยายามอัปเดต status incident แล้วต้องถูกปฏิเสธอย่างถูกต้อง
+* Management ต้องสามารถเห็น incident ที่ไม่มี owner, incident ที่ follow-up เลยกำหนด, และ incident ที่ตัวเองรับผิดชอบอยู่ได้โดยไม่ต้องตีความจาก activity timeline อย่างเดียว
 
 # **8\. Edge Cases to Handle**
 

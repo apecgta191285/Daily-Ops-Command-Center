@@ -118,7 +118,9 @@ Template T-002: ปิดห้องปฏิบัติการ
 | ChecklistRun.submitted_by | ผู้ที่กด submit; ปกติจะเป็น staff owner ใน MVP |
 | ChecklistRunItem.result | ใช้ค่า Done หรือ Not Done เท่านั้น |
 | Incident.attachment_path | path ของไฟล์บน local public disk; optional |
-| IncidentActivity.action_type | อย่างน้อยต้องรองรับ `created` และ `status_changed` |
+| Incident.owner_id | optional management owner ของ unresolved work; ต้องอ้างถึง user ที่มีบทบาท admin หรือ supervisor เท่านั้น |
+| Incident.follow_up_due_at | optional target date สำหรับการทบทวนหรือ follow-up ครั้งถัดไป; เป็น operational reminder ไม่ใช่ SLA |
+| IncidentActivity.action_type | อย่างน้อยต้องรองรับ `created`, `status_changed`, `next_action_note`, `resolution_note`, `owner_changed`, และ `follow_up_due_at_changed` |
 
 # **11\. Data Constraints และกติกาการตั้งชื่อ**
 
@@ -131,6 +133,8 @@ Template T-002: ปิดห้องปฏิบัติการ
 * Description และ note ใช้ข้อความสั้น กระชับ และหลีกเลี่ยงข้อมูลส่วนบุคคลจริง  
 * หลักฐานแนบใช้ไฟล์ตัวอย่าง/ภาพจำลองเท่านั้น ห้ามใช้รูปที่เปิดเผยข้อมูลอ่อนไหว  
 * attachment_path ต้องอ้างถึง local public disk เท่านั้นใน v1
+* `owner_id` เป็น optional และจำกัดเฉพาะ management-capable users; การปล่อย `null` ยังถือว่า valid state ใน v1
+* `follow_up_due_at` เป็น optional; unresolved incident อาจไม่มี target date ก็ได้ และค่าดังกล่าวไม่ควรถูกตีความเป็น SLA promise
 
 # **12\. Seed Data Minimum Count**
 

@@ -40,6 +40,7 @@ Current repository owner:
 - staff checklist execution
 - staff incident creation
 - management incident list/detail/update
+- management incident accountability and ownership pressure surfaces
 - admin checklist template list/create/edit
 
 Authoritative route family:
@@ -233,17 +234,21 @@ This section is the canonical policy for the current remediation cycle.
 Current baseline:
 
 - route-level role middleware is the authoritative authorization layer for checklist template administration
-- no object-level policy layer is required yet because all template actions remain admin-only and there is no per-record ownership model
+- no general object-level policy layer is required yet because template actions remain admin-only and incident ownership currently affects accountability semantics, not per-record view permissions
 
 Escalation trigger:
 
-- introduce policy-based authorization only when template actions diverge by action type, ownership, or record-sensitive business rules
+- introduce policy-based authorization only when template actions diverge by action type, ownership, or record-sensitive business rules, or when incident ownership becomes a true access boundary instead of a coordination signal
 
 - users must be active to authenticate into the operations application
 - users must remain active to access protected application routes
 - template-administration access requires both:
   - active account state
   - authorized admin role
+- incident accountability updates require:
+  - active authenticated user
+  - management-capable role
+  - selected owner, when present, must also be management-capable
 - public self-registration is intentionally unsupported
 
 ### Verification policy
@@ -270,6 +275,7 @@ Reason:
 - login-time account eligibility belongs in authentication configuration
 - protected-route account-state enforcement belongs in middleware
 - role-specific route access belongs in dedicated role middleware
+- current incident accountability semantics belong in application actions and support policy owners, not in Blade conditionals
 - future domain-specific action permissions belong in application/domain policy work, not in Blade conditionals
 
 ## 6. Thin Livewire Component Standard

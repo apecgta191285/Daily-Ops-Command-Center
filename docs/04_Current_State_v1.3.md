@@ -35,6 +35,7 @@
 * next product wave `WF2 Incident Ownership Lite` เริ่มลงระบบแล้วในก้อน `WF2-A`: incidents รองรับ owner แบบ optional ที่จำกัดเฉพาะ management users, รองรับ follow-up target date แบบ lightweight, incident detail มี accountability lane แยกจาก status lane อย่างชัดเจน, และ activity timeline เริ่มสะท้อน ownership/follow-up truth จริงโดยยังไม่ข้ามไปเป็น notification, SLA, escalation, หรือ enterprise assignment workflow  
 * `WF2 Incident Ownership Lite` เดินต่อแล้วในก้อน `WF2-B`: incident queue รองรับ filter แบบ `unowned / mine / overdue`, queue table เริ่มสื่อ owner และ follow-up target เป็น first-class fields, overdue semantics มี owner กลางใน application layer แล้ว, และ incident detail สามารถส่งสัญญาณ `Needs owner` กับ `Follow-up overdue` ได้แบบตรงไปตรงมาโดยไม่ต้องตีความจาก timeline อย่างเดียว  
 * `WF2 Incident Ownership Lite` เดินต่อแล้วในก้อน `WF2-C`: dashboard snapshot รองรับ ownership pressure แบบ actor-aware แล้ว, dashboard attention สามารถเตือนเรื่อง `unowned` และ `overdue follow-up` พร้อม drill-down เข้าคิว incident ได้ตรงๆ, และ dashboard มี `Accountability Signals` card เพื่อสรุป `owned by me / unowned / overdue` โดยยังไม่กลายเป็น analytics surface หรือ queue replica  
+* `WF2 Incident Ownership Lite` ถูกปิด wave แล้วในก้อน `WF2-D`: canonical docs, system spec, data definition, decision history, และ architecture references ถูกเก็บให้ตรงกับ lightweight ownership truth ชุดเดียวกับ code/tests แล้ว ทำให้ incident accountability ไม่ได้เป็นเพียง UI polish หรือ queue filter เพิ่มเติม แต่กลายเป็น product language ที่ล็อกอย่างเป็นทางการทั้ง detail, queue, และ dashboard  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -42,7 +43,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 complete + WF2-A complete + WF2-B complete + WF2-C complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 complete + WF2 complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -93,6 +94,24 @@
 * 61_FE6_Motion_and_Reveal_Orchestration_Execution_Pack_2026-04-17
 * 62_FE6_Settings_Surface_Cleanup_Execution_Pack_2026-04-18
 * 63_FE8_Frontend_Hardening_and_CSS_Architecture_Split_Execution_Pack_2026-04-18
+* 65_FE9_Premium_UI_Shell_and_Identity_Master_Plan_2026-04-18
+* 66_FE9_App_Shell_Architecture_Repair_Execution_Pack_2026-04-18
+* 67_FE9_Auth_and_Welcome_Identity_Redesign_Execution_Pack_2026-04-18
+* 68_FE9_Cross_Screen_Shell_Assimilation_Execution_Pack_2026-04-18
+* 69_FE9_Premium_UI_Finish_and_Visual_QA_Execution_Pack_2026-04-18
+* 70_Full_Stack_Product_Evolution_Audit_and_Next_Wave_Master_Plan_2026-04-18
+* 71_WF1_Scoped_Daily_Operations_Runtime_Master_Plan_2026-04-18
+* 72_WF1_A_Domain_and_Runtime_Realignment_Execution_Pack_2026-04-18
+* 73_WF1_A_WF1_B_Scope_Runtime_Entry_Execution_Pack_2026-04-18
+* 74_WF1_C_Scope_Aware_Dashboard_and_Signals_Execution_Pack_2026-04-18
+* 75_WF1_D_Template_Administration_Upgrade_Execution_Pack_2026-04-19
+* 76_WF1_E_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19
+* 77_WF2_Incident_Ownership_Lite_Master_Plan_2026-04-19
+* 78_WF2_A_Ownership_and_Follow_Up_Core_Execution_Pack_2026-04-19
+* 79_WF2_A_Incident_Accountability_Core_Execution_Pack_2026-04-19
+* 80_WF2_B_Queue_and_Detail_Surface_Upgrade_Execution_Pack_2026-04-19
+* 81_WF2_C_Dashboard_Ownership_Pressure_Execution_Pack_2026-04-19
+* 82_WF2_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19
 
 # **4\. สิ่งที่ล็อกแล้ว**
 
@@ -136,6 +155,7 @@
 * `WF1 Scoped Daily Operations Runtime` ถูกส่งลงระบบต่อแล้วในก้อน `WF1-C`: dashboard snapshot มี owner สำหรับ scope lane truth แล้ว, management เห็น `Checklist by Scope` พร้อม state ระดับ `unavailable / not started / in progress / submitted`, และ dashboard attention สามารถเตือนเรื่อง missing coverage หรือ incomplete lanes โดยไม่ต้องเพิ่ม analytics schema หรือ report builder ใหม่  
 * `WF1 Scoped Daily Operations Runtime` ถูกส่งลงระบบต่อแล้วในก้อน `WF1-D`: template administration index และ template authoring governance lane เห็น scope governance truth ผ่าน owner กลางแล้ว ทำให้ admin รู้ว่าแต่ละ scope มี live owner หรือยัง, มี draft ค้างเท่าไร, และ lane ที่กำลังแก้อยู่สัมพันธ์กับ scope อื่นอย่างไรโดยไม่ต้องตีความจากตาราง flat list เพียงอย่างเดียว  
 * `WF1 Scoped Daily Operations Runtime` ถูกปิด wave แล้วในก้อน `WF1-E`: system spec, data definition, decision log, และ architecture references หลักถูกอัปเดตให้หยุดพูดความจริงเก่าของ singular runtime และอ้างอิง per-scope runtime baseline เดียวกับ code/tests อย่างเป็นทางการ  
+* `WF2 Incident Ownership Lite` ถูกปิด wave แล้วในก้อน `WF2-D`: incident สามารถมี owner แบบ optional และ follow-up target date แบบ lightweight, queue รองรับ `unowned / mine / overdue`, dashboard สรุป ownership pressure แบบ actor-aware ได้, และ canonical docs หลักหยุดพูดว่า incident เป็นเพียง passive record ที่ไม่มี accountability truth  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null
 

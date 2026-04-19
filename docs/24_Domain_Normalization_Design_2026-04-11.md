@@ -196,6 +196,8 @@ These belong in use-case orchestration:
 - setting checklist submission timestamps and actors
 - setting incident resolution timestamp when status becomes resolved
 - clearing incident resolution timestamp when status leaves resolved
+- updating incident owner and follow-up target safely
+- evaluating unowned / overdue / actor-owned accountability pressure
 - writing incident activity trail on create and status transitions
 
 ### Presentation-owned constraints
@@ -236,6 +238,19 @@ Target ownership:
 
 - domain enum defines state language
 - application action owns transition execution and side effects
+
+### Incident accountability truth
+
+Current state:
+
+- incident accountability is now persisted through first-class fields instead of being inferred from activity text alone
+- overdue semantics are centralized in application support code and reused by queue/detail/dashboard surfaces
+
+Target ownership:
+
+- persistence stores optional `owner_id` and optional `follow_up_due_at`
+- application actions own accountability updates
+- support/policy owners define overdue pressure semantics for presentation and dashboard summary consumers
 
 ### Checklist completion rules
 

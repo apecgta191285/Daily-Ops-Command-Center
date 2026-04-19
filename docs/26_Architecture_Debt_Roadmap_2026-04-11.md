@@ -150,6 +150,25 @@ Recommended handling:
 - keep canonical docs aligned whenever runtime truth changes again
 - avoid reintroducing singular-runtime language into new feature docs or UI copy
 
+### Incident passive-record debt
+
+Status: materially reduced
+
+Evidence:
+
+- incidents now carry optional accountability truth through `owner_id` and `follow_up_due_at`
+- queue, detail, and dashboard surfaces all expose ownership pressure in one consistent language
+
+Why it matters:
+
+- the product no longer treats follow-up as something users must infer only from status and timeline text
+- management can now see when work is ownerless, overdue, or personally carried without introducing enterprise workflow overhead
+
+Recommended handling:
+
+- keep accountability semantics lightweight
+- do not expand into reassignment history, notifications, SLA math, or approval routing unless a later product wave explicitly reopens scope
+
 ### Persistence-invariant coverage debt
 
 Status: open but partially reduced

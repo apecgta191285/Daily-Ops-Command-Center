@@ -1,7 +1,7 @@
 # WF2 Incident Ownership Lite Master Plan
 
 **Date:** 2026-04-19  
-**Status:** Approved planning baseline  
+**Status:** Complete wave baseline  
 **Execution Standard:** No Quick & Dirty, no enterprise assignment matrix, no passive-record drift
 
 ---
@@ -175,6 +175,12 @@ Close the wave with regression proof and canonical docs alignment.
 
 - ownership truth is fully documented
 - tests prove the lightweight accountability model end to end
+
+**Completion note**
+
+- canonical docs now describe incident accountability as first-class truth
+- README/current-state summaries now treat dashboard, queue, and detail ownership pressure as one product language
+- WF2 closes without introducing notifications, SLA engines, reassignment history, or enterprise workload routing
 
 ---
 
