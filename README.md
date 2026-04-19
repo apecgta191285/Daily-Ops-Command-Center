@@ -99,6 +99,7 @@ npm run build
 - WF1 is now closed as a complete product wave: the repository’s canonical docs, decision history, and system/data references now match the scoped runtime that already exists in code.
 - WF2 has now started landing as the next usefulness wave: `WF2-A Incident Ownership Lite` adds optional management owner and follow-up target accountability to incidents without crossing into enterprise assignment, escalation, or notification systems.
 - WF2-B is now live as well: the management incident queue can filter by unowned, mine, and overdue follow-up while incident detail surfaces now flag ownership pressure more explicitly.
+- WF2-C is now live on the dashboard too: management can see ownership pressure from the command surface through unowned, overdue, and actor-owned accountability signals without turning the dashboard into a reporting product.
 - Frontend contract hardening has started: shared visual tokens now cover subtle surfaces, danger/brand actions, motion timing, shadows, and radius scales, while alert feedback can dismiss cleanly without page reloads.
 - Frontend component language now includes reusable stat cards, empty states, callouts, chips, and timeline shells so major product surfaces can evolve on shared primitives instead of ad-hoc markup.
 - Frontend FE3 surface redesign now gives the dashboard, daily checklist, and template manage screens a stronger command-surface composition so the product reads as one intentional system instead of a collection of forms and cards.
@@ -174,6 +175,7 @@ See also:
 - `docs/78_WF2_A_Ownership_and_Follow_Up_Core_Execution_Pack_2026-04-19.md`
 - `docs/79_WF2_A_Incident_Accountability_Core_Execution_Pack_2026-04-19.md`
 - `docs/80_WF2_B_Queue_and_Detail_Surface_Upgrade_Execution_Pack_2026-04-19.md`
+- `docs/81_WF2_C_Dashboard_Ownership_Pressure_Execution_Pack_2026-04-19.md`
 
 ## Canonical Documentation
 
@@ -238,4 +240,5 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/78_WF2_A_Ownership_and_Follow_Up_Core_Execution_Pack_2026-04-19.md`
 - `docs/79_WF2_A_Incident_Accountability_Core_Execution_Pack_2026-04-19.md`
 - `docs/80_WF2_B_Queue_and_Detail_Surface_Upgrade_Execution_Pack_2026-04-19.md`
+- `docs/81_WF2_C_Dashboard_Ownership_Pressure_Execution_Pack_2026-04-19.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`

@@ -27,6 +27,7 @@
             default => 'Intake steady',
         };
         $scopeLaneIncompleteCount = collect($scopeChecklistLanes)->filter(fn (array $lane) => in_array($lane['state'], ['not_started', 'in_progress'], true))->count();
+        $ownershipActions = $ownershipPressure['actions'] ?? [];
     @endphp
 
     <x-slot name="header">
@@ -94,9 +95,15 @@
                         </div>
 
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Open now</p>
-                            <p class="ops-glance-card__value">{{ $incidentCounts['Open'] }}</p>
-                            <p class="ops-glance-card__meta">New incidents that still need first response.</p>
+                            <p class="ops-glance-card__label">Unowned incidents</p>
+                            <p class="ops-glance-card__value">{{ $ownershipPressure['unownedCount'] }}</p>
+                            <p class="ops-glance-card__meta">Unresolved incidents that still do not have a management owner.</p>
+                        </div>
+
+                        <div class="ops-glance-card">
+                            <p class="ops-glance-card__label">Overdue follow-up</p>
+                            <p class="ops-glance-card__value">{{ $ownershipPressure['overdueCount'] }}</p>
+                            <p class="ops-glance-card__meta">Unresolved incidents already past their target review date.</p>
                         </div>
                     </div>
                 </aside>
@@ -391,6 +398,57 @@
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
                     <div class="ops-section-heading">
                         <div>
+                            <p class="ops-section-heading__eyebrow">Ownership pressure</p>
+                            <h2 class="ops-section-heading__title">Accountability Signals</h2>
+                            <p class="ops-section-heading__body">Compact ownership cues for work that still needs a clear person or a timely next review.</p>
+                        </div>
+                    </div>
+
+                    <div class="ops-card__body">
+                        <div class="ops-trend-card">
+                            <div class="ops-trend-card__header">
+                                <div>
+                                    <p class="ops-trend-card__eyebrow">Incidents you currently own</p>
+                                    <p class="ops-trend-card__value">{{ $ownershipPressure['ownedByActorCount'] }}</p>
+                                </div>
+
+                                <span class="ops-trend-pill ops-trend-pill--flat">
+                                    Ownership pressure
+                                </span>
+                            </div>
+
+                            <p class="ops-trend-card__meta">Unowned: {{ $ownershipPressure['unownedCount'] }} · Overdue: {{ $ownershipPressure['overdueCount'] }}</p>
+                            <p class="ops-trend-card__copy">
+                                Keep ownership explicit so unresolved incidents do not turn into passive queue debt.
+                            </p>
+
+                            <div class="ops-compare-list">
+                                <div class="ops-compare-list__item">
+                                    <span class="ops-compare-list__label">Unowned</span>
+                                    <strong class="ops-compare-list__value">{{ $ownershipPressure['unownedCount'] }} incidents still need a management owner</strong>
+                                </div>
+                                <div class="ops-compare-list__item">
+                                    <span class="ops-compare-list__label">Overdue</span>
+                                    <strong class="ops-compare-list__value">{{ $ownershipPressure['overdueCount'] }} incidents have already passed follow-up target</strong>
+                                </div>
+                            </div>
+
+                            @if ($ownershipActions !== [])
+                                <div class="mt-4 flex flex-wrap gap-3">
+                                    @foreach ($ownershipActions as $action)
+                                        <a href="{{ $action['url'] }}" class="ops-button ops-button--secondary">
+                                            {{ $action['label'] }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </section>
+
+                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="145">
+                    <div class="ops-section-heading">
+                        <div>
                             <p class="ops-section-heading__eyebrow">Intake pressure</p>
                             <h2 class="ops-section-heading__title">Incident Intake Trend</h2>
                             <p class="ops-section-heading__body">Track how many incidents were reported today compared with yesterday.</p>
@@ -446,7 +504,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="160">
+                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="170">
                     <div class="ops-section-heading">
                         <div>
                             <p class="ops-section-heading__eyebrow">Hotspot scan</p>

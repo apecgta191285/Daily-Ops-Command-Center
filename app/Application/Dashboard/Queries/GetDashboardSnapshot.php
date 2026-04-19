@@ -7,8 +7,10 @@ namespace App\Application\Dashboard\Queries;
 use App\Application\Dashboard\Data\DashboardSnapshot;
 use App\Application\Dashboard\Support\DashboardAttentionAssembler;
 use App\Application\Dashboard\Support\DashboardHotspotAssembler;
+use App\Application\Dashboard\Support\DashboardOwnershipPressureBuilder;
 use App\Application\Dashboard\Support\DashboardScopeLaneBuilder;
 use App\Application\Dashboard\Support\DashboardTrendBuilder;
+use App\Application\Incidents\Support\IncidentFollowUpPolicy;
 use App\Application\Incidents\Support\IncidentStalePolicy;
 use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\ChecklistRun;
@@ -21,9 +23,10 @@ class GetDashboardSnapshot
         private readonly DashboardTrendBuilder $trendBuilder,
         private readonly DashboardHotspotAssembler $hotspotAssembler,
         private readonly DashboardScopeLaneBuilder $scopeLaneBuilder,
+        private readonly DashboardOwnershipPressureBuilder $ownershipPressureBuilder,
     ) {}
 
-    public function __invoke(): DashboardSnapshot
+    public function __invoke(?int $actorId = null): DashboardSnapshot
     {
         $today = today();
         $yesterday = today()->subDay();
@@ -69,6 +72,17 @@ class GetDashboardSnapshot
             ->count();
 
         $staleUnresolvedCount = IncidentStalePolicy::applyToUnresolvedQuery(Incident::query())->count();
+        $unownedUnresolvedCount = Incident::query()
+            ->where('status', '!=', IncidentStatus::Resolved->value)
+            ->whereNull('owner_id')
+            ->count();
+        $overdueFollowUpCount = IncidentFollowUpPolicy::applyOverdueToUnresolvedQuery(Incident::query())->count();
+        $ownedByActorCount = $actorId !== null
+            ? Incident::query()
+                ->where('status', '!=', IncidentStatus::Resolved->value)
+                ->where('owner_id', $actorId)
+                ->count()
+            : 0;
 
         $todayIncidentIntake = Incident::query()
             ->whereDate('created_at', $today)
@@ -84,10 +98,18 @@ class GetDashboardSnapshot
             completionRate: $completionRate,
             highSeverityUnresolvedCount: $highSeverityUnresolvedCount,
             staleUnresolvedCount: $staleUnresolvedCount,
+            unownedUnresolvedCount: $unownedUnresolvedCount,
+            overdueFollowUpCount: $overdueFollowUpCount,
             scopeLanesMissingTemplateCount: collect($scopeChecklistLanes)->where('state', 'unavailable')->count(),
             scopeLanesIncompleteCount: collect($scopeChecklistLanes)
                 ->filter(fn (array $lane): bool => in_array($lane['state'], ['not_started', 'in_progress'], true))
                 ->count(),
+        );
+
+        $ownershipPressure = ($this->ownershipPressureBuilder)(
+            unownedCount: $unownedUnresolvedCount,
+            overdueCount: $overdueFollowUpCount,
+            ownedByActorCount: $ownedByActorCount,
         );
 
         $recentIncidents = Incident::query()
@@ -125,6 +147,7 @@ class GetDashboardSnapshot
             ],
             hotspotCategories: ($this->hotspotAssembler)($hotspotRows),
             scopeChecklistLanes: $scopeChecklistLanes,
+            ownershipPressure: $ownershipPressure,
             recentIncidents: $recentIncidents,
         );
     }

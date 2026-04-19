@@ -171,6 +171,51 @@ test('dashboard attention panel highlights unresolved high severity and stale in
     $response->assertSee('stale=1', false);
 });
 
+test('dashboard shows ownership pressure signals and drill-down actions', function () {
+    $admin = User::factory()->create(['role' => UserRole::Admin->value]);
+    $supervisor = User::factory()->create(['role' => UserRole::Supervisor->value]);
+    $this->actingAs($admin);
+
+    Incident::factory()->create([
+        'title' => 'Needs owner dashboard incident',
+        'severity' => IncidentSeverity::Medium->value,
+        'status' => IncidentStatus::Open->value,
+        'created_by' => $admin->id,
+        'owner_id' => null,
+    ]);
+
+    Incident::factory()->create([
+        'title' => 'Owned by admin dashboard incident',
+        'severity' => IncidentSeverity::Low->value,
+        'status' => IncidentStatus::InProgress->value,
+        'created_by' => $supervisor->id,
+        'owner_id' => $admin->id,
+        'follow_up_due_at' => today()->addDay(),
+    ]);
+
+    Incident::factory()->create([
+        'title' => 'Overdue dashboard incident',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::Open->value,
+        'created_by' => $supervisor->id,
+        'owner_id' => $supervisor->id,
+        'follow_up_due_at' => today()->subDay(),
+    ]);
+
+    $response = $this->get(route('dashboard'));
+
+    $response->assertOk();
+    $response->assertSee('Unowned incidents need accountability');
+    $response->assertSee('Follow-up targets have already passed');
+    $response->assertSee('Accountability Signals');
+    $response->assertSee('Review unowned incidents');
+    $response->assertSee('Review overdue follow-up');
+    $response->assertSee('Review incidents you own');
+    $response->assertSee('unowned=1', false);
+    $response->assertSee('overdue=1', false);
+    $response->assertSee('mine=1', false);
+});
+
 test('dashboard shows calm attention state when there are no active alerts', function () {
     $admin = User::factory()->create(['role' => UserRole::Admin->value]);
     $this->actingAs($admin);

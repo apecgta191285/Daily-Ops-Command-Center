@@ -11,6 +11,6 @@ class DashboardController extends Controller
 {
     public function __invoke(GetDashboardSnapshot $getDashboardSnapshot)
     {
-        return view('dashboard', $getDashboardSnapshot()->toViewData());
+        return view('dashboard', $getDashboardSnapshot(auth()->id())->toViewData());
     }
 }

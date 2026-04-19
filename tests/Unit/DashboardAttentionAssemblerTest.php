@@ -17,17 +17,23 @@ test('dashboard attention assembler builds checklist and incident attention item
         completionRate: 60,
         highSeverityUnresolvedCount: 2,
         staleUnresolvedCount: 1,
+        unownedUnresolvedCount: 1,
+        overdueFollowUpCount: 1,
         scopeLanesMissingTemplateCount: 0,
         scopeLanesIncompleteCount: 0,
     );
 
-    expect($items)->toHaveCount(3)
+    expect($items)->toHaveCount(5)
         ->and($items[0]['title'])->toBe('Checklist completion is still in progress')
         ->and($items[0]['count'])->toBe(2)
         ->and($items[1]['title'])->toBe('High severity incidents need attention')
         ->and($items[1]['url'])->toContain('severity=High')
         ->and($items[2]['title'])->toBe('Unresolved incidents are going stale')
-        ->and($items[2]['url'])->toContain('stale=1');
+        ->and($items[2]['url'])->toContain('stale=1')
+        ->and($items[3]['title'])->toBe('Unowned incidents need accountability')
+        ->and($items[3]['url'])->toContain('unowned=1')
+        ->and($items[4]['title'])->toBe('Follow-up targets have already passed')
+        ->and($items[4]['url'])->toContain('overdue=1');
 });
 
 test('dashboard attention assembler adds scope lane warnings when coverage is missing or incomplete', function () {
@@ -37,6 +43,8 @@ test('dashboard attention assembler adds scope lane warnings when coverage is mi
         completionRate: 100,
         highSeverityUnresolvedCount: 0,
         staleUnresolvedCount: 0,
+        unownedUnresolvedCount: 0,
+        overdueFollowUpCount: 0,
         scopeLanesMissingTemplateCount: 1,
         scopeLanesIncompleteCount: 2,
     );

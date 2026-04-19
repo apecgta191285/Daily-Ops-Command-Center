@@ -63,3 +63,39 @@ test('dashboard snapshot query exposes scope lane states for today', function ()
     expect($lanes[ChecklistScope::MIDDAY->value]['total_runs'])->toBeGreaterThanOrEqual(1);
     expect($lanes[ChecklistScope::CLOSING->value]['state'])->toBe('unavailable');
 });
+
+test('dashboard snapshot query exposes ownership pressure summary', function () {
+    $admin = User::factory()->create(['role' => 'admin']);
+    $supervisor = User::factory()->create(['role' => 'supervisor']);
+
+    Incident::factory()->create([
+        'title' => 'Unowned dashboard incident',
+        'status' => 'Open',
+        'created_by' => $admin->id,
+        'owner_id' => null,
+    ]);
+
+    Incident::factory()->create([
+        'title' => 'Owned by admin dashboard incident',
+        'status' => 'In Progress',
+        'created_by' => $supervisor->id,
+        'owner_id' => $admin->id,
+        'follow_up_due_at' => today()->addDay(),
+    ]);
+
+    Incident::factory()->create([
+        'title' => 'Overdue dashboard incident',
+        'status' => 'Open',
+        'created_by' => $supervisor->id,
+        'owner_id' => $supervisor->id,
+        'follow_up_due_at' => today()->subDay(),
+    ]);
+
+    $snapshot = app(GetDashboardSnapshot::class)($admin->id);
+
+    expect($snapshot->ownershipPressure['unownedCount'])->toBeGreaterThanOrEqual(1);
+    expect($snapshot->ownershipPressure['overdueCount'])->toBeGreaterThanOrEqual(1);
+    expect($snapshot->ownershipPressure['ownedByActorCount'])->toBeGreaterThanOrEqual(1);
+    expect(collect($snapshot->ownershipPressure['actions'])->pluck('label')->all())
+        ->toContain('Review unowned incidents', 'Review overdue follow-up', 'Review incidents you own');
+});

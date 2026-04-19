@@ -25,6 +25,8 @@ class DashboardAttentionAssembler
         int $completionRate,
         int $highSeverityUnresolvedCount,
         int $staleUnresolvedCount,
+        int $unownedUnresolvedCount,
+        int $overdueFollowUpCount,
         int $scopeLanesMissingTemplateCount,
         int $scopeLanesIncompleteCount,
     ): array {
@@ -98,6 +100,28 @@ class DashboardAttentionAssembler
                 'actionLabel' => 'Review stale incidents',
                 'url' => $this->incidentsIndexUrl(['unresolved' => 1, 'stale' => 1]),
                 'tone' => 'warning',
+            ];
+        }
+
+        if ($unownedUnresolvedCount > 0) {
+            $attentionItems[] = [
+                'title' => 'Unowned incidents need accountability',
+                'description' => 'Some unresolved incidents still do not have a management owner, so the next move is not clearly carried by anyone yet.',
+                'count' => $unownedUnresolvedCount,
+                'actionLabel' => 'Review unowned incidents',
+                'url' => $this->incidentsIndexUrl(['unowned' => 1]),
+                'tone' => 'warning',
+            ];
+        }
+
+        if ($overdueFollowUpCount > 0) {
+            $attentionItems[] = [
+                'title' => 'Follow-up targets have already passed',
+                'description' => 'One or more unresolved incidents are now beyond their target review date and should be checked before they turn into passive queue debt.',
+                'count' => $overdueFollowUpCount,
+                'actionLabel' => 'Review overdue follow-up',
+                'url' => $this->incidentsIndexUrl(['overdue' => 1]),
+                'tone' => 'danger',
             ];
         }
 

@@ -132,6 +132,7 @@ test('management incident queue shows accountability filters and fields without 
 
 test('management dashboard shows trend and hotspot sections without browser smoke issues', function () {
     $admin = $this->createUserForRole(UserRole::Admin);
+    $supervisor = $this->createUserForRole(UserRole::Supervisor);
     $this->createTemplateWithItems([
         'title' => 'Opening browser scope template',
         'scope' => ChecklistScope::OPENING->value,
@@ -149,6 +150,21 @@ test('management dashboard shows trend and hotspot sections without browser smok
         'severity' => IncidentSeverity::Medium->value,
         'status' => IncidentStatus::InProgress->value,
     ]);
+    $this->createIncidentWithActivity($admin, [
+        'title' => 'Browser unowned accountability incident',
+        'category' => 'อื่น ๆ',
+        'severity' => IncidentSeverity::Medium->value,
+        'status' => IncidentStatus::Open->value,
+        'owner_id' => null,
+    ]);
+    $this->createIncidentWithActivity($supervisor, [
+        'title' => 'Browser overdue accountability pressure',
+        'category' => 'ความปลอดภัย',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::Open->value,
+        'owner_id' => $supervisor->id,
+        'follow_up_due_at' => today()->subDay(),
+    ]);
 
     $page = visit('/login');
 
@@ -157,9 +173,12 @@ test('management dashboard shows trend and hotspot sections without browser smok
         ->click('[data-test="login-button"]')
         ->assertPathIs('/dashboard')
         ->assertSee('Checklist by Scope')
+        ->assertSee('Accountability Signals')
         ->assertSee('Checklist Trend')
         ->assertSee('Incident Intake Trend')
         ->assertSee('Operational Hotspots')
+        ->assertSee('Review unowned incidents')
+        ->assertSee('Review overdue follow-up')
         ->assertPresent('svg.ops-arc')
         ->assertPresent('svg.ops-sparkline')
         ->assertPresent('[data-meter-target]')

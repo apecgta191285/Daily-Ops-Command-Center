@@ -48,6 +48,17 @@ readonly class DashboardSnapshot
      *     submitted_runs: int,
      *     completion_percentage: int
      * }>  $scopeChecklistLanes
+     * @param  array{
+     *     unownedCount: int,
+     *     overdueCount: int,
+     *     ownedByActorCount: int,
+     *     actions: list<array{
+     *         label: string,
+     *         count: int,
+     *         url: string|null,
+     *         tone: 'warning'|'danger'|'info'
+     *     }>
+     * }  $ownershipPressure
      * @param  Collection<int, Incident>  $recentIncidents
      */
     public function __construct(
@@ -60,6 +71,7 @@ readonly class DashboardSnapshot
         public array $incidentIntakeTrend,
         public array $hotspotCategories,
         public array $scopeChecklistLanes,
+        public array $ownershipPressure,
         public Collection $recentIncidents,
     ) {}
 
@@ -106,6 +118,17 @@ readonly class DashboardSnapshot
      *         submitted_runs: int,
      *         completion_percentage: int
      *     }>,
+     *     ownershipPressure: array{
+     *         unownedCount: int,
+     *         overdueCount: int,
+     *         ownedByActorCount: int,
+     *         actions: list<array{
+     *             label: string,
+     *             count: int,
+     *             url: string|null,
+     *             tone: 'warning'|'danger'|'info'
+     *         }>
+     *     },
      *     recentIncidents: Collection<int, Incident>
      * }
      */
@@ -121,6 +144,7 @@ readonly class DashboardSnapshot
             'incidentIntakeTrend' => $this->incidentIntakeTrend,
             'hotspotCategories' => $this->hotspotCategories,
             'scopeChecklistLanes' => $this->scopeChecklistLanes,
+            'ownershipPressure' => $this->ownershipPressure,
             'recentIncidents' => $this->recentIncidents,
         ];
     }
