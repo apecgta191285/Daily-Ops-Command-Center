@@ -30,6 +30,9 @@ Closed work:
 - inactive-user enforcement exists at authentication and protected-route boundaries
 - public registration ambiguity removed
 - account policy documented explicitly in code and docs
+- internal user provisioning and lifecycle updates are app-owned
+- admin-only user-administration surface now exists in the main shell
+- administrator self-lockout risks are materially reduced through application-owned guard rails
 
 ### Workflow-orchestration-in-UI debt
 

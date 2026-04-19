@@ -1,7 +1,7 @@
 # WF3 User Administration Lite Master Plan
 
 **Date:** 2026-04-19  
-**Status:** Approved planning baseline  
+**Status:** Wave complete baseline  
 **Execution Standard:** No Quick & Dirty, no pseudo-RBAC expansion, no hidden account lifecycle rules
 
 ---
@@ -86,21 +86,21 @@ The current repository already has:
 
 The current repository does **not** yet have:
 
-- admin-owned user list
-- create user surface
-- role management surface
-- active/inactive lifecycle surface
-- password reset handoff owned by admins
+- fine-grained RBAC
+- invitation mail workflow
+- organization / tenant management
+- external identity sync
+- approval-based role workflow
 
-That means WF3 is not building raw lifecycle rules from nothing.
+That means WF3 was not building raw lifecycle rules from nothing.
 
-WF3 is surfacing and governing rules that already exist.
+WF3 surfaced and governed rules that already existed.
 
 ---
 
 ## 5. Target Product Model
 
-### Current model
+### Current model before WF3
 
 - accounts are provisioned internally
 - public registration is unsupported
@@ -128,6 +128,8 @@ WF3 is surfacing and governing rules that already exist.
    - supervisor
    - staff
 5. WF3 must not reopen public sign-up.
+6. At least one active administrator must remain in the system.
+7. Admins cannot deactivate or demote their own administrator account from the WF3 workflow.
 
 ---
 
@@ -216,6 +218,13 @@ Close the wave with regression proof and canonical docs alignment.
 
 - user lifecycle truth is fully documented
 - tests prove the admin lifecycle workflow end to end
+
+### Current implementation status
+
+- `WF3-A` complete
+- `WF3-B` complete
+- `WF3-C` complete
+- `WF3-D` complete
 
 ---
 

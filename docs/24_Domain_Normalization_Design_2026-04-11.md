@@ -63,6 +63,11 @@ Current literal sources:
 - `database/factories/UserFactory.php`
 - feature tests that query by role
 
+Current semantic meaning:
+
+- roles are both authorization vocabulary and lifecycle lane vocabulary
+- admin-only user administration now operates on these canonical role values directly
+
 ### Incident statuses
 
 Canonical literal set:
@@ -199,6 +204,10 @@ These belong in use-case orchestration:
 - updating incident owner and follow-up target safely
 - evaluating unowned / overdue / actor-owned accountability pressure
 - writing incident activity trail on create and status transitions
+- creating internal users safely
+- updating role, active state, and password safely
+- preventing self-deactivation and self-demotion
+- preserving at least one active administrator in the system
 
 ### Presentation-owned constraints
 
@@ -262,6 +271,20 @@ Target ownership:
 
 - domain enum defines allowed result values
 - application action owns submission rule enforcement and persistence
+
+### User lifecycle guard rails
+
+Current state:
+
+- account lifecycle now has first-class application owners for create/update
+- self-deactivation and self-demotion are blocked in application support code
+- active-admin coverage is protected so the system cannot be left without an active administrator
+
+Target ownership:
+
+- persistence stores `role` and `is_active`
+- application actions own lifecycle mutation and guard rails
+- presentation reflects constraints honestly without becoming the owner of those constraints
 
 ## 6. Data Transition and Migration Strategy
 

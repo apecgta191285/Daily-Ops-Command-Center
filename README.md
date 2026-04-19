@@ -104,6 +104,7 @@ npm run build
 - WF3 has now started landing as the next operability wave: the application layer now owns internal user provisioning and lifecycle updates, so account creation, role changes, active/inactive changes, and explicit admin password set/reset no longer depend on manual database edits.
 - WF3-B is now live as well: admins can operate the internal user roster from inside the main app shell through `/users`, provision new accounts, and update role/active/password lifecycle without falling back to manual database edits or pseudo-admin pages.
 - WF3-C is now live as well: administrator lifecycle now has app-owned guard rails that block self-deactivation, self-demotion, and removal of the last active admin while keeping the workflow lightweight and internal.
+- WF3 is now closed as a complete product wave: user lifecycle is part of the canonical repository truth across application owners, admin surfaces, guard rails, regression proof, and long-lived documentation without expanding into invitations, RBAC matrix design, or external identity integration.
 - Frontend contract hardening has started: shared visual tokens now cover subtle surfaces, danger/brand actions, motion timing, shadows, and radius scales, while alert feedback can dismiss cleanly without page reloads.
 - Frontend component language now includes reusable stat cards, empty states, callouts, chips, and timeline shells so major product surfaces can evolve on shared primitives instead of ad-hoc markup.
 - Frontend FE3 surface redesign now gives the dashboard, daily checklist, and template manage screens a stronger command-surface composition so the product reads as one intentional system instead of a collection of forms and cards.
@@ -186,6 +187,7 @@ See also:
 - `docs/85_WF3_A_User_Lifecycle_and_Provisioning_Core_Implementation_Execution_Pack_2026-04-19.md`
 - `docs/86_WF3_B_User_Administration_Surface_Execution_Pack_2026-04-19.md`
 - `docs/87_WF3_C_Account_Safety_and_Access_Guard_Rails_Execution_Pack_2026-04-19.md`
+- `docs/88_WF3_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
 
 ## Canonical Documentation
 
@@ -257,4 +259,5 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/85_WF3_A_User_Lifecycle_and_Provisioning_Core_Implementation_Execution_Pack_2026-04-19.md`
 - `docs/86_WF3_B_User_Administration_Surface_Execution_Pack_2026-04-19.md`
 - `docs/87_WF3_C_Account_Safety_and_Access_Guard_Rails_Execution_Pack_2026-04-19.md`
+- `docs/88_WF3_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`

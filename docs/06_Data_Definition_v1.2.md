@@ -49,6 +49,12 @@
 | U-003 | Staff | Operator A | ทำ checklist และแจ้ง incident |
 | U-004 | Staff | Operator B | ทำ checklist และแจ้ง incident |
 
+หมายเหตุเชิง product หลัง WF3:
+
+* account lifecycle ถูก operate ภายใน app shell แล้วผ่าน admin-only surface
+* `is_active` เป็น access gate หลักของ account
+* ระบบต้องมี active admin อย่างน้อย 1 account ตลอดเวลา
+
 # **6\. Checklist Template ที่ล็อกสำหรับ demo seed data ชุดแรก**
 
 Template ชุดแรกของ v1 ใช้ 2 template เพื่อให้เดโม taxonomy ชัดและทดสอบ flow ได้ครบ โดยตั้งใจไม่ทำเกินจำเป็นในรอบแรก ปัจจุบัน product รองรับ live template ได้ 1 อันต่อ 1 scope แม้ seeded narrative จะยังเล็กและไม่ได้เปิดทุก scope พร้อมกันเสมอ
@@ -117,6 +123,8 @@ Template T-002: ปิดห้องปฏิบัติการ
 | ChecklistRun.submitted_at | เวลาที่ผู้ใช้ submit checklist เสร็จ |
 | ChecklistRun.submitted_by | ผู้ที่กด submit; ปกติจะเป็น staff owner ใน MVP |
 | ChecklistRunItem.result | ใช้ค่า Done หรือ Not Done เท่านั้น |
+| User.role | ใช้ค่า `admin`, `supervisor`, `staff` เท่านั้น และเปลี่ยนได้ผ่าน admin-owned lifecycle workflow |
+| User.is_active | เป็น access gate หลักของระบบ; `false` = ห้าม authenticate |
 | Incident.attachment_path | path ของไฟล์บน local public disk; optional |
 | Incident.owner_id | optional management owner ของ unresolved work; ต้องอ้างถึง user ที่มีบทบาท admin หรือ supervisor เท่านั้น |
 | Incident.follow_up_due_at | optional target date สำหรับการทบทวนหรือ follow-up ครั้งถัดไป; เป็น operational reminder ไม่ใช่ SLA |
@@ -135,6 +143,8 @@ Template T-002: ปิดห้องปฏิบัติการ
 * attachment_path ต้องอ้างถึง local public disk เท่านั้นใน v1
 * `owner_id` เป็น optional และจำกัดเฉพาะ management-capable users; การปล่อย `null` ยังถือว่า valid state ใน v1
 * `follow_up_due_at` เป็น optional; unresolved incident อาจไม่มี target date ก็ได้ และค่าดังกล่าวไม่ควรถูกตีความเป็น SLA promise
+* account lifecycle เป็น admin-only; ห้ามใช้ seeded narrative หรือ manual DB edits เป็นวิธีหลักในการ provision/edit users อีกต่อไป
+* ห้ามปล่อยให้ระบบไม่มี active admin เหลืออยู่
 
 # **12\. Seed Data Minimum Count**
 

@@ -28,7 +28,7 @@
 | ID | Requirement | Priority |
 | :---: | ----- | ----- |
 | FR-01 | ผู้ใช้ล็อกอินเข้าสู่ระบบตามบทบาทได้ | Must |
-| FR-02 | Admin สร้าง/แก้ไข Checklist Template ได้ | Must |
+| FR-02 | Admin สร้าง/แก้ไข Checklist Template และจัดการ user lifecycle ภายในระบบได้ | Must |
 | FR-03 | Staff เปิด checklist ของวันและทำรายการตรวจเช็กได้ โดยระบบต้องสร้าง checklist run อัตโนมัติถ้ายังไม่มี run ของวันนั้น | Must |
 | FR-04 | Staff สร้าง incident พร้อมหมวด/ความรุนแรง/รายละเอียด และ optional attachment ได้ | Must |
 | FR-05 | Admin และ Supervisor เปลี่ยนสถานะ incident ได้ และสามารถตั้ง owner/follow-up target แบบ lightweight ได้ | Must |
@@ -39,7 +39,7 @@
 
 | Role | สิทธิ์หลักใน v1 |
 | :---: | ----- |
-| Admin | จัดการ checklist templates, ดู dashboard, ดู incident list/detail, และอัปเดต status incident ได้ |
+| Admin | จัดการ checklist templates, จัดการ user lifecycle ภายในระบบ, ดู dashboard, ดู incident list/detail, และอัปเดต status incident ได้ |
 | Supervisor | ดู dashboard, ดู incident list/detail, และอัปเดต status incident ได้ |
 | Staff | ทำ checklist run ของวัน, submit checklist, และสร้าง incident ได้ แต่ไม่มีสิทธิ์อัปเดต status incident |
 
@@ -52,6 +52,7 @@
 4. Supervisor หรือ Admin เปิดหน้า incidents → ดูรายการ open → ตั้ง owner/follow-up target เมื่อจำเป็น → อัปเดตสถานะเป็น In Progress / Resolved  
 5. Supervisor หรือ Admin เปิด dashboard → เห็น completion summary, scope-lane coverage, incident overview, และ ownership pressure แบบย่อ
 6. Admin เปิดหน้า template administration → เห็น live runtime ownership ของแต่ละ scope, duplicate draft อย่างปลอดภัย, และ activate template เฉพาะ lane ที่เกี่ยวข้อง
+7. Admin เปิดหน้า user administration → เห็น roster ปัจจุบัน, สร้าง account ภายใน, ปรับ role/active state, และตั้งหรือเปลี่ยน password แบบ explicit จากใน app shell
 
 # **5\. Business Rules**
 
@@ -65,6 +66,9 @@
 * Incident ใน v1 หลัง WF2 อาจมี `owner_id` และ `follow_up_due_at` แบบ optional ได้ โดย owner ต้องเป็น management-capable user เท่านั้น  
 * Incident status ใน v1 จำกัดที่ Open / In Progress / Resolved  
 * การอัปเดต incident status อนุญาตเฉพาะ Admin และ Supervisor เท่านั้น  
+* User administration ใน v1 เป็น admin-only route family แบบ lightweight: `/users`, `/users/create`, `/users/{user}/edit`
+* `is_active` เป็น access gate หลักของ user lifecycle; inactive accounts ต้องไม่สามารถ authenticate ได้
+* Admin lifecycle ต้องไม่อนุญาตให้ระบบไม่มี active admin เหลืออยู่ และต้องกัน self-deactivation / self-demotion ภายใน workflow เดียวกัน
 * Ownership model ของ incident ใน v1 เป็น lightweight accountability เท่านั้น: 1 owner แบบ optional, 1 follow-up target date แบบ optional, ไม่มี reassignment history, notification, SLA, หรือ escalation workflow  
 * Incident attachments เป็น optional และเก็บไฟล์แบบ local public disk เท่านั้น  
 * Dashboard ใช้ข้อมูลจริงจาก checklist runs และ incidents เท่านั้น และต้องสามารถสะท้อน missing / incomplete scope lanes ของวัน รวมถึง `unowned / overdue / owned by me` accountability pressure ได้แบบย่อ  
@@ -92,6 +96,8 @@
 * ระบบไม่เปิด route หรือ action ที่ไม่เกี่ยวข้องให้บทบาทที่ไม่มีสิทธิ์เข้าถึง  
 * Staff พยายามอัปเดต status incident แล้วต้องถูกปฏิเสธอย่างถูกต้อง
 * Management ต้องสามารถเห็น incident ที่ไม่มี owner, incident ที่ follow-up เลยกำหนด, และ incident ที่ตัวเองรับผิดชอบอยู่ได้โดยไม่ต้องตีความจาก activity timeline อย่างเดียว
+* Admin ต้องสามารถจัดการ account ภายในจาก product shell ได้โดยไม่ต้องแก้ฐานข้อมูลตรง
+* ระบบต้องกัน self-deactivation, self-demotion, และการทำให้ไม่มี active admin เหลืออยู่
 
 # **8\. Edge Cases to Handle**
 

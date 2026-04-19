@@ -286,3 +286,31 @@ Decision: หลังการส่งมอบ `WF2 Incident Ownership Lite` 
 Rationale: หลังจาก persistence, queue filters, incident detail lane, และ dashboard ownership pressure ถูกส่งลงระบบแล้ว การปล่อยให้ canonical docs ยังพูดว่า incident มีเพียง status กับ activity trail จะทำให้ product truth กลับไปแตกอีกครั้ง และเปิดทางให้ทีมตีความเกิน scope ไปถึง reassignment, SLA, หรือ notification โดยไม่มี decision รองรับ
 
 Impact: 02_System_Spec, 04_Current_State, 06_Data_Definition, 22_Architecture_Boundary_and_Execution_Standards, 24_Domain_Normalization_Design, 26_Architecture_Debt_Roadmap, README, และ execution packs ของ WF2 ต้องสะท้อนว่า incident accountability ตอนนี้เป็น first-class product truth แต่ยังคง intentionally lightweight
+
+**D-033 | Locked**
+
+Decision: หลังการส่งมอบ `WF3 User Administration Lite` ความจริงปัจจุบันของ repository คือ user lifecycle เป็น admin-only product capability ภายใน app shell แล้ว ผ่าน route family `/users`, `/users/create`, และ `/users/{user}/edit` โดยยังคง intentionally lightweight และไม่ขยายไปเป็น IAM platform
+
+Rationale: หลังจาก WF3-A/B land แล้ว product สามารถ provision และ update accounts จากในระบบจริงได้ การปล่อยให้ canonical docs ยังพูดว่าระบบ “มี role/is_active อยู่ใน code แต่ยังไม่มี user administration surface” จะทำให้ repository truth แตกอีกครั้ง
+
+Impact: 02_System_Spec, 04_Current_State, 06_Data_Definition, 22_Architecture_Boundary_and_Execution_Standards, 24_Domain_Normalization_Design, 26_Architecture_Debt_Roadmap, README, และ execution packs ของ WF3 ต้องสะท้อนว่า user lifecycle ตอนนี้เป็น first-class product truth แล้ว
+
+**D-034 | Locked**
+
+Decision: strategy ของ WF3 สำหรับ password handling ให้คงเป็น explicit internal set/reset โดย admin ต่อไป และห้ามตีความ flow นี้เป็น invitation, email onboarding, หรือ external-reset orchestration โดยปริยาย
+
+Rationale: deterministic กว่า, ไม่พึ่ง delivery infra, และสอดคล้องกับ A-lite scope ที่ต้องจบจริงโดยไม่ over-engineer
+
+Impact: user-administration surfaces, README, Current State, และ canonical docs ทั้งชุดต้องพูดตรงกันว่า password handling ของ WF3 เป็น internal explicit path
+
+**D-035 | Locked**
+
+Decision: guard rails ของ WF3 ต้องอยู่ใน application layer และล็อกอย่างน้อย 3 เรื่อง:
+
+- self-deactivation ต้องถูกปฏิเสธ
+- self-demotion ออกจาก admin role ต้องถูกปฏิเสธ
+- ระบบต้องมี active admin เหลืออยู่เสมออย่างน้อย 1 account
+
+Rationale: เมื่อ user administration กลายเป็น capability จริงใน app shell แล้ว ความเสี่ยงหลักคือ accidental self-lockout หรือ admin coverage collapse ซึ่งไม่ควรถูกปล่อยให้เป็นแค่ Blade-level affordance problem
+
+Impact: UpdateManagedUser action, admin user surface, regression tests, System Spec, Architecture Boundary, Domain Normalization, Current State, และ README ต้องสะท้อน lifecycle safety contract เดียวกัน

@@ -42,12 +42,16 @@ Current repository owner:
 - management incident list/detail/update
 - management incident accountability and ownership pressure surfaces
 - admin checklist template list/create/edit
+- admin user roster and lifecycle management
 
 Authoritative route family:
 
 - `/templates`
 - `/templates/create`
 - `/templates/{template}/edit`
+- `/users`
+- `/users/create`
+- `/users/{user}/edit`
 
 Current code locations:
 
@@ -229,6 +233,24 @@ This section is the canonical policy for the current remediation cycle.
 
 ### Account lifecycle policy
 
+- users must be active to authenticate into the operations application
+- users must remain active to access protected application routes
+- template-administration access requires both:
+  - active account state
+  - authorized admin role
+- user-administration access requires both:
+  - active account state
+  - authorized admin role
+- user lifecycle guard rails require:
+  - self-deactivation must be rejected
+  - self-demotion out of the admin role must be rejected
+  - the system must retain at least one active admin account
+- incident accountability updates require:
+  - active authenticated user
+  - management-capable role
+  - selected owner, when present, must also be management-capable
+- public self-registration is intentionally unsupported
+
 ### Authorization placement policy
 
 Current baseline:
@@ -239,17 +261,6 @@ Current baseline:
 Escalation trigger:
 
 - introduce policy-based authorization only when template actions diverge by action type, ownership, or record-sensitive business rules, or when incident ownership becomes a true access boundary instead of a coordination signal
-
-- users must be active to authenticate into the operations application
-- users must remain active to access protected application routes
-- template-administration access requires both:
-  - active account state
-  - authorized admin role
-- incident accountability updates require:
-  - active authenticated user
-  - management-capable role
-  - selected owner, when present, must also be management-capable
-- public self-registration is intentionally unsupported
 
 ### Verification policy
 
@@ -324,3 +335,7 @@ This document now makes explicit:
 Conclusion:
 
 Phase 2 decision artifacts now exist and are suitable for guiding Phase 3 work.
+
+Current note after WF3:
+
+- admin-owned user lifecycle is now a first-class custom Livewire surface and follows the same thin-component/application-owner rule as other product workflows
