@@ -28,6 +28,9 @@
         };
         $scopeLaneIncompleteCount = collect($scopeChecklistLanes)->filter(fn (array $lane) => in_array($lane['state'], ['not_started', 'in_progress'], true))->count();
         $ownershipActions = $ownershipPressure['actions'] ?? [];
+        $workboardToneClass = ($workboard['state'] ?? 'attention') === 'calm'
+            ? 'ops-workboard--calm'
+            : 'ops-workboard--attention';
     @endphp
 
     <x-slot name="header">
@@ -65,10 +68,11 @@
                     </p>
 
                     <div class="ops-hero__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">Needs Attention Today</span>
+                        <span class="ops-shell-chip ops-shell-chip--accent">Today-first workboard</span>
                         <span class="ops-shell-chip">Scope lane status</span>
-                        <span class="ops-shell-chip">Checklist Trend</span>
-                        <span class="ops-shell-chip">Operational Hotspots</span>
+                        <span class="ops-shell-chip">Ownership pressure</span>
+                        <span class="ops-shell-chip">Checklist trend</span>
+                        <span class="ops-shell-chip">Operational hotspots</span>
                     </div>
                 </div>
 
@@ -112,6 +116,98 @@
 
         <div class="ops-command-grid ops-command-grid--dashboard">
             <div class="ops-stack">
+                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="20">
+                    <div class="ops-section-heading">
+                        <div>
+                            <p class="ops-section-heading__eyebrow">Today-first workboard</p>
+                            <h2 class="ops-section-heading__title">Workboard Framing</h2>
+                            <p class="ops-section-heading__body">A compact read on whether today is still operationally open or already under control.</p>
+                        </div>
+                    </div>
+
+                    <div class="ops-card__body">
+                        <section class="ops-workboard {{ $workboardToneClass }}">
+                            <div class="ops-workboard__summary">
+                                <div>
+                                    <p class="ops-workboard__eyebrow">
+                                        {{ ($workboard['state'] ?? 'attention') === 'calm' ? 'Calm operating state' : 'Active operating pressure' }}
+                                    </p>
+                                    <h3 class="ops-workboard__title">{{ $workboard['headline'] }}</h3>
+                                    <p class="ops-workboard__body">{{ $workboard['body'] }}</p>
+                                </div>
+
+                                <div class="ops-workboard__metrics">
+                                    <div class="ops-workboard__metric">
+                                        <span class="ops-workboard__metric-label">Pending lanes</span>
+                                        <strong class="ops-workboard__metric-value">{{ $workboard['pendingLaneCount'] }}</strong>
+                                    </div>
+                                    <div class="ops-workboard__metric">
+                                        <span class="ops-workboard__metric-label">Attention signals</span>
+                                        <strong class="ops-workboard__metric-value">{{ $workboard['attentionCount'] }}</strong>
+                                    </div>
+                                    <div class="ops-workboard__metric">
+                                        <span class="ops-workboard__metric-label">Submitted lanes</span>
+                                        <strong class="ops-workboard__metric-value">{{ $workboard['submittedLaneCount'] }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (($workboard['lanes'] ?? []) !== [])
+                                <div class="ops-workboard__lane-grid">
+                                    @foreach ($workboard['lanes'] as $lane)
+                                        @php
+                                            $laneToneClass = match ($lane['state']) {
+                                                'unavailable' => 'ops-workboard__lane--danger',
+                                                'not_started', 'in_progress' => 'ops-workboard__lane--warning',
+                                                default => 'ops-workboard__lane--neutral',
+                                            };
+                                        @endphp
+
+                                        <article class="ops-workboard__lane {{ $laneToneClass }}">
+                                            <div class="ops-workboard__lane-header">
+                                                <div>
+                                                    <p class="ops-workboard__lane-scope">{{ $lane['scope'] }}</p>
+                                                    <p class="ops-workboard__lane-title">{{ $lane['template_title'] ?? __('No active template') }}</p>
+                                                </div>
+
+                                                <span class="ops-chip {{ $lane['state'] === 'unavailable' ? '' : 'ops-chip--warning' }}">
+                                                    {{ $lane['state_label'] }}
+                                                </span>
+                                            </div>
+
+                                            <p class="ops-workboard__lane-copy">{{ $lane['summary'] }}</p>
+
+                                            <div class="ops-workboard__lane-meta">
+                                                <span>{{ $lane['completion_percentage'] }}% submitted</span>
+                                                <span>{{ $lane['submitted_runs'] }}/{{ $lane['total_runs'] }} run(s) closed</span>
+                                            </div>
+                                        </article>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="ops-workboard__calm">
+                                    <p class="ops-workboard__calm-title">No pending checklist lanes remain today.</p>
+                                    <p class="ops-workboard__calm-body">
+                                        The live operating lanes are already submitted. Management can stay focused on incident pressure and historical review instead of chasing checklist closure.
+                                    </p>
+                                </div>
+                            @endif
+
+                            @if (($workboard['actions'] ?? []) !== [])
+                                <div class="ops-workboard__actions">
+                                    @foreach ($workboard['actions'] as $action)
+                                        @if ($action['url'])
+                                            <a href="{{ $action['url'] }}" class="ops-button {{ $action['tone'] === 'primary' ? 'ops-button--primary' : 'ops-button--secondary' }}">
+                                                {{ $action['label'] }}
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
+                        </section>
+                    </div>
+                </section>
+
                 <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
                     <div class="ops-section-heading">
                         <div>

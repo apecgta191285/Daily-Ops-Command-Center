@@ -52,6 +52,8 @@ test('admin can authenticate and reach checklist template administration in the 
         ->assertPresent('body > [data-flux-header]')
         ->assertPresent('body > [data-flux-main]')
         ->assertSee('Dashboard')
+        ->assertSee('Workboard Framing')
+        ->assertSee('Review today archive')
         ->assertPresent('svg.ops-arc')
         ->assertPresent('svg.ops-sparkline')
         ->click('Checklist Templates')

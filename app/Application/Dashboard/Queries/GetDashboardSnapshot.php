@@ -10,6 +10,7 @@ use App\Application\Dashboard\Support\DashboardHotspotAssembler;
 use App\Application\Dashboard\Support\DashboardOwnershipPressureBuilder;
 use App\Application\Dashboard\Support\DashboardScopeLaneBuilder;
 use App\Application\Dashboard\Support\DashboardTrendBuilder;
+use App\Application\Dashboard\Support\DashboardWorkboardBuilder;
 use App\Application\Incidents\Support\IncidentFollowUpPolicy;
 use App\Application\Incidents\Support\IncidentStalePolicy;
 use App\Domain\Incidents\Enums\IncidentStatus;
@@ -24,6 +25,7 @@ class GetDashboardSnapshot
         private readonly DashboardHotspotAssembler $hotspotAssembler,
         private readonly DashboardScopeLaneBuilder $scopeLaneBuilder,
         private readonly DashboardOwnershipPressureBuilder $ownershipPressureBuilder,
+        private readonly DashboardWorkboardBuilder $workboardBuilder,
     ) {}
 
     public function __invoke(?int $actorId = null): DashboardSnapshot
@@ -112,6 +114,11 @@ class GetDashboardSnapshot
             ownedByActorCount: $ownedByActorCount,
         );
 
+        $workboard = ($this->workboardBuilder)(
+            scopeChecklistLanes: $scopeChecklistLanes,
+            attentionItems: $attentionItems,
+        );
+
         $recentIncidents = Incident::query()
             ->orderByDesc('created_at')
             ->orderByDesc('id')
@@ -147,6 +154,7 @@ class GetDashboardSnapshot
             ],
             hotspotCategories: ($this->hotspotAssembler)($hotspotRows),
             scopeChecklistLanes: $scopeChecklistLanes,
+            workboard: $workboard,
             ownershipPressure: $ownershipPressure,
             recentIncidents: $recentIncidents,
         );

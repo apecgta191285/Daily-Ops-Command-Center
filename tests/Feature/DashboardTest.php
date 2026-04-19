@@ -40,6 +40,9 @@ test('management users can visit the dashboard', function () {
     $response->assertSee("{$submittedTodayRuns} of {$todayRuns} checklist runs submitted");
     $response->assertSee('ops-arc', false);
     $response->assertSee('ops-sparkline', false);
+    $response->assertSee('Workboard Framing');
+    $response->assertSee('Today-first workboard');
+    $response->assertSee('Review today archive');
     $response->assertSee('Open Incidents');
     $response->assertSee((string) $openCount);
     $response->assertSee('In Progress');
@@ -78,6 +81,8 @@ test('dashboard handles empty data without crashing', function () {
     $response->assertSee('Checklist Completion Today');
     $response->assertSee('0%');
     $response->assertSee('0 of 0 checklist runs submitted');
+    $response->assertSee('Today still has open operating lanes');
+    $response->assertSee('Review today archive');
     $response->assertSee('Checklist by Scope');
     $response->assertSee('Missing live template');
     $response->assertSee('No incidents available yet.');
@@ -162,8 +167,11 @@ test('dashboard attention panel highlights unresolved high severity and stale in
 
     $response->assertOk();
     $response->assertSee('Needs Attention Today');
+    $response->assertSee('Active operating pressure');
+    $response->assertSee('Today still has open operating lanes');
     $response->assertSee('High severity incidents need attention');
     $response->assertSee('Review high severity incidents');
+    $response->assertSee('Review today archive');
     $response->assertSee(route('incidents.index'), false);
     $response->assertSee('unresolved=1', false);
     $response->assertSee('severity=High', false);
@@ -256,6 +264,9 @@ test('dashboard shows calm attention state when there are no active alerts', fun
 
     $response->assertOk();
     $response->assertSee('No urgent operational alerts right now.');
+    $response->assertSee('Calm operating state');
+    $response->assertSee('Today is covered and currently calm');
+    $response->assertSee('No pending checklist lanes remain today.');
     $response->assertDontSee('Review high severity incidents');
     $response->assertDontSee('Review stale incidents');
 });

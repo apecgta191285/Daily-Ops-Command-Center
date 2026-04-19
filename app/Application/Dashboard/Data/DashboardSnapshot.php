@@ -49,6 +49,30 @@ readonly class DashboardSnapshot
      *     completion_percentage: int
      * }>  $scopeChecklistLanes
      * @param  array{
+     *     state: 'attention'|'calm',
+     *     headline: string,
+     *     body: string,
+     *     pendingLaneCount: int,
+     *     attentionCount: int,
+     *     submittedLaneCount: int,
+     *     lanes: list<array{
+     *         scope: string,
+     *         scope_key: string,
+     *         template_title: ?string,
+     *         state: 'unavailable'|'not_started'|'in_progress'|'submitted',
+     *         state_label: string,
+     *         summary: string,
+     *         total_runs: int,
+     *         submitted_runs: int,
+     *         completion_percentage: int
+     *     }>,
+     *     actions: list<array{
+     *         label: string,
+     *         url: string|null,
+     *         tone: 'primary'|'secondary'
+     *     }>
+     * }  $workboard
+     * @param  array{
      *     unownedCount: int,
      *     overdueCount: int,
      *     ownedByActorCount: int,
@@ -71,6 +95,7 @@ readonly class DashboardSnapshot
         public array $incidentIntakeTrend,
         public array $hotspotCategories,
         public array $scopeChecklistLanes,
+        public array $workboard,
         public array $ownershipPressure,
         public Collection $recentIncidents,
     ) {}
@@ -118,6 +143,30 @@ readonly class DashboardSnapshot
      *         submitted_runs: int,
      *         completion_percentage: int
      *     }>,
+     *     workboard: array{
+     *         state: 'attention'|'calm',
+     *         headline: string,
+     *         body: string,
+     *         pendingLaneCount: int,
+     *         attentionCount: int,
+     *         submittedLaneCount: int,
+     *         lanes: list<array{
+     *             scope: string,
+     *             scope_key: string,
+     *             template_title: ?string,
+     *             state: 'unavailable'|'not_started'|'in_progress'|'submitted',
+     *             state_label: string,
+     *             summary: string,
+     *             total_runs: int,
+     *             submitted_runs: int,
+     *             completion_percentage: int
+     *         }>,
+     *         actions: list<array{
+     *             label: string,
+     *             url: string|null,
+     *             tone: 'primary'|'secondary'
+     *         }>
+     *     },
      *     ownershipPressure: array{
      *         unownedCount: int,
      *         overdueCount: int,
@@ -144,6 +193,7 @@ readonly class DashboardSnapshot
             'incidentIntakeTrend' => $this->incidentIntakeTrend,
             'hotspotCategories' => $this->hotspotCategories,
             'scopeChecklistLanes' => $this->scopeChecklistLanes,
+            'workboard' => $this->workboard,
             'ownershipPressure' => $this->ownershipPressure,
             'recentIncidents' => $this->recentIncidents,
         ];
