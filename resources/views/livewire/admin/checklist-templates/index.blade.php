@@ -49,6 +49,63 @@
         </section>
 
         <section class="ops-card overflow-hidden">
+            <div class="ops-section-heading">
+                <div>
+                    <p class="ops-section-heading__eyebrow">Scope governance</p>
+                    <h3 class="ops-section-heading__title">Live runtime ownership by scope</h3>
+                    <p class="ops-section-heading__body">Use this board to confirm which template currently owns each live checklist lane before you duplicate, revise, or replace anything.</p>
+                </div>
+            </div>
+
+            <div class="ops-card__body">
+                <div class="ops-governance-grid">
+                    @foreach ($scopeGovernance as $lane)
+                        <article class="ops-governance-card {{ $lane['state'] === 'missing' ? 'ops-governance-card--warning' : 'ops-governance-card--covered' }}">
+                            <div class="ops-governance-card__header">
+                                <div>
+                                    <p class="ops-admin-item__eyebrow">{{ __('Scope lane') }}</p>
+                                    <h4 class="ops-admin-item__title">{{ $lane['scope'] }}</h4>
+                                </div>
+
+                                <span class="ops-chip {{ $lane['state'] === 'missing' ? 'ops-chip--warning' : 'ops-chip--success' }}">
+                                    {{ $lane['state'] === 'missing' ? __('Missing live template') : __('Live covered') }}
+                                </span>
+                            </div>
+
+                            <div class="ops-governance-card__body">
+                                <p class="ops-governance-card__title">
+                                    {{ $lane['live_template_title'] ?? __('No active template') }}
+                                </p>
+                                <p class="ops-governance-card__meta">
+                                    @if ($lane['state'] === 'missing')
+                                        {{ __('This operating lane has drafts only or no template at all, so staff cannot receive a live checklist here yet.') }}
+                                    @else
+                                        {{ __('This template currently owns the live :scope runtime lane.', ['scope' => strtolower($lane['scope'])]) }}
+                                    @endif
+                                </p>
+                            </div>
+
+                            <div class="ops-governance-card__stats">
+                                <div>
+                                    <p class="ops-admin-item__meta-label">{{ __('Templates') }}</p>
+                                    <p class="ops-admin-item__meta-value">{{ $lane['template_count'] }}</p>
+                                </div>
+                                <div>
+                                    <p class="ops-admin-item__meta-label">{{ __('Drafts') }}</p>
+                                    <p class="ops-admin-item__meta-value">{{ $lane['draft_count'] }}</p>
+                                </div>
+                                <div>
+                                    <p class="ops-admin-item__meta-label">{{ __('Live runs') }}</p>
+                                    <p class="ops-admin-item__meta-value">{{ $lane['live_run_count'] }}</p>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <section class="ops-card overflow-hidden">
             <div class="ops-card__body">
                 @if ($templates->isEmpty())
                     <x-ops.empty-state
@@ -86,7 +143,7 @@
                                         <td data-label="Items" class="ops-text-muted px-4 py-4 text-sm">{{ $template->items_count }}</td>
                                         <td data-label="State" class="px-4 py-4 text-sm">
                                             <span class="ops-badge {{ $template->is_active ? 'ops-badge--success' : 'ops-badge--neutral' }}">
-                                                {{ $template->is_active ? __('Active') : __('Retired') }}
+                                                {{ $template->is_active ? __('Live in scope') : __('Draft') }}
                                             </span>
                                         </td>
                                         <td data-label="Action" class="px-4 py-4 text-right text-sm">

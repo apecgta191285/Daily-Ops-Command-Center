@@ -124,4 +124,66 @@
         @apply text-sm font-medium leading-6;
         color: var(--app-heading);
     }
+
+    .ops-governance-grid {
+        @apply grid gap-4 md:grid-cols-3;
+    }
+
+    .ops-governance-grid--compact {
+        @apply md:grid-cols-1;
+    }
+
+    .ops-governance-card {
+        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-4;
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 88%, white), var(--app-surface-elevated)),
+            var(--app-surface-elevated);
+        box-shadow: var(--app-shadow-sm);
+        transition:
+            border-color var(--app-duration-fast) var(--app-ease-in-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out),
+            transform var(--app-duration-fast) var(--app-ease-out);
+    }
+
+    .ops-governance-card--covered {
+        box-shadow:
+            inset 2px 0 0 var(--app-success-text),
+            var(--app-shadow-sm);
+    }
+
+    .ops-governance-card--warning {
+        box-shadow:
+            inset 2px 0 0 var(--app-warning-text),
+            var(--app-shadow-sm);
+    }
+
+    .ops-governance-card--selected {
+        border-color: color-mix(in srgb, var(--app-action-primary) 24%, var(--app-border));
+        box-shadow:
+            inset 2px 0 0 var(--app-action-primary),
+            var(--app-shadow-md);
+    }
+
+    .ops-governance-card__header {
+        @apply flex items-start justify-between gap-3;
+    }
+
+    .ops-governance-card__body {
+        @apply mt-4 space-y-2;
+    }
+
+    .ops-governance-card__title {
+        @apply text-sm font-semibold leading-6;
+        color: var(--app-heading);
+    }
+
+    .ops-governance-card__meta {
+        @apply text-sm leading-6;
+        color: var(--app-text-muted);
+    }
+
+    .ops-governance-card__stats {
+        @apply mt-4 grid gap-3 sm:grid-cols-3;
+    }
 }

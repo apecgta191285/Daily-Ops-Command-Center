@@ -7,6 +7,7 @@ namespace App\Livewire\Admin\ChecklistTemplates;
 use App\Application\ChecklistTemplates\Actions\SaveChecklistTemplate;
 use App\Application\ChecklistTemplates\Support\ChecklistTemplateItemEditor;
 use App\Application\ChecklistTemplates\Support\TemplateActivationImpactBuilder;
+use App\Application\ChecklistTemplates\Support\TemplateScopeGovernanceBuilder;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistTemplate;
 use Illuminate\Support\Collection;
@@ -258,6 +259,30 @@ class Manage extends Component
                 ];
             })
             ->values()
+            ->all();
+    }
+
+    /**
+     * @return list<array{
+     *     scope: string,
+     *     scope_key: string,
+     *     live_template_title: ?string,
+     *     live_template_id: ?int,
+     *     draft_count: int,
+     *     template_count: int,
+     *     live_run_count: int,
+     *     state: 'covered'|'missing',
+     *     is_selected_scope: bool
+     * }>
+     */
+    public function getScopeGovernanceProperty(): array
+    {
+        return collect(app(TemplateScopeGovernanceBuilder::class)())
+            ->map(function (array $lane): array {
+                $lane['is_selected_scope'] = $lane['scope'] === $this->scope;
+
+                return $lane;
+            })
             ->all();
     }
 

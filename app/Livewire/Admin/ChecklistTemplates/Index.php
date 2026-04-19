@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\ChecklistTemplates;
 
+use App\Application\ChecklistTemplates\Support\TemplateScopeGovernanceBuilder;
 use App\Models\ChecklistTemplate;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -20,6 +21,7 @@ class Index extends Component
                 ->orderBy('scope')
                 ->orderBy('title')
                 ->get(),
+            'scopeGovernance' => app(TemplateScopeGovernanceBuilder::class)(),
         ]);
     }
 }

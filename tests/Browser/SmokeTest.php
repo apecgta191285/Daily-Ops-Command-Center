@@ -59,12 +59,15 @@ test('admin can authenticate and reach checklist template administration in the 
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
         ->assertSee('Checklist Templates')
+        ->assertSee('Live runtime ownership by scope')
+        ->assertSee('Live covered')
         ->assertSee('Create template')
         ->assertPresent('tr[data-template-active="true"]')
         ->click('Create template')
         ->assertPathIs('/templates/create')
         ->assertSee('Authoring pulse')
         ->assertSee('Live execution preview')
+        ->assertSee('This is the scope lane currently selected in the governance form.')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });

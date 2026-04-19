@@ -30,6 +30,8 @@ test('admin can access checklist templates inside the main application shell', f
     $response->assertOk();
     $response->assertSee('Checklist Templates');
     $response->assertSee('Create template');
+    $response->assertSee('Live runtime ownership by scope');
+    $response->assertSee('Live covered');
     $response->assertSee('Baseline active template');
     $response->assertSee('data-template-active="true"', false);
 });
@@ -41,6 +43,8 @@ test('template create page shows activation impact against the current live temp
     $response->assertSee('Authoring pulse');
     $response->assertSee('Live execution preview');
     $response->assertSee('Activation impact');
+    $response->assertSee('Scope lane');
+    $response->assertSee('This is the scope lane currently selected in the governance form.');
     $response->assertSee('Activation will retire the current live template for this scope');
     $response->assertSee('Baseline active template');
 });
@@ -59,6 +63,7 @@ test('inactive template edit page shows draft activation guidance and live templ
     $response->assertOk();
     $response->assertSee('How staff will scan this checklist');
     $response->assertSee('Draft mode');
+    $response->assertSee('This is the scope lane currently selected in the governance form.');
     $response->assertSee('Current live template for this scope: Baseline active template');
 });
 

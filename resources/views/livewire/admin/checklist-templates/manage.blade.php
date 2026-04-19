@@ -27,6 +27,7 @@
             $summary = $this->templateSummary;
             $authoringSignals = $this->authoringSignals;
             $previewGroups = $this->previewGroups;
+            $scopeGovernance = $this->scopeGovernance;
         @endphp
 
         @if (session()->has('message'))
@@ -385,6 +386,38 @@
                                 </span>
                                 <input type="checkbox" wire:model="is_active" class="ops-choice__control">
                             </label>
+
+                            <div class="ops-governance-grid ops-governance-grid--compact">
+                                @foreach ($scopeGovernance as $lane)
+                                    <article class="ops-governance-card {{ $lane['state'] === 'missing' ? 'ops-governance-card--warning' : 'ops-governance-card--covered' }} {{ $lane['is_selected_scope'] ? 'ops-governance-card--selected' : '' }}">
+                                        <div class="ops-governance-card__header">
+                                            <div>
+                                                <p class="ops-admin-item__eyebrow">{{ __('Scope lane') }}</p>
+                                                <h4 class="ops-admin-item__title">{{ $lane['scope'] }}</h4>
+                                            </div>
+
+                                            <span class="ops-chip {{ $lane['state'] === 'missing' ? 'ops-chip--warning' : 'ops-chip--success' }}">
+                                                {{ $lane['state'] === 'missing' ? __('Missing live template') : __('Live covered') }}
+                                            </span>
+                                        </div>
+
+                                        <div class="ops-governance-card__body">
+                                            <p class="ops-governance-card__title">
+                                                {{ $lane['live_template_title'] ?? __('No active template') }}
+                                            </p>
+                                            <p class="ops-governance-card__meta">
+                                                @if ($lane['is_selected_scope'])
+                                                    {{ __('This is the scope lane currently selected in the governance form.') }}
+                                                @elseif ($lane['state'] === 'missing')
+                                                    {{ __('No live runtime owner exists in this scope yet.') }}
+                                                @else
+                                                    {{ __('This scope already has a live runtime owner.') }}
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </article>
+                                @endforeach
+                            </div>
                         </div>
                     </section>
                 </div>
