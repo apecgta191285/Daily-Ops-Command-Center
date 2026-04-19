@@ -26,7 +26,7 @@
 
 | หมวด | ค่าที่ล็อก | คำอธิบาย/กติกา |
 | ----- | :---: | ----- |
-| Checklist Scope | เปิดห้อง / ตรวจระหว่างวัน / ปิดห้อง | ใช้เป็น classification metadata สำหรับ template administration และ reporting; baseline ปัจจุบันยังไม่ใช้เพื่อสร้าง parallel daily execution flows |
+| Checklist Scope | เปิดห้อง / ตรวจระหว่างวัน / ปิดห้อง | ใช้เป็น operational runtime dimension สำหรับ live checklist lanes ของวัน และยังใช้ในการจัด governance/reporting ด้วย |
 | Incident Category | อุปกรณ์คอมพิวเตอร์ / เครือข่าย / ความสะอาด / ความปลอดภัย / สภาพแวดล้อม / อื่น ๆ | ใช้ค่าชุดนี้เท่านั้นใน v1 เพื่อกัน category กระจัดกระจาย |
 | Severity | Low / Medium / High | Low = รบกวนเล็กน้อย, Medium = กระทบการใช้งานบางส่วน, High = กระทบการใช้งานหลักหรือความปลอดภัย |
 | Incident Status | Open / In Progress / Resolved | ไม่มี approval หรือ reassignment หลายชั้นใน v1 |
@@ -51,7 +51,7 @@
 
 # **6\. Checklist Template ที่ล็อกสำหรับ demo seed data ชุดแรก**
 
-Template ชุดแรกของ v1 ใช้ 2 template เพื่อให้เดโม taxonomy ชัดและทดสอบ flow ได้ครบ โดยตั้งใจไม่ทำเกินจำเป็นในรอบแรก ปัจจุบันระบบยังรองรับ active daily execution template เพียง 1 อันทั้งระบบในแต่ละครั้ง
+Template ชุดแรกของ v1 ใช้ 2 template เพื่อให้เดโม taxonomy ชัดและทดสอบ flow ได้ครบ โดยตั้งใจไม่ทำเกินจำเป็นในรอบแรก ปัจจุบัน product รองรับ live template ได้ 1 อันต่อ 1 scope แม้ seeded narrative จะยังเล็กและไม่ได้เปิดทุก scope พร้อมกันเสมอ
 
 | รหัส | Template | Scope | จุดประสงค์ |
 | :---: | ----- | :---: | ----- |
@@ -85,9 +85,9 @@ Template T-002: ปิดห้องปฏิบัติการ
 # **8\. Checklist Run Policy ที่ล็อกสำหรับ v1**
 
 * Staff เปิดหน้า `/checklists/runs/today` แล้วระบบต้องค้นหา run ของวันนั้นก่อน  
-* ถ้ายังไม่มี run ระบบต้องสร้างใหม่ให้อัตโนมัติ  
+* ถ้ายังไม่มี run ระบบต้องสร้างใหม่ให้อัตโนมัติสำหรับ scope lane ที่ถูกเลือกหรือ resolve แล้ว  
 * ใน MVP ใช้หลัก 1 run ต่อ 1 template ต่อ 1 วัน ต่อ 1 staff owner  
-* current runtime รองรับ active daily checklist template เพียง 1 อันทั้งระบบ; `scope` ยังไม่ทำหน้าที่แยก execution flow หลายสาย  
+* current runtime รองรับ live template ได้ 1 อันต่อ 1 scope และ `/checklists/runs/today` สามารถทำงานเป็น scope-aware board เมื่อมีหลาย live scopes  
 * `created_by` ใช้เก็บผู้ที่เปิด run ครั้งแรกและทำหน้าที่เป็น owner ของ run ในบริบท demo  
 * `submitted_at` และ `submitted_by` ใช้บอกว่ารันถูก submit แล้ว  
 * v1 ไม่มี draft state อย่างเป็นทางการ; ค่าที่ยังไม่ submit คือ in-progress ตามสภาพจริง ไม่ใช่ฟีเจอร์ draft แยกต่างหาก
@@ -123,6 +123,7 @@ Template T-002: ปิดห้องปฏิบัติการ
 # **11\. Data Constraints และกติกาการตั้งชื่อ**
 
 * Checklist Template ต้องมีชื่อไม่ซ้ำกันภายใน repository baseline ปัจจุบัน  
+* Active checklist template ต้องมีได้สูงสุด 1 อันต่อ 1 scope  
 * Checklist Item ต้องมี `sort_order` ชัดและไม่ซ้ำใน template เดียวกัน  
 * Checklist Run ต้องไม่ถูกสร้างซ้ำสำหรับ `(template_id, run_date, created_by)` ชุดเดียวกัน  
 * ทุก ChecklistRunItem ต้องมี result ก่อน submit  
@@ -146,7 +147,7 @@ Template T-002: ปิดห้องปฏิบัติการ
 * Domain demo ถูกล็อกแล้ว: ห้องปฏิบัติการคอมพิวเตอร์ขนาดเล็กในมหาวิทยาลัย  
 * Taxonomy หลักถูกล็อกแล้ว: category, severity, status, checklist scope, checklist result  
 * Template ชุดแรกและ incident seed data ชุดแรกถูกกำหนดแล้ว  
-* Checklist run creation policy ถูกล็อกแล้ว  
+* Checklist run creation policy ถูกล็อกแล้ว และรองรับ scope-aware runtime entry  
 * Attachment policy ถูกล็อกแล้ว  
 * เอกสารนี้พร้อมใช้เป็นฐานทำ migration, demo seed script และ demo data  
 * automated tests ควรใช้ factory/scenario helper ของตัวเองเป็นหลัก ไม่อ้าง seeded narrative records โดยตรง

@@ -133,22 +133,22 @@ Recommended handling:
 
 ### Domain-truth mismatch debt
 
-Status: open
+Status: materially reduced
 
 Evidence:
 
-- checklist template `scope` exists as canonical vocabulary and admin metadata
-- daily checklist execution still resolves one active template globally
+- checklist template `scope` now exists as canonical vocabulary, runtime dimension, and governance dimension
+- daily checklist execution, dashboard signals, and template administration now share the same per-scope truth
 
 Why it matters:
 
-- the codebase can look more capable than it really is
-- future refactors can accidentally design around a false multi-flow assumption
+- the most dangerous mismatch from the earlier baseline has been removed
+- future waves can build on real operational lanes instead of a fake single-flow assumption
 
 Recommended handling:
 
-- lock singular execution truth explicitly during the current refactor program
-- treat scope as classification metadata until product scope expands intentionally
+- keep canonical docs aligned whenever runtime truth changes again
+- avoid reintroducing singular-runtime language into new feature docs or UI copy
 
 ### Persistence-invariant coverage debt
 

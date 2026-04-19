@@ -43,8 +43,8 @@ Current literal sources:
 
 Current semantic meaning:
 
-- checklist scope is currently classification metadata for template administration and reporting
-- it is not yet the runtime selector for multiple parallel daily checklist flows
+- checklist scope now names real operational lanes for template governance, staff runtime entry, and management summary
+- it is no longer metadata-only in the current repository baseline
 
 ### Roles
 
@@ -172,7 +172,7 @@ Current hardening decision:
 
 - the current refactor round hardens the most critical checklist-template invariants first:
   - template title uniqueness
-  - exactly one active template globally
+  - at most one active template per scope
 - other canonical string families remain domain/application enforced until a future schema-hardening phase justifies broader table rebuild work
 
 ### Domain-owned invariants
@@ -191,8 +191,8 @@ These belong in canonical domain definitions:
 These belong in use-case orchestration:
 
 - creating or loading today's checklist run
-- enforcing exactly one active checklist template for daily execution
-- treating `scope` as descriptive metadata rather than an execution dimension in the current baseline
+- enforcing at most one active checklist template per scope
+- treating `scope` as an execution dimension in the current baseline
 - setting checklist submission timestamps and actors
 - setting incident resolution timestamp when status becomes resolved
 - clearing incident resolution timestamp when status leaves resolved
@@ -215,11 +215,11 @@ Presentation must not own:
 
 ## 5. Resolved Invariant Examples
 
-### Exactly one active checklist template
+### At most one active checklist template per scope
 
 Current state:
 
-- enforced ad hoc inside `DailyRun`
+- enforced through persistence and application-layer orchestration around template save and daily runtime initialization
 
 Target ownership:
 

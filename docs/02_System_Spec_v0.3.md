@@ -47,22 +47,25 @@
 
 1. Admin login → ไปหน้า template management → สร้าง template และ checklist items → บันทึก  
 2. Staff login → เปิด checklist run ของวัน; ถ้ายังไม่มีระบบสร้างให้อัตโนมัติ → ติ๊กแต่ละข้อ / ใส่หมายเหตุ → submit  
+2.1 ถ้ามี live checklist หลาย scope ระบบต้องแสดง workboard ของวันเพื่อให้ staff เลือก lane เช่น เปิดห้อง / ตรวจระหว่างวัน / ปิดห้อง ก่อนเข้า run ของ scope นั้น  
 3. Staff พบปัญหา → สร้าง incident → ระบุ category + severity + description + optional attachment → บันทึก  
 4. Supervisor หรือ Admin เปิดหน้า incidents → ดูรายการ open → อัปเดตสถานะเป็น In Progress / Resolved  
-5. Supervisor หรือ Admin เปิด dashboard → เห็น completion summary และ incident overview
+5. Supervisor หรือ Admin เปิด dashboard → เห็น completion summary, scope-lane coverage, และ incident overview
+6. Admin เปิดหน้า template administration → เห็น live runtime ownership ของแต่ละ scope, duplicate draft อย่างปลอดภัย, และ activate template เฉพาะ lane ที่เกี่ยวข้อง
 
 # **5\. Business Rules**
 
 * Checklist item ต้องเก็บผลลัพธ์อย่างน้อยว่า Done / Not Done และ optional note  
 * ทุก checklist item ต้องถูกตอบก่อน submit; ห้ามปล่อยค่า blank สำหรับข้อที่อยู่ใน run  
-* Checklist run ใน v1 ถูกสร้างอัตโนมัติเมื่อ Staff เปิด checklist ของวันและยังไม่มี run ของวันนั้น
-* baseline ปัจจุบันรองรับ active daily checklist template เพียง 1 อันทั้งระบบ; `ChecklistScope` ใช้เพื่อจัดหมวด template และ reporting เท่านั้น ยังไม่ใช่ parallel execution dimension
+* Checklist run ใน v1 ถูกสร้างอัตโนมัติเมื่อ Staff เปิด lane ของวันและยังไม่มี run ของ scope นั้น
+* baseline ปัจจุบันรองรับ active daily checklist template ได้ 1 อันต่อ 1 scope; `ChecklistScope` เป็น runtime dimension สำหรับ opening / midday / closing แล้ว ไม่ได้เป็นเพียง metadata สำหรับ template administration และ reporting เท่านั้น
+* เมื่อมี live scope มากกว่า 1 อัน `/checklists/runs/today` ต้องแสดง scope-aware workboard แทนการ force เข้า checklist เดียวทั้งระบบ
 * Checklist run ใน v1 ไม่มี draft state อย่างเป็นทางการ; ใช้ `submitted_at` เป็นตัวบอกว่าถูก submit แล้วหรือยัง  
 * Incident ต้องมี category, severity, status, description และผู้สร้างอย่างน้อย  
 * Incident status ใน v1 จำกัดที่ Open / In Progress / Resolved  
 * การอัปเดต incident status อนุญาตเฉพาะ Admin และ Supervisor เท่านั้น  
 * Incident attachments เป็น optional และเก็บไฟล์แบบ local public disk เท่านั้น  
-* Dashboard ใช้ข้อมูลจริงจาก checklist runs และ incidents เท่านั้น  
+* Dashboard ใช้ข้อมูลจริงจาก checklist runs และ incidents เท่านั้น และต้องสามารถสะท้อน missing / incomplete scope lanes ของวันได้  
 * v1 ไม่รองรับ workflow approval, incident assignment/reassignment หรือ checklist draft workflow
 
 # **6\. Core Data Model**
@@ -70,7 +73,7 @@
 | Entity | Fields ขั้นต่ำ |
 | :---: | ----- |
 | User | id, name, email, role, is_active |
-| ChecklistTemplate | id, title, description, is_active |
+| ChecklistTemplate | id, title, description, scope, is_active |
 | ChecklistItem | id, template_id, title, description, sort_order, is_required |
 | ChecklistRun | id, template_id, run_date, assigned_team_or_scope, created_by, submitted_at, submitted_by |
 | ChecklistRunItem | id, run_id, item_id, result, note, checked_by, checked_at |
@@ -80,10 +83,10 @@
 # **7\. Acceptance Criteria**
 
 * Checklist template สร้างได้และนำไปใช้สร้าง checklist run ได้จริง  
-* Staff เปิด checklist run ของวันแล้วระบบสร้าง run ให้อัตโนมัติได้จริงเมื่อยังไม่มี  
+* Staff เปิด checklist run ของวันแล้วระบบสร้าง run ให้อัตโนมัติได้จริงเมื่อยังไม่มี และสามารถเลือก scope lane ได้เมื่อมีหลาย live scopes  
 * Checklist run บันทึกผลแต่ละข้อ, submit ได้จริง และดึงกลับมาอ่านได้จริง  
 * Incident สร้างและเปลี่ยนสถานะได้จริงโดยไม่ใช้ข้อมูลจำลองลอย ๆ  
-* Dashboard แสดงตัวเลข completion กับ incidents จากฐานข้อมูลจริง  
+* Dashboard แสดงตัวเลข completion, scope-lane coverage, และ incidents จากฐานข้อมูลจริง  
 * ระบบไม่เปิด route หรือ action ที่ไม่เกี่ยวข้องให้บทบาทที่ไม่มีสิทธิ์เข้าถึง  
 * Staff พยายามอัปเดต status incident แล้วต้องถูกปฏิเสธอย่างถูกต้อง
 
@@ -93,5 +96,7 @@
 * incident ไม่มีรูปแนบแต่ยังต้องบันทึกได้  
 * dashboard ต้องไม่พังเมื่อยังไม่มี incident หรือยังไม่มี checklist run  
 * Staff เปิด checklist ของวันซ้ำ ต้องไม่สร้าง run ซ้ำถ้ามีของวันนั้นแล้ว  
+* staff เลือก scope ที่ยังไม่มี active template ต้องเห็น calm configuration state แทน hard failure  
+* dashboard ต้องเตือนเมื่อมี live scope lane หายหรือยัง submit ไม่ครบ  
 * Staff พยายามเรียก action update status incident โดยตรงผ่าน URL หรือ request ปลอม  
 * ผู้ใช้ที่ไม่มีสิทธิ์ต้องเข้า route ที่ไม่เกี่ยวข้องไม่ได้

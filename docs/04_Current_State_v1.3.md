@@ -31,7 +31,7 @@
 * frontend engineering wave `FE9` เดินต่อแล้วในก้อน `Cross-Screen Shell Assimilation`: dashboard, incident list, template index, และ daily checklist ถูกผูกเข้ากับ page-intro/header contract เดียวกัน เพื่อให้ shell-aware framing, meta chips, และ action rhythm ของหน้าหลักอ่านเป็น product family เดียวกันมากขึ้นหลังจาก shell repair และ auth/welcome redesign  
 * frontend engineering wave `FE9` ถูกปิดเพิ่มในก้อน `Premium UI Finish and Visual QA`: incident detail, template authoring, และ staff incident reporting ถูกผูกเข้ากับ shell-intro contract เดียวกันเพื่อเก็บ workflow seams สุดท้ายให้เป็น family เดียวกับ dashboard, incidents, templates, และ checklist runtime และทำให้ perception ของทั้งระบบเข้าใกล้คำว่า premium product มากขึ้นจริง  
 * post-FE9 full-stack product audit ถูกสรุปแล้ว และคำตัดสินหลักคือ codebase ไม่ได้ติดที่ foundation หรือ frontend identity อีกต่อไป แต่ติดที่ product usefulness layer โดยเฉพาะ runtime model, incident accountability, user administration, และ history surfaces  
-* next product wave `WF1 Scoped Daily Operations Runtime` ถูกส่งลงระบบต่อแล้วในก้อน `WF1-D`: template administration ถูกยกระดับจาก flat list ไปเป็น scope governance surface ที่มองเห็น live runtime ownership ต่อ opening/midday/closing lane ได้ตรงขึ้น ทำให้ admin governance, staff runtime, และ management dashboard เริ่มพูด product truth ชุดเดียวกันจริง  
+* next product wave `WF1 Scoped Daily Operations Runtime` ถูกปิดครบแล้วในก้อน `WF1-E`: canonical docs, decision history, system spec, data definition, และ architecture references ถูกเก็บให้ตรงกับความจริงใหม่ของ per-scope runtime แล้ว ทำให้ code, tests, และเอกสารหลักกลับมาอ้างอิง product truth ชุดเดียวกันอีกครั้ง  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -39,7 +39,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1-A complete + minimum WF1-B runtime entry complete + WF1-C scope-aware dashboard and signals complete + WF1-D template administration upgrade complete |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -132,6 +132,7 @@
 * Daily checklist runtime ปัจจุบันรองรับ `one active template per scope` แล้ว และ `Checklist Scope` ไม่ได้เป็นแค่ classification metadata อีกต่อไป: มันถูกใช้ทั้งใน template activation invariant, staff runtime entry, run retrieval, และ checklist-to-incident return flow  
 * `WF1 Scoped Daily Operations Runtime` ถูกส่งลงระบบต่อแล้วในก้อน `WF1-C`: dashboard snapshot มี owner สำหรับ scope lane truth แล้ว, management เห็น `Checklist by Scope` พร้อม state ระดับ `unavailable / not started / in progress / submitted`, และ dashboard attention สามารถเตือนเรื่อง missing coverage หรือ incomplete lanes โดยไม่ต้องเพิ่ม analytics schema หรือ report builder ใหม่  
 * `WF1 Scoped Daily Operations Runtime` ถูกส่งลงระบบต่อแล้วในก้อน `WF1-D`: template administration index และ template authoring governance lane เห็น scope governance truth ผ่าน owner กลางแล้ว ทำให้ admin รู้ว่าแต่ละ scope มี live owner หรือยัง, มี draft ค้างเท่าไร, และ lane ที่กำลังแก้อยู่สัมพันธ์กับ scope อื่นอย่างไรโดยไม่ต้องตีความจากตาราง flat list เพียงอย่างเดียว  
+* `WF1 Scoped Daily Operations Runtime` ถูกปิด wave แล้วในก้อน `WF1-E`: system spec, data definition, decision log, และ architecture references หลักถูกอัปเดตให้หยุดพูดความจริงเก่าของ singular runtime และอ้างอิง per-scope runtime baseline เดียวกับ code/tests อย่างเป็นทางการ  
 * ไม่มี incident assignment/reassignment และไม่มี checklist draft state ใน v1  
 * `resolved_at` convention ถูกล็อกแล้ว: เปลี่ยนเป็น Resolved = set timestamp, เปลี่ยนออกจาก Resolved = clear กลับเป็น null
 

@@ -262,3 +262,19 @@ Decision: สำหรับ Phase 7 ให้ใช้ `Pest Browser + Playwrig
 Rationale: repository ใช้ Pest เป็นแกนอยู่แล้ว การเลือก Pest Browser ทำให้ browser-level regression อยู่ใน test vocabulary เดียวกับ feature/application tests, ใช้ factory/scenario helpers เดิมได้, และมี churn ต่ำกว่าการนำ Dusk เข้ามาเพิ่มอีกหนึ่ง test framework
 
 Impact: composer/package dependencies, Pest bootstrap, `.gitignore`, GitHub Actions workflow, README, 26_Architecture_Debt_Roadmap และ 29_Refactor_Execution_Pack ต้องสะท้อน stack นี้ให้ตรงกัน รวมถึงต้องระบุอย่างตรงไปตรงมาว่า local execution บน Linux/WSL ยังต้องมี Playwright system dependencies ครบก่อนจึงจะรัน smoke suite ได้
+
+**D-030 | Locked**
+
+Decision: หลังการส่งมอบ `WF1 Scoped Daily Operations Runtime` ความจริงปัจจุบันของ repository คือ `/checklists/runs/today` รองรับ scope-aware runtime แล้ว และ `ChecklistScope` ไม่ใช่ metadata-only อีกต่อไป แต่เป็น operational runtime dimension สำหรับ opening / midday / closing lanes
+
+Rationale: baseline เดิมแบบ singular runtime ถูกต้องในช่วงก่อน WF1 เท่านั้น แต่หลังจาก persistence, staff runtime entry, dashboard signals, และ template administration ถูกย้ายมาอยู่บน per-scope truth แล้ว การปล่อยให้ canonical docs ยังพูดว่า scope เป็นแค่ metadata จะทำให้ repository truth แตกอีกครั้ง
+
+Impact: 02_System_Spec, 04_Current_State, 06_Data_Definition, 22_Architecture_Boundary_and_Execution_Standards, 24_Domain_Normalization_Design, README, และเอกสาร execution packs ของ WF1 ต้องสะท้อน runtime truth ใหม่นี้ให้ตรงกัน
+
+**D-031 | Locked**
+
+Decision: invariant ของ checklist template activation ถูกย้ายจาก `exactly one active template globally` ไปเป็น `at most one active template per scope` และ admin/dashboard/staff surfaces ต้องอธิบายผลกระทบในภาษาเดียวกันทั้งหมด
+
+Rationale: ถ้า persistence เปลี่ยนแล้วแต่ presentation contract ยังพูดเหมือน activation เป็น global replacement หรือ daily runtime ยังพูดเหมือนมี checklist lane เดียว ระบบจะกลายเป็น half-migrated truth ซึ่งอันตรายกว่าการยังไม่เริ่มเปลี่ยนตั้งแต่แรก
+
+Impact: SaveChecklistTemplate action, daily runtime entry, dashboard assembly, template governance surfaces, tests, และ canonical docs ทุกฉบับที่กล่าวถึง active template rule ต้องสะท้อน per-scope ownership model นี้ให้ตรงกัน

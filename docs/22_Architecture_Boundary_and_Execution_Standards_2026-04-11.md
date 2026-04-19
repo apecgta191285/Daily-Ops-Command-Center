@@ -61,7 +61,7 @@ Decision:
 
 - custom Livewire remains the target owner for the operations product and admin presentation surface
 - future application-layer extraction will happen behind these flows rather than replacing them wholesale
-- the current daily checklist runtime remains singular; template `scope` is classification metadata until the product lock explicitly expands execution behavior
+- the current daily checklist runtime is now scope-aware; template `scope` is part of runtime truth and not just classification metadata
 - legacy `/admin/*` checklist-template URLs are retired and must not be reintroduced as compatibility aliases without an explicit new decision
 
 ### Volt / Flux page-owned
