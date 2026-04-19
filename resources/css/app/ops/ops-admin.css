@@ -186,4 +186,14 @@
     .ops-governance-card__stats {
         @apply mt-4 grid gap-3 sm:grid-cols-3;
     }
+
+    .ops-user-avatar {
+        @apply inline-flex h-11 w-11 items-center justify-center rounded-2xl border text-sm font-bold uppercase tracking-[0.12em];
+        font-family: var(--font-display);
+        border-color: color-mix(in srgb, var(--app-action-primary) 18%, var(--app-border));
+        background:
+            linear-gradient(145deg, color-mix(in srgb, var(--app-action-primary) 12%, var(--app-surface-elevated)), var(--app-surface));
+        color: var(--app-action-primary);
+        box-shadow: var(--app-shadow-sm);
+    }
 }

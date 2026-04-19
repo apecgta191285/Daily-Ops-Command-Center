@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\DuplicateChecklistTemplateController;
 use App\Http\Controllers\Management\DashboardController;
 use App\Livewire\Admin\ChecklistTemplates\Index as TemplateIndex;
 use App\Livewire\Admin\ChecklistTemplates\Manage as TemplateManage;
+use App\Livewire\Admin\Users\Index as UserIndex;
+use App\Livewire\Admin\Users\Manage as UserManage;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
 use App\Livewire\Staff\Checklists\DailyRun;
@@ -57,6 +59,15 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::get('templates/{template}/edit', TemplateManage::class)
             ->name('templates.edit');
+
+        Route::get('users', UserIndex::class)
+            ->name('users.index');
+
+        Route::get('users/create', UserManage::class)
+            ->name('users.create');
+
+        Route::get('users/{user}/edit', UserManage::class)
+            ->name('users.edit');
     });
 });
 

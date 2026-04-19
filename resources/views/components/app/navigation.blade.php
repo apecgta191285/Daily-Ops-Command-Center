@@ -10,6 +10,9 @@
             <flux:sidebar.item icon="rectangle-stack" :href="route('templates.index')" :current="request()->routeIs('templates.index') || request()->routeIs('templates.create') || request()->routeIs('templates.edit')" wire:navigate>
                 {{ __('Checklist Templates') }}
             </flux:sidebar.item>
+            <flux:sidebar.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.index') || request()->routeIs('users.create') || request()->routeIs('users.edit')" wire:navigate>
+                {{ __('Users') }}
+            </flux:sidebar.item>
         @endif
     @endif
 
