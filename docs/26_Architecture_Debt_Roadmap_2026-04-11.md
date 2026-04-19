@@ -192,6 +192,25 @@ Recommended handling:
 - keep history intentionally review-oriented
 - do not expand the baseline into analytics exports, retrospective scoring, or BI framing unless a future wave explicitly reopens scope
 
+### Dashboard summary-vs-workboard debt
+
+Status: materially reduced
+
+Evidence:
+
+- dashboard now exposes pending lane framing, ownership work buckets, and recent-history command context
+- the command surface can answer what still needs attention today without duplicating queue behavior
+
+Why it matters:
+
+- the homepage now behaves more like an operating board than a decorative summary
+- management can make faster decisions without the repo drifting into analytics theatre
+
+Recommended handling:
+
+- keep dashboard additions grounded in existing product truth
+- do not add synthetic scores, BI-style trend expansion, or duplicated queue tables unless a future wave explicitly reopens scope
+
 ### Persistence-invariant coverage debt
 
 Status: open but partially reduced

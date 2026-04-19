@@ -32,7 +32,7 @@
 | FR-03 | Staff เปิด checklist ของวันและทำรายการตรวจเช็กได้ โดยระบบต้องสร้าง checklist run อัตโนมัติถ้ายังไม่มี run ของวันนั้น | Must |
 | FR-04 | Staff สร้าง incident พร้อมหมวด/ความรุนแรง/รายละเอียด และ optional attachment ได้ | Must |
 | FR-05 | Admin และ Supervisor เปลี่ยนสถานะ incident ได้ และสามารถตั้ง owner/follow-up target แบบ lightweight ได้ | Must |
-| FR-06 | ระบบแสดง dashboard พื้นฐานของ checklist และ incident ได้ | Must |
+| FR-06 | ระบบแสดง dashboard workboard สำหรับ management โดยสรุป checklist, incident, ownership pressure, และ recent operational context จากข้อมูลจริงได้ | Must |
 | FR-07 | ระบบมีประวัติการกระทำขั้นต่ำเพื่อ trace ผู้ใช้และเวลาได้ | Should |
 | FR-08 | Management review ประวัติ checklist run และ incident ล่าสุดในระบบได้โดยไม่ต้องพึ่ง analytics/reporting subsystem | Should |
 
@@ -51,7 +51,7 @@
 2.1 ถ้ามี live checklist หลาย scope ระบบต้องแสดง workboard ของวันเพื่อให้ staff เลือก lane เช่น เปิดห้อง / ตรวจระหว่างวัน / ปิดห้อง ก่อนเข้า run ของ scope นั้น  
 3. Staff พบปัญหา → สร้าง incident → ระบุ category + severity + description + optional attachment → บันทึก  
 4. Supervisor หรือ Admin เปิดหน้า incidents → ดูรายการ open → ตั้ง owner/follow-up target เมื่อจำเป็น → อัปเดตสถานะเป็น In Progress / Resolved  
-5. Supervisor หรือ Admin เปิด dashboard → เห็น completion summary, scope-lane coverage, incident overview, และ ownership pressure แบบย่อ
+5. Supervisor หรือ Admin เปิด dashboard → เห็น workboard ของวันซึ่งตอบว่า lane ไหนยังค้าง, ownership pressure อยู่ตรงไหน, และ recent operational context ช่วงล่าสุดบอกอะไรเกี่ยวกับวันนี้
 6. Admin เปิดหน้า template administration → เห็น live runtime ownership ของแต่ละ scope, duplicate draft อย่างปลอดภัย, และ activate template เฉพาะ lane ที่เกี่ยวข้อง
 7. Admin เปิดหน้า user administration → เห็น roster ปัจจุบัน, สร้าง account ภายใน, ปรับ role/active state, และตั้งหรือเปลี่ยน password แบบ explicit จากใน app shell
 8. Supervisor หรือ Admin เปิดหน้า checklist/incident history → review สิ่งที่เกิดขึ้นในช่วงที่ผ่านมา, pivot ไปยัง recap/detail ที่เกี่ยวข้อง, และใช้ประวัติในระบบเพื่อทบทวนงานจริงโดยไม่ต้องพึ่ง reporting layer ภายนอก
@@ -74,7 +74,7 @@
 * Admin lifecycle ต้องไม่อนุญาตให้ระบบไม่มี active admin เหลืออยู่ และต้องกัน self-deactivation / self-demotion ภายใน workflow เดียวกัน
 * Ownership model ของ incident ใน v1 เป็น lightweight accountability เท่านั้น: 1 owner แบบ optional, 1 follow-up target date แบบ optional, ไม่มี reassignment history, notification, SLA, หรือ escalation workflow  
 * Incident attachments เป็น optional และเก็บไฟล์แบบ local public disk เท่านั้น  
-* Dashboard ใช้ข้อมูลจริงจาก checklist runs และ incidents เท่านั้น และต้องสามารถสะท้อน missing / incomplete scope lanes ของวัน รวมถึง `unowned / overdue / owned by me` accountability pressure ได้แบบย่อ  
+* Dashboard ใช้ข้อมูลจริงจาก checklist runs, incidents, และ operational history ที่มีอยู่จริงเท่านั้น และต้องสามารถสะท้อน missing / incomplete scope lanes ของวัน, `unowned / overdue / owned by me` accountability pressure, และ recent command context ได้แบบย่อโดยไม่กลายเป็น analytics subsystem  
 * v1 ไม่รองรับ workflow approval, incident reassignment history, notifications, SLA engine, หรือ checklist draft workflow
 
 # **6\. Core Data Model**
@@ -95,7 +95,7 @@
 * Staff เปิด checklist run ของวันแล้วระบบสร้าง run ให้อัตโนมัติได้จริงเมื่อยังไม่มี และสามารถเลือก scope lane ได้เมื่อมีหลาย live scopes  
 * Checklist run บันทึกผลแต่ละข้อ, submit ได้จริง และดึงกลับมาอ่านได้จริง  
 * Incident สร้างและเปลี่ยนสถานะได้จริงโดยไม่ใช้ข้อมูลจำลองลอย ๆ  
-* Dashboard แสดงตัวเลข completion, scope-lane coverage, incidents, และ accountability pressure จากฐานข้อมูลจริง  
+* Dashboard แสดง workboard signals ของวันจากฐานข้อมูลจริง ทั้ง completion, scope-lane coverage, incidents, accountability pressure, และ recent-history command context  
 * Management ต้องสามารถเปิด `/checklists/history` และ `/incidents/history` เพื่อ review operational history ล่าสุดได้จากข้อมูลจริงในระบบ
 * ระบบไม่เปิด route หรือ action ที่ไม่เกี่ยวข้องให้บทบาทที่ไม่มีสิทธิ์เข้าถึง  
 * Staff พยายามอัปเดต status incident แล้วต้องถูกปฏิเสธอย่างถูกต้อง

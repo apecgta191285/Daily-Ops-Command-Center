@@ -276,6 +276,20 @@ Target ownership:
 - application queries/builders own archive context and recent incident-movement slicing
 - presentation owns filters, layout, and review framing only
 
+### Dashboard workboard truth
+
+Current state:
+
+- dashboard now acts as a today-first management workboard
+- scope lane truth, ownership pressure, and recent-history command context are all assembled in application-owned builders/queries
+- presentation renders operating language and drill-down paths, but no longer invents bucket semantics ad hoc
+
+Target ownership:
+
+- persistence remains the source of checklist run, incident, and timestamp truth
+- application queries/builders own workboard assembly, ownership buckets, and recent-history context shaping
+- presentation owns layout, emphasis, and drill-down affordances only
+
 ### Checklist completion rules
 
 Current state:

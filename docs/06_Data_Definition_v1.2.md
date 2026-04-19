@@ -45,7 +45,7 @@
 | รหัส | บทบาท | ชื่อแสดงผล | หน้าที่ใช้งานหลัก |
 | :---: | :---: | ----- | ----- |
 | U-001 | Admin | Lab Admin | จัดการ template และดูภาพรวมระบบ |
-| U-002 | Supervisor | Lab Supervisor | ตรวจ incident และดู dashboard |
+| U-002 | Supervisor | Lab Supervisor | ตรวจ incident และใช้ dashboard workboard เพื่อตัดสินใจงานของวัน |
 | U-003 | Staff | Operator A | ทำ checklist และแจ้ง incident |
 | U-004 | Staff | Operator B | ทำ checklist และแจ้ง incident |
 
@@ -137,6 +137,14 @@ Template T-002: ปิดห้องปฏิบัติการ
 * `/incidents/history` ใช้ review recent incident movement แบบ lightweight ภายในช่วงวันที่กำหนด
 * incident history ต้องสื่ออย่างน้อยว่าอะไรถูกเปิด, อะไรถูก resolve, และมีอะไรจากช่วงนั้นที่ยัง active อยู่
 * operational history ใน v1 เป็น review surface ไม่ใช่ analytics/export/report builder
+
+# **10.2 Dashboard Workboard Baseline หลัง WF5**
+
+* `/dashboard` ใช้เป็น management workboard ของวัน ไม่ใช่เพียง summary board
+* dashboard ต้องสะท้อน lane truth ของ opening / midday / closing จาก runtime จริง
+* dashboard ต้องสะท้อน ownership pressure เป็น actionable buckets โดยไม่ duplicate incident queue เต็มหน้า
+* dashboard สามารถดึง recent history context จาก checklist archive และ incident history มาใช้เป็น supporting command context ได้
+* recent history context มีหน้าที่ช่วยเพิ่ม decision confidence เท่านั้น ไม่ใช่ retrospective analytics layer
 
 # **11\. Data Constraints และกติกาการตั้งชื่อ**
 

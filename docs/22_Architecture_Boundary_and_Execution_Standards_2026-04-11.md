@@ -167,6 +167,7 @@ Examples for upcoming work:
 - create incident
 - update incident status
 - load dashboard metrics
+- dashboard workboard composition ต้อง consume only application-owned snapshot/builder outputs; ห้ามคำนวณ ownership buckets, recent-history pressure, หรือ lane severity semantics ซ้ำใน Blade
 
 ### Presentation layer
 

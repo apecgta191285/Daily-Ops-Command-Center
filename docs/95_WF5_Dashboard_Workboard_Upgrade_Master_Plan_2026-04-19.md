@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-19  
 **Wave ID:** `WF5`  
-**Status:** Planning locked
+**Status:** WF5 complete
 
 ## 1. Why WF5 Exists
 
@@ -136,6 +136,10 @@ Close WF5 with regression proof and canonical truth alignment.
 - dashboard workboard baseline is documented clearly
 - code, tests, and docs speak one truth
 
+**Status**
+
+- complete
+
 ## 6. Execution Order
 
 1. `WF5-A Workboard Framing and Pending-Lane Truth`
@@ -162,3 +166,10 @@ After WF5 completes, the product should feel like:
 - a system that is still realistic for a solo developer to maintain
 
 That is the right next usefulness wave after WF4.
+
+WF5 is now complete:
+
+- `WF5-A` established today-first workboard framing
+- `WF5-B` translated ownership pressure into real work buckets
+- `WF5-C` added recent operational memory without crossing into analytics
+- `WF5-D` aligned regression proof and canonical documentation

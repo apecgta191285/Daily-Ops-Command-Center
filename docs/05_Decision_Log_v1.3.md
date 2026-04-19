@@ -322,3 +322,11 @@ Decision: หลังการส่งมอบ `WF4 Operational History and R
 Rationale: หลังจาก WF4-A/B/C ลงระบบแล้ว repository สามารถ review งานที่เกิดขึ้นจริงในช่วงที่ผ่านมาได้แล้ว หาก canonical docs ยังมอง history เป็นเพียง planning artifact หรือปล่อยให้คนตีความต่อไปเป็น exports/KPIs/reassignment reporting จะทำให้ truth แตกอีกครั้งและเสี่ยงต่อ scope drift
 
 Impact: 02_System_Spec, 04_Current_State, 06_Data_Definition, 22_Architecture_Boundary_and_Execution_Standards, 24_Domain_Normalization_Design, 26_Architecture_Debt_Roadmap, README, และ WF4 execution packs ต้องสะท้อน operational-history-as-review truth นี้ให้ตรงกัน
+
+**D-037 | Locked**
+
+Decision: หลังการส่งมอบ `WF5 Dashboard Workboard Upgrade` ความจริงปัจจุบันของ repository คือ `/dashboard` ไม่ใช่เพียง summary surface แล้ว แต่เป็น today-first management workboard ที่ประกอบจาก scope lane truth, incident ownership pressure, และ lightweight recent operational context ที่มีอยู่จริงในระบบ
+
+Rationale: หลังจาก WF5-A/B/C ลงระบบแล้ว dashboard สามารถตอบคำถามเชิงปฏิบัติการได้ว่า "วันนี้ควรดูตรงไหนก่อน", "งานยังค้างใน lane ไหน", "ownership pressure อยู่ตรงไหน", และ "ช่วงล่าสุดดูนิ่งหรือยังมี carryover" หาก canonical docs ยังเรียก dashboard ว่าเป็นเพียง summary หรือ overview จะทำให้ repository truth แตกอีกครั้ง และเปิดทางให้ทีมตีความต่อไปเป็น analytics product โดยไม่มี decision รองรับ
+
+Impact: 02_System_Spec, 04_Current_State, 06_Data_Definition, 22_Architecture_Boundary_and_Execution_Standards, 24_Domain_Normalization_Design, 26_Architecture_Debt_Roadmap, README, และ WF5 execution packs ต้องสะท้อน dashboard-workboard truth นี้ให้ตรงกัน
