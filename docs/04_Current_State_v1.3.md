@@ -37,6 +37,7 @@
 * `WF2 Incident Ownership Lite` เดินต่อแล้วในก้อน `WF2-C`: dashboard snapshot รองรับ ownership pressure แบบ actor-aware แล้ว, dashboard attention สามารถเตือนเรื่อง `unowned` และ `overdue follow-up` พร้อม drill-down เข้าคิว incident ได้ตรงๆ, และ dashboard มี `Accountability Signals` card เพื่อสรุป `owned by me / unowned / overdue` โดยยังไม่กลายเป็น analytics surface หรือ queue replica  
 * `WF2 Incident Ownership Lite` ถูกปิด wave แล้วในก้อน `WF2-D`: canonical docs, system spec, data definition, decision history, และ architecture references ถูกเก็บให้ตรงกับ lightweight ownership truth ชุดเดียวกับ code/tests แล้ว ทำให้ incident accountability ไม่ได้เป็นเพียง UI polish หรือ queue filter เพิ่มเติม แต่กลายเป็น product language ที่ล็อกอย่างเป็นทางการทั้ง detail, queue, และ dashboard  
 * next product wave `WF3 User Administration Lite` ถูกล็อก planning baseline แล้ว: repository มี account lifecycle truth (`role`, `is_active`, active-user enforcement, role-aware landing) อยู่แล้ว แต่ยังไม่มี app-owned user administration surface, ดังนั้น wave ถัดไปจะโฟกัสการเปิด lifecycle นี้ให้เป็น admin capability แบบ lightweight โดยไม่ขยายไปเป็น RBAC platform หรือ invitation/organization system  
+* `WF3 User Administration Lite` เริ่มลงระบบแล้วในก้อน `WF3-A`: application layer มี owner จริงสำหรับ internal user provisioning และ lifecycle updates แล้ว, admin สามารถสร้างผู้ใช้และเปลี่ยน `role / is_active / password` ผ่าน owner ที่ชัดเจนได้โดยไม่ต้องแก้ฐานข้อมูลตรง, และ authentication policy เดิมยังทำหน้าที่บล็อก inactive users ต่อไปโดยไม่ต้องสร้าง invitation หรือ IAM workflow เพิ่ม  
 * dashboard รองรับ trend summary และ hotspot categories แล้ว ทำให้ management เห็นภาพเทียบกับเมื่อวานและ category pressure ได้เร็วขึ้น  
 * repository hygiene ถูกปรับให้ track เฉพาะ source artifact และลด presentation-specific generated artifacts ออกจาก baseline ถาวร
 
@@ -44,7 +45,7 @@
 
 | หัวข้อ | สถานะปัจจุบัน |
 | ----- | ----- |
-| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 complete + WF2 complete + WF3 planning locked |
+| Phase ปัจจุบัน | Post-foundation product evolution baseline / F1-F5 complete + N1-N7 complete + R1-R5 complete + FE1 complete + FE2 complete + FE3 complete + FE4 complete + FE5 complete + FE6 complete + FE7 complete + FE8 complete + frontend hardening split complete + FE9-A shell repair complete + FE9-B auth/welcome redesign complete + FE9-C shell assimilation complete + FE9-D premium finish complete + WF1 complete + WF2 complete + WF3-A complete |
 | Project Mode | A-lite / MVP-first / controlled foundation |
 | Definition of Ready | ผ่านสำหรับ feature wave ถัดไปบน baseline เดียวกัน โดยไม่ต้องกลับไป rescue foundation หรือรื้อ architecture หลัก |
 
@@ -115,6 +116,7 @@
 * 82_WF2_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19
 * 83_WF3_User_Administration_Lite_Master_Plan_2026-04-19
 * 84_WF3_A_User_Lifecycle_and_Provisioning_Core_Execution_Pack_2026-04-19
+* 85_WF3_A_User_Lifecycle_and_Provisioning_Core_Implementation_Execution_Pack_2026-04-19
 
 # **4\. สิ่งที่ล็อกแล้ว**
 

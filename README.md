@@ -101,6 +101,7 @@ npm run build
 - WF2-B is now live as well: the management incident queue can filter by unowned, mine, and overdue follow-up while incident detail surfaces now flag ownership pressure more explicitly.
 - WF2-C is now live on the dashboard too: management can see ownership pressure from the command surface through unowned, overdue, and actor-owned accountability signals without turning the dashboard into a reporting product.
 - WF2 is now closed as a complete product wave: incident accountability is now part of the repository's canonical truth across persistence, queue, detail, dashboard, and long-lived documentation without expanding into notifications, SLA math, or enterprise assignment workflow.
+- WF3 has now started landing as the next operability wave: the application layer now owns internal user provisioning and lifecycle updates, so account creation, role changes, active/inactive changes, and explicit admin password set/reset no longer depend on manual database edits.
 - Frontend contract hardening has started: shared visual tokens now cover subtle surfaces, danger/brand actions, motion timing, shadows, and radius scales, while alert feedback can dismiss cleanly without page reloads.
 - Frontend component language now includes reusable stat cards, empty states, callouts, chips, and timeline shells so major product surfaces can evolve on shared primitives instead of ad-hoc markup.
 - Frontend FE3 surface redesign now gives the dashboard, daily checklist, and template manage screens a stronger command-surface composition so the product reads as one intentional system instead of a collection of forms and cards.
@@ -180,6 +181,7 @@ See also:
 - `docs/82_WF2_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
 - `docs/83_WF3_User_Administration_Lite_Master_Plan_2026-04-19.md`
 - `docs/84_WF3_A_User_Lifecycle_and_Provisioning_Core_Execution_Pack_2026-04-19.md`
+- `docs/85_WF3_A_User_Lifecycle_and_Provisioning_Core_Implementation_Execution_Pack_2026-04-19.md`
 
 ## Canonical Documentation
 
@@ -248,4 +250,5 @@ The repository keeps only long-lived documentation that still acts as a source o
 - `docs/82_WF2_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-19.md`
 - `docs/83_WF3_User_Administration_Lite_Master_Plan_2026-04-19.md`
 - `docs/84_WF3_A_User_Lifecycle_and_Provisioning_Core_Execution_Pack_2026-04-19.md`
+- `docs/85_WF3_A_User_Lifecycle_and_Provisioning_Core_Implementation_Execution_Pack_2026-04-19.md`
 - `docs/46_R4_Dashboard_Assembly_Extraction_Execution_Pack_2026-04-16.md`
