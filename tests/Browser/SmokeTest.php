@@ -117,6 +117,51 @@ test('guest visual baselines hold for home and login', function () {
         ->assertScreenshotMatches();
 });
 
+test('admin governance visual baselines hold for deterministic authenticated surfaces', function () {
+    $admin = $this->createUserForRole(UserRole::Admin, ['name' => 'Browser Governance Admin']);
+    $this->createUserForRole(UserRole::Supervisor, ['name' => 'Browser Governance Supervisor']);
+    $this->createUserForRole(UserRole::Staff, ['name' => 'Browser Governance Staff']);
+
+    $this->createTemplateWithItems([
+        'title' => 'Browser governance opening template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
+
+    $dashboardPage = visit('/login');
+
+    $dashboardPage->fill('email', $admin->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->assertNoSmoke();
+
+    $uiGovernancePage = visit('/ui-governance');
+
+    $uiGovernancePage
+        ->assertNoSmoke()
+        ->assertNoAccessibilityIssues()
+        ->assertSee('UI Contract Guide')
+        ->assertSee('Screen QA checklist')
+        ->assertScreenshotMatches();
+
+    $templatePage = visit('/templates');
+
+    $templatePage
+        ->assertNoSmoke()
+        ->assertNoAccessibilityIssues()
+        ->assertSee('Checklist Templates')
+        ->assertSee('Live checklist ownership by scope');
+
+    $userPage = visit('/users');
+
+    $userPage
+        ->assertNoSmoke()
+        ->assertNoAccessibilityIssues()
+        ->assertSee('Team Access Roster')
+        ->assertSee('Coverage by role lane');
+});
+
 test('management dashboard drill-down links lead to filtered incident follow-up views', function () {
     $supervisor = $this->createUserForRole(UserRole::Supervisor);
 

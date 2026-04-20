@@ -28,7 +28,7 @@
 * local baseline คือ PHP 8.4 + Laravel + SQLite + public storage link
 * protected routes ถูกบังคับด้วย `auth`, `active`, และ role middleware
 * workflow หลักถูกดึงลง application layer แล้วในส่วน checklist, incidents, dashboard, templates, และ users
-* frontend มี token layer, modular CSS architecture, shared shells, และ browser smoke baseline แล้ว
+* frontend มี token layer, modular CSS architecture, shared shells, browser smoke baseline, guest visual baselines, และ deterministic admin governance screenshot baseline แล้ว
 * frontend governance มี admin-only `ui-governance` artifact แล้ว แต่ยังเป็น baseline ไม่ใช่ full governance system
 
 # **4. Current Priorities**
@@ -50,7 +50,7 @@
 
 **frontend QA baseline ยังไม่ปิดครบทุก major authenticated surface (กลาง)**
 
-* guest-facing screenshot baseline และ browser accessibility assertions ลงแล้ว แต่ authenticated screenshot gate ยังไม่ครอบคลุมทั้งระบบ
+* guest-facing screenshot baseline, browser accessibility assertions, และ deterministic admin governance screenshot gate ลงแล้ว แต่ authenticated screenshot coverage ยังไม่ครอบคลุม runtime-heavy surfaces ทั้งระบบ
 
 **scope creep หลัง convenience rounds (กลาง)**
 
@@ -63,7 +63,7 @@
 * foundation remediation ปิดแล้ว
 * product waves `WF1-WF5` ปิดแล้ว
 * identity/story alignment เริ่มลงจริงแล้ว
-* frontend governance baseline ลงจริงแล้ว
+* frontend governance baseline ลงจริงแล้ว และ QA proof แน่นขึ้นบน guest + deterministic admin governance surfaces
 * selective tightening ล่าสุดยังอยู่ในกรอบ internal computer-lab ops product
 
 คำตัดสินที่ยุติธรรมที่สุดตอนนี้คือ:

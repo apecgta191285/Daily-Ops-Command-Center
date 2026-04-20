@@ -92,6 +92,29 @@
         color: inherit;
     }
 
+    /* Flux ships sidebar text utilities for light/dark theme toggling, but our shell is
+       intentionally dark even without a global `dark` class. Tighten the contract here so
+       labels keep accessible contrast inside the app shell. */
+    .ops-shell-sidebar [data-flux-sidebar-brand] [class],
+    .ops-shell-sidebar [data-flux-sidebar-item] [data-content],
+    .ops-shell-sidebar [data-flux-sidebar-profile] span,
+    .ops-shell-sidebar [data-flux-sidebar-group] > div > div,
+    .ops-shell-sidebar [data-flux-sidebar-group] > ui-disclosure > button {
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white) !important;
+    }
+
+    .ops-shell-sidebar [data-flux-sidebar-item][data-current] [data-content],
+    .ops-shell-sidebar [data-flux-sidebar-item]:hover [data-content],
+    .ops-shell-sidebar [data-flux-sidebar-profile]:hover span,
+    .ops-shell-sidebar [data-flux-sidebar-brand]:hover [class] {
+        color: var(--app-shell-text) !important;
+    }
+
+    .ops-shell-sidebar [data-flux-sidebar-profile] [data-flux-avatar] {
+        background-color: color-mix(in srgb, white 12%, transparent) !important;
+        color: var(--app-shell-text) !important;
+    }
+
     [data-flux-menu] {
         border: 1px solid var(--app-border);
         background-color: var(--app-surface-elevated);

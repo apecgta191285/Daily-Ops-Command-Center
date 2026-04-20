@@ -176,7 +176,7 @@
                     </div>
 
                     <div class="ops-card__body">
-                        <div class="ops-detail-stack">
+                        <dl class="ops-detail-stack">
                             <div>
                                 <dt class="ops-detail-stack__label">Default sizes</dt>
                                 <dd class="ops-detail-stack__value">16, 18, 20, 24</dd>
@@ -189,7 +189,7 @@
                                 <dt class="ops-detail-stack__label">Do not do</dt>
                                 <dd class="ops-detail-stack__value">Mix icon packs, add decorative icons without meaning, or use icons as the only label for important actions</dd>
                             </div>
-                        </div>
+                        </dl>
                     </div>
                 </section>
 
