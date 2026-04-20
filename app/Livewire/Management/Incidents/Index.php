@@ -13,9 +13,12 @@ use App\Domain\Incidents\Enums\IncidentStatus;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
+
     #[Url(except: '')]
     public string $status = '';
 
@@ -45,6 +48,8 @@ class Index extends Component
     public array $categories = [];
 
     public array $severities = [];
+
+    protected string $paginationTheme = 'tailwind';
 
     public function mount(): void
     {
@@ -91,6 +96,22 @@ class Index extends Component
         }
     }
 
+    public function updated(string $property): void
+    {
+        if (in_array($property, [
+            'status',
+            'category',
+            'severity',
+            'unresolved',
+            'stale',
+            'unowned',
+            'mine',
+            'overdue',
+        ], true)) {
+            $this->resetPage();
+        }
+    }
+
     public function getStaleThresholdDaysProperty(): int
     {
         return IncidentStalePolicy::thresholdDays();
@@ -99,7 +120,7 @@ class Index extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        $incidents = app(ListIncidents::class)(new IncidentListFilters(
+        $incidents = app(ListIncidents::class)->paginate(new IncidentListFilters(
             status: $this->status,
             category: $this->category,
             severity: $this->severity,
@@ -109,7 +130,7 @@ class Index extends Component
             mine: $this->mine,
             overdue: $this->overdue,
             actorId: auth()->id(),
-        ));
+        ), perPage: 15);
 
         return view('livewire.management.incidents.index', [
             'incidents' => $incidents,

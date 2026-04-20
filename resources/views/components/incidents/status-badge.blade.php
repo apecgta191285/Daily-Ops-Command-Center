@@ -1,7 +1,9 @@
 @props(['status'])
 
 @php
-    $badgeClass = match ($status) {
+    $statusValue = $status instanceof \App\Domain\Incidents\Enums\IncidentStatus ? $status->value : $status;
+
+    $badgeClass = match ($statusValue) {
         'Resolved' => 'ops-badge--success',
         'In Progress' => 'ops-badge--warning',
         default => 'ops-badge--info',
@@ -9,5 +11,5 @@
 @endphp
 
 <span {{ $attributes->class(['ops-badge', $badgeClass]) }}>
-    {{ $status }}
+    {{ $statusValue }}
 </span>

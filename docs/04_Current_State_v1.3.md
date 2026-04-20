@@ -28,6 +28,8 @@
 * local baseline คือ PHP 8.4 + Laravel + SQLite + public storage link
 * protected routes ถูกบังคับด้วย `auth`, `active`, และ role middleware
 * workflow หลักถูกดึงลง application layer แล้วในส่วน checklist, incidents, dashboard, templates, และ users
+* core domain models เริ่มใช้ enum casts จริงแล้วใน user role, checklist scope, และ incident status/severity/category
+* management incident queue เริ่ม paginate แล้วแทนการดึง collection ทั้งก้อนใน UI surface
 * frontend มี token layer, modular CSS architecture, shared shells, browser smoke baseline, guest visual baselines, และ deterministic admin governance screenshot baseline แล้ว
 * frontend governance มี admin-only `ui-governance` artifact แล้ว แต่ยังเป็น baseline ไม่ใช่ full governance system
 
@@ -53,7 +55,7 @@
 
 * รักษา regression baseline ให้เขียวทุกครั้งก่อน merge
 * ปิด story alignment ให้ครบทุก major authenticated surface
-* harden type safety และ query hygiene ก่อนเปิด wave ใหม่
+* harden type safety และ query hygiene ต่อเฉพาะ hotspot ที่ยังคุ้มค่า
 * keep future work inside A-lite scope
 
 # **6. Current Verdict**

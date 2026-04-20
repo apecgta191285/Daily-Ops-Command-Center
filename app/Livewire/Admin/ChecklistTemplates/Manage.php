@@ -49,7 +49,7 @@ class Manage extends Component
             $this->hasRunHistory = $this->runCount > 0;
             $this->title = $this->template->title;
             $this->description = $this->template->description ?? '';
-            $this->scope = $this->template->scope;
+            $this->scope = $this->template->scope->value;
             $this->is_active = $this->template->is_active;
             $this->items = $this->itemEditor()->fromTemplate($this->template);
             $this->loadCurrentLiveTemplateContext();

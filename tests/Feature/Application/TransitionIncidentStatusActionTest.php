@@ -2,6 +2,7 @@
 
 use App\Application\Incidents\Actions\TransitionIncidentStatus;
 use App\Domain\Access\Enums\UserRole;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\Incident;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,7 +20,7 @@ test('transition incident status updates incident state and appends activity', f
     $result = app(TransitionIncidentStatus::class)($this->openIncident, 'In Progress', $this->admin->id);
 
     expect($result->changed)->toBeTrue();
-    expect($result->incident->status)->toBe('In Progress');
+    expect($result->incident->status)->toBe(IncidentStatus::InProgress);
     expect($result->incident->resolved_at)->toBeNull();
     expect($result->incident->activities()->latest('id')->first()->summary)->toBe('Status changed from Open to In Progress');
 });
@@ -28,7 +29,7 @@ test('transition incident status clears resolved timestamp when reopening', func
     $result = app(TransitionIncidentStatus::class)($this->resolvedIncident, 'Open', $this->admin->id);
 
     expect($result->changed)->toBeTrue();
-    expect($result->incident->status)->toBe('Open');
+    expect($result->incident->status)->toBe(IncidentStatus::Open);
     expect($result->incident->resolved_at)->toBeNull();
 });
 
@@ -61,7 +62,7 @@ test('transition incident status records a resolution summary when resolving an 
     );
 
     expect($result->changed)->toBeTrue();
-    expect($result->incident->status)->toBe('Resolved');
+    expect($result->incident->status)->toBe(IncidentStatus::Resolved);
     expect($result->incident->activities()->where('action_type', 'resolution_note')->exists())->toBeTrue();
     expect($result->incident->activities()->where('action_type', 'resolution_note')->latest('id')->first()->summary)
         ->toBe('Resolution: Replaced the faulty power strip and verified the workstation is back online.');

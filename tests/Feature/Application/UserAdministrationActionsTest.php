@@ -43,7 +43,7 @@ test('admin can create an internal user with explicit initial password', functio
 
     expect($user->name)->toBe('New Operator')
         ->and($user->email)->toBe('new.operator@example.com')
-        ->and($user->role)->toBe(UserRole::Staff->value)
+        ->and($user->role)->toBe(UserRole::Staff)
         ->and($user->is_active)->toBeTrue()
         ->and(Hash::check('strong-password', $user->password))->toBeTrue();
 });
@@ -75,7 +75,7 @@ test('admin can update role active state and password for an existing user', fun
 
     expect($updated->name)->toBe('Operator Prime')
         ->and($updated->email)->toBe('operator.prime@example.com')
-        ->and($updated->role)->toBe(UserRole::Supervisor->value)
+        ->and($updated->role)->toBe(UserRole::Supervisor)
         ->and($updated->is_active)->toBeFalse()
         ->and(Hash::check('new-strong-password', $updated->password))->toBeTrue();
 });
@@ -86,7 +86,7 @@ test('inactive user still cannot authenticate after admin deactivation', functio
         [
             'name' => $this->staff->name,
             'email' => $this->staff->email,
-            'role' => $this->staff->role,
+            'role' => $this->staff->role->value,
             'is_active' => false,
         ],
         $this->admin,
@@ -117,7 +117,7 @@ test('non admin users cannot create or update managed users', function () {
         [
             'name' => $this->staff->name,
             'email' => $this->staff->email,
-            'role' => $this->staff->role,
+            'role' => $this->staff->role->value,
             'is_active' => true,
         ],
         $this->supervisor,
@@ -130,7 +130,7 @@ test('update managed user rejects duplicate email safely', function () {
         [
             'name' => $this->staff->name,
             'email' => $this->supervisor->email,
-            'role' => $this->staff->role,
+            'role' => $this->staff->role->value,
             'is_active' => true,
         ],
         $this->admin,

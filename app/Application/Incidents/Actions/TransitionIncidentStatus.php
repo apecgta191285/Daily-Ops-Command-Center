@@ -22,7 +22,7 @@ class TransitionIncidentStatus
 
         $followUpNote = filled($followUpNote) ? trim($followUpNote) : null;
 
-        $previousStatus = $incident->status;
+        $previousStatus = $incident->status->value;
 
         if ($nextStatus === $previousStatus) {
             return new IncidentStatusTransitionResult(
@@ -33,9 +33,11 @@ class TransitionIncidentStatus
         }
 
         DB::transaction(function () use ($incident, $nextStatus, $previousStatus, $actorId, $followUpNote): void {
+            $nextStatusEnum = IncidentStatus::from($nextStatus);
+
             $incident->update([
-                'status' => $nextStatus,
-                'resolved_at' => $nextStatus === IncidentStatus::Resolved->value ? now() : null,
+                'status' => $nextStatusEnum,
+                'resolved_at' => $nextStatusEnum === IncidentStatus::Resolved ? now() : null,
             ]);
 
             $incident->activities()->create([
@@ -46,7 +48,7 @@ class TransitionIncidentStatus
             ]);
 
             if ($followUpNote !== null) {
-                $isResolutionNote = $nextStatus === IncidentStatus::Resolved->value;
+                $isResolutionNote = $nextStatusEnum === IncidentStatus::Resolved;
 
                 $incident->activities()->create([
                     'action_type' => $isResolutionNote ? 'resolution_note' : 'next_action_note',

@@ -85,8 +85,8 @@ class IncidentHistorySliceBuilder
         return [
             'id' => $incident->id,
             'title' => $incident->title,
-            'severity' => $incident->severity,
-            'status' => $incident->status,
+            'severity' => $incident->severity->value,
+            'status' => $incident->status->value,
             'owner_name' => $incident->owner?->name,
             'creator_name' => $incident->creator?->name,
             'url' => route('incidents.show', $incident),

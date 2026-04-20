@@ -117,7 +117,7 @@
 
         <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="{{ ($unresolved || $stale || $unowned || $mine || $overdue) ? '120' : '80' }}">
             <div class="ops-card__body">
-                @if($incidents->isEmpty())
+                @if($incidents->count() === 0)
                     <x-ops.empty-state
                         title="No incidents match the current filters."
                         body="Try clearing one or more filters, or wait for staff to report new incidents that match this view."
@@ -142,7 +142,7 @@
                                 @foreach($incidents as $index => $incident)
                                     <tr class="ops-table__row" data-motion="scale-soft" data-motion-delay="{{ 140 + ($index * 15) }}">
                                         <td data-label="Title" class="ops-text-heading px-4 py-4 text-sm font-medium">{{ $incident->title }}</td>
-                                        <td data-label="Category" class="ops-text-muted px-4 py-4 text-sm">{{ $incident->category }}</td>
+                                        <td data-label="Category" class="ops-text-muted px-4 py-4 text-sm">{{ $incident->category->value }}</td>
                                         <td data-label="Severity" class="px-4 py-4 text-sm">
                                             <x-incidents.severity-badge :severity="$incident->severity" />
                                         </td>
@@ -152,7 +152,7 @@
                                         <td data-label="Owner" class="ops-text-muted px-4 py-4 text-sm">
                                             @if ($incident->owner)
                                                 <span class="ops-text-heading font-medium">{{ $incident->owner->name }}</span>
-                                            @elseif ($incident->status !== 'Resolved')
+                                            @elseif ($incident->status !== \App\Domain\Incidents\Enums\IncidentStatus::Resolved)
                                                 <span class="ops-badge ops-badge--warning">Unowned</span>
                                             @else
                                                 <span class="text-xs">-</span>
@@ -175,7 +175,7 @@
                                                 <span class="ops-badge ops-badge--danger">Follow-up overdue</span>
                                             @elseif ($incident->is_stale_for_attention)
                                                 <span class="ops-badge ops-badge--warning">Stale</span>
-                                            @elseif ($incident->status !== 'Resolved' && $incident->owner_id === null)
+                                            @elseif ($incident->status !== \App\Domain\Incidents\Enums\IncidentStatus::Resolved && $incident->owner_id === null)
                                                 <span class="ops-badge ops-badge--warning">Needs owner</span>
                                             @else
                                                 <span class="text-xs">-</span>
@@ -192,6 +192,12 @@
                             </tbody>
                         </table>
                     </div>
+
+                    @if ($incidents->hasPages())
+                        <div class="mt-6">
+                            {{ $incidents->links() }}
+                        </div>
+                    @endif
                 @endif
             </div>
         </section>

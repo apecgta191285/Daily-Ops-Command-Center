@@ -34,7 +34,7 @@ test('checklist anomaly memory builder summarizes repeated not-done history by c
         $run = ChecklistRun::factory()->create([
             'checklist_template_id' => $template->id,
             'run_date' => $runDate,
-            'assigned_team_or_scope' => $template->scope,
+            'assigned_team_or_scope' => $template->scope->value,
             'created_by' => $user->id,
             'submitted_at' => $submitted ? now() : null,
             'submitted_by' => $submitted ? $user->id : null,

@@ -22,9 +22,11 @@ class IncidentStalePolicy
         return ($now ?? now())->copy()->subDays(self::THRESHOLD_DAYS);
     }
 
-    public static function isStale(CarbonInterface $createdAt, string $status, ?CarbonInterface $now = null): bool
+    public static function isStale(CarbonInterface $createdAt, IncidentStatus|string $status, ?CarbonInterface $now = null): bool
     {
-        return $status !== IncidentStatus::Resolved->value
+        $status = $status instanceof IncidentStatus ? $status : IncidentStatus::from($status);
+
+        return $status !== IncidentStatus::Resolved
             && $createdAt->lte(self::cutoff($now));
     }
 

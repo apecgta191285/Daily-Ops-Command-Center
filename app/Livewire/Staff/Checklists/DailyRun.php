@@ -168,7 +168,7 @@ class DailyRun extends Component
         $this->applyContext($context);
 
         if ($this->scopeRouteKey === null && $context->template !== null) {
-            $this->scopeRouteKey = ChecklistScope::from($context->template->scope)->routeKey();
+            $this->scopeRouteKey = $context->template->scope->routeKey();
         }
     }
 

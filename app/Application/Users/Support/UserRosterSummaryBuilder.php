@@ -38,7 +38,7 @@ class UserRosterSummaryBuilder
             'active_count' => $users->where('is_active', true)->count(),
             'inactive_count' => $users->where('is_active', false)->count(),
             'management_count' => $users
-                ->whereIn('role', UserRole::managementValues())
+                ->filter(fn (User $user): bool => in_array($user->role, [UserRole::Admin, UserRole::Supervisor], true))
                 ->count(),
             'role_lanes' => collect(UserRole::cases())
                 ->map(fn (UserRole $role): array => $this->buildRoleLane($role, $users))
@@ -60,7 +60,7 @@ class UserRosterSummaryBuilder
      */
     private function buildRoleLane(UserRole $role, Collection $users): array
     {
-        $lane = $users->where('role', $role->value);
+        $lane = $users->filter(fn (User $user): bool => $user->role === $role);
         $activeCount = $lane->where('is_active', true)->count();
 
         return [

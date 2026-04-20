@@ -2,6 +2,7 @@
 
 use App\Application\Incidents\Actions\CreateIncident;
 use App\Domain\Access\Enums\UserRole;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ test('create incident action persists incident attachment and activity log', fun
         'description' => 'Created through application action.',
     ], $this->operator->id, UploadedFile::fake()->create('proof.pdf', 100, 'application/pdf'));
 
-    expect($incident->status)->toBe('Open');
+    expect($incident->status)->toBe(IncidentStatus::Open);
     expect($incident->created_by)->toBe($this->operator->id);
     expect($incident->attachment_path)->not->toBeNull();
     Storage::disk('public')->assertExists($incident->attachment_path);

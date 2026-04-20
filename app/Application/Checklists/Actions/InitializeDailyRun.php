@@ -32,9 +32,7 @@ class InitializeDailyRun
                 return new DailyRunContext(errorState: 'scope_required');
             }
 
-            $scope = ($templates->first()?->scope !== null)
-                ? ChecklistScope::from($templates->first()->scope)
-                : null;
+            $scope = $templates->first()?->scope;
         }
 
         if ($scope === null) {
@@ -42,7 +40,7 @@ class InitializeDailyRun
         }
 
         /** @var ChecklistTemplate|null $template */
-        $template = $templates->first(fn (ChecklistTemplate $template): bool => $template->scope === $scope->value);
+        $template = $templates->first(fn (ChecklistTemplate $template): bool => $template->scope === $scope);
 
         if ($template === null) {
             return new DailyRunContext(errorState: 'scope_missing');
@@ -57,7 +55,7 @@ class InitializeDailyRun
                 'created_by' => $userId,
             ],
             [
-                'assigned_team_or_scope' => $template->scope,
+                'assigned_team_or_scope' => $template->scope->value,
             ],
         );
 

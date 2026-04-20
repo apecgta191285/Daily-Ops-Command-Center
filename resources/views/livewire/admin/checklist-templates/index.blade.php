@@ -139,7 +139,7 @@
                                                 @endif
                                             </div>
                                         </td>
-                                        <td data-label="Scope" class="ops-text-muted px-4 py-4 text-sm">{{ $template->scope }}</td>
+                                        <td data-label="Scope" class="ops-text-muted px-4 py-4 text-sm">{{ $template->scope->value }}</td>
                                         <td data-label="Items" class="ops-text-muted px-4 py-4 text-sm">{{ $template->items_count }}</td>
                                         <td data-label="State" class="px-4 py-4 text-sm">
                                             <span class="ops-badge {{ $template->is_active ? 'ops-badge--success' : 'ops-badge--neutral' }}">

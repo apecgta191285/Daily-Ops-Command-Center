@@ -35,7 +35,7 @@ class HistoryShow extends Component
 
     public function getScopeLabelProperty(): string
     {
-        return $this->run->assigned_team_or_scope ?: ($this->run->template?->scope ?? 'Unknown scope');
+        return $this->run->assigned_team_or_scope ?: ($this->run->template?->scope?->value ?? 'Unknown scope');
     }
 
     public function getSubmittedByLabelProperty(): string

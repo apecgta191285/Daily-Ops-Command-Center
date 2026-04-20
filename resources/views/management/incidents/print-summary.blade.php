@@ -31,9 +31,9 @@
 
         <div class="ops-print-chip-row">
             <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Issue detail') }}</span>
-            <span class="ops-shell-chip">{{ __($incident->status) }}</span>
-            <span class="ops-shell-chip">{{ __($incident->severity) }}</span>
-            <span class="ops-shell-chip">{{ $incident->category }}</span>
+            <span class="ops-shell-chip">{{ __($incident->status->value) }}</span>
+            <span class="ops-shell-chip">{{ __($incident->severity->value) }}</span>
+            <span class="ops-shell-chip">{{ $incident->category->value }}</span>
         </div>
     </section>
 
@@ -104,13 +104,13 @@
     @endif
 
     <section class="ops-print-section ops-print-grid ops-print-grid--summary">
-        <article class="ops-incident-panel" data-severity="{{ $incident->severity }}">
+        <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
             <p class="ops-incident-panel__eyebrow">{{ __('Description') }}</p>
             <h2 class="ops-incident-panel__title">{{ __('What was reported') }}</h2>
             <p class="ops-incident-panel__body whitespace-pre-line">{{ $incident->description }}</p>
         </article>
 
-        <article class="ops-incident-panel" data-severity="{{ $incident->severity }}">
+        <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
             <p class="ops-incident-panel__eyebrow">{{ __('Attachment') }}</p>
             <h2 class="ops-incident-panel__title">{{ $incident->attachment_path ? __('Supporting file available') : __('No attachment provided') }}</h2>
             <p class="ops-incident-panel__body">

@@ -74,7 +74,7 @@ class UpdateIncidentAccountability
 
         $owner = User::query()->find($ownerId);
 
-        if ($owner === null || ! in_array($owner->role, UserRole::managementValues(), true)) {
+        if ($owner === null || ! in_array($owner->role, [UserRole::Admin, UserRole::Supervisor], true)) {
             throw ValidationException::withMessages([
                 'ownerId' => ['Incident owner must be an administrator or supervisor.'],
             ]);

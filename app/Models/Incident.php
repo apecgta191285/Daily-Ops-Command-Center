@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Domain\Incidents\Enums\IncidentCategory;
+use App\Domain\Incidents\Enums\IncidentSeverity;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use Database\Factories\IncidentFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +34,9 @@ class Incident extends Model
     protected function casts(): array
     {
         return [
+            'category' => IncidentCategory::class,
+            'severity' => IncidentSeverity::class,
+            'status' => IncidentStatus::class,
             'follow_up_due_at' => 'date',
             'resolved_at' => 'datetime',
         ];

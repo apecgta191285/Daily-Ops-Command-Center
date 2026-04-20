@@ -84,7 +84,7 @@ test('admin can create a managed user through the livewire administration surfac
     $user = User::query()->where('email', 'new.hire@example.com')->firstOrFail();
 
     expect($user->name)->toBe('Ops New Hire')
-        ->and($user->role)->toBe(UserRole::Staff->value)
+        ->and($user->role)->toBe(UserRole::Staff)
         ->and($user->is_active)->toBeTrue();
 });
 
@@ -104,7 +104,7 @@ test('admin can update a managed user through the livewire administration surfac
 
     expect($this->staff->name)->toBe('Ops Shift Lead')
         ->and($this->staff->email)->toBe('shift.lead@example.com')
-        ->and($this->staff->role)->toBe(UserRole::Supervisor->value)
+        ->and($this->staff->role)->toBe(UserRole::Supervisor)
         ->and($this->staff->is_active)->toBeFalse();
 });
 
@@ -118,6 +118,6 @@ test('admin cannot deactivate or demote their own account through the livewire a
 
     $this->admin->refresh();
 
-    expect($this->admin->role)->toBe(UserRole::Admin->value)
+    expect($this->admin->role)->toBe(UserRole::Admin)
         ->and($this->admin->is_active)->toBeTrue();
 });

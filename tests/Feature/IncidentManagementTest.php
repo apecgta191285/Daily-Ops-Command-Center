@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Access\Enums\UserRole;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
 use App\Models\Incident;
@@ -58,6 +59,39 @@ test('management users can filter the incident list', function () {
         ->set('severity', 'High')
         ->assertSee($highSeverityIncident->title)
         ->assertDontSee($lowSeverityIncident->title);
+});
+
+test('incident list paginates long queues without dropping filter behavior', function () {
+    Incident::query()->delete();
+
+    foreach (range(1, 18) as $index) {
+        $incident = Incident::create([
+            'title' => sprintf('Queue incident %02d', $index),
+            'category' => 'อื่น ๆ',
+            'severity' => 'Low',
+            'status' => 'Open',
+            'description' => 'Queue pagination proof.',
+            'created_by' => $this->admin->id,
+        ]);
+
+        $incident->forceFill([
+            'created_at' => now()->subMinutes(18 - $index),
+            'updated_at' => now()->subMinutes(18 - $index),
+        ])->saveQuietly();
+    }
+
+    $this->actingAs($this->admin)
+        ->get(route('incidents.index'))
+        ->assertOk()
+        ->assertSee('Queue incident 18')
+        ->assertDontSee('Queue incident 01');
+
+    $this->actingAs($this->admin)
+        ->get(route('incidents.index', ['page' => 2]))
+        ->assertOk()
+        ->assertSee('Queue incident 03')
+        ->assertSee('Queue incident 01')
+        ->assertDontSee('Queue incident 18');
 });
 
 test('incident list honors unresolved and stale query-driven filters', function () {
@@ -206,7 +240,7 @@ test('admin can move incident from open to in progress and create activity trail
 
     $incident = $this->openIncident->fresh();
 
-    expect($incident->status)->toBe('In Progress');
+    expect($incident->status)->toBe(IncidentStatus::InProgress);
     expect($incident->resolved_at)->toBeNull();
 
     $activity = $incident->activities()->latest('id')->first();
@@ -224,7 +258,7 @@ test('supervisor can move incident from in progress to resolved and set resolved
 
     $incident = $this->inProgressIncident->fresh();
 
-    expect($incident->status)->toBe('Resolved');
+    expect($incident->status)->toBe(IncidentStatus::Resolved);
     expect($incident->resolved_at)->not->toBeNull();
 
     $activity = $incident->activities()->latest('id')->first();
@@ -244,7 +278,7 @@ test('management user can add a next action note when updating incident status',
 
     $incident = $this->openIncident->fresh();
 
-    expect($incident->status)->toBe('In Progress');
+    expect($incident->status)->toBe(IncidentStatus::InProgress);
     expect($incident->activities()->where('action_type', 'next_action_note')->exists())->toBeTrue();
 });
 
@@ -302,7 +336,7 @@ test('management user can add a resolution summary when resolving an incident', 
 
     $incident = $this->openIncident->fresh();
 
-    expect($incident->status)->toBe('Resolved');
+    expect($incident->status)->toBe(IncidentStatus::Resolved);
     expect($incident->activities()->where('action_type', 'resolution_note')->exists())->toBeTrue();
 });
 
@@ -317,7 +351,7 @@ test('supervisor can reopen a resolved incident and clear resolved timestamp', f
 
     $incident = $this->resolvedIncident->fresh();
 
-    expect($incident->status)->toBe('Open');
+    expect($incident->status)->toBe(IncidentStatus::Open);
     expect($incident->resolved_at)->toBeNull();
 
     $activity = $incident->activities()->latest('id')->first();
@@ -350,8 +384,8 @@ test('incident detail page renders incident data timeline and null attachment st
 
     $response->assertOk();
     $response->assertSee($this->openIncident->title);
-    $response->assertSee($this->openIncident->category);
-    $response->assertSee($this->openIncident->severity);
+    $response->assertSee($this->openIncident->category->value);
+    $response->assertSee($this->openIncident->severity->value);
     $response->assertSee($this->openIncident->description);
     $response->assertSee('Latest handling context');
     $response->assertSee('Ownership still missing');
@@ -360,7 +394,7 @@ test('incident detail page renders incident data timeline and null attachment st
     $response->assertSee('Update status with intent');
     $response->assertSee('Activity timeline');
     $response->assertSee('Next action: Verify the incident detail narrative lane.');
-    $response->assertSee('data-severity="'.$this->openIncident->severity.'"', false);
+    $response->assertSee('data-severity="'.$this->openIncident->severity->value.'"', false);
     $response->assertSee('Reported');
     $response->assertDontSee('View attachment');
 });

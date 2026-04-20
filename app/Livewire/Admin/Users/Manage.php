@@ -45,7 +45,7 @@ class Manage extends Component
 
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->role = $user->role;
+        $this->role = $user->role->value;
         $this->is_active = $user->is_active;
     }
 

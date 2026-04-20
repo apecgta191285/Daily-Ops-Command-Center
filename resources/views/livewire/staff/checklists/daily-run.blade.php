@@ -200,7 +200,7 @@
                         </p>
 
                         <div class="ops-hero__meta">
-                            <span class="ops-shell-chip ops-shell-chip--accent">Scope: {{ $template->scope }}</span>
+                            <span class="ops-shell-chip ops-shell-chip--accent">Scope: {{ $template->scope->value }}</span>
                             <span class="ops-shell-chip">{{ $this->answeredItems }}/{{ $this->totalItems }} answered</span>
                             @if ($isSubmitted)
                                 <span class="ops-shell-chip">Submitted</span>

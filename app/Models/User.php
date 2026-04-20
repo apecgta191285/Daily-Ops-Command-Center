@@ -34,6 +34,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'role' => UserRole::class,
         ];
     }
 
@@ -53,22 +54,22 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role === UserRole::Admin->value;
+        return $this->role === UserRole::Admin;
     }
 
     public function isSupervisor(): bool
     {
-        return $this->role === UserRole::Supervisor->value;
+        return $this->role === UserRole::Supervisor;
     }
 
     public function isStaff(): bool
     {
-        return $this->role === UserRole::Staff->value;
+        return $this->role === UserRole::Staff;
     }
 
     public function isManagement(): bool
     {
-        return in_array($this->role, UserRole::managementValues(), true);
+        return in_array($this->role, [UserRole::Admin, UserRole::Supervisor], true);
     }
 
     public function landingRouteName(): string

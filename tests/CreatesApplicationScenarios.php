@@ -69,7 +69,7 @@ trait CreatesApplicationScenarios
         $run = ChecklistRun::factory()->create([
             'checklist_template_id' => $template->id,
             'run_date' => $runDate ?? today(),
-            'assigned_team_or_scope' => $template->scope,
+            'assigned_team_or_scope' => $template->scope->value,
             'created_by' => $user->id,
             'submitted_at' => $submitted ? now() : null,
             'submitted_by' => $submitted ? $user->id : null,
@@ -115,11 +115,11 @@ trait CreatesApplicationScenarios
             'actor_id' => $creator->id,
         ]);
 
-        if ($incident->status !== IncidentStatus::Open->value) {
+        if ($incident->status !== IncidentStatus::Open) {
             IncidentActivity::factory()->create([
                 'incident_id' => $incident->id,
                 'action_type' => 'status_changed',
-                'summary' => "Status updated to {$incident->status}",
+                'summary' => 'Status updated to '.$incident->status->value,
                 'actor_id' => ($statusActor ?? $creator)->id,
                 'created_at' => now()->addMinutes(10),
             ]);

@@ -36,7 +36,7 @@ class Show extends Component
     {
         $this->statuses = IncidentStatus::values();
         $this->incident = $incident->load(['creator', 'owner', 'activities.actor']);
-        $this->status = $this->incident->status;
+        $this->status = $this->incident->status->value;
         $this->ownerId = (string) ($this->incident->owner_id ?? '');
         $this->followUpDueAt = $this->incident->follow_up_due_at?->toDateString() ?? '';
         $this->managementOwners = User::query()
@@ -47,7 +47,7 @@ class Show extends Component
             ->map(fn (User $user): array => [
                 'id' => $user->id,
                 'name' => $user->name,
-                'role' => $user->role,
+                'role' => $user->role->value,
             ])
             ->all();
     }
@@ -154,7 +154,7 @@ class Show extends Component
 
     public function getNeedsOwnerProperty(): bool
     {
-        return $this->incident->status !== IncidentStatus::Resolved->value
+        return $this->incident->status !== IncidentStatus::Resolved
             && $this->incident->owner_id === null;
     }
 

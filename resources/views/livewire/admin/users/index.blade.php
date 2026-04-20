@@ -170,8 +170,8 @@
                                         </div>
                                     </td>
                                     <td data-label="Role" class="px-4 py-4 text-sm">
-                                        <span class="ops-badge {{ $managedUser->role === 'admin' ? 'ops-badge--info' : ($managedUser->role === 'supervisor' ? 'ops-badge--warning' : 'ops-badge--neutral') }}">
-                                            {{ \Illuminate\Support\Str::headline($managedUser->role) }}
+                                        <span class="ops-badge {{ $managedUser->role === \App\Domain\Access\Enums\UserRole::Admin ? 'ops-badge--info' : ($managedUser->role === \App\Domain\Access\Enums\UserRole::Supervisor ? 'ops-badge--warning' : 'ops-badge--neutral') }}">
+                                            {{ \Illuminate\Support\Str::headline($managedUser->role->value) }}
                                         </span>
                                     </td>
                                     <td data-label="State" class="px-4 py-4 text-sm">

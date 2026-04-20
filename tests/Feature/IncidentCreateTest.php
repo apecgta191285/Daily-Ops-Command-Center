@@ -1,6 +1,9 @@
 <?php
 
 use App\Domain\Access\Enums\UserRole;
+use App\Domain\Incidents\Enums\IncidentCategory;
+use App\Domain\Incidents\Enums\IncidentSeverity;
+use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Livewire\Staff\Incidents\Create;
 use App\Models\Incident;
 use App\Models\IncidentActivity;
@@ -56,9 +59,9 @@ test('incident creation with all required fields persists correctly', function (
 
     $incident = Incident::latest('id')->first();
     expect($incident->title)->toBe('Test PC broken');
-    expect($incident->category)->toBe('อุปกรณ์คอมพิวเตอร์');
-    expect($incident->severity)->toBe('Medium');
-    expect($incident->status)->toBe('Open');
+    expect($incident->category)->toBe(IncidentCategory::ComputerEquipment);
+    expect($incident->severity)->toBe(IncidentSeverity::Medium);
+    expect($incident->status)->toBe(IncidentStatus::Open);
     expect($incident->description)->toBe('PC-99 will not boot at all.');
     expect($incident->attachment_path)->toBeNull();
     expect($incident->created_by)->toBe($this->operatorA->id);
@@ -136,7 +139,7 @@ test('incident creation without attachment still succeeds', function () {
 
     $incident = Incident::latest('id')->first();
     expect($incident->attachment_path)->toBeNull();
-    expect($incident->status)->toBe('Open');
+    expect($incident->status)->toBe(IncidentStatus::Open);
 });
 
 test('incident create page can prefill checklist follow-up context from query string', function () {

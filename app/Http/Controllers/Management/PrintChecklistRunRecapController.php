@@ -32,7 +32,7 @@ class PrintChecklistRunRecapController extends Controller
             'pageTitle' => Str::of($run->template?->title ?? 'Checklist run')
                 ->append(' printable recap')
                 ->toString(),
-            'scopeLabel' => $run->assigned_team_or_scope ?: ($run->template?->scope ?? 'Unknown scope'),
+            'scopeLabel' => $run->assigned_team_or_scope ?: ($run->template?->scope?->value ?? 'Unknown scope'),
             'submittedByLabel' => $run->submitter?->name ?? $run->creator?->name ?? 'Unknown',
         ]);
     }

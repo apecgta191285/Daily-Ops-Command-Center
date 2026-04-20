@@ -10,9 +10,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class IncidentFollowUpPolicy
 {
-    public static function isOverdue(?CarbonInterface $followUpDueAt, string $status, ?CarbonInterface $today = null): bool
+    public static function isOverdue(?CarbonInterface $followUpDueAt, IncidentStatus|string $status, ?CarbonInterface $today = null): bool
     {
-        if ($followUpDueAt === null || $status === IncidentStatus::Resolved->value) {
+        $status = $status instanceof IncidentStatus ? $status : IncidentStatus::from($status);
+
+        if ($followUpDueAt === null || $status === IncidentStatus::Resolved) {
             return false;
         }
 

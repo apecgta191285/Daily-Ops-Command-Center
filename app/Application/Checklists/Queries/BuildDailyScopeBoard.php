@@ -29,14 +29,14 @@ class BuildDailyScopeBoard
             ->where('is_active', true)
             ->withCount('items')
             ->get()
-            ->keyBy(fn (ChecklistTemplate $template) => $template->scope);
+            ->keyBy(fn (ChecklistTemplate $template) => $template->scope->value);
 
         $todayRuns = ChecklistRun::query()
             ->where('created_by', $userId)
             ->whereDate('run_date', today())
             ->with(['template', 'items'])
             ->get()
-            ->keyBy(fn (ChecklistRun $run) => $run->template?->scope ?? '');
+            ->keyBy(fn (ChecklistRun $run) => $run->template?->scope?->value ?? '');
 
         return collect(ChecklistScope::cases())
             ->map(function (ChecklistScope $scope) use ($activeTemplates, $todayRuns): array {

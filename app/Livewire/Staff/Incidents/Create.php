@@ -79,9 +79,9 @@ class Create extends Component
 
         $this->submissionRecap = [
             'title' => $incident->title,
-            'category' => $incident->category,
-            'severity' => $incident->severity,
-            'status' => $incident->status,
+            'category' => $incident->category->value,
+            'severity' => $incident->severity->value,
+            'status' => $incident->status->value,
             'created_at' => $incident->created_at?->format('M d, Y H:i') ?? now()->format('M d, Y H:i'),
             'has_attachment' => $incident->attachment_path !== null,
             'from_checklist' => $this->prefilledFromChecklist,

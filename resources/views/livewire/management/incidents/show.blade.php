@@ -9,8 +9,8 @@
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Issue detail') }}</span>
-                    <span class="ops-shell-chip">{{ __($incident->status) }}</span>
-                    <span class="ops-shell-chip">{{ __($incident->severity) }}</span>
+                    <span class="ops-shell-chip">{{ __($incident->status->value) }}</span>
+                    <span class="ops-shell-chip">{{ __($incident->severity->value) }}</span>
                 </div>
             </div>
 
@@ -74,7 +74,7 @@
                 <aside class="ops-hero__aside">
                     <div>
                         <p class="ops-hero__aside-title">Current state</p>
-                        <p class="ops-hero__aside-value">{{ $incident->category }}</p>
+                        <p class="ops-hero__aside-value">{{ $incident->category->value }}</p>
                         <p class="ops-hero__aside-copy">
                             {{ $incident->resolved_at ? 'Resolved at '.$incident->resolved_at->format('M d, Y H:i') : 'Still active in the team queue.' }}
                         </p>
@@ -172,13 +172,13 @@
                         </div>
 
                         <div class="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(18rem,1fr)]">
-                            <article class="ops-incident-panel" data-severity="{{ $incident->severity }}">
+                            <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
                                 <p class="ops-incident-panel__eyebrow">Description</p>
                                 <h3 class="ops-incident-panel__title">What was reported</h3>
                                 <p class="ops-incident-panel__body whitespace-pre-line">{{ $incident->description }}</p>
                             </article>
 
-                            <article class="ops-incident-panel" data-severity="{{ $incident->severity }}">
+                            <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
                                 <p class="ops-incident-panel__eyebrow">Attachment</p>
                                 <h3 class="ops-incident-panel__title">{{ $incident->attachment_path ? 'Supporting evidence available' : 'No attachment provided' }}</h3>
                                 <p class="ops-incident-panel__body">
@@ -328,7 +328,7 @@
                         </div>
 
                         <div class="ops-stat-grid">
-                            <x-ops.stat-card kicker="Category" :value="$incident->category" />
+                            <x-ops.stat-card kicker="Category" :value="$incident->category->value" />
                             <x-ops.stat-card kicker="Owner" :value="$incident->owner?->name ?? 'Unowned'" />
                             <x-ops.stat-card kicker="Follow-up Target" :value="$incident->follow_up_due_at?->format('M d, Y') ?? 'Not set'" />
                             <x-ops.stat-card kicker="Resolved At" :value="$incident->resolved_at?->format('M d, Y H:i') ?? 'Not resolved yet'" />

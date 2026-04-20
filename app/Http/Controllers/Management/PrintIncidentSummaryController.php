@@ -35,7 +35,7 @@ class PrintIncidentSummaryController extends Controller
             'isStale' => IncidentStalePolicy::isStale($incident->created_at, $incident->status),
             'staleThresholdDays' => IncidentStalePolicy::thresholdDays(),
             'isFollowUpOverdue' => IncidentFollowUpPolicy::isOverdue($incident->follow_up_due_at, $incident->status),
-            'needsOwner' => $incident->status !== IncidentStatus::Resolved->value && $incident->owner_id === null,
+            'needsOwner' => $incident->status !== IncidentStatus::Resolved && $incident->owner_id === null,
             'latestNextActionNote' => $latestNextActionNote,
             'latestResolutionNote' => $latestResolutionNote,
         ]);
