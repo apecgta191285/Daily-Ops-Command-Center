@@ -18,7 +18,7 @@ test('guest entry surfaces describe the product as a university computer lab ope
     $home->assertSee('Internal access for duty staff, lab supervisors, and admins');
 
     $login->assertOk();
-    $login->assertSee('Use your assigned lab team account to continue into today’s workspace');
+    $login->assertSee('Use your assigned lab team account to continue into today’s lab work');
     $login->assertSee('Duty staff');
     $login->assertSee('lab opening or closing checklist execution and incident reporting');
 });

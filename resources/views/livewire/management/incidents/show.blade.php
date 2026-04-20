@@ -184,7 +184,7 @@
                                 <p class="ops-incident-panel__body">
                                     {{ $incident->attachment_path
                                         ? 'Open the uploaded file when you need more proof or supporting visual context before changing status.'
-                                        : 'This incident was reported without a file. Review the narrative and timeline before deciding the next step.' }}
+                                        : 'This incident was reported without a file. Review the description and timeline before deciding the next step.' }}
                                 </p>
 
                                 @if($incident->attachment_path)

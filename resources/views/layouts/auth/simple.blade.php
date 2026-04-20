@@ -18,7 +18,7 @@
                                 </span>
                                 <div class="space-y-1">
                                     <p class="auth-stage__brand-name">{{ config('app.name', 'Daily Ops Command Center') }}</p>
-                                    <p class="auth-stage__brand-copy">{{ __('Checklist execution, incident follow-up, and admin workflow control for one university lab team.') }}</p>
+                                    <p class="auth-stage__brand-copy">{{ __('Checklist execution, incident follow-up, and admin control for one university lab team.') }}</p>
                                 </div>
                             </a>
                         </div>
@@ -26,8 +26,8 @@
                         <div class="auth-stage__story">
                             <div>
                                 <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Lab team sign-in') }}</span>
-                                <h1 class="auth-stage__title">{{ __('Enter the workspace where lab checks, room issues, and team follow-up stay visible.') }}</h1>
-                                <p class="auth-stage__lead">{{ __('This is not a generic admin panel. It is the shared workspace for one university computer lab team to run routine checks, report problems, and keep the day on track.') }}</p>
+                                <h1 class="auth-stage__title">{{ __('Enter the place where lab checks, room issues, and team follow-up stay visible.') }}</h1>
+                                <p class="auth-stage__lead">{{ __('This is not a generic admin panel. It is the shared product surface for one university computer lab team to run routine checks, report problems, and keep the day on track.') }}</p>
                             </div>
 
                             <div class="auth-stage__signal-grid">
@@ -47,7 +47,7 @@
                             <div class="auth-stage__meta">
                                 <div class="auth-stage__meta-block">
                                     <p class="auth-stage__meta-label">{{ __('Shared discipline') }}</p>
-                                    <p class="auth-stage__meta-value">{{ __('One lab workflow') }}</p>
+                                    <p class="auth-stage__meta-value">{{ __('One lab routine') }}</p>
                                 </div>
                                 <div class="auth-stage__meta-block">
                                     <p class="auth-stage__meta-label">{{ __('Product stance') }}</p>
@@ -63,8 +63,8 @@
                         <div class="auth-panel__brand">
                             <p class="auth-panel__kicker">{{ __('Secure sign-in') }}</p>
                             <div class="auth-panel__copy">
-                                <p class="auth-panel__title">{{ __('Access your lab operations workspace') }}</p>
-                                <p class="auth-panel__body">{{ __('Sign in with your assigned account to continue into today’s lab workspace.') }}</p>
+                                <p class="auth-panel__title">{{ __('Access today’s lab operations area') }}</p>
+                                <p class="auth-panel__body">{{ __('Sign in with your assigned account to continue into today’s lab work.') }}</p>
                             </div>
                         </div>
 

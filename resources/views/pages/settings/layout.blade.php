@@ -5,7 +5,7 @@
                 <div class="settings-nav-card">
                     <div class="settings-nav-card__intro">
                         <p class="settings-nav-card__eyebrow">{{ __('Navigation rail') }}</p>
-                        <h3 class="settings-nav-card__title">{{ __('Account workspace') }}</h3>
+                        <h3 class="settings-nav-card__title">{{ __('Account settings') }}</h3>
                         <p class="settings-nav-card__body">{{ __('Use this rail to switch between your personal identity settings and security controls without leaving the main application shell.') }}</p>
                     </div>
 

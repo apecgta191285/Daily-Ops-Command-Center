@@ -87,7 +87,7 @@ class Manage extends Component
     public function getPageDescriptionProperty(): string
     {
         return $this->user
-            ? 'Update role, access state, and password control without leaving the main administration workspace.'
+            ? 'Update role, access state, and password control without leaving the main administration area.'
             : 'Create a new internal account with a clear role, access state, and initial password.';
     }
 
@@ -122,7 +122,7 @@ class Manage extends Component
             $signals[] = [
                 'tone' => 'info',
                 'title' => 'You are editing your own account',
-                'body' => 'Role and active-state guard rails apply here. You can still update identity details and set a new password, but you cannot deactivate or demote your own administrator account in this workflow.',
+                'body' => 'Role and active-state guard rails apply here. You can still update identity details and set a new password, but you cannot deactivate or demote your own administrator account on this screen.',
             ];
         }
 
@@ -160,7 +160,7 @@ class Manage extends Component
     {
         return $this->user
             ? 'Use this only when an admin needs to set a replacement password directly, then hand it off through the team’s real internal communication path.'
-            : 'Set an explicit initial password here, then hand it off through the team’s real internal onboarding path. This workflow does not depend on invitation email delivery.';
+            : 'Set an explicit initial password here, then hand it off through the team’s real internal onboarding path. This screen does not depend on invitation email delivery.';
     }
 
     /**

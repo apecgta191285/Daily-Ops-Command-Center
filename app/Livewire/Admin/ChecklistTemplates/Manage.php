@@ -109,7 +109,7 @@ class Manage extends Component
     public function getPageDescriptionProperty(): string
     {
         return $this->template
-            ? 'Refine the checklist that staff already use in this lab workflow. Duplicate historically used templates before making larger structural changes.'
+            ? 'Refine the checklist that staff already use in this lab routine. Duplicate historically used templates before making larger structural changes.'
             : 'Create the checklist template that duty staff will use during the daily lab routine.';
     }
 
@@ -217,7 +217,7 @@ class Manage extends Component
             $signals[] = [
                 'tone' => 'success',
                 'title' => 'Authoring baseline looks healthy',
-                'body' => 'This draft already has enough structure to review calmly. Use the live execution preview and activation lane to confirm the staff-facing reading order before save.',
+                'body' => 'This draft already has enough structure to review calmly. Use the live preview and activation lane to confirm the staff-facing reading order before save.',
             ];
         }
 

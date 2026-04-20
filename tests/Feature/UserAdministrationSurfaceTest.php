@@ -57,8 +57,8 @@ test('edit user page shows existing lifecycle state and self-edit note when appl
     $response->assertOk();
     $response->assertSee('Edit User Account');
     $response->assertSee('You are editing your own account');
-    $response->assertSee('Your own administrator role cannot be changed from this workflow.');
-    $response->assertSee('Your own administrator access cannot be deactivated from this workflow.');
+    $response->assertSee('Your own administrator role cannot be changed from this screen.');
+    $response->assertSee('Your own administrator access cannot be deactivated from this screen.');
     $response->assertSee('Save account changes');
 });
 

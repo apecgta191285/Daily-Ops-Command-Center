@@ -193,5 +193,5 @@ test('incident creation outcome screen keeps checklist return path when prefille
         ->assertHasNoErrors()
         ->assertSeeHtml('Back to today&apos;s checklist')
         ->assertSeeHtml('/checklists/runs/today/opening')
-        ->assertSee('This report is linked to a checklist follow-up flow');
+        ->assertSee('This report is linked to the checklist follow-up path');
 });

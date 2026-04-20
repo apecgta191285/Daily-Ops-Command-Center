@@ -8,7 +8,7 @@
                     {{ __($this->pageDescription) }}
                 </p>
                 <div class="ops-page-intro__meta">
-                    <span class="ops-shell-chip ops-shell-chip--accent">{{ $template ? __('Revision workspace') : __('New draft') }}</span>
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ $template ? __('Revision draft') : __('New draft') }}</span>
                     <span class="ops-shell-chip">{{ __('Scope-aware activation') }}</span>
                     <span class="ops-shell-chip">{{ __('Admin-owned') }}</span>
                 </div>

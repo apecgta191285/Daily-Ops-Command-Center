@@ -63,7 +63,7 @@
                                         <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>Your attachment was included with the report.</span></li>
                                     @endif
                                     @if ($submissionRecap['from_checklist'])
-                                    <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>This report is linked to a checklist follow-up flow, so you can return and continue the daily lab workflow.</span></li>
+                                    <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>This report is linked to the checklist follow-up path, so you can return and continue the daily lab routine.</span></li>
                                     @endif
                                 </ul>
                             </div>

@@ -2,14 +2,7 @@
 
 Daily Ops Command Center is an internal web application for university computer lab teams. It helps duty staff complete routine checks, report room or equipment issues, and lets lab supervisors monitor the day’s work from one shared workboard.
 
-Current product stance:
-
-- internal provisioning only
-- 3 roles only: `admin`, `supervisor`, `staff`
-- single-organization demo baseline
-- no public sign-up
-- no multi-tenant model
-- disciplined MVP+ / strong capstone, not an enterprise platform
+Current product stance: internal provisioning only, 3 roles only (`admin`, `supervisor`, `staff`), single-organization demo baseline, no public sign-up, no multi-tenant model, and a disciplined MVP+ / strong capstone stance rather than an enterprise-platform claim.
 
 ## Stack
 
@@ -71,7 +64,7 @@ Read these first when you need current repo truth:
 Document roles:
 
 - canonical truth: `00`, `01`, `02`, `04`, plus `05`, `06`, `22`, `24`, `26` when a contract changes
-- execution history: numbered execution packs such as `39-102`
+- execution history: numbered execution packs
 - external or AI analysis references: ad hoc audit files under `docs/` are reference inputs only and must never override repo source-of-truth documents
 
 ## Product Baseline
@@ -106,7 +99,7 @@ For local/manual demos with seeded data:
 
 The seeded narrative is intentionally small and realistic: one live opening checklist, a few active/resolved issues, recent history, and internal accounts that support a believable university computer lab demo.
 
-## CI Prerequisites
+## Repo Notes
 
 GitHub Actions expects repository secrets for Flux package access:
 
@@ -115,28 +108,9 @@ GitHub Actions expects repository secrets for Flux package access:
 
 Without these secrets, dependency installation in CI will fail before lint or tests run.
 
-## Artifact Policy
-
-Tracked in git:
-
-- application source code
-- Blade views and component overrides
-- app-owned static public files such as `favicon`, `robots.txt`, and root web entrypoints
-
-Not tracked in git:
-
-- Vite build output under `public/build`
-
-Regeneration command:
-
-```bash
-npm run build
-```
-
-## Notes
-
 - Do not commit `.env`, `vendor`, `node_modules`, or runtime-generated files.
 - Local development uses SQLite by default via `.env.example`.
 - Public file attachments require the `public/storage` symlink created by `php artisan storage:link`.
 - Public self-registration is intentionally unsupported. Accounts are provisioned internally.
 - `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
+- Vite build output under `public/build` is not tracked. Regenerate it with `npm run build`.

@@ -31,14 +31,7 @@
 * frontend มี token layer, modular CSS architecture, shared shells, browser smoke baseline, guest visual baselines, และ deterministic admin governance screenshot baseline แล้ว
 * frontend governance มี admin-only `ui-governance` artifact แล้ว แต่ยังเป็น baseline ไม่ใช่ full governance system
 
-# **4. Current Priorities**
-
-* รักษา regression baseline ให้เขียวทุกครั้งก่อน merge
-* ปิด story alignment ให้ครบทุก major authenticated surface
-* prune canonical docs ให้ lean และอ่าน current truth ได้เร็วขึ้น
-* ขยายงานเฉพาะที่เพิ่ม usefulness หรือ demo value จริง โดยไม่หลุด A-lite scope
-
-# **5. Current Risks**
+# **4. Current Gaps**
 
 **documentation layering ยังทำให้ perception งงได้ (สูง)**
 
@@ -55,6 +48,13 @@
 **scope creep หลัง convenience rounds (กลาง)**
 
 * print evidence convenience ลงแล้วและยังอยู่ในกรอบ แต่รอบถัดไปต้องระวังไม่ให้ไหลไปเป็น export/report builder
+
+# **5. Current Focus**
+
+* รักษา regression baseline ให้เขียวทุกครั้งก่อน merge
+* ปิด story alignment ให้ครบทุก major authenticated surface
+* harden type safety และ query hygiene ก่อนเปิด wave ใหม่
+* keep future work inside A-lite scope
 
 # **6. Current Verdict**
 

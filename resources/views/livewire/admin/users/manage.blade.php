@@ -165,7 +165,7 @@
                                     @endforeach
                                 </select>
                                 @if ($this->blocksSelfAdminRoleChange)
-                                    <p class="ops-field-help">{{ __('Your own administrator role cannot be changed from this workflow.') }}</p>
+                                    <p class="ops-field-help">{{ __('Your own administrator role cannot be changed from this screen.') }}</p>
                                 @endif
                                 @error('role') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
@@ -178,7 +178,7 @@
                                 <input type="checkbox" wire:model="is_active" class="ops-choice__control" @disabled($this->blocksSelfAdminRoleChange)>
                             </label>
                             @if ($this->blocksSelfAdminRoleChange)
-                                <p class="ops-field-help">{{ __('Your own administrator access cannot be deactivated from this workflow.') }}</p>
+                                <p class="ops-field-help">{{ __('Your own administrator access cannot be deactivated from this screen.') }}</p>
                             @endif
 
                             <div class="ops-surface-soft px-4 py-4">
@@ -295,13 +295,13 @@
                             <div>
                                 <p class="ops-section-heading__eyebrow">Save intent</p>
                                 <h3 class="ops-section-heading__title">What happens after save</h3>
-                                <p class="ops-section-heading__body">This workflow is intentionally small and internal. It updates real lifecycle state immediately inside the product.</p>
+                                <p class="ops-section-heading__body">This flow is intentionally small and internal. It updates real lifecycle state immediately inside the product.</p>
                             </div>
                         </div>
 
                         <div class="ops-card__body">
                             <x-ops.callout title="No invitation email flow here" tone="neutral">
-                                {{ __('WF3 does not introduce invitation emails, approval workflow, or external identity sync. Saving here applies the account change directly against the app-owned lifecycle contract.') }}
+                                {{ __('This screen does not introduce invitation emails, approval chains, or external identity sync. Saving here applies the account change directly against the app-owned lifecycle contract.') }}
                             </x-ops.callout>
 
                             <button type="submit" class="ops-button ops-button--primary mt-4 w-full">

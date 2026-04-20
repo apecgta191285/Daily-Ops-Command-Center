@@ -14,7 +14,7 @@ test('authenticated users can view the profile settings surface with the cleaned
 
     $response->assertOk();
     $response->assertSee('Settings');
-    $response->assertSee('Account workspace');
+    $response->assertSee('Account settings');
     $response->assertSee('Profile details');
     $response->assertSee('What this account controls');
 });
