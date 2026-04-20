@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('User administration') }}</p>
                 <h2 class="ops-page__title">{{ __('Team Access Roster') }}</h2>
                 <p class="ops-page-intro__body">
-                    Govern internal accounts, keep role ownership visible, and make active versus inactive access read as an intentional operating decision.
+                    Govern internal lab team accounts, keep role ownership visible, and make active versus inactive access read as an intentional operating decision.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Internal roster') }}</span>
@@ -39,9 +39,9 @@
             <div class="ops-hero__inner">
                 <div>
                     <p class="ops-hero__eyebrow">Administration</p>
-                    <h3 class="ops-hero__title">Operate access like part of the product, not a hidden database task.</h3>
+                    <h3 class="ops-hero__title">Operate lab team access like part of the product, not a hidden database task.</h3>
                     <p class="ops-hero__lead">
-                        WF3 exposes account lifecycle inside the real app shell so admins can provision staff, adjust roles, and disable access intentionally without inventing enterprise IAM.
+                        WF3 exposes account lifecycle inside the real app shell so admins can provision duty staff, adjust roles, and disable access intentionally without inventing enterprise IAM.
                     </p>
 
                     <div class="ops-hero__meta">
@@ -130,7 +130,7 @@
             <div class="ops-card__body space-y-3">
                 <x-ops.callout title="Lifecycle meaning" tone="neutral">
                     <p>
-                        Active accounts can sign in and continue through protected routes. Inactive accounts are intentionally blocked at authentication time and should read as disabled access, not a broken login.
+                        Active accounts can sign in and continue through protected routes. Inactive accounts are intentionally blocked at authentication time and should read as disabled access for the lab team, not a broken login.
                     </p>
                     <p class="mt-3">
                         WF3 keeps lifecycle small on purpose: one internal roster, one create/edit path, and one clear active access switch without invitations, approvals, or enterprise IAM drift.

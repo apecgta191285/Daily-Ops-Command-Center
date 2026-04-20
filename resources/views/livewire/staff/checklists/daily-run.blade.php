@@ -5,15 +5,15 @@
     <x-slot name="header">
         <div class="ops-page-intro">
             <div class="ops-page-intro__copy">
-                <p class="ops-page-intro__eyebrow">{{ __('Staff runtime') }}</p>
+                <p class="ops-page-intro__eyebrow">{{ __('Duty staff checklist') }}</p>
                 <h2 class="ops-page__title">{{ __('Daily Checklist') }}</h2>
                 <p class="ops-page-intro__body">
                     @if ($errorState === 'scope_required')
-                        Choose the live checklist lane for this operating day, then continue with the right runtime instead of forcing every shift into one generic flow.
+                        Choose the live checklist lane for this lab shift, then continue with the right checklist instead of forcing every operating moment into one generic flow.
                     @elseif ($errorState === 'scope_missing' && $this->scopeLabel)
                         The {{ $this->scopeLabel }} lane is not configured yet. Pick another live lane or ask an administrator to activate a template for that operating moment.
                     @else
-                        Complete the live checklist, keep evidence quality tight, and escalate real issues without losing operational context.
+                        Complete the live checklist, keep evidence quality tight, and escalate real lab issues without losing context.
                     @endif
                 </p>
                 @if (! $errorState)
@@ -24,12 +24,12 @@
                     </div>
                 @elseif ($errorState === 'scope_required')
                     <div class="ops-page-intro__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Scope-aware runtime') }}</span>
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Scope-aware checklist') }}</span>
                         <span class="ops-shell-chip">{{ $activeScopeCount }} {{ __('live lane(s) today') }}</span>
                     </div>
                 @elseif ($errorState === 'scope_missing' && $this->scopeLabel)
                     <div class="ops-page-intro__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Missing scope runtime') }}</span>
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Missing checklist lane') }}</span>
                         <span class="ops-shell-chip">{{ $this->scopeLabel }}</span>
                     </div>
                 @endif
@@ -61,7 +61,7 @@
             <section class="ops-hero" data-motion="glance-rise">
                 <div class="ops-hero__inner">
                     <div>
-                        <p class="ops-hero__eyebrow">Daily Operations Runtime</p>
+                        <p class="ops-hero__eyebrow">Daily checklist board</p>
                         <h3 class="ops-hero__title">
                             @if ($errorState === 'scope_required')
                                 Choose today&apos;s checklist lane
@@ -71,14 +71,14 @@
                         </h3>
                         <p class="ops-hero__lead">
                             @if ($errorState === 'scope_required')
-                                Staff runtime now follows the real operating moment. Pick the checklist scope you are working in so today&apos;s run, history, and incident follow-up stay aligned.
+                                Staff checklist flow now follows the real operating moment. Pick the checklist scope you are working in so today&apos;s run, history, and issue follow-up stay aligned.
                             @else
                                 There is no active template for the {{ $this->scopeLabel }} operating lane right now. You can move into another live lane, or ask an administrator to activate the correct template first.
                             @endif
                         </p>
 
                         <div class="ops-hero__meta">
-                            <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Scope-aware runtime') }}</span>
+                            <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Scope-aware checklist') }}</span>
                             <span class="ops-shell-chip">{{ $activeScopeCount }} {{ __('live lane(s)') }}</span>
                             <span class="ops-shell-chip">{{ __('Today') }} {{ now()->format('M d, Y') }}</span>
                         </div>
@@ -86,10 +86,10 @@
 
                     <aside class="ops-hero__aside">
                         <div>
-                            <p class="ops-hero__aside-title">Runtime board</p>
+                            <p class="ops-hero__aside-title">Checklist board</p>
                             <p class="ops-hero__aside-value">{{ $activeScopeCount }}</p>
                             <p class="ops-hero__aside-copy">
-                                Active checklist lane(s) are currently available for staff runtime today.
+                                Active checklist lane(s) are currently available for duty staff today.
                             </p>
                         </div>
 
@@ -110,7 +110,7 @@
             @if ($errorState === 'scope_missing')
                 <div data-motion="fade-up" class="ops-alert ops-alert--warning">
                     <strong class="font-semibold">Selected lane unavailable:</strong>
-                    <span class="block sm:inline">The {{ $this->scopeLabel }} runtime does not have an active checklist template yet. Choose another live lane below or ask an administrator to activate one.</span>
+                    <span class="block sm:inline">The {{ $this->scopeLabel }} lane does not have an active checklist template yet. Choose another live lane below or ask an administrator to activate one.</span>
                 </div>
             @endif
 
@@ -308,7 +308,7 @@
                             <div class="flex shrink-0 flex-wrap gap-3">
                                 @if ($activeScopeCount > 1)
                                     <a href="{{ route('checklists.runs.today') }}" class="ops-button ops-button--secondary">
-                                        {{ __('Back to runtime board') }}
+                                        {{ __('Back to checklist board') }}
                                     </a>
                                 @endif
                                 <a href="{{ $this->incidentPrefillUrl }}" class="ops-button ops-button--danger">

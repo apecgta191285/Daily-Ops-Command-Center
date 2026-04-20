@@ -2,10 +2,10 @@
     <x-slot name="header">
         <div class="ops-page-intro">
             <div class="ops-page-intro__copy">
-                <p class="ops-page-intro__eyebrow">{{ __('Staff escalation') }}</p>
+                <p class="ops-page-intro__eyebrow">{{ __('Duty staff issue handoff') }}</p>
                 <h2 class="ops-page__title">{{ __('Report Incident') }}</h2>
                 <p class="ops-page-intro__body">
-                    Capture the issue clearly so management can triage it quickly without losing the operational context behind the report.
+                    Capture the lab issue clearly so management can triage it quickly without losing the operating context behind the report.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Structured handoff') }}</span>
@@ -28,7 +28,7 @@
                 @if ($submissionRecap)
                     <div class="space-y-6">
                         <div class="ops-alert ops-alert--success">
-                            Incident reported successfully. Management can now see it in the dashboard and incident follow-up views.
+                            Incident reported successfully. Management can now see it in the dashboard and issue follow-up views.
                         </div>
 
                         <div class="ops-recap-grid">
@@ -63,7 +63,7 @@
                                         <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>Your attachment was included with the report.</span></li>
                                     @endif
                                     @if ($submissionRecap['from_checklist'])
-                                        <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>This report is linked to a checklist follow-up flow, so you can return and continue the daily operations path.</span></li>
+                                    <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>This report is linked to a checklist follow-up flow, so you can return and continue the daily lab workflow.</span></li>
                                     @endif
                                 </ul>
                             </div>
@@ -134,7 +134,7 @@
                                 Cancel
                             </a>
                             <button type="submit" class="ops-button ops-button--primary min-w-44">
-                                <span wire:loading.remove wire:target="submit">Create Incident</span>
+                                <span wire:loading.remove wire:target="submit">Create incident</span>
                                 <span wire:loading wire:target="submit">Saving...</span>
                             </button>
                         </div>

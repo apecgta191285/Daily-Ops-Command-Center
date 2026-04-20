@@ -2,13 +2,13 @@
     <x-slot name="header">
         <div class="ops-page-intro">
             <div class="ops-page-intro__copy">
-                <p class="ops-page-intro__eyebrow">{{ __('Investigation surface') }}</p>
+                <p class="ops-page-intro__eyebrow">{{ __('Issue review') }}</p>
                 <h2 class="ops-page__title">{{ __('Incident Detail') }}</h2>
                 <p class="ops-page-intro__body">
-                    Review the report, understand the latest handling context, and move the queue forward with a clear operational decision.
+                    Review the lab issue, understand the latest handling context, and move the queue forward with a clear next decision.
                 </p>
                 <div class="ops-page-intro__meta">
-                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Narrative detail') }}</span>
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Issue detail') }}</span>
                     <span class="ops-shell-chip">{{ __($incident->status) }}</span>
                     <span class="ops-shell-chip">{{ __($incident->severity) }}</span>
                 </div>
@@ -40,7 +40,7 @@
                     <p class="ops-hero__eyebrow">Incident narrative</p>
                     <h3 class="ops-hero__title">{{ $incident->title }}</h3>
                     <p class="ops-hero__lead">
-                        Use this screen to understand what was reported, what the latest reviewer decided, and what should happen next in the operational queue.
+                        Use this screen to understand what was reported in the lab, what the latest reviewer decided, and what should happen next in the queue.
                     </p>
                     <p class="ops-text-shell-muted mt-3 text-sm">
                         Reported by {{ $incident->creator?->name ?? 'Unknown' }} on {{ $incident->created_at->format('M d, Y H:i') }}
@@ -73,7 +73,7 @@
                         <p class="ops-hero__aside-title">Current state</p>
                         <p class="ops-hero__aside-value">{{ $incident->category }}</p>
                         <p class="ops-hero__aside-copy">
-                            {{ $incident->resolved_at ? 'Resolved at '.$incident->resolved_at->format('M d, Y H:i') : 'Still active in the operational queue.' }}
+                            {{ $incident->resolved_at ? 'Resolved at '.$incident->resolved_at->format('M d, Y H:i') : 'Still active in the team queue.' }}
                         </p>
                     </div>
 
@@ -105,7 +105,7 @@
                         <div class="ops-glance-card">
                             <p class="ops-glance-card__label">Follow-up target</p>
                             <p class="ops-glance-card__value">{{ $incident->follow_up_due_at?->format('M d, Y') ?? 'Not set' }}</p>
-                            <p class="ops-glance-card__meta">Operational target date for the next meaningful review or action.</p>
+                            <p class="ops-glance-card__meta">Target date for the next meaningful review or action.</p>
                         </div>
                     </div>
                 </aside>

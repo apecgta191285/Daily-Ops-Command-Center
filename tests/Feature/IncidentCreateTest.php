@@ -171,7 +171,7 @@ test('incident creation outcome screen can reset back to a fresh form', function
     $component
         ->call('startAnother')
         ->assertSet('submissionRecap', null)
-        ->assertSee('Create Incident');
+        ->assertSee('Create incident');
 });
 
 test('incident creation outcome screen keeps checklist return path when prefilled from checklist', function () {

@@ -42,14 +42,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $operatorA = User::firstOrCreate(['email' => 'operatora@example.com'], [
-            'name' => 'Operator A',
+            'name' => 'Duty Staff A',
             'password' => $defaultPassword,
             'role' => UserRole::Staff->value,
             'is_active' => true,
         ]);
 
         $operatorB = User::firstOrCreate(['email' => 'operatorb@example.com'], [
-            'name' => 'Operator B',
+            'name' => 'Duty Staff B',
             'password' => $defaultPassword,
             'role' => UserRole::Staff->value,
             'is_active' => true,

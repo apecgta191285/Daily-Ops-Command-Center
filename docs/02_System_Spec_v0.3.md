@@ -5,7 +5,7 @@
 
 | Document ID | DOC-02-SS |
 | :---- | :---- |
-| **Project** | ระบบเช็กลิสต์งานประจำวันและติดตามเหตุการณ์ผิดปกติสำหรับทีมงานขนาดเล็ก |
+| **Project** | ระบบจัดการงานปฏิบัติการประจำวันสำหรับทีมดูแลห้องคอมของมหาวิทยาลัย |
 | **Version** | v0.3 |
 | **Status** | Specification baseline - implementation ready |
 | **Reference Date** | 03/04/2569 |
@@ -21,7 +21,7 @@
 
 # **1\. System Context**
 
-ระบบมี 3 actor หลัก: Admin, Supervisor, Staff ใช้งานผ่านเว็บแอปเดียวกัน โดย focus คือ checklist งานประจำวัน, incident tracking และ dashboard พื้นฐาน
+ระบบมี 3 actor หลัก: Admin, Supervisor, Staff ใช้งานผ่านเว็บแอปเดียวกัน โดย focus คือ lab opening checks, during-day checks, room closing checks, incident follow-up, และ supervisor workboard สำหรับทีมดูแลห้องคอมของมหาวิทยาลัย
 
 # **2\. Functional Requirements**
 
@@ -52,7 +52,7 @@
 3. Staff พบปัญหา → สร้าง incident → ระบุ category + severity + description + optional attachment → บันทึก  
 4. Supervisor หรือ Admin เปิดหน้า incidents → ดูรายการ open → ตั้ง owner/follow-up target เมื่อจำเป็น → อัปเดตสถานะเป็น In Progress / Resolved  
 5. Supervisor หรือ Admin เปิด dashboard → เห็น workboard ของวันซึ่งตอบว่า lane ไหนยังค้าง, ownership pressure อยู่ตรงไหน, และ recent operational context ช่วงล่าสุดบอกอะไรเกี่ยวกับวันนี้
-6. Admin เปิดหน้า template administration → เห็น live runtime ownership ของแต่ละ scope, duplicate draft อย่างปลอดภัย, และ activate template เฉพาะ lane ที่เกี่ยวข้อง
+6. Admin เปิดหน้า template administration → เห็น live checklist ownership ของแต่ละ scope, duplicate draft อย่างปลอดภัย, และ activate template เฉพาะ lane ที่เกี่ยวข้อง
 7. Admin เปิดหน้า user administration → เห็น roster ปัจจุบัน, สร้าง account ภายใน, ปรับ role/active state, และตั้งหรือเปลี่ยน password แบบ explicit จากใน app shell
 8. Supervisor หรือ Admin เปิดหน้า checklist/incident history → review สิ่งที่เกิดขึ้นในช่วงที่ผ่านมา, pivot ไปยัง recap/detail ที่เกี่ยวข้อง, และใช้ประวัติในระบบเพื่อทบทวนงานจริงโดยไม่ต้องพึ่ง reporting layer ภายนอก
 

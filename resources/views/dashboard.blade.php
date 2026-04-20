@@ -44,14 +44,14 @@
     <x-slot name="header">
         <div class="ops-page-intro">
             <div class="ops-page-intro__copy">
-                <p class="ops-page-intro__eyebrow">{{ __('Management surface') }}</p>
+                <p class="ops-page-intro__eyebrow">{{ __('Lab supervisor workboard') }}</p>
                 <h2 class="ops-page__title">{{ __('Dashboard') }}</h2>
                 <p class="ops-page-intro__body">
-                    Track checklist completion, scope-lane coverage, unresolved pressure, and operational drift from one command frame.
+                    Track checklist lane coverage, unresolved issues, and follow-up pressure for the lab team from one shared workboard.
                 </p>
                 <div class="ops-page-intro__meta">
-                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live command view') }}</span>
-                    <span class="ops-shell-chip">{{ __('Scope runtime truth') }}</span>
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Today-first workboard') }}</span>
+                    <span class="ops-shell-chip">{{ __('Scope lane truth') }}</span>
                     <span class="ops-shell-chip">{{ __('Checklist momentum') }}</span>
                     <span class="ops-shell-chip">{{ __('Incident hotspots') }}</span>
                 </div>
@@ -69,10 +69,10 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Management Visibility</p>
-                    <h3 class="ops-hero__title">Operational command view for today&apos;s workload.</h3>
+                    <p class="ops-hero__eyebrow">Management visibility</p>
+                    <h3 class="ops-hero__title">Today&apos;s lab workboard.</h3>
                     <p class="ops-hero__lead">
-                        Use this surface to spot unresolved risk, compare today with yesterday, and confirm whether opening, midday, and closing work is actually live and complete.
+                        Use this surface to spot unresolved risk, compare today with yesterday, and confirm whether opening, during-day, and closing work is actually live and complete.
                     </p>
 
                     <div class="ops-hero__meta">
@@ -103,7 +103,7 @@
                         <div class="ops-glance-card">
                             <p class="ops-glance-card__label">Incomplete lanes</p>
                             <p class="ops-glance-card__value">{{ $scopeLaneIncompleteCount }}</p>
-                            <p class="ops-glance-card__meta">Opening, midday, or closing lanes that still need checklist progress today.</p>
+                            <p class="ops-glance-card__meta">Opening, during-day, or closing lanes that still need checklist progress today.</p>
                         </div>
 
                         <div class="ops-glance-card">

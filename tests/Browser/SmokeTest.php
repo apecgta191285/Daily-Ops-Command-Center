@@ -6,9 +6,18 @@ use App\Domain\Access\Enums\UserRole;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    Carbon::setTestNow(Carbon::parse('2026-04-20 09:00:00'));
+});
+
+afterEach(function () {
+    Carbon::setTestNow();
+});
 
 test('guest-facing home and login surfaces render without browser smoke issues', function () {
     [$homePage, $loginPage] = visit(['/', '/login']);
@@ -16,7 +25,9 @@ test('guest-facing home and login surfaces render without browser smoke issues',
     $homePage
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
+        ->assertNoAccessibilityIssues()
         ->assertSee('Daily Ops Command Center')
+        ->assertSee('University Computer Lab Daily Ops')
         ->assertSee('Log in')
         ->assertSee('Suggested demo walkthrough')
         ->assertPresent('a[href="#main-content"]');
@@ -24,6 +35,7 @@ test('guest-facing home and login surfaces render without browser smoke issues',
     $loginPage
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
+        ->assertNoAccessibilityIssues()
         ->assertSee('Log in to your account')
         ->assertSee('Local demo accounts')
         ->assertPresent('input[name="email"]')
@@ -63,7 +75,7 @@ test('admin can authenticate and reach checklist template administration in the 
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
         ->assertSee('Checklist Templates')
-        ->assertSee('Live runtime ownership by scope')
+        ->assertSee('Live checklist ownership by scope')
         ->assertSee('Live covered')
         ->assertSee('Create template')
         ->assertPresent('tr[data-template-active="true"]')
@@ -89,6 +101,20 @@ test('admin can authenticate and reach checklist template administration in the 
         ->assertSee('This is the scope lane currently selected in the governance form.')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
+});
+
+test('guest visual baselines hold for home and login', function () {
+    [$homePage, $loginPage] = visit(['/', '/login']);
+
+    $homePage
+        ->assertNoSmoke()
+        ->assertNoAccessibilityIssues()
+        ->assertScreenshotMatches();
+
+    $loginPage
+        ->assertNoSmoke()
+        ->assertNoAccessibilityIssues()
+        ->assertScreenshotMatches();
 });
 
 test('management dashboard drill-down links lead to filtered incident follow-up views', function () {
@@ -370,7 +396,7 @@ test('staff incident reporting shows a post-submit outcome screen', function () 
         ->select('category', 'อื่น ๆ')
         ->select('severity', 'Low')
         ->fill('description', 'Testing the incident outcome surface.')
-        ->click('Create Incident')
+        ->click('Create incident')
         ->assertSee('Submission Recap')
         ->assertSee('What Happens Next')
         ->assertPresent('.ops-recap-panel')

@@ -1,6 +1,15 @@
 # Daily Ops Command Center
 
-Laravel 13 + Livewire 4 application for daily operations tracking, checklist execution, incident management, and checklist template administration.
+Daily Operations Command Center is an internal web application for university computer lab teams. It helps duty staff complete routine checks, report room/equipment/network issues, and lets supervisors monitor the day’s work from one shared workboard.
+
+Current product stance:
+
+- internal provisioning only
+- 3 roles only: `admin`, `supervisor`, `staff`
+- single-organization demo baseline
+- no public sign-up
+- no multi-tenant model
+- disciplined MVP+ / strong capstone, not an enterprise platform
 
 ## Stack
 
@@ -50,6 +59,21 @@ composer test:browser
 
 Browser smoke tests use Pest Browser + Playwright. On Linux/WSL hosts, Playwright also needs system browser libraries in addition to `npx playwright install chromium`. If those host dependencies are missing locally, use the GitHub Actions browser job as the authoritative execution surface until the machine is provisioned correctly.
 
+## Documentation Reading Order
+
+Read these first when you need current repo truth:
+
+1. `docs/00_Project_Lock_v1.1.md`
+2. `docs/01_Product_Brief_v1.1.md`
+3. `docs/02_System_Spec_v0.3.md`
+4. `docs/04_Current_State_v1.3.md`
+
+Document roles:
+
+- canonical truth: `00`, `01`, `02`, `04`, plus `05`, `06`, `22`, `24`, `26` when a contract changes
+- execution history: numbered execution packs such as `39-100`
+- external or AI analysis references: ad hoc audit files under `docs/` are reference inputs only and must never override repo source-of-truth documents
+
 ## CI Prerequisites
 
 GitHub Actions expects repository secrets for Flux package access:
@@ -95,7 +119,7 @@ npm run build
 - Template administration now shows live activation impact cues before save, so admins can see when a draft will replace the current live checklist.
 - Checklist follow-up handoff now uses one prefill contract shared by both the daily checklist surface and the incident create surface, so future checklist-to-incident context can grow without re-embedding query-shaping logic in Livewire components.
 - `WF1 Scoped Daily Operations Runtime` is now visible on the management dashboard as well: dashboard signals now show checklist lane truth by opening, midday, and closing scope so missing or incomplete live coverage is no longer hidden behind aggregate totals.
-- Template administration now also reads as a scope-governance surface: admins can see live runtime ownership by opening, midday, and closing lane instead of interpreting scope only from a flat template table.
+- Template administration now also reads as a scope-governance surface: admins can see live checklist ownership by opening, midday, and closing lane instead of interpreting scope only from a flat template table.
 - WF1 is now closed as a complete product wave: the repository’s canonical docs, decision history, and system/data references now match the scoped runtime that already exists in code.
 - WF2 has now started landing as the next usefulness wave: `WF2-A Incident Ownership Lite` adds optional management owner and follow-up target accountability to incidents without crossing into enterprise assignment, escalation, or notification systems.
 - WF2-B is now live as well: the management incident queue can filter by unowned, mine, and overdue follow-up while incident detail surfaces now flag ownership pressure more explicitly.
@@ -138,7 +162,7 @@ npm run build
 
 For local/manual demos with seeded data:
 
-1. Log in as `operatora@example.com` / `password` to show checklist execution and incident reporting.
+1. Log in as `operatora@example.com` / `password` to show duty-staff checklist execution and incident reporting.
 2. Log in as `supervisor@example.com` / `password` to show dashboard attention states and incident follow-up.
 3. Log in as `admin@example.com` / `password` to show checklist template administration inside the main app shell.
 

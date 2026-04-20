@@ -5,11 +5,11 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Admin workspace') }}</p>
                 <h2 class="ops-page__title">{{ __('Checklist Templates') }}</h2>
                 <p class="ops-page-intro__body">
-                    Govern the live checklist runtime by scope, shape draft revisions safely, and keep daily operations aligned with the real workflow.
+                    Govern the live checklist lanes by scope, shape draft revisions safely, and keep the lab team aligned with the real workflow.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live template control') }}</span>
-                    <span class="ops-shell-chip">{{ __('Scope-aware runtime') }}</span>
+                    <span class="ops-shell-chip">{{ __('Scope-aware lanes') }}</span>
                     <span class="ops-shell-chip">{{ __('Draft-safe editing') }}</span>
                     <span class="ops-shell-chip">{{ __('Admin only') }}</span>
                 </div>
@@ -42,7 +42,7 @@
                         This screen now lives inside the main application shell so template administration uses the same navigation, authentication, and visual language as the rest of the product.
                     </p>
                     <p class="mt-3">
-                        Each checklist scope now owns its own live runtime lane. Saving a template as active only retires the currently active template inside the same scope.
+                        Each checklist scope now owns its own live lab lane. Saving a template as active only retires the currently active template inside the same scope.
                     </p>
                 </x-ops.callout>
             </div>
@@ -52,7 +52,7 @@
             <div class="ops-section-heading">
                 <div>
                     <p class="ops-section-heading__eyebrow">Scope governance</p>
-                    <h3 class="ops-section-heading__title">Live runtime ownership by scope</h3>
+                    <h3 class="ops-section-heading__title">Live checklist ownership by scope</h3>
                     <p class="ops-section-heading__body">Use this board to confirm which template currently owns each live checklist lane before you duplicate, revise, or replace anything.</p>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                                     @if ($lane['state'] === 'missing')
                                         {{ __('This operating lane has drafts only or no template at all, so staff cannot receive a live checklist here yet.') }}
                                     @else
-                                        {{ __('This template currently owns the live :scope runtime lane.', ['scope' => strtolower($lane['scope'])]) }}
+                                        {{ __('This template currently owns the live :scope checklist lane.', ['scope' => strtolower($lane['scope'])]) }}
                                     @endif
                                 </p>
                             </div>

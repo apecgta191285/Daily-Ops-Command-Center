@@ -1,0 +1,69 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Domain\Access\Enums\UserRole;
+use App\Domain\Checklists\Enums\ChecklistScope;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+test('guest entry surfaces describe the product as a university computer lab operations system', function () {
+    $home = $this->get(route('home'));
+    $login = $this->get(route('login'));
+
+    $home->assertOk();
+    $home->assertSee('University Computer Lab Daily Ops');
+    $home->assertSee('Run lab opening checks, catch room issues early, and keep the team aligned from one shared workspace.');
+    $home->assertSee('Internal access for duty staff, lab supervisors, and admins');
+
+    $login->assertOk();
+    $login->assertSee('Use your assigned lab team account to continue into today’s workspace');
+    $login->assertSee('Duty staff');
+    $login->assertSee('lab opening or closing checklist execution and incident reporting');
+});
+
+test('staff checklist surface uses lab-team wording for live checklist work', function () {
+    $staff = $this->createUserForRole(UserRole::Staff);
+    $this->createTemplateWithItems([
+        'title' => 'Lab opening check',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
+
+    $response = $this->actingAs($staff)->get(route('checklists.runs.today'));
+
+    $response->assertOk();
+    $response->assertSee('Duty staff checklist');
+    $response->assertSee('Complete the live checklist, keep evidence quality tight, and escalate real lab issues without losing context.');
+    $response->assertSee('Daily Checklist');
+});
+
+test('admin governance surfaces use lab-team framing and expose the UI contract guide', function () {
+    $admin = $this->createUserForRole(UserRole::Admin);
+
+    $templates = $this->actingAs($admin)->get(route('templates.index'));
+    $users = $this->actingAs($admin)->get(route('users.index'));
+    $guide = $this->actingAs($admin)->get(route('ui-governance'));
+
+    $templates->assertOk();
+    $templates->assertSee('Govern the live checklist lanes by scope');
+    $templates->assertSee('Live checklist ownership by scope');
+
+    $users->assertOk();
+    $users->assertSee('Govern internal lab team accounts');
+    $users->assertSee('Operate lab team access like part of the product');
+
+    $guide->assertOk();
+    $guide->assertSee('UI Contract Guide');
+    $guide->assertSee('University Computer Lab Daily Ops');
+    $guide->assertSee('One icon family only');
+});
+
+test('non admins cannot access the UI contract guide', function () {
+    $supervisor = $this->createUserForRole(UserRole::Supervisor);
+    $staff = $this->createUserForRole(UserRole::Staff);
+
+    $this->actingAs($supervisor)->get(route('ui-governance'))->assertForbidden();
+    $this->actingAs($staff)->get(route('ui-governance'))->assertForbidden();
+});

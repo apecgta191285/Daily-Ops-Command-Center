@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Historical recap') }}</p>
                 <h2 class="ops-page__title">{{ $this->pageTitle }}</h2>
                 <p class="ops-page-intro__body">
-                    Re-open a submitted checklist run as operational recap so management can review completion, not-done answers, and notes without going back into the live runtime.
+                    Re-open a submitted checklist run as operational recap so management can review completion, not-done answers, and notes without going back into the live checklist flow.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Submitted archive') }}</span>

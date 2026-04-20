@@ -50,10 +50,10 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Template Administration</p>
+                    <p class="ops-hero__eyebrow">Template administration</p>
                     <h3 class="ops-hero__title">{{ __($this->pageTitle) }}</h3>
                     <p class="ops-hero__lead">
-                        Build the live daily checklist with safer revision cues, lightweight grouping, and explicit activation impact before anything replaces the current operational standard.
+                        Build the live lab checklist with safer revision cues, lightweight grouping, and explicit activation impact before anything replaces the current operating standard.
                     </p>
 
                     <div class="ops-hero__meta">
@@ -171,7 +171,7 @@
                             <div>
                                 <p class="ops-section-heading__eyebrow">Checklist structure</p>
                                 <h3 class="ops-section-heading__title">Checklist Items</h3>
-                                <p class="ops-section-heading__body">Define the ordered steps staff will see during the daily checklist flow.</p>
+                                <p class="ops-section-heading__body">Define the ordered steps duty staff will see during the daily checklist flow.</p>
                             </div>
 
                             <button type="button" wire:click="addItem" class="ops-button ops-button--secondary">
@@ -331,7 +331,7 @@
                                     @if ($hasRunHistory)
                                         {{ __('This template already has :count recorded run(s). Duplicate it before major structural edits so historical runs stay easy to interpret.', ['count' => $runCount]) }}
                                     @elseif ($is_active)
-                                        {{ __('This template is currently active for its scope. Duplicate it if you want to prepare a revised version without changing that live runtime immediately.') }}
+                                        {{ __('This template is currently active for its scope. Duplicate it if you want to prepare a revised version without changing that live checklist lane immediately.') }}
                                     @else
                                         {{ __('Duplicate this template when you want to branch a new revision instead of overwriting the current draft.') }}
                                     @endif
@@ -365,7 +365,7 @@
                                         <option value="{{ $scopeOption }}">{{ $scopeOption }}</option>
                                     @endforeach
                                 </select>
-                                <p class="ops-field-help">Scope determines which live runtime lane this template can own. Only one active template may exist within each scope.</p>
+                                <p class="ops-field-help">Scope determines which live checklist lane this template can own. Only one active template may exist within each scope.</p>
                                 @error('scope') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
@@ -409,9 +409,9 @@
                                                 @if ($lane['is_selected_scope'])
                                                     {{ __('This is the scope lane currently selected in the governance form.') }}
                                                 @elseif ($lane['state'] === 'missing')
-                                                    {{ __('No live runtime owner exists in this scope yet.') }}
+                                                    {{ __('No live checklist owner exists in this scope yet.') }}
                                                 @else
-                                                    {{ __('This scope already has a live runtime owner.') }}
+                                                    {{ __('This scope already has a live checklist owner.') }}
                                                 @endif
                                             </p>
                                         </div>

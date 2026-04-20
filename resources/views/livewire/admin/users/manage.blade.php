@@ -45,7 +45,7 @@
                     <p class="ops-hero__eyebrow">Lifecycle control</p>
                     <h3 class="ops-hero__title">{{ __($this->pageTitle) }}</h3>
                     <p class="ops-hero__lead">
-                        Keep user lifecycle explicit: one role lane, one active access switch, and one controlled password path without inventing invitation infrastructure or hidden admin-only database rituals.
+                        Keep lab team lifecycle explicit: one role lane, one active access switch, and one controlled password path without inventing invitation infrastructure or hidden admin-only database rituals.
                     </p>
 
                     <div class="ops-hero__meta">
@@ -90,7 +90,7 @@
                             <div>
                                 <p class="ops-section-heading__eyebrow">Lifecycle rhythm</p>
                                 <h3 class="ops-section-heading__title">Provision or revise access in three passes</h3>
-                                <p class="ops-section-heading__body">Set identity first, choose the operating lane second, then decide whether the account should be active right now.</p>
+                                <p class="ops-section-heading__body">Set identity first, choose the role lane second, then decide whether the account should be active right now.</p>
                             </div>
                         </div>
 

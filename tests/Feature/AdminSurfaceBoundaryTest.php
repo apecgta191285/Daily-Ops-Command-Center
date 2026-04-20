@@ -30,7 +30,7 @@ test('admin can access checklist templates inside the main application shell', f
     $response->assertOk();
     $response->assertSee('Checklist Templates');
     $response->assertSee('Create template');
-    $response->assertSee('Live runtime ownership by scope');
+    $response->assertSee('Live checklist ownership by scope');
     $response->assertSee('Live covered');
     $response->assertSee('Baseline active template');
     $response->assertSee('data-template-active="true"', false);

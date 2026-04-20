@@ -1,6 +1,6 @@
 <x-layouts::auth :title="__('Log in')">
     <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+        <x-auth-header :title="__('Log in to your account')" :description="__('Use your assigned lab team account to continue into today’s workspace')" />
 
         <x-auth-session-status class="text-center" :status="session('status')" />
 
@@ -8,9 +8,9 @@
             <div class="auth-callout">
                 <p class="auth-callout__eyebrow">{{ __('Local demo accounts') }}</p>
                 <ul class="mt-3 space-y-2">
-                    <li><strong class="ops-text-heading">Admin</strong>: <code>admin@example.com</code> / <code>password</code> — {{ __('dashboard, triage, and checklist template administration') }}</li>
-                    <li><strong class="ops-text-heading">Supervisor</strong>: <code>supervisor@example.com</code> / <code>password</code> — {{ __('dashboard and incident follow-up without template administration') }}</li>
-                    <li><strong class="ops-text-heading">Staff</strong>: <code>operatora@example.com</code> / <code>password</code> — {{ __('daily checklist execution and incident reporting') }}</li>
+                    <li><strong class="ops-text-heading">Admin</strong>: <code>admin@example.com</code> / <code>password</code> — {{ __('template governance, user lifecycle, dashboard, and incident follow-up') }}</li>
+                    <li><strong class="ops-text-heading">Supervisor</strong>: <code>supervisor@example.com</code> / <code>password</code> — {{ __('dashboard, queue review, and incident follow-up without admin governance') }}</li>
+                    <li><strong class="ops-text-heading">Duty staff</strong>: <code>operatora@example.com</code> / <code>password</code> — {{ __('lab opening or closing checklist execution and incident reporting') }}</li>
                 </ul>
             </div>
         @endif

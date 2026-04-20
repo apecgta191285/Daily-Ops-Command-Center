@@ -80,6 +80,9 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::get('users/{user}/edit', UserManage::class)
             ->name('users.edit');
+
+        Route::view('ui-governance', 'admin.ui-governance')
+            ->name('ui-governance');
     });
 });
 
