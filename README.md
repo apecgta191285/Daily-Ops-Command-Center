@@ -71,7 +71,7 @@ Read these first when you need current repo truth:
 Document roles:
 
 - canonical truth: `00`, `01`, `02`, `04`, plus `05`, `06`, `22`, `24`, `26` when a contract changes
-- execution history: numbered execution packs such as `39-100`
+- execution history: numbered execution packs such as `39-102`
 - external or AI analysis references: ad hoc audit files under `docs/` are reference inputs only and must never override repo source-of-truth documents
 
 ## CI Prerequisites
@@ -138,6 +138,7 @@ npm run build
 - WF5-A is now live as the first dashboard workboard slice: management can see pending lane truth more clearly, so the homepage answers what still needs attention today without turning into another checklist screen.
 - WF5-B is now live as well: dashboard ownership pressure now reads as actionable work buckets instead of scattered numbers, while still drilling into the existing incident queue rather than duplicating it.
 - WF5-C is now live as well: the dashboard now uses recent checklist archive context and incident-history slices as thin command memory, so today’s workboard can signal when the recent record looks calm or when carryover deserves attention.
+- Phase 4 selective tightening now also adds print-friendly evidence surfaces: management can open a printable checklist recap or printable incident summary when they need a clean review/demo artifact, without expanding the product into a reporting or export platform.
 - WF5 is now closed as a complete product wave: the dashboard is now part of the repository’s canonical truth as a today-first management workboard built from scope truth, ownership pressure, and recent operational context without becoming analytics theater or a duplicate queue.
 - Frontend contract hardening has started: shared visual tokens now cover subtle surfaces, danger/brand actions, motion timing, shadows, and radius scales, while alert feedback can dismiss cleanly without page reloads.
 - Frontend component language now includes reusable stat cards, empty states, callouts, chips, and timeline shells so major product surfaces can evolve on shared primitives instead of ad-hoc markup.
@@ -167,6 +168,7 @@ For local/manual demos with seeded data:
 3. Log in as `admin@example.com` / `password` to show checklist template administration inside the main app shell.
 
 The seeded narrative is intentionally small and realistic: it includes one active opening template, a mix of open/in-progress/resolved incidents, and recent history that supports dashboard, checklist, and triage walkthroughs.
+It also now supports a lightweight evidence flow where management can print one checklist recap or one incident summary directly from the live product surfaces during a demo or review session.
 
 See also:
 
@@ -234,6 +236,8 @@ See also:
 - `docs/98_WF5_B_Ownership_and_Work_Buckets_Execution_Pack_2026-04-20.md`
 - `docs/99_WF5_C_History_Aware_Command_Layer_Execution_Pack_2026-04-20.md`
 - `docs/100_WF5_D_Quality_Hardening_and_Documentation_Execution_Pack_2026-04-20.md`
+- `docs/101_Identity_Realignment_and_Frontend_Governance_Execution_Pack_2026-04-20.md`
+- `docs/102_Phase4_Evidence_Print_Surfaces_Execution_Pack_2026-04-20.md`
 
 ## Canonical Documentation
 

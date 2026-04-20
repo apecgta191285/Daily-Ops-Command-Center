@@ -168,4 +168,115 @@
     .ops-inline-link:hover {
         color: color-mix(in srgb, var(--app-action-primary) 78%, black);
     }
+
+    .ops-print-shell {
+        min-height: 100vh;
+        padding: clamp(1.25rem, 3vw, 2.5rem);
+        background:
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-action-primary) 12%, transparent), transparent 30%),
+            linear-gradient(180deg, color-mix(in srgb, var(--app-shell-bg) 97%, black), color-mix(in srgb, var(--app-shell-bg) 94%, black));
+        color: var(--app-text);
+    }
+
+    .ops-print-sheet {
+        @apply mx-auto space-y-6;
+        max-width: 78rem;
+    }
+
+    .ops-print-toolbar {
+        @apply rounded-[1.75rem] border px-5 py-5 shadow-sm sm:px-6;
+        border-color: var(--app-shell-border);
+        background:
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-action-primary) 14%, transparent), transparent 32%),
+            linear-gradient(145deg, color-mix(in srgb, var(--app-shell-bg) 95%, black), color-mix(in srgb, var(--app-shell-bg) 92%, black));
+        color: var(--app-shell-text);
+    }
+
+    .ops-print-toolbar__inner {
+        @apply flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between;
+    }
+
+    .ops-print-toolbar__eyebrow {
+        @apply text-xs font-semibold uppercase tracking-[0.08em];
+        color: color-mix(in srgb, var(--app-shell-muted) 82%, white);
+    }
+
+    .ops-print-toolbar__title {
+        @apply mt-2 text-2xl font-semibold;
+        color: var(--app-shell-text);
+    }
+
+    .ops-print-toolbar__copy {
+        @apply mt-2 max-w-2xl text-sm leading-6;
+        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+    }
+
+    .ops-print-toolbar__actions {
+        @apply flex flex-wrap items-center gap-3;
+    }
+
+    .ops-print-header {
+        @apply rounded-[1.75rem] border px-5 py-5 shadow-sm sm:px-6;
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 97%, white), var(--app-surface)),
+            var(--app-surface);
+    }
+
+    .ops-print-header__eyebrow {
+        @apply text-xs font-semibold uppercase tracking-[0.08em];
+        color: var(--app-text-muted);
+    }
+
+    .ops-print-header__title {
+        @apply mt-2 text-3xl font-semibold;
+        color: var(--app-heading);
+    }
+
+    .ops-print-header__body {
+        @apply mt-3 max-w-3xl text-sm leading-6;
+        color: var(--app-text-muted);
+    }
+
+    .ops-print-chip-row {
+        @apply mt-5 flex flex-wrap items-center gap-3;
+    }
+
+    .ops-print-grid {
+        @apply grid gap-4 lg:grid-cols-2;
+    }
+
+    .ops-print-grid--summary {
+        @apply items-start;
+    }
+
+    .ops-print-section {
+        @apply space-y-4;
+    }
+
+    @media print {
+        .ops-print-shell {
+            padding: 0;
+            background: white;
+        }
+
+        .ops-print-sheet {
+            max-width: none;
+        }
+
+        .ops-print-toolbar {
+            display: none;
+        }
+
+        .ops-print-header,
+        .ops-recap-panel,
+        .ops-history-answer-card,
+        .ops-incident-panel,
+        .ops-timeline__card,
+        .ops-callout,
+        .ops-history-summary-card {
+            break-inside: avoid;
+            box-shadow: none;
+        }
+    }
 }

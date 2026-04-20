@@ -68,7 +68,7 @@
 * Incident ใน v1 หลัง WF2 อาจมี `owner_id` และ `follow_up_due_at` แบบ optional ได้ โดย owner ต้องเป็น management-capable user เท่านั้น  
 * Incident status ใน v1 จำกัดที่ Open / In Progress / Resolved  
 * การอัปเดต incident status อนุญาตเฉพาะ Admin และ Supervisor เท่านั้น  
-* Operational history ใน v1 หลัง WF4 เป็น lightweight review layer เท่านั้น: รองรับ checklist run archive และ incident history slices โดยยังไม่มี exports, analytics warehouse, retrospective KPI builder, หรือ reassignment history
+* Operational history ใน v1 หลัง WF4 เป็น lightweight review layer เท่านั้น: รองรับ checklist run archive และ incident history slices รวมถึง print-friendly recap/summary surfaces แบบรายรายการเพื่อใช้เป็น evidence convenience ได้ แต่ยังไม่มี exports, analytics warehouse, retrospective KPI builder, หรือ reassignment history
 * User administration ใน v1 เป็น admin-only route family แบบ lightweight: `/users`, `/users/create`, `/users/{user}/edit`
 * `is_active` เป็น access gate หลักของ user lifecycle; inactive accounts ต้องไม่สามารถ authenticate ได้
 * Admin lifecycle ต้องไม่อนุญาตให้ระบบไม่มี active admin เหลืออยู่ และต้องกัน self-deactivation / self-demotion ภายใน workflow เดียวกัน
@@ -97,6 +97,7 @@
 * Incident สร้างและเปลี่ยนสถานะได้จริงโดยไม่ใช้ข้อมูลจำลองลอย ๆ  
 * Dashboard แสดง workboard signals ของวันจากฐานข้อมูลจริง ทั้ง completion, scope-lane coverage, incidents, accountability pressure, และ recent-history command context  
 * Management ต้องสามารถเปิด `/checklists/history` และ `/incidents/history` เพื่อ review operational history ล่าสุดได้จากข้อมูลจริงในระบบ
+* Management ต้องสามารถเปิด printable checklist recap และ printable incident summary ได้จากข้อมูลจริงในระบบ โดยไม่ต้องสร้าง report subsystem ใหม่
 * ระบบไม่เปิด route หรือ action ที่ไม่เกี่ยวข้องให้บทบาทที่ไม่มีสิทธิ์เข้าถึง  
 * Staff พยายามอัปเดต status incident แล้วต้องถูกปฏิเสธอย่างถูกต้อง
 * Management ต้องสามารถเห็น incident ที่ไม่มี owner, incident ที่ follow-up เลยกำหนด, และ incident ที่ตัวเองรับผิดชอบอยู่ได้โดยไม่ต้องตีความจาก activity timeline อย่างเดียว

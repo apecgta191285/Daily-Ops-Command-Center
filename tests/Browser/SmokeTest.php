@@ -253,11 +253,37 @@ test('management can browse checklist run archive without browser smoke issues',
         ->assertPathBeginsWith('/checklists/history/')
         ->assertSee('Historical recap')
         ->assertSee('Follow-up worth reviewing')
+        ->assertSee('Printable recap')
         ->assertSee('Review same day')
         ->assertSee('Review same scope')
         ->assertSee('Review same operator')
         ->assertSee('Opening checks')
         ->assertSee('Lamp issue')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
+});
+
+test('management incident detail exposes printable evidence summary without browser smoke issues', function () {
+    $admin = $this->createUserForRole(UserRole::Admin);
+    $owner = $this->createUserForRole(UserRole::Supervisor, ['name' => 'Printable Browser Owner']);
+
+    $this->createIncidentWithActivity($admin, [
+        'title' => 'Browser printable issue record',
+        'status' => IncidentStatus::InProgress->value,
+        'severity' => IncidentSeverity::High->value,
+        'owner_id' => $owner->id,
+        'follow_up_due_at' => today()->addDay(),
+    ]);
+
+    visit('/login')
+        ->fill('email', $admin->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->click('Incidents')
+        ->assertPathIs('/incidents')
+        ->click('View details')
+        ->assertSee('Printable summary')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });

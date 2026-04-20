@@ -102,6 +102,9 @@
                 </dl>
 
                 <div class="flex flex-wrap items-center gap-3">
+                    <a href="{{ route('checklists.history.print', $run) }}" class="ops-button" target="_blank" rel="noopener noreferrer">
+                        {{ __('Printable recap') }}
+                    </a>
                     <a href="{{ $this->dateArchiveUrl }}" class="ops-button ops-button--secondary" wire:navigate>
                         {{ __('Review same day') }}
                     </a>

@@ -15,6 +15,9 @@
             </div>
 
             <div class="ops-page-intro__actions">
+                <a href="{{ route('incidents.print', $incident) }}" class="ops-button" target="_blank" rel="noopener noreferrer">
+                    {{ __('Printable summary') }}
+                </a>
                 <a href="{{ route('incidents.index') }}" class="ops-button ops-button--secondary">
                     {{ __('Back to incident list') }}
                 </a>

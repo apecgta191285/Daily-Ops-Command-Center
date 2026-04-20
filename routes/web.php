@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Domain\Access\Enums\UserRole;
 use App\Http\Controllers\Admin\DuplicateChecklistTemplateController;
 use App\Http\Controllers\Management\DashboardController;
+use App\Http\Controllers\Management\PrintChecklistRunRecapController;
+use App\Http\Controllers\Management\PrintIncidentSummaryController;
 use App\Livewire\Admin\ChecklistTemplates\Index as TemplateIndex;
 use App\Livewire\Admin\ChecklistTemplates\Manage as TemplateManage;
 use App\Livewire\Admin\Users\Index as UserIndex;
@@ -48,11 +50,17 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('checklists/history/{run}', ChecklistHistoryShow::class)
             ->name('checklists.history.show');
 
+        Route::get('checklists/history/{run}/print', PrintChecklistRunRecapController::class)
+            ->name('checklists.history.print');
+
         Route::get('incidents', Index::class)
             ->name('incidents.index');
 
         Route::get('incidents/history', IncidentHistoryIndex::class)
             ->name('incidents.history.index');
+
+        Route::get('incidents/{incident}/print', PrintIncidentSummaryController::class)
+            ->name('incidents.print');
 
         Route::get('incidents/{incident}', Show::class)
             ->name('incidents.show');

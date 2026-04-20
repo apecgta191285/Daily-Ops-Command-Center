@@ -23,6 +23,19 @@ test('management-only route access applies to incident history', function () {
     $this->actingAs($this->staff)->get('/incidents/history')->assertForbidden();
 });
 
+test('management-only route access applies to printable incident summary', function () {
+    $incident = $this->createIncidentWithActivity($this->admin, [
+        'title' => 'Printable incident route record',
+        'status' => IncidentStatus::Open->value,
+    ]);
+
+    $this->get(route('incidents.print', $incident))->assertRedirect('/login');
+
+    $this->actingAs($this->admin)->get(route('incidents.print', $incident))->assertOk();
+    $this->actingAs($this->supervisor)->get(route('incidents.print', $incident))->assertOk();
+    $this->actingAs($this->staff)->get(route('incidents.print', $incident))->assertForbidden();
+});
+
 test('incident history shows recent opened and resolved slices for selected range', function () {
     $owner = $this->createUserForRole(UserRole::Supervisor, [
         'name' => 'History Owner',
@@ -69,4 +82,29 @@ test('incident history shows recent opened and resolved slices for selected rang
         ->get('/incidents/history?days=30')
         ->assertSee($openedStillActive->title)
         ->assertSee($resolvedRecently->title);
+});
+
+test('printable incident summary shows evidence and accountability snapshot', function () {
+    $owner = $this->createUserForRole(UserRole::Supervisor, [
+        'name' => 'Printable Summary Owner',
+        'email' => 'print-owner@example.com',
+    ]);
+
+    $incident = $this->createIncidentWithActivity($this->admin, [
+        'title' => 'Printer queue jam on lab floor',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::InProgress->value,
+        'owner_id' => $owner->id,
+        'follow_up_due_at' => now()->addDay(),
+    ]);
+
+    $response = $this->actingAs($this->admin)->get(route('incidents.print', $incident));
+
+    $response->assertOk();
+    $response->assertSee('Incident summary print view');
+    $response->assertSee('Print summary');
+    $response->assertSee('Printer queue jam on lab floor');
+    $response->assertSee('Queue pressure snapshot');
+    $response->assertSee($owner->name);
+    $response->assertSee('Activity trail');
 });

@@ -42,6 +42,21 @@ test('management-only route access applies to checklist run archive', function (
     $this->actingAs($this->staff)->get('/checklists/history')->assertForbidden();
 });
 
+test('management-only route access applies to printable checklist run recap', function () {
+    $run = $this->createRunForUser(
+        $this->operatorA,
+        $this->openingTemplate,
+        submitted: true,
+        runDate: '2026-04-17',
+    );
+
+    $this->get(route('checklists.history.print', $run))->assertRedirect('/login');
+
+    $this->actingAs($this->admin)->get(route('checklists.history.print', $run))->assertOk();
+    $this->actingAs($this->supervisor)->get(route('checklists.history.print', $run))->assertOk();
+    $this->actingAs($this->staff)->get(route('checklists.history.print', $run))->assertForbidden();
+});
+
 test('checklist run archive lists only submitted runs and respects date scope and operator filters', function () {
     $openingRun = $this->createRunForUser(
         $this->operatorA,
@@ -135,8 +150,32 @@ test('historical run recap shows grouped responses and hides unsubmitted runs', 
     $response->assertSee('Review same day');
     $response->assertSee('Review same scope');
     $response->assertSee('Review same operator');
+    $response->assertSee('Printable recap');
 
     $this->actingAs($this->supervisor)
         ->get(route('checklists.history.show', $draftRun))
         ->assertNotFound();
+});
+
+test('printable historical run recap shows print-friendly evidence summary', function () {
+    $submittedRun = $this->createRunForUser(
+        $this->operatorA,
+        $this->openingTemplate,
+        submitted: true,
+        itemStates: [
+            ['result' => ChecklistResult::Done->value, 'note' => null],
+            ['result' => ChecklistResult::NotDone->value, 'note' => 'Projector lamp issue'],
+        ],
+        runDate: '2026-04-17',
+    );
+
+    $response = $this->actingAs($this->admin)->get(route('checklists.history.print', $submittedRun));
+
+    $response->assertOk();
+    $response->assertSee('Checklist recap print view');
+    $response->assertSee('Print recap');
+    $response->assertSee($this->openingTemplate->title);
+    $response->assertSee('Evidence snapshot');
+    $response->assertSee('Follow-up worth reviewing');
+    $response->assertSee('Projector lamp issue');
 });
