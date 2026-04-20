@@ -87,8 +87,8 @@ class Manage extends Component
     public function getPageDescriptionProperty(): string
     {
         return $this->user
-            ? 'Update role, access state, and password control without leaving the main administration shell.'
-            : 'Provision a new internal account with an explicit role, active state, and initial password.';
+            ? 'Update role, access state, and password control without leaving the main administration workspace.'
+            : 'Create a new internal account with a clear role, access state, and initial password.';
     }
 
     /**
@@ -138,7 +138,7 @@ class Manage extends Component
             $signals[] = [
                 'tone' => 'success',
                 'title' => 'Provisioning stays internal and explicit',
-                'body' => 'WF3 keeps account creation inside admin control. No invitation flow or public registration is introduced here.',
+                'body' => 'Account creation stays inside admin control. No invitation flow or public registration is introduced here.',
             ];
         }
 
@@ -159,8 +159,8 @@ class Manage extends Component
     public function getPasswordHandoffNoteProperty(): string
     {
         return $this->user
-            ? 'Use this only when an admin needs to set a replacement password directly, then hand it off through your real internal communication path.'
-            : 'Set an explicit initial password here, then hand it off through your real internal onboarding path. WF3 does not depend on invitation email delivery.';
+            ? 'Use this only when an admin needs to set a replacement password directly, then hand it off through the team’s real internal communication path.'
+            : 'Set an explicit initial password here, then hand it off through the team’s real internal onboarding path. This workflow does not depend on invitation email delivery.';
     }
 
     /**

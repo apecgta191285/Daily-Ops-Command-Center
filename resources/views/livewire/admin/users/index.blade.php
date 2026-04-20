@@ -38,14 +38,14 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Administration</p>
-                    <h3 class="ops-hero__title">Operate lab team access like part of the product, not a hidden database task.</h3>
+                    <p class="ops-hero__eyebrow">Lab team access</p>
+                    <h3 class="ops-hero__title">Manage lab team access from inside the product.</h3>
                     <p class="ops-hero__lead">
-                        WF3 exposes account lifecycle inside the real app shell so admins can provision duty staff, adjust roles, and disable access intentionally without inventing enterprise IAM.
+                        Create accounts, adjust roles, and disable access when needed. Keep the roster small, internal, and easy to review.
                     </p>
 
                     <div class="ops-hero__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('WF3-B live') }}</span>
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Internal roster') }}</span>
                         <span class="ops-shell-chip">{{ __('Admin-governed lifecycle') }}</span>
                         <span class="ops-shell-chip">{{ __('Explicit initial password') }}</span>
                     </div>
@@ -133,7 +133,7 @@
                         Active accounts can sign in and continue through protected routes. Inactive accounts are intentionally blocked at authentication time and should read as disabled access for the lab team, not a broken login.
                     </p>
                     <p class="mt-3">
-                        WF3 keeps lifecycle small on purpose: one internal roster, one create/edit path, and one clear active access switch without invitations, approvals, or enterprise IAM drift.
+                        This workflow stays small on purpose: one internal roster, one create/edit path, and one clear active access switch without invitations or approval chains.
                     </p>
                 </x-ops.callout>
             </div>

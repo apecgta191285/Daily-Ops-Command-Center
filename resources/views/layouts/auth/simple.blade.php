@@ -63,8 +63,8 @@
                         <div class="auth-panel__brand">
                             <p class="auth-panel__kicker">{{ __('Secure sign-in') }}</p>
                             <div class="auth-panel__copy">
-                                <p class="auth-panel__title">{{ __('Access your operations workspace') }}</p>
-                                <p class="auth-panel__body">{{ __('Sign in with your assigned account to continue into the lab operations workspace.') }}</p>
+                                <p class="auth-panel__title">{{ __('Access your lab operations workspace') }}</p>
+                                <p class="auth-panel__body">{{ __('Sign in with your assigned account to continue into today’s lab workspace.') }}</p>
                             </div>
                         </div>
 

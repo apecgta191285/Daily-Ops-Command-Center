@@ -35,7 +35,7 @@ test('staff checklist surface uses lab-team wording for live checklist work', fu
 
     $response->assertOk();
     $response->assertSee('Duty staff checklist');
-    $response->assertSee('Complete the live checklist, keep evidence quality tight, and escalate real lab issues without losing context.');
+    $response->assertSee('Complete the live checklist, record what actually happened, and hand off real lab issues without losing context.');
     $response->assertSee('Daily Checklist');
 });
 
@@ -52,12 +52,44 @@ test('admin governance surfaces use lab-team framing and expose the UI contract 
 
     $users->assertOk();
     $users->assertSee('Govern internal lab team accounts');
-    $users->assertSee('Operate lab team access like part of the product');
+    $users->assertSee('Manage lab team access from inside the product');
 
     $guide->assertOk();
     $guide->assertSee('UI Contract Guide');
     $guide->assertSee('University Computer Lab Daily Ops');
     $guide->assertSee('One icon family only');
+});
+
+test('major authenticated surfaces avoid leftover theatrical wording', function () {
+    $admin = $this->createUserForRole(UserRole::Admin);
+    $staff = $this->createUserForRole(UserRole::Staff);
+
+    $this->createTemplateWithItems([
+        'title' => 'Lab opening check',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
+
+    $dashboard = $this->actingAs($admin)->get(route('dashboard'));
+    $usersManage = $this->actingAs($admin)->get(route('users.create'));
+    $templateManage = $this->actingAs($admin)->get(route('templates.create'));
+    $checklist = $this->actingAs($staff)->get(route('checklists.runs.today'));
+
+    $dashboard->assertOk();
+    $dashboard->assertSee('Lab operations today');
+    $dashboard->assertDontSee('Management visibility');
+
+    $usersManage->assertOk();
+    $usersManage->assertSee('Account setup');
+    $usersManage->assertDontSee('database rituals');
+
+    $templateManage->assertOk();
+    $templateManage->assertSee('Checklist drafting');
+    $templateManage->assertDontSee('Authoring pulse');
+
+    $checklist->assertOk();
+    $checklist->assertDontSee('generic flow');
+    $checklist->assertDontSee('evidence quality tight');
 });
 
 test('non admins cannot access the UI contract guide', function () {

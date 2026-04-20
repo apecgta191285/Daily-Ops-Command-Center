@@ -42,10 +42,10 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Lifecycle control</p>
+                    <p class="ops-hero__eyebrow">Account setup</p>
                     <h3 class="ops-hero__title">{{ __($this->pageTitle) }}</h3>
                     <p class="ops-hero__lead">
-                        Keep lab team lifecycle explicit: one role lane, one active access switch, and one controlled password path without inventing invitation infrastructure or hidden admin-only database rituals.
+                        Keep lab team access clear: one role lane, one active access switch, and one controlled password path managed directly inside the product.
                     </p>
 
                     <div class="ops-hero__meta">
@@ -228,7 +228,7 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Lifecycle pulse</p>
+                                <p class="ops-section-heading__eyebrow">Account check</p>
                                 <h3 class="ops-section-heading__title">Checkpoint summary</h3>
                                 <p class="ops-section-heading__body">Use these signals to confirm whether the account state you are about to save matches the operational intent.</p>
                             </div>
@@ -300,7 +300,7 @@
                         </div>
 
                         <div class="ops-card__body">
-                            <x-ops.callout title="No invitation pipeline here" tone="neutral">
+                            <x-ops.callout title="No invitation email flow here" tone="neutral">
                                 {{ __('WF3 does not introduce invitation emails, approval workflow, or external identity sync. Saving here applies the account change directly against the app-owned lifecycle contract.') }}
                             </x-ops.callout>
 

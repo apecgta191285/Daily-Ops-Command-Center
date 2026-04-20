@@ -109,8 +109,8 @@ class Manage extends Component
     public function getPageDescriptionProperty(): string
     {
         return $this->template
-            ? 'Refine the template structure used by daily checklist execution. Duplicate historically used templates before making larger structural changes.'
-            : 'Create the checklist template that staff will use in the operations workspace.';
+            ? 'Refine the checklist that staff already use in this lab workflow. Duplicate historically used templates before making larger structural changes.'
+            : 'Create the checklist template that duty staff will use during the daily lab routine.';
     }
 
     /**
@@ -177,7 +177,7 @@ class Manage extends Component
             $signals[] = [
                 'tone' => 'info',
                 'title' => 'Early draft shape',
-                'body' => 'Add a few more items before activation so the daily checklist reads like a complete opening, midday, or closing routine instead of a single isolated check.',
+                'body' => 'Add a few more items before activation so the checklist reads like a complete opening, during-day, or closing routine instead of one isolated check.',
             ];
         }
 
@@ -185,7 +185,7 @@ class Manage extends Component
             $signals[] = [
                 'tone' => 'warning',
                 'title' => 'Grouping will improve scan speed',
-                'body' => 'This draft is long enough to benefit from group labels. Use lightweight sections so staff can scan the checklist as operational phases instead of one uninterrupted list.',
+                'body' => 'This draft is long enough to benefit from group labels. Use lightweight sections so duty staff can scan the checklist in clear phases instead of one uninterrupted list.',
             ];
         }
 
@@ -209,7 +209,7 @@ class Manage extends Component
             $signals[] = [
                 'tone' => 'success',
                 'title' => 'This draft is pointed at live use',
-                'body' => 'Review ordering, section labels, and required flags carefully. Saving active changes the production checklist staff will execute next for this scope.',
+                'body' => 'Review ordering, section labels, and required flags carefully. Saving active changes the live checklist duty staff will use next for this scope.',
             ];
         }
 

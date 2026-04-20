@@ -9,11 +9,11 @@
                 <h2 class="ops-page__title">{{ __('Daily Checklist') }}</h2>
                 <p class="ops-page-intro__body">
                     @if ($errorState === 'scope_required')
-                        Choose the live checklist lane for this lab shift, then continue with the right checklist instead of forcing every operating moment into one generic flow.
+                        Choose the live checklist lane for this lab shift, then continue with the checklist that matches the operating moment you are actually working in.
                     @elseif ($errorState === 'scope_missing' && $this->scopeLabel)
                         The {{ $this->scopeLabel }} lane is not configured yet. Pick another live lane or ask an administrator to activate a template for that operating moment.
                     @else
-                        Complete the live checklist, keep evidence quality tight, and escalate real lab issues without losing context.
+                        Complete the live checklist, record what actually happened, and hand off real lab issues without losing context.
                     @endif
                 </p>
                 @if (! $errorState)
@@ -71,7 +71,7 @@
                         </h3>
                         <p class="ops-hero__lead">
                             @if ($errorState === 'scope_required')
-                                Staff checklist flow now follows the real operating moment. Pick the checklist scope you are working in so today&apos;s run, history, and issue follow-up stay aligned.
+                                Staff checklist flow now follows the real operating moment. Pick the checklist lane you are working in so today&apos;s run, history, and issue follow-up stay aligned.
                             @else
                                 There is no active template for the {{ $this->scopeLabel }} operating lane right now. You can move into another live lane, or ask an administrator to activate the correct template first.
                             @endif
@@ -196,7 +196,7 @@
                         <p class="ops-hero__eyebrow">Daily Checklist</p>
                         <h3 class="ops-hero__title">{{ $template->title }}</h3>
                         <p class="ops-hero__lead">
-                            Complete the live run for {{ \Carbon\Carbon::parse($run->run_date)->format('M d, Y') }}, keep note quality tight, and hand off any real issue into the incident flow without losing context.
+                            Complete the live run for {{ \Carbon\Carbon::parse($run->run_date)->format('M d, Y') }}, record clear notes when something is not right, and hand off any real issue into the incident flow without losing context.
                         </p>
 
                         <div class="ops-hero__meta">

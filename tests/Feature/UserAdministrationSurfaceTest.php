@@ -48,7 +48,7 @@ test('create user page shows lifecycle and role governance context', function ()
     $response->assertSee('Create User Account');
     $response->assertSee('Provision or revise access in three passes');
     $response->assertSee('Where this account will sit');
-    $response->assertSee('No invitation pipeline here');
+    $response->assertSee('No invitation email flow here');
 });
 
 test('edit user page shows existing lifecycle state and self-edit note when applicable', function () {

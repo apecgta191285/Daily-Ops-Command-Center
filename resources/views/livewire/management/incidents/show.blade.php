@@ -40,10 +40,10 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Incident narrative</p>
+                    <p class="ops-hero__eyebrow">Lab issue record</p>
                     <h3 class="ops-hero__title">{{ $incident->title }}</h3>
                     <p class="ops-hero__lead">
-                        Use this screen to understand what was reported in the lab, what the latest reviewer decided, and what should happen next in the queue.
+                        Use this screen to review what was reported, see the latest handling note, and decide the next follow-up for this lab issue.
                     </p>
                     <p class="ops-text-shell-muted mt-3 text-sm">
                         Reported by {{ $incident->creator?->name ?? 'Unknown' }} on {{ $incident->created_at->format('M d, Y H:i') }}

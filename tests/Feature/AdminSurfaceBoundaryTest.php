@@ -40,7 +40,7 @@ test('template create page shows activation impact against the current live temp
     $response = $this->actingAs($this->admin)->get(route('templates.create'));
 
     $response->assertOk();
-    $response->assertSee('Authoring pulse');
+    $response->assertSee('Draft check');
     $response->assertSee('Live execution preview');
     $response->assertSee('Activation impact');
     $response->assertSee('Scope lane');

@@ -69,10 +69,10 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Management visibility</p>
+                    <p class="ops-hero__eyebrow">Lab operations today</p>
                     <h3 class="ops-hero__title">Today&apos;s lab workboard.</h3>
                     <p class="ops-hero__lead">
-                        Use this surface to spot unresolved risk, compare today with yesterday, and confirm whether opening, during-day, and closing work is actually live and complete.
+                        Use this screen to see which checklist lanes still need attention, which incidents are still open, and whether the team is keeping up with today&apos;s lab work.
                     </p>
 
                     <div class="ops-hero__meta">
@@ -129,7 +129,7 @@
                         <div>
                             <p class="ops-section-heading__eyebrow">Today-first workboard</p>
                             <h2 class="ops-section-heading__title">Workboard Framing</h2>
-                            <p class="ops-section-heading__body">A compact read on whether today is still operationally open or already under control.</p>
+                            <p class="ops-section-heading__body">A compact read on whether today still needs action or is already under control.</p>
                         </div>
                     </div>
 

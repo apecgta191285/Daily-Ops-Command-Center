@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta
     name="description"
-    content="Daily Ops Command Center is a focused operations workspace for daily checklists, incident follow-up, and lightweight admin control for small internal teams."
+    content="Daily Ops Command Center is an internal web app for university computer lab teams, combining daily checks, issue follow-up, and lightweight administration in one place."
 />
 
 <title>

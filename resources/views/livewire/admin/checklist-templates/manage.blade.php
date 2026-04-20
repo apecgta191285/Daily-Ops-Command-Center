@@ -50,10 +50,10 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Template administration</p>
+                    <p class="ops-hero__eyebrow">Checklist drafting</p>
                     <h3 class="ops-hero__title">{{ __($this->pageTitle) }}</h3>
                     <p class="ops-hero__lead">
-                        Build the live lab checklist with safer revision cues, lightweight grouping, and explicit activation impact before anything replaces the current operating standard.
+                        Build the checklist that duty staff will actually use, keep the sequence easy to scan, and review live impact before anything replaces the current lab routine.
                     </p>
 
                     <div class="ops-hero__meta">
@@ -135,7 +135,7 @@
                                     <span class="ops-step-index">3</span>
                                     <div>
                                         <p class="ops-authoring-rhythm__title">{{ __('Review live impact') }}</p>
-                                        <p class="ops-authoring-rhythm__body">{{ __('Pause on the governance lane before save so you understand whether this draft stays private or replaces the current production checklist.') }}</p>
+                                        <p class="ops-authoring-rhythm__body">{{ __('Pause on the governance lane before save so you understand whether this draft stays private or replaces the current live checklist.') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -270,7 +270,7 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Authoring pulse</p>
+                                <p class="ops-section-heading__eyebrow">Draft check</p>
                                 <h3 class="ops-section-heading__title">Checkpoint summary</h3>
                                 <p class="ops-section-heading__body">A quick scan of what is ready, what is still thin, and which decisions will affect staff most once this draft goes live.</p>
                             </div>
