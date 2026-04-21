@@ -47,6 +47,8 @@
         /* Text: Absolute hierarchy. Pitch black for primary, stark slate for muted */
         --app-text: #27272a;
         --app-text-muted: #71717a;
+        --app-text-muted-strong: #52525b;
+        --app-text-muted-soft: #3f3f46;
         --app-heading: #09090b;
         --app-heading-soft: #18181b;
 
@@ -54,6 +56,8 @@
         --app-action-primary: #0036ee; 
         --app-action-primary-hover: #002ac0;
         --app-action-primary-text: #ffffff;
+        --app-action-primary-contrast: #1d4ed8;
+        --app-action-primary-contrast-hover: #1e40af;
         --app-action-secondary: #ffffff;
         --app-action-secondary-hover: #f4f4f5;
         --app-action-secondary-text: #09090b;
@@ -61,6 +65,7 @@
         --app-action-danger: #fff1f2;
         --app-action-danger-hover: #ffe4e6;
         --app-action-danger-text: #e11d48;
+        --app-action-danger-text-strong: #be123c;
         --app-action-danger-border: #fecdd3;
 
         /* Status Panels: Paper-tinted surfaces with hyper-saturated text ranges */

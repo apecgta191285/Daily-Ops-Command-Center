@@ -248,42 +248,42 @@
         @apply rounded-2xl border p-4 text-sm;
         border-color: var(--app-border);
         background-color: var(--app-surface-subtle);
-        color: #27272a;
+        color: var(--app-text);
     }
 
     .auth-callout__eyebrow {
         @apply text-xs font-semibold uppercase tracking-[0.12em];
-        color: #18181b;
+        color: var(--app-heading-soft);
     }
 
     .auth-callout code {
-        color: #18181b;
+        color: var(--app-heading-soft);
     }
 
     .auth-callout li,
     .auth-callout strong,
     .auth-callout code {
-        color: #27272a;
+        color: var(--app-text);
     }
 
     .auth-callout ul {
-        color: #27272a;
+        color: var(--app-text);
     }
 
     .auth-panel .ops-control::placeholder {
-        color: #52525b;
+        color: var(--app-text-muted-strong);
         opacity: 1;
     }
 
     .auth-panel .ops-button--primary {
-        background-color: #1d4ed8;
-        border-color: #1d4ed8;
-        color: #ffffff;
+        background-color: var(--app-action-primary-contrast);
+        border-color: var(--app-action-primary-contrast);
+        color: var(--app-action-primary-text);
     }
 
     .auth-panel .ops-button--primary:hover {
-        background-color: #1e40af;
-        border-color: #1e40af;
+        background-color: var(--app-action-primary-contrast-hover);
+        border-color: var(--app-action-primary-contrast-hover);
     }
 
     .welcome-stage__hero {

@@ -223,7 +223,7 @@
 
     .ops-section-heading__eyebrow {
         @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
-        color: #52525b;
+        color: var(--app-text-muted-strong);
     }
 
     .ops-section-heading__title {
@@ -234,7 +234,7 @@
 
     .ops-section-heading__body {
         @apply mt-2 max-w-3xl text-sm leading-6;
-        color: #3f3f46;
+        color: var(--app-text-muted-soft);
     }
 
     .ops-item-stack {

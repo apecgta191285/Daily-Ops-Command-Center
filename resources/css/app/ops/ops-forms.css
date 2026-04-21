@@ -56,15 +56,15 @@
     }
 
     .ops-button--primary {
-        background-color: #1d4ed8;
-        border-color: #1d4ed8;
-        color: #ffffff;
+        background-color: var(--app-action-primary-contrast);
+        border-color: var(--app-action-primary-contrast);
+        color: var(--app-action-primary-text);
         box-shadow: var(--app-shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
 
     .ops-button--primary:hover {
-        background-color: #1e40af;
-        border-color: #1e40af;
+        background-color: var(--app-action-primary-contrast-hover);
+        border-color: var(--app-action-primary-contrast-hover);
         box-shadow: var(--app-shadow-md), var(--app-glow-primary-sm), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
 
@@ -81,7 +81,7 @@
     .ops-button--danger {
         background-color: var(--app-action-danger);
         border-color: var(--app-action-danger-border);
-        color: #be123c;
+        color: var(--app-action-danger-text-strong);
     }
 
     .ops-button--danger:hover {
@@ -149,23 +149,23 @@
 
     .ops-callout__body {
         @apply mt-3 text-sm leading-6;
-        color: #3f3f46;
+        color: var(--app-text-muted-soft);
     }
 
     .ops-callout--info .ops-callout__title {
-        color: #1e3a8a;
+        color: var(--app-info-text);
     }
 
     .ops-callout--success .ops-callout__title {
-        color: #166534;
+        color: var(--app-success-text);
     }
 
     .ops-callout--warning .ops-callout__title {
-        color: #854d0e;
+        color: var(--app-warning-text);
     }
 
     .ops-callout--danger .ops-callout__title {
-        color: #9f1239;
+        color: var(--app-danger-text);
     }
 
     .ops-alert__inner {
@@ -258,12 +258,12 @@
 
     .ops-field-label {
         @apply mb-2 block text-sm font-medium;
-        color: #18181b;
+        color: var(--app-heading-soft);
     }
 
     .ops-field-help {
         @apply mt-2 text-xs;
-        color: #52525b;
+        color: var(--app-text-muted-strong);
     }
 
     .ops-field-error {
@@ -302,7 +302,7 @@
     }
 
     .ops-control::placeholder {
-        color: #52525b;
+        color: var(--app-text-muted-strong);
         opacity: 1;
     }
 }

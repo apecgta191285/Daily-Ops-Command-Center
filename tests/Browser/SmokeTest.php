@@ -172,7 +172,7 @@ test('admin can authenticate and reach checklist template administration in the 
         ->assertNoConsoleLogs();
 });
 
-test('guest visual baselines hold for home and login', function () {
+test('guest desktop screenshot baselines hold for home and login', function () {
     [$homePage, $loginPage] = visit(['/', '/login']);
 
     stabilizeVisualState($homePage)
@@ -184,7 +184,7 @@ test('guest visual baselines hold for home and login', function () {
         ->assertScreenshotMatches();
 });
 
-test('guest mobile visual baselines hold for home and login', function () {
+test('guest mobile browser coverage holds for home and login', function () {
     $homePage = visit('/')->on()->mobile();
     $loginPage = visit('/login')->on()->mobile();
 
@@ -198,7 +198,7 @@ test('guest mobile visual baselines hold for home and login', function () {
         ->assertScreenshotMatches();
 });
 
-test('admin governance visual baselines hold for deterministic authenticated surfaces', function () {
+test('admin governance screenshot and accessibility baselines hold for deterministic authenticated surfaces', function () {
     $admin = $this->createUserForRole(UserRole::Admin, ['name' => 'Browser Governance Admin']);
     $this->createUserForRole(UserRole::Supervisor, ['name' => 'Browser Governance Supervisor']);
     $this->createUserForRole(UserRole::Staff, ['name' => 'Browser Governance Staff']);
@@ -243,7 +243,7 @@ test('admin governance visual baselines hold for deterministic authenticated sur
         ->assertSee('Coverage by role lane');
 });
 
-test('dashboard visual baselines hold for desktop and mobile', function () {
+test('dashboard screenshot baselines hold for desktop and mobile', function () {
     $admin = $this->createUserForRole(UserRole::Admin, ['name' => 'Dashboard Snapshot Admin']);
     $supervisor = $this->createUserForRole(UserRole::Supervisor, ['name' => 'Dashboard Snapshot Supervisor']);
 
@@ -292,7 +292,7 @@ test('dashboard visual baselines hold for desktop and mobile', function () {
         ->assertScreenshotMatches();
 });
 
-test('template authoring visual baselines hold for desktop and mobile', function () {
+test('template authoring smoke coverage holds for desktop and mobile', function () {
     $admin = $this->createUserForRole(UserRole::Admin, ['name' => 'Template Snapshot Admin']);
     $this->createTemplateWithItems([
         'title' => 'Template snapshot opening checklist',
@@ -321,7 +321,7 @@ test('template authoring visual baselines hold for desktop and mobile', function
         ->assertSee('Core definition');
 });
 
-test('checklist runtime visual baselines hold for desktop and mobile', function () {
+test('checklist runtime screenshot baselines hold for desktop and mobile', function () {
     $staff = $this->createUserForRole(UserRole::Staff, ['name' => 'Checklist Snapshot Staff']);
 
     $this->createTemplateWithItems([
@@ -353,7 +353,7 @@ test('checklist runtime visual baselines hold for desktop and mobile', function 
         ->assertScreenshotMatches();
 });
 
-test('incident detail visual baselines hold for desktop and mobile', function () {
+test('incident detail smoke coverage holds for desktop and mobile', function () {
     $supervisor = $this->createUserForRole(UserRole::Supervisor, ['name' => 'Incident Snapshot Supervisor']);
 
     $incident = $this->createIncidentWithActivity($supervisor, [

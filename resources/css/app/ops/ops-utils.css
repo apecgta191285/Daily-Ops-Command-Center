@@ -60,7 +60,7 @@
         @apply inline-flex items-center rounded-xl border px-4 py-2.5 text-sm;
         border-color: var(--app-border);
         background-color: var(--app-surface-subtle);
-        color: var(--app-heading);
+        color: var(--app-heading-soft);
     }
 
     .ops-recap-grid {
