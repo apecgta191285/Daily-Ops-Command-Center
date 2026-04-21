@@ -435,7 +435,7 @@
 
     .ops-signal-card__body {
         @apply mt-3 text-sm leading-6;
-        color: var(--app-text-muted);
+        color: #52525b;
     }
 
     .ops-signal-card__footer {

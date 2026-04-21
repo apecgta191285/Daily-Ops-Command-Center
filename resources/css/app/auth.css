@@ -248,12 +248,42 @@
         @apply rounded-2xl border p-4 text-sm;
         border-color: var(--app-border);
         background-color: var(--app-surface-subtle);
-        color: var(--app-text-muted);
+        color: #27272a;
     }
 
     .auth-callout__eyebrow {
         @apply text-xs font-semibold uppercase tracking-[0.12em];
-        color: var(--app-text-muted);
+        color: #18181b;
+    }
+
+    .auth-callout code {
+        color: #18181b;
+    }
+
+    .auth-callout li,
+    .auth-callout strong,
+    .auth-callout code {
+        color: #27272a;
+    }
+
+    .auth-callout ul {
+        color: #27272a;
+    }
+
+    .auth-panel .ops-control::placeholder {
+        color: #52525b;
+        opacity: 1;
+    }
+
+    .auth-panel .ops-button--primary {
+        background-color: #1d4ed8;
+        border-color: #1d4ed8;
+        color: #ffffff;
+    }
+
+    .auth-panel .ops-button--primary:hover {
+        background-color: #1e40af;
+        border-color: #1e40af;
     }
 
     .welcome-stage__hero {

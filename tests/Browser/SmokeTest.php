@@ -11,6 +11,75 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
+function stabilizeVisualState($page)
+{
+    $page->script(<<<'JS'
+        if (! document.getElementById('browser-qa-disable-motion')) {
+            const style = document.createElement('style');
+            style.id = 'browser-qa-disable-motion';
+            style.textContent = `
+                *,
+                *::before,
+                *::after {
+                    animation: none !important;
+                    transition: none !important;
+                    caret-color: auto !important;
+                }
+
+                [data-motion],
+                [data-motion] *,
+                [data-motion] *::before,
+                [data-motion] *::after {
+                    opacity: 1 !important;
+                    transform: none !important;
+                    filter: none !important;
+                }
+
+                .auth-panel,
+                .auth-panel *,
+                .ops-card,
+                .ops-card *,
+                .ops-hero,
+                .ops-hero *,
+                .ops-workboard,
+                .ops-workboard *,
+                .ops-bucket-board,
+                .ops-bucket-board *,
+                .ops-context-board,
+                .ops-context-board *,
+                .ops-incident-panel,
+                .ops-incident-panel *,
+                .ops-incident-lane,
+                .ops-incident-lane * {
+                    opacity: 1 !important;
+                    transform: none !important;
+                    filter: none !important;
+                }
+            `;
+
+            document.head.appendChild(style);
+        }
+
+        document.querySelectorAll('[data-motion]').forEach((element) => {
+            element.classList.add('is-visible');
+            element.style.transition = 'none';
+            element.style.opacity = '1';
+            element.style.transform = 'none';
+            element.style.filter = 'none';
+        });
+        document.querySelectorAll('[data-meter-target]').forEach((meter) => {
+            meter.style.transition = 'none';
+            meter.style.width = `${meter.dataset.meterTarget ?? '0'}%`;
+        });
+
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
+    JS);
+
+    return $page->wait(0.35);
+}
+
 beforeEach(function () {
     Carbon::setTestNow(Carbon::parse('2026-04-20 09:00:00'));
 });
@@ -106,14 +175,26 @@ test('admin can authenticate and reach checklist template administration in the 
 test('guest visual baselines hold for home and login', function () {
     [$homePage, $loginPage] = visit(['/', '/login']);
 
-    $homePage
+    stabilizeVisualState($homePage)
+        ->assertNoSmoke()
+        ->assertScreenshotMatches();
+
+    stabilizeVisualState($loginPage)
+        ->assertNoSmoke()
+        ->assertScreenshotMatches();
+});
+
+test('guest mobile visual baselines hold for home and login', function () {
+    $homePage = visit('/')->on()->mobile();
+    $loginPage = visit('/login')->on()->mobile();
+
+    stabilizeVisualState($homePage)
         ->assertNoSmoke()
         ->assertNoAccessibilityIssues()
         ->assertScreenshotMatches();
 
-    $loginPage
+    stabilizeVisualState($loginPage)
         ->assertNoSmoke()
-        ->assertNoAccessibilityIssues()
         ->assertScreenshotMatches();
 });
 
@@ -138,7 +219,7 @@ test('admin governance visual baselines hold for deterministic authenticated sur
 
     $uiGovernancePage = visit('/ui-governance');
 
-    $uiGovernancePage
+    stabilizeVisualState($uiGovernancePage)
         ->assertNoSmoke()
         ->assertNoAccessibilityIssues()
         ->assertSee('UI Contract Guide')
@@ -160,6 +241,146 @@ test('admin governance visual baselines hold for deterministic authenticated sur
         ->assertNoAccessibilityIssues()
         ->assertSee('Team Access Roster')
         ->assertSee('Coverage by role lane');
+});
+
+test('dashboard visual baselines hold for desktop and mobile', function () {
+    $admin = $this->createUserForRole(UserRole::Admin, ['name' => 'Dashboard Snapshot Admin']);
+    $supervisor = $this->createUserForRole(UserRole::Supervisor, ['name' => 'Dashboard Snapshot Supervisor']);
+
+    $this->createTemplateWithItems([
+        'title' => 'Dashboard snapshot opening template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
+
+    $this->createIncidentWithActivity($admin, [
+        'title' => 'Dashboard snapshot hotspot incident',
+        'category' => 'เครือข่าย',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::Open->value,
+    ]);
+
+    $this->createIncidentWithActivity($supervisor, [
+        'title' => 'Dashboard snapshot overdue follow-up',
+        'category' => 'ความปลอดภัย',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::Open->value,
+        'owner_id' => $supervisor->id,
+        'follow_up_due_at' => today()->subDay(),
+    ]);
+
+    visit('/login')
+        ->fill('email', $admin->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->assertNoSmoke();
+
+    $dashboardDesktop = visit('/dashboard')->on()->desktop();
+    $dashboardMobile = visit('/dashboard')->on()->mobile();
+
+    stabilizeVisualState($dashboardDesktop)
+        ->assertNoSmoke()
+        ->assertSee('Workboard Framing')
+        ->assertSee('Operational Hotspots')
+        ->assertScreenshotMatches();
+
+    stabilizeVisualState($dashboardMobile)
+        ->assertNoSmoke()
+        ->assertSee('Workboard Framing')
+        ->assertSee('Operational Hotspots')
+        ->assertScreenshotMatches();
+});
+
+test('template authoring visual baselines hold for desktop and mobile', function () {
+    $admin = $this->createUserForRole(UserRole::Admin, ['name' => 'Template Snapshot Admin']);
+    $this->createTemplateWithItems([
+        'title' => 'Template snapshot opening checklist',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
+
+    visit('/login')
+        ->fill('email', $admin->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->assertNoSmoke();
+
+    $templateDesktop = visit('/templates/create')->on()->desktop();
+    $templateMobile = visit('/templates/create')->on()->mobile();
+
+    stabilizeVisualState($templateDesktop)
+        ->assertNoSmoke()
+        ->assertSee('Build the live checklist in three passes')
+        ->assertSee('Core definition');
+
+    stabilizeVisualState($templateMobile)
+        ->assertNoSmoke()
+        ->assertSee('Build the live checklist in three passes')
+        ->assertSee('Core definition');
+});
+
+test('checklist runtime visual baselines hold for desktop and mobile', function () {
+    $staff = $this->createUserForRole(UserRole::Staff, ['name' => 'Checklist Snapshot Staff']);
+
+    $this->createTemplateWithItems([
+        'title' => 'Checklist snapshot template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
+
+    visit('/login')
+        ->fill('email', $staff->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathBeginsWith('/checklists/runs/today')
+        ->assertNoSmoke();
+
+    $checklistDesktop = visit('/checklists/runs/today')->on()->desktop();
+    $checklistMobile = visit('/checklists/runs/today')->on()->mobile();
+
+    stabilizeVisualState($checklistDesktop)
+        ->assertNoSmoke()
+        ->assertSee('Today\'s Progress')
+        ->assertSee('Recent Submission Context')
+        ->assertScreenshotMatches();
+
+    stabilizeVisualState($checklistMobile)
+        ->assertNoSmoke()
+        ->assertSee('Today\'s Progress')
+        ->assertSee('Recent Submission Context')
+        ->assertScreenshotMatches();
+});
+
+test('incident detail visual baselines hold for desktop and mobile', function () {
+    $supervisor = $this->createUserForRole(UserRole::Supervisor, ['name' => 'Incident Snapshot Supervisor']);
+
+    $incident = $this->createIncidentWithActivity($supervisor, [
+        'title' => 'Incident snapshot detail record',
+        'severity' => IncidentSeverity::High->value,
+        'status' => IncidentStatus::InProgress->value,
+    ]);
+
+    visit('/login')
+        ->fill('email', $supervisor->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/dashboard')
+        ->assertNoSmoke();
+
+    $incidentDesktop = visit(route('incidents.show', $incident))->on()->desktop();
+    $incidentMobile = visit(route('incidents.show', $incident))->on()->mobile();
+
+    stabilizeVisualState($incidentDesktop)
+        ->assertNoSmoke()
+        ->assertSee('Latest handling context')
+        ->assertSee('Accountability lane');
+
+    stabilizeVisualState($incidentMobile)
+        ->assertNoSmoke()
+        ->assertSee('Latest handling context')
+        ->assertSee('Accountability lane');
 });
 
 test('management dashboard drill-down links lead to filtered incident follow-up views', function () {

@@ -56,15 +56,15 @@
     }
 
     .ops-button--primary {
-        background-color: var(--app-action-primary);
-        border-color: var(--app-action-primary);
-        color: var(--app-action-primary-text);
+        background-color: #1d4ed8;
+        border-color: #1d4ed8;
+        color: #ffffff;
         box-shadow: var(--app-shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
 
     .ops-button--primary:hover {
-        background-color: var(--app-action-primary-hover);
-        border-color: var(--app-action-primary-hover);
+        background-color: #1e40af;
+        border-color: #1e40af;
         box-shadow: var(--app-shadow-md), var(--app-glow-primary-sm), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
 
@@ -81,7 +81,7 @@
     .ops-button--danger {
         background-color: var(--app-action-danger);
         border-color: var(--app-action-danger-border);
-        color: var(--app-action-danger-text);
+        color: #be123c;
     }
 
     .ops-button--danger:hover {
@@ -149,7 +149,23 @@
 
     .ops-callout__body {
         @apply mt-3 text-sm leading-6;
-        color: var(--app-heading);
+        color: #3f3f46;
+    }
+
+    .ops-callout--info .ops-callout__title {
+        color: #1e3a8a;
+    }
+
+    .ops-callout--success .ops-callout__title {
+        color: #166534;
+    }
+
+    .ops-callout--warning .ops-callout__title {
+        color: #854d0e;
+    }
+
+    .ops-callout--danger .ops-callout__title {
+        color: #9f1239;
     }
 
     .ops-alert__inner {
@@ -242,12 +258,12 @@
 
     .ops-field-label {
         @apply mb-2 block text-sm font-medium;
-        color: var(--app-heading);
+        color: #18181b;
     }
 
     .ops-field-help {
         @apply mt-2 text-xs;
-        color: var(--app-text-muted);
+        color: #52525b;
     }
 
     .ops-field-error {
@@ -283,5 +299,10 @@
         box-shadow:
             0 0 0 2px var(--app-surface),
             0 0 0 4px color-mix(in srgb, var(--app-focus-ring) 34%, transparent);
+    }
+
+    .ops-control::placeholder {
+        color: #52525b;
+        opacity: 1;
     }
 }
