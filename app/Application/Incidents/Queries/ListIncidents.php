@@ -35,6 +35,10 @@ class ListIncidents
 
     public function query(IncidentListFilters $filters): Builder
     {
+        $status = $filters->statusEnum();
+        $category = $filters->categoryEnum();
+        $severity = $filters->severityEnum();
+
         return Incident::query()
             ->with(['creator', 'owner'])
             ->when($filters->unresolved, fn ($query) => $query->where('status', '!=', IncidentStatus::Resolved->value))
@@ -46,10 +50,11 @@ class ListIncidents
                 ->where('status', '!=', IncidentStatus::Resolved->value)
                 ->where('owner_id', $filters->actorId))
             ->when($filters->overdue, fn ($query) => IncidentFollowUpPolicy::applyOverdueToUnresolvedQuery($query))
-            ->when($filters->status !== '', fn ($query) => $query->where('status', $filters->status))
-            ->when($filters->category !== '', fn ($query) => $query->where('category', $filters->category))
-            ->when($filters->severity !== '', fn ($query) => $query->where('severity', $filters->severity))
-            ->latest();
+            ->when($status !== null, fn ($query) => $query->where('status', $status->value))
+            ->when($category !== null, fn ($query) => $query->where('category', $category->value))
+            ->when($severity !== null, fn ($query) => $query->where('severity', $severity->value))
+            ->orderByDesc('created_at')
+            ->orderByDesc('id');
     }
 
     /**

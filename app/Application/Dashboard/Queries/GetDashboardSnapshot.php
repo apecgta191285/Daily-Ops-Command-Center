@@ -15,12 +15,13 @@ use App\Application\Dashboard\Support\DashboardScopeLaneBuilder;
 use App\Application\Dashboard\Support\DashboardTrendBuilder;
 use App\Application\Dashboard\Support\DashboardWorkboardBuilder;
 use App\Application\Incidents\Queries\ListIncidentHistorySlices;
-use App\Application\Incidents\Support\IncidentFollowUpPolicy;
 use App\Application\Incidents\Support\IncidentStalePolicy;
 use App\Domain\Checklists\Enums\ChecklistResult;
+use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\ChecklistRun;
 use App\Models\Incident;
+use Carbon\CarbonInterface;
 
 class GetDashboardSnapshot
 {
@@ -44,6 +45,7 @@ class GetDashboardSnapshot
         $checklistCompletionSeries = $this->buildChecklistCompletionSeries();
         $incidentIntakeSeries = $this->buildIncidentIntakeSeries();
         $scopeChecklistLanes = ($this->scopeLaneBuilder)();
+        $incidentSummary = $this->buildIncidentSummary($today, $yesterday, $actorId);
 
         $todayRuns = ChecklistRun::query()
             ->whereDate('run_date', $today)
@@ -72,36 +74,18 @@ class GetDashboardSnapshot
             : 0;
 
         $incidentCounts = [
-            IncidentStatus::Open->value => Incident::query()->where('status', IncidentStatus::Open->value)->count(),
-            IncidentStatus::InProgress->value => Incident::query()->where('status', IncidentStatus::InProgress->value)->count(),
-            IncidentStatus::Resolved->value => Incident::query()->where('status', IncidentStatus::Resolved->value)->count(),
+            IncidentStatus::Open->value => $incidentSummary['openCount'],
+            IncidentStatus::InProgress->value => $incidentSummary['inProgressCount'],
+            IncidentStatus::Resolved->value => $incidentSummary['resolvedCount'],
         ];
 
-        $highSeverityUnresolvedCount = Incident::query()
-            ->where('severity', 'High')
-            ->where('status', '!=', IncidentStatus::Resolved->value)
-            ->count();
-
-        $staleUnresolvedCount = IncidentStalePolicy::applyToUnresolvedQuery(Incident::query())->count();
-        $unownedUnresolvedCount = Incident::query()
-            ->where('status', '!=', IncidentStatus::Resolved->value)
-            ->whereNull('owner_id')
-            ->count();
-        $overdueFollowUpCount = IncidentFollowUpPolicy::applyOverdueToUnresolvedQuery(Incident::query())->count();
-        $ownedByActorCount = $actorId !== null
-            ? Incident::query()
-                ->where('status', '!=', IncidentStatus::Resolved->value)
-                ->where('owner_id', $actorId)
-                ->count()
-            : 0;
-
-        $todayIncidentIntake = Incident::query()
-            ->whereDate('created_at', $today)
-            ->count();
-
-        $yesterdayIncidentIntake = Incident::query()
-            ->whereDate('created_at', $yesterday)
-            ->count();
+        $highSeverityUnresolvedCount = $incidentSummary['highSeverityUnresolvedCount'];
+        $staleUnresolvedCount = $incidentSummary['staleUnresolvedCount'];
+        $unownedUnresolvedCount = $incidentSummary['unownedUnresolvedCount'];
+        $overdueFollowUpCount = $incidentSummary['overdueFollowUpCount'];
+        $ownedByActorCount = $incidentSummary['ownedByActorCount'];
+        $todayIncidentIntake = $incidentSummary['todayIncidentIntake'];
+        $yesterdayIncidentIntake = $incidentSummary['yesterdayIncidentIntake'];
 
         $attentionItems = ($this->attentionAssembler)(
             todayRuns: $todayRuns,
@@ -199,6 +183,88 @@ class GetDashboardSnapshot
             ownershipPressure: $ownershipPressure,
             recentIncidents: $recentIncidents,
         );
+    }
+
+    /**
+     * @return array{
+     *     openCount: int,
+     *     inProgressCount: int,
+     *     resolvedCount: int,
+     *     highSeverityUnresolvedCount: int,
+     *     staleUnresolvedCount: int,
+     *     unownedUnresolvedCount: int,
+     *     overdueFollowUpCount: int,
+     *     ownedByActorCount: int,
+     *     todayIncidentIntake: int,
+     *     yesterdayIncidentIntake: int
+     * }
+     */
+    private function buildIncidentSummary(CarbonInterface $today, CarbonInterface $yesterday, ?int $actorId): array
+    {
+        $resolved = IncidentStatus::Resolved->value;
+        $open = IncidentStatus::Open->value;
+        $inProgress = IncidentStatus::InProgress->value;
+        $highSeverity = IncidentSeverity::High->value;
+        $staleCutoff = IncidentStalePolicy::cutoff()->toDateTimeString();
+        $followUpCutoff = $today->toDateString();
+        $todayDate = $today->toDateString();
+        $yesterdayDate = $yesterday->toDateString();
+
+        $summary = Incident::query()
+            ->selectRaw(
+                'SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as open_count',
+                [$open],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as in_progress_count',
+                [$inProgress],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as resolved_count',
+                [$resolved],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN severity = ? AND status != ? THEN 1 ELSE 0 END) as high_severity_unresolved_count',
+                [$highSeverity, $resolved],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN status != ? AND created_at <= ? THEN 1 ELSE 0 END) as stale_unresolved_count',
+                [$resolved, $staleCutoff],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN status != ? AND owner_id IS NULL THEN 1 ELSE 0 END) as unowned_unresolved_count',
+                [$resolved],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN status != ? AND follow_up_due_at IS NOT NULL AND DATE(follow_up_due_at) < ? THEN 1 ELSE 0 END) as overdue_follow_up_count',
+                [$resolved, $followUpCutoff],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN status != ? AND owner_id = ? THEN 1 ELSE 0 END) as owned_by_actor_count',
+                [$resolved, $actorId ?? 0],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN DATE(created_at) = ? THEN 1 ELSE 0 END) as today_incident_intake',
+                [$todayDate],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN DATE(created_at) = ? THEN 1 ELSE 0 END) as yesterday_incident_intake',
+                [$yesterdayDate],
+            )
+            ->first();
+
+        return [
+            'openCount' => (int) ($summary?->open_count ?? 0),
+            'inProgressCount' => (int) ($summary?->in_progress_count ?? 0),
+            'resolvedCount' => (int) ($summary?->resolved_count ?? 0),
+            'highSeverityUnresolvedCount' => (int) ($summary?->high_severity_unresolved_count ?? 0),
+            'staleUnresolvedCount' => (int) ($summary?->stale_unresolved_count ?? 0),
+            'unownedUnresolvedCount' => (int) ($summary?->unowned_unresolved_count ?? 0),
+            'overdueFollowUpCount' => (int) ($summary?->overdue_follow_up_count ?? 0),
+            'ownedByActorCount' => $actorId !== null ? (int) ($summary?->owned_by_actor_count ?? 0) : 0,
+            'todayIncidentIntake' => (int) ($summary?->today_incident_intake ?? 0),
+            'yesterdayIncidentIntake' => (int) ($summary?->yesterday_incident_intake ?? 0),
+        ];
     }
 
     /**
