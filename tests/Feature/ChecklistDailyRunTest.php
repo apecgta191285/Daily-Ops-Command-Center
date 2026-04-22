@@ -16,6 +16,7 @@ beforeEach(function () {
     $this->supervisor = $this->createUserForRole(UserRole::Supervisor);
     $this->operatorA = $this->createUserForRole(UserRole::Staff, ['email' => 'operatora@example.com']);
     $this->operatorB = $this->createUserForRole(UserRole::Staff, ['email' => 'operatorb@example.com']);
+    $this->room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
     $this->template1 = $this->createTemplateWithItems([
         'title' => 'Opening template',
         'scope' => ChecklistScope::OPENING->value,
@@ -38,6 +39,7 @@ beforeEach(function () {
             'result' => ChecklistResult::Done->value,
             'note' => null,
         ])->values()->all(),
+        room: $this->room,
     );
 });
 
@@ -51,10 +53,9 @@ test('route and access audit', function () {
 
 test('daily checklist shows a runtime board when multiple scope templates are live', function () {
     $this->template2->update(['is_active' => true]);
-    $room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
 
     Livewire::actingAs($this->operatorB)
-        ->withQueryParams(['room' => $room->id])
+        ->withQueryParams(['room' => $this->room->id])
         ->test(DailyRun::class)
         ->assertSet('errorState', 'scope_required')
         ->assertSee('Choose the checklist lane for this room')
@@ -159,6 +160,7 @@ test('daily checklist shows recent submission context for the current operator',
             ['result' => ChecklistResult::NotDone->value, 'note' => 'Printer issue'],
         ],
         runDate: now()->subDay()->toDateString(),
+        room: $this->room,
     );
 
     Livewire::actingAs($this->operatorB)
@@ -188,6 +190,7 @@ test('daily checklist shows lightweight anomaly memory for items with recent not
             ['result' => ChecklistResult::Done->value, 'note' => null],
         ],
         runDate: now()->subDay()->toDateString(),
+        room: $this->room,
     );
 
     Livewire::actingAs($this->operatorB)
@@ -223,6 +226,21 @@ test('D-016 configuration error proof', function () {
         ->assertSee('No active checklist template exists');
 });
 
+test('daily checklist blocks room-tied execution when no active room exists', function () {
+    $this->room->update(['is_active' => false]);
+
+    Livewire::actingAs($this->operatorB)
+        ->test(DailyRun::class)
+        ->assertSet('errorState', 'room_missing')
+        ->assertSee('Room setup required')
+        ->assertSee('There are no active rooms available yet');
+
+    expect(ChecklistRun::query()
+        ->where('created_by', $this->operatorB->id)
+        ->where('checklist_template_id', $this->template1->id)
+        ->exists())->toBeFalse();
+});
+
 test('submission success feedback reflects not-done answers', function () {
     $component = Livewire::actingAs($this->operatorB)->test(DailyRun::class);
 
@@ -247,6 +265,7 @@ test('submitted checklist recap offers a follow-up incident shortcut when items 
             ['result' => ChecklistResult::NotDone->value, 'note' => 'Printer offline'],
             ['result' => ChecklistResult::Done->value, 'note' => null],
         ],
+        room: $this->room,
     );
 
     $component = Livewire::actingAs($this->operatorB)->test(DailyRun::class);

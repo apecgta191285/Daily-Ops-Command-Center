@@ -8,7 +8,9 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Duty staff checklist') }}</p>
                 <h2 class="ops-page__title">{{ __('Daily Checklist') }}</h2>
                 <p class="ops-page-intro__body">
-                    @if ($errorState === 'room_required')
+                    @if ($errorState === 'room_missing')
+                        No active lab room is available right now, so today&apos;s checklist cannot start yet. Ask an administrator or supervisor to restore at least one active room first.
+                    @elseif ($errorState === 'room_required')
                         Choose the lab room first, then continue with the checklist lane that matches the real operating moment for that room.
                     @elseif ($errorState === 'scope_required')
                         Choose the checklist lane for this room, then continue with the opening, during-day, or closing checks that match what is happening there now.
@@ -26,6 +28,11 @@
                         @endif
                         <span class="ops-shell-chip">{{ $this->answeredItems }}/{{ $this->totalItems }} {{ __('answered') }}</span>
                         <span class="ops-shell-chip">{{ $isSubmitted ? __('Submitted') : __('Pending') }}</span>
+                    </div>
+                @elseif ($errorState === 'room_missing')
+                    <div class="ops-page-intro__meta">
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room setup required') }}</span>
+                        <span class="ops-shell-chip">{{ __('0 active rooms') }}</span>
                     </div>
                 @elseif ($errorState === 'room_required')
                     <div class="ops-page-intro__meta">
@@ -72,6 +79,11 @@
             <div data-motion="fade-up" class="ops-alert ops-alert--danger">
                 <strong class="font-semibold">Configuration Error:</strong>
                 <span class="block sm:inline">No active checklist template exists. Please contact an administrator.</span>
+            </div>
+        @elseif ($errorState === 'room_missing')
+            <div data-motion="fade-up" class="ops-alert ops-alert--warning">
+                <strong class="font-semibold">Room setup required:</strong>
+                <span class="block sm:inline">There are no active rooms available yet, so staff cannot start a room-tied checklist run. Ask an administrator to activate at least one lab room first.</span>
             </div>
         @elseif ($errorState === 'room_required')
             <section class="ops-hero" data-motion="glance-rise">

@@ -93,6 +93,27 @@
                             </button>
                         </div>
                     </div>
+                @elseif (count($rooms) === 0)
+                    <div class="space-y-6">
+                        <div class="ops-alert ops-alert--warning">
+                            No active lab room is available right now, so this incident cannot be filed yet. Ask an administrator or supervisor to restore at least one active room first.
+                        </div>
+
+                        <div class="ops-recap-panel ops-recap-panel--subtle">
+                            <h3 class="ops-recap-panel__title">Why reporting is paused</h3>
+                            <ul role="list" class="ops-next-steps">
+                                <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>Every incident in this workflow must stay tied to one room.</span></li>
+                                <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>No active room is currently available to attach to this report.</span></li>
+                                <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>Once a room is active again, the same incident form can be used normally.</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="ops-divider-top flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:justify-end">
+                            <a href="{{ route('checklists.runs.today', $this->checklistReturnParameters()) }}" class="ops-button ops-button--secondary">
+                                Back to checklist
+                            </a>
+                        </div>
+                    </div>
                 @else
                     <form wire:submit="submit" class="space-y-6">
                         <div class="grid gap-6">

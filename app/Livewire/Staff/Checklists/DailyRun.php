@@ -19,7 +19,7 @@ use Livewire\Component;
 
 class DailyRun extends Component
 {
-    public $errorState = null; // 'zero', 'scope_required', or 'scope_missing'
+    public $errorState = null; // 'zero', 'room_missing', 'room_required', 'scope_required', or 'scope_missing'
 
     public ?string $scopeRouteKey = null;
 
@@ -194,6 +194,19 @@ class DailyRun extends Component
                 'code' => $room->code,
             ])
             ->all();
+
+        if (count($this->rooms) === 0) {
+            $this->errorState = 'room_missing';
+            $this->scopeBoard = [];
+            $this->run = null;
+            $this->template = null;
+            $this->runItems = [];
+            $this->recentRuns = [];
+            $this->itemAnomalyMemory = [];
+            $this->isSubmitted = false;
+
+            return;
+        }
 
         if ($this->room !== '' && ! collect($this->rooms)->pluck('id')->contains($this->room)) {
             $this->room = '';

@@ -97,6 +97,12 @@ class Create extends Component
 
     public function submit(): void
     {
+        if (count($this->rooms) === 0) {
+            $this->addError('roomId', 'No active room is available right now.');
+
+            return;
+        }
+
         $this->validate([
             'title' => 'required|string|max:120',
             'category' => 'required|string|in:'.implode(',', $this->categories),

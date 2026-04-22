@@ -91,6 +91,21 @@ test('incident creation validation blocks missing required fields', function () 
         ->assertHasErrors(['title', 'category', 'severity', 'roomId', 'description']);
 });
 
+test('incident create page pauses reporting when no active room is available', function () {
+    Room::query()->update(['is_active' => false]);
+
+    $incidentCountBefore = Incident::count();
+
+    Livewire::actingAs($this->operatorA)
+        ->test(Create::class)
+        ->assertSee('No active lab room is available right now')
+        ->assertSee('Every incident in this workflow must stay tied to one room.')
+        ->call('submit')
+        ->assertHasErrors(['roomId']);
+
+    expect(Incident::count())->toBe($incidentCountBefore);
+});
+
 test('incident creation validation blocks invalid category', function () {
     Livewire::actingAs($this->operatorA)
         ->test(Create::class)
