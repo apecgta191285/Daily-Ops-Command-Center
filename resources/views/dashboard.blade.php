@@ -78,9 +78,9 @@
                     <div class="ops-hero__meta">
                         <span class="ops-shell-chip ops-shell-chip--accent">Today-first workboard</span>
                         <span class="ops-shell-chip">Scope lane status</span>
-                        <span class="ops-shell-chip">Ownership pressure</span>
+                        <span class="ops-shell-chip">Follow-up load</span>
                         <span class="ops-shell-chip">Checklist trend</span>
-                        <span class="ops-shell-chip">Operational hotspots</span>
+                        <span class="ops-shell-chip">Room issue hotspots</span>
                     </div>
                 </div>
 
@@ -127,7 +127,7 @@
                 <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="20">
                     <div class="ops-section-heading">
                         <div>
-                            <p class="ops-section-heading__eyebrow">Today-first workboard</p>
+                            <p class="ops-section-heading__eyebrow">Today&apos;s room workboard</p>
                             <h2 class="ops-section-heading__title">Workboard Framing</h2>
                             <p class="ops-section-heading__body">A compact read on whether today still needs action or is already under control.</p>
                         </div>
@@ -138,7 +138,7 @@
                             <div class="ops-workboard__summary">
                                 <div>
                                     <p class="ops-workboard__eyebrow">
-                                        {{ ($workboard['state'] ?? 'attention') === 'calm' ? 'Calm operating state' : 'Active operating pressure' }}
+                                        {{ ($workboard['state'] ?? 'attention') === 'calm' ? 'Calm lab state' : 'Active lab follow-up load' }}
                                     </p>
                                     <h3 class="ops-workboard__title">{{ $workboard['headline'] }}</h3>
                                     <p class="ops-workboard__body">{{ $workboard['body'] }}</p>
@@ -228,8 +228,8 @@
                     <div class="ops-card__body">
                         @if ($attentionItems === [])
                             <x-ops.empty-state
-                                title="No urgent operational alerts right now."
-                                body="Current dashboard signals do not show overdue high-risk issues or checklist pressure beyond the expected flow."
+                                title="No urgent room issues right now."
+                                body="Current dashboard signals do not show overdue high-risk issues or checklist delays beyond the expected daily lab flow."
                             />
                         @else
                             <div class="ops-signal-grid">
@@ -539,7 +539,7 @@
                                     </p>
 
                                     <div class="ops-context-card__meta">
-                                        <span>Recent operational carryover</span>
+                                        <span>Recent room issue carryover</span>
                                     </div>
 
                                     @if ($recentHistoryContext['incidents']['url'])
@@ -611,7 +611,7 @@
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
                     <div class="ops-section-heading">
                         <div>
-                            <p class="ops-section-heading__eyebrow">Ownership pressure</p>
+                            <p class="ops-section-heading__eyebrow">Follow-up load</p>
                             <h2 class="ops-section-heading__title">Ownership and Work Buckets</h2>
                             <p class="ops-section-heading__body">Action buckets for unresolved work that still needs a clear owner or a timely next move.</p>
                         </div>

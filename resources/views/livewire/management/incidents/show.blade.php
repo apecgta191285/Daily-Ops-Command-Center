@@ -169,7 +169,7 @@
                         <div class="ops-card__body">
                             @if ($this->isFollowUpOverdue)
                                 <x-ops.callout title="Follow-up target overdue" tone="danger">
-                                    {{ $incident->follow_up_due_at?->format('M d, Y') }} has passed and this incident is still unresolved. Review ownership and the next move before this record turns into passive queue debt.
+                                    {{ $incident->follow_up_due_at?->format('M d, Y') }} has passed and this incident is still unresolved. Review ownership and the next move before this room issue sits in the queue any longer.
                                 </x-ops.callout>
                             @elseif ($this->needsOwner)
                                 <x-ops.callout title="Ownership still missing" tone="warning">
@@ -186,7 +186,7 @@
                             <div>
                                 <p class="ops-section-heading__eyebrow">Reported context</p>
                                 <h2 class="ops-section-heading__title">Description and evidence</h2>
-                                <p class="ops-section-heading__body">This is the original operational signal the team is responding to, plus any supporting file attached during reporting.</p>
+                                <p class="ops-section-heading__body">This is the original room issue report the team is responding to, plus any supporting file attached during reporting.</p>
                             </div>
                         </div>
 
@@ -288,7 +288,7 @@
                                     wire:model="followUpDueAt"
                                     class="ops-control"
                                 >
-                                <p class="ops-field-help">This is an internal target date for the next review or operational action, not a formal SLA.</p>
+                                <p class="ops-field-help">This is an internal target date for the next review or next lab-team action, not a formal SLA.</p>
                                 @error('followUpDueAt') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 

@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Admin checklist control') }}</p>
                 <h2 class="ops-page__title">{{ __('Checklist Templates') }}</h2>
                 <p class="ops-page-intro__body">
-                    Govern the shared checklist lanes that students use when checking rooms, shape draft revisions safely, and keep the lab team aligned with the real daily routine.
+                    Govern the shared checklist lanes that students use when checking rooms, shape draft revisions safely, and keep the lab team aligned with the real daily room routine.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live template control') }}</span>

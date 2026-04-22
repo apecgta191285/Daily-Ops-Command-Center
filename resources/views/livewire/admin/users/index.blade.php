@@ -10,7 +10,7 @@
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Internal roster') }}</span>
                     <span class="ops-shell-chip">{{ __('Admin only') }}</span>
-                    <span class="ops-shell-chip">{{ __('Lifecycle control') }}</span>
+                    <span class="ops-shell-chip">{{ __('Access lifecycle') }}</span>
                     <span class="ops-shell-chip">{{ __('No public sign-up') }}</span>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                 <div>
                     <p class="ops-section-heading__eyebrow">Role governance</p>
                     <h3 class="ops-section-heading__title">Coverage by role lane</h3>
-                    <p class="ops-section-heading__body">Use this board to understand how administrative, supervisory, and staff access is currently distributed before you add or revise accounts.</p>
+                    <p class="ops-section-heading__body">Use this board to understand how lecturer, room-caretaker, and student duty access is currently distributed before you add or revise accounts.</p>
                 </div>
             </div>
 

@@ -173,7 +173,7 @@ test('dashboard attention panel highlights unresolved high severity and stale in
 
     $response->assertOk();
     $response->assertSee('Needs Attention Today');
-    $response->assertSee('Active operating pressure');
+    $response->assertSee('Active lab follow-up load');
     $response->assertSee('Today still has open operating lanes');
     $response->assertSee('Ownership and Work Buckets');
     $response->assertSee('History-Aware Command Layer');
@@ -280,8 +280,8 @@ test('dashboard shows calm attention state when there are no active alerts', fun
     $response = $this->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('No urgent operational alerts right now.');
-    $response->assertSee('Calm operating state');
+    $response->assertSee('No urgent room issues right now.');
+    $response->assertSee('Calm lab state');
     $response->assertSee('Today is covered and currently calm');
     $response->assertSee('No pending checklist lanes remain today.');
     $response->assertSee('Calm accountability state');

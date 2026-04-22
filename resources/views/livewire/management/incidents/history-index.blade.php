@@ -2,10 +2,10 @@
     <x-slot name="header">
         <div class="ops-page-intro">
             <div class="ops-page-intro__copy">
-                <p class="ops-page-intro__eyebrow">{{ __('Operational record') }}</p>
+                <p class="ops-page-intro__eyebrow">{{ __('Room issue record') }}</p>
                 <h2 class="ops-page__title">{{ __('Incident History') }}</h2>
                 <p class="ops-page-intro__body">
-                    Review what opened, what resolved, and which room issues from the recent stream are still carrying operational weight.
+                    Review what opened, what resolved, and which room issues from the recent stream are still carrying over for the lab team.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Recent incident slices') }}</span>

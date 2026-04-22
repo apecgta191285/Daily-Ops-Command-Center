@@ -427,7 +427,7 @@
                                         </div>
                                         <p class="ops-text-muted mt-3 text-sm">
                                             @if ($this->notDoneItems > 0)
-                                                This run includes items marked Not Done. If they reflect a real operational problem, file an incident so management can track follow-up.
+                                                This run includes items marked Not Done. If they reflect a real room problem, file an incident so the lab team can track follow-up.
                                             @else
                                                 This run was completed without any items marked Not Done. Use the note history below if you need to review what changed.
                                             @endif
