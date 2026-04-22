@@ -15,7 +15,7 @@ class PrintIncidentSummaryController extends Controller
 {
     public function __invoke(Incident $incident): View
     {
-        $incident->loadMissing(['creator', 'owner', 'activities.actor']);
+        $incident->loadMissing(['creator', 'owner', 'room', 'activities.actor']);
 
         $latestNextActionNote = $incident->activities
             ->where('action_type', 'next_action_note')

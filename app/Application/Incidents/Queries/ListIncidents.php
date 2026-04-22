@@ -40,7 +40,7 @@ class ListIncidents
         $severity = $filters->severityEnum();
 
         return Incident::query()
-            ->with(['creator', 'owner'])
+            ->with(['creator', 'owner', 'room'])
             ->when($filters->unresolved, fn ($query) => $query->where('status', '!=', IncidentStatus::Resolved->value))
             ->when($filters->stale, fn ($query) => IncidentStalePolicy::applyToUnresolvedQuery($query))
             ->when($filters->unowned, fn ($query) => $query

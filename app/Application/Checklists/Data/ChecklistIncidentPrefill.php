@@ -13,6 +13,7 @@ readonly class ChecklistIncidentPrefill
         public ?string $category,
         public ?string $severity,
         public string $description,
+        public ?int $roomId = null,
     ) {}
 
     /**
@@ -29,12 +30,14 @@ readonly class ChecklistIncidentPrefill
         $category = $request->string('category')->value();
         $severity = $request->string('severity')->value();
         $description = $request->string('description')->trim()->value();
+        $roomId = $request->integer('room');
 
         return new self(
             title: $title,
             category: in_array($category, $validCategories, true) ? $category : null,
             severity: in_array($severity, $validSeverities, true) ? $severity : null,
             description: $description,
+            roomId: $roomId > 0 ? $roomId : null,
         );
     }
 
@@ -49,6 +52,7 @@ readonly class ChecklistIncidentPrefill
             'category' => $this->category,
             'severity' => $this->severity,
             'description' => $this->description,
+            'room' => $this->roomId !== null ? (string) $this->roomId : null,
         ], static fn (?string $value) => $value !== null && $value !== '');
     }
 }

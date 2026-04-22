@@ -143,10 +143,11 @@ class GetDashboardSnapshot
         );
 
         $recentIncidents = Incident::query()
+            ->with('room')
             ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->limit(5)
-            ->get(['id', 'title', 'status', 'severity', 'created_at']);
+            ->get(['id', 'title', 'status', 'severity', 'room_id', 'equipment_reference', 'created_at']);
 
         $hotspotRows = Incident::query()
             ->selectRaw('category, COUNT(*) as unresolved_count')

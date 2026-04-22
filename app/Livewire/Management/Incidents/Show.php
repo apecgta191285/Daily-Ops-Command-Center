@@ -35,7 +35,7 @@ class Show extends Component
     public function mount(Incident $incident): void
     {
         $this->statuses = IncidentStatus::values();
-        $this->incident = $incident->load(['creator', 'owner', 'activities.actor']);
+        $this->incident = $incident->load(['creator', 'owner', 'room', 'activities.actor']);
         $this->status = $this->incident->status->value;
         $this->ownerId = (string) ($this->incident->owner_id ?? '');
         $this->followUpDueAt = $this->incident->follow_up_due_at?->toDateString() ?? '';
@@ -174,7 +174,7 @@ class Show extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        $this->incident->loadMissing(['creator', 'owner', 'activities.actor']);
+        $this->incident->loadMissing(['creator', 'owner', 'room', 'activities.actor']);
 
         return view('livewire.management.incidents.show');
     }

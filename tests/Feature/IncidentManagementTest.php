@@ -373,6 +373,16 @@ test('no-op status update does not create a new activity row', function () {
 });
 
 test('incident detail page renders incident data timeline and null attachment state', function () {
+    $room = $this->createRoom([
+        'name' => 'Lab 204',
+        'code' => 'LAB-204',
+    ]);
+
+    $this->openIncident->update([
+        'room_id' => $room->id,
+        'equipment_reference' => 'PC-14',
+    ]);
+
     $this->openIncident->activities()->create([
         'action_type' => 'next_action_note',
         'summary' => 'Next action: Verify the incident detail narrative lane.',
@@ -387,6 +397,8 @@ test('incident detail page renders incident data timeline and null attachment st
     $response->assertSee($this->openIncident->category->value);
     $response->assertSee($this->openIncident->severity->value);
     $response->assertSee($this->openIncident->description);
+    $response->assertSee($room->name);
+    $response->assertSee('PC-14');
     $response->assertSee('Latest handling context');
     $response->assertSee('Ownership still missing');
     $response->assertSee('Description and evidence');

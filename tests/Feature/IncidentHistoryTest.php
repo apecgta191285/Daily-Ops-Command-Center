@@ -41,14 +41,19 @@ test('incident history shows recent opened and resolved slices for selected rang
         'name' => 'History Owner',
         'email' => 'history-owner@example.com',
     ]);
+    $room = $this->createRoom([
+        'name' => 'Lab History 1',
+        'code' => 'LAB-H1',
+    ]);
 
     $openedStillActive = $this->createIncidentWithActivity($this->admin, [
         'title' => 'History still active incident',
         'severity' => IncidentSeverity::High->value,
         'status' => IncidentStatus::Open->value,
         'owner_id' => $owner->id,
+        'equipment_reference' => 'PC-21',
         'created_at' => now()->subDays(1),
-    ]);
+    ], room: $room);
 
     $resolvedRecently = $this->createIncidentWithActivity($this->supervisor, [
         'title' => 'History resolved incident',
@@ -74,6 +79,8 @@ test('incident history shows recent opened and resolved slices for selected rang
     $response->assertSee('Recent incident movement');
     $response->assertSee('Still active');
     $response->assertSee($openedStillActive->title);
+    $response->assertSee($room->name);
+    $response->assertSee('PC-21');
     $response->assertSee($resolvedRecently->title);
     $response->assertSee($owner->name);
     $response->assertDontSee($oldIncident->title);
@@ -89,6 +96,10 @@ test('printable incident summary shows evidence and accountability snapshot', fu
         'name' => 'Printable Summary Owner',
         'email' => 'print-owner@example.com',
     ]);
+    $room = $this->createRoom([
+        'name' => 'Lab Print 2',
+        'code' => 'LAB-P2',
+    ]);
 
     $incident = $this->createIncidentWithActivity($this->admin, [
         'title' => 'Printer queue jam on lab floor',
@@ -96,7 +107,8 @@ test('printable incident summary shows evidence and accountability snapshot', fu
         'status' => IncidentStatus::InProgress->value,
         'owner_id' => $owner->id,
         'follow_up_due_at' => now()->addDay(),
-    ]);
+        'equipment_reference' => 'Printer-Queue-A',
+    ], room: $room);
 
     $response = $this->actingAs($this->admin)->get(route('incidents.print', $incident));
 
@@ -104,6 +116,8 @@ test('printable incident summary shows evidence and accountability snapshot', fu
     $response->assertSee('Incident summary print view');
     $response->assertSee('Print summary');
     $response->assertSee('Printer queue jam on lab floor');
+    $response->assertSee($room->name);
+    $response->assertSee('Printer-Queue-A');
     $response->assertSee('Queue pressure snapshot');
     $response->assertSee($owner->name);
     $response->assertSee('Activity trail');

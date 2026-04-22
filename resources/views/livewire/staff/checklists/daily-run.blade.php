@@ -8,7 +8,9 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Duty staff checklist') }}</p>
                 <h2 class="ops-page__title">{{ __('Daily Checklist') }}</h2>
                 <p class="ops-page-intro__body">
-                    @if ($errorState === 'scope_required')
+                    @if ($errorState === 'room_required')
+                        Choose the lab room first, then continue with the checklist lane that matches the real operating moment for that room.
+                    @elseif ($errorState === 'scope_required')
                         Choose the live checklist lane for this lab shift, then continue with the checklist that matches the operating moment you are actually working in.
                     @elseif ($errorState === 'scope_missing' && $this->scopeLabel)
                         The {{ $this->scopeLabel }} lane is not configured yet. Pick another live lane or ask an administrator to activate a template for that operating moment.
@@ -19,17 +21,31 @@
                 @if (! $errorState)
                     <div class="ops-page-intro__meta">
                         <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live daily run') }}</span>
+                        @if ($this->selectedRoomLabel)
+                            <span class="ops-shell-chip">{{ $this->selectedRoomLabel }}</span>
+                        @endif
                         <span class="ops-shell-chip">{{ $this->answeredItems }}/{{ $this->totalItems }} {{ __('answered') }}</span>
                         <span class="ops-shell-chip">{{ $isSubmitted ? __('Submitted') : __('Pending') }}</span>
+                    </div>
+                @elseif ($errorState === 'room_required')
+                    <div class="ops-page-intro__meta">
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room-centered checklist') }}</span>
+                        <span class="ops-shell-chip">{{ count($rooms) }} {{ __('active room(s)') }}</span>
                     </div>
                 @elseif ($errorState === 'scope_required')
                     <div class="ops-page-intro__meta">
                         <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Scope-aware checklist') }}</span>
+                        @if ($this->selectedRoomLabel)
+                            <span class="ops-shell-chip">{{ $this->selectedRoomLabel }}</span>
+                        @endif
                         <span class="ops-shell-chip">{{ $activeScopeCount }} {{ __('live lane(s) today') }}</span>
                     </div>
                 @elseif ($errorState === 'scope_missing' && $this->scopeLabel)
                     <div class="ops-page-intro__meta">
                         <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Missing checklist lane') }}</span>
+                        @if ($this->selectedRoomLabel)
+                            <span class="ops-shell-chip">{{ $this->selectedRoomLabel }}</span>
+                        @endif
                         <span class="ops-shell-chip">{{ $this->scopeLabel }}</span>
                     </div>
                 @endif
@@ -57,6 +73,65 @@
                 <strong class="font-semibold">Configuration Error:</strong>
                 <span class="block sm:inline">No active checklist template exists. Please contact an administrator.</span>
             </div>
+        @elseif ($errorState === 'room_required')
+            <section class="ops-hero" data-motion="glance-rise">
+                <div class="ops-hero__inner">
+                    <div>
+                        <p class="ops-hero__eyebrow">Room selection</p>
+                        <h3 class="ops-hero__title">Choose today&apos;s lab room first</h3>
+                        <p class="ops-hero__lead">
+                            This checklist flow is room-centered. Pick the room you are checking today so the run, issue handoff, and later history all stay tied to the same place.
+                        </p>
+
+                        <div class="ops-hero__meta">
+                            <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room-centered checklist') }}</span>
+                            <span class="ops-shell-chip">{{ count($rooms) }} {{ __('active room(s)') }}</span>
+                            <span class="ops-shell-chip">{{ __('Today') }} {{ now()->format('M d, Y') }}</span>
+                        </div>
+                    </div>
+
+                    <aside class="ops-hero__aside">
+                        <div>
+                            <p class="ops-hero__aside-title">Active rooms</p>
+                            <p class="ops-hero__aside-value">{{ count($rooms) }}</p>
+                            <p class="ops-hero__aside-copy">
+                                Select the real room first so this checklist record stays grounded in one place.
+                            </p>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
+                <div class="ops-card__body">
+                    <div class="ops-section-heading">
+                        <div>
+                            <p class="ops-section-heading__eyebrow">Lab rooms</p>
+                            <h3 class="ops-section-heading__title">Select the room you are checking</h3>
+                            <p class="ops-section-heading__body">Start with the room, then continue into the opening, during-day, or closing lane for that room.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" data-motion-group data-stagger-base="50" data-stagger-unit="35" data-stagger-max="180">
+                        @foreach ($rooms as $roomOption)
+                            <article data-motion="scale-soft" class="ops-signal-card ops-signal-card--neutral">
+                                <div class="ops-signal-card__header">
+                                    <div>
+                                        <p class="ops-signal-card__title">{{ $roomOption['name'] }}</p>
+                                        <p class="ops-signal-card__body">{{ $roomOption['code'] }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <a href="{{ route('checklists.runs.today', ['room' => $roomOption['id']]) }}" class="ops-button ops-button--primary w-full">
+                                        {{ __('Use this room') }}
+                                    </a>
+                                </div>
+                            </article>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
         @elseif ($errorState === 'scope_required' || $errorState === 'scope_missing')
             <section class="ops-hero" data-motion="glance-rise">
                 <div class="ops-hero__inner">
@@ -79,6 +154,9 @@
 
                         <div class="ops-hero__meta">
                             <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Scope-aware checklist') }}</span>
+                            @if ($this->selectedRoomLabel)
+                                <span class="ops-shell-chip">{{ $this->selectedRoomLabel }}</span>
+                            @endif
                             <span class="ops-shell-chip">{{ $activeScopeCount }} {{ __('live lane(s)') }}</span>
                             <span class="ops-shell-chip">{{ __('Today') }} {{ now()->format('M d, Y') }}</span>
                         </div>
@@ -134,7 +212,7 @@
                                             'in_progress' => 'warning',
                                             default => 'neutral',
                                         };
-                                        $laneHref = route('checklists.runs.today', ['scope' => $lane['scope_key']]);
+                                        $laneHref = route('checklists.runs.today', $this->checklistRouteParameters($lane['scope_key']));
                                     @endphp
 
                                     <article data-motion="scale-soft" class="ops-signal-card {{ $laneTone === 'warning' ? 'ops-signal-card--warning' : 'ops-signal-card--neutral' }}">
@@ -200,6 +278,9 @@
                         </p>
 
                         <div class="ops-hero__meta">
+                            @if ($this->selectedRoomLabel)
+                                <span class="ops-shell-chip ops-shell-chip--accent">Room: {{ $this->selectedRoomLabel }}</span>
+                            @endif
                             <span class="ops-shell-chip ops-shell-chip--accent">Scope: {{ $template->scope->value }}</span>
                             <span class="ops-shell-chip">{{ $this->answeredItems }}/{{ $this->totalItems }} answered</span>
                             @if ($isSubmitted)
@@ -307,7 +388,7 @@
 
                             <div class="flex shrink-0 flex-wrap gap-3">
                                 @if ($activeScopeCount > 1)
-                                    <a href="{{ route('checklists.runs.today') }}" class="ops-button ops-button--secondary">
+                                    <a href="{{ route('checklists.runs.today', $this->checklistRouteParameters()) }}" class="ops-button ops-button--secondary">
                                         {{ __('Back to checklist board') }}
                                     </a>
                                 @endif

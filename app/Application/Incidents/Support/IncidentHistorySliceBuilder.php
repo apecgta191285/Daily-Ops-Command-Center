@@ -25,8 +25,8 @@ class IncidentHistorySliceBuilder
      *     opened_count:int,
      *     resolved_count:int,
      *     still_active_count:int,
-     *     opened:array<int, array{id:int,title:string,severity:string,status:string,owner_name:?string,creator_name:?string,url:string}>,
-     *     resolved:array<int, array{id:int,title:string,severity:string,status:string,owner_name:?string,creator_name:?string,url:string}>
+     *     opened:array<int, array{id:int,title:string,severity:string,status:string,owner_name:?string,creator_name:?string,room_name:?string,equipment_reference:?string,url:string}>,
+     *     resolved:array<int, array{id:int,title:string,severity:string,status:string,owner_name:?string,creator_name:?string,room_name:?string,equipment_reference:?string,url:string}>
      *   }>
      * }
      */
@@ -78,7 +78,7 @@ class IncidentHistorySliceBuilder
     }
 
     /**
-     * @return array{id:int,title:string,severity:string,status:string,owner_name:?string,creator_name:?string,url:string}
+     * @return array{id:int,title:string,severity:string,status:string,owner_name:?string,creator_name:?string,room_name:?string,equipment_reference:?string,url:string}
      */
     private function mapIncident(Incident $incident): array
     {
@@ -89,6 +89,8 @@ class IncidentHistorySliceBuilder
             'status' => $incident->status->value,
             'owner_name' => $incident->owner?->name,
             'creator_name' => $incident->creator?->name,
+            'room_name' => $incident->room?->name,
+            'equipment_reference' => $incident->equipment_reference,
             'url' => route('incidents.show', $incident),
         ];
     }

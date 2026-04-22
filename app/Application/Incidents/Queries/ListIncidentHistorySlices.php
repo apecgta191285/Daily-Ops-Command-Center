@@ -37,7 +37,7 @@ class ListIncidentHistorySlices
         $endDate = CarbonImmutable::today()->endOfDay();
 
         $incidents = Incident::query()
-            ->with(['creator', 'owner'])
+            ->with(['creator', 'owner', 'room'])
             ->where(function ($query) use ($startDate): void {
                 $query
                     ->whereDate('created_at', '>=', $startDate->toDateString())

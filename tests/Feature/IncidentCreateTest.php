@@ -7,6 +7,7 @@ use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Livewire\Staff\Incidents\Create;
 use App\Models\Incident;
 use App\Models\IncidentActivity;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -20,6 +21,7 @@ beforeEach(function () {
     $this->admin = User::where('role', UserRole::Admin->value)->first();
     $this->supervisor = User::where('role', UserRole::Supervisor->value)->first();
     $this->operatorA = User::where('email', 'operatora@example.com')->first();
+    $this->room = Room::query()->where('is_active', true)->orderBy('name')->firstOrFail();
 });
 
 test('route access audit for incidents/new', function () {
@@ -45,11 +47,15 @@ test('incident creation with all required fields persists correctly', function (
         ->set('title', 'Test PC broken')
         ->set('category', 'อุปกรณ์คอมพิวเตอร์')
         ->set('severity', 'Medium')
+        ->set('roomId', (string) $this->room->id)
+        ->set('equipmentReference', 'PC-99')
         ->set('description', 'PC-99 will not boot at all.')
         ->call('submit')
         ->assertHasNoErrors()
         ->assertSee('Submission Recap')
         ->assertSee('What Happens Next')
+        ->assertSee($this->room->name)
+        ->assertSee('PC-99')
         ->assertSeeHtml('ops-recap-panel')
         ->assertSeeHtml('ops-next-steps')
         ->assertSee('Report another incident');
@@ -63,6 +69,8 @@ test('incident creation with all required fields persists correctly', function (
     expect($incident->severity)->toBe(IncidentSeverity::Medium);
     expect($incident->status)->toBe(IncidentStatus::Open);
     expect($incident->description)->toBe('PC-99 will not boot at all.');
+    expect($incident->room_id)->toBe($this->room->id);
+    expect($incident->equipment_reference)->toBe('PC-99');
     expect($incident->attachment_path)->toBeNull();
     expect($incident->created_by)->toBe($this->operatorA->id);
     expect($incident->resolved_at)->toBeNull();
@@ -80,7 +88,7 @@ test('incident creation validation blocks missing required fields', function () 
     Livewire::actingAs($this->operatorA)
         ->test(Create::class)
         ->call('submit')
-        ->assertHasErrors(['title', 'category', 'severity', 'description']);
+        ->assertHasErrors(['title', 'category', 'severity', 'roomId', 'description']);
 });
 
 test('incident creation validation blocks invalid category', function () {
@@ -89,6 +97,7 @@ test('incident creation validation blocks invalid category', function () {
         ->set('title', 'Test')
         ->set('category', 'InvalidCategory')
         ->set('severity', 'Low')
+        ->set('roomId', (string) $this->room->id)
         ->set('description', 'desc')
         ->call('submit')
         ->assertHasErrors(['category']);
@@ -100,6 +109,7 @@ test('incident creation validation blocks invalid severity', function () {
         ->set('title', 'Test')
         ->set('category', 'เครือข่าย')
         ->set('severity', 'Critical')
+        ->set('roomId', (string) $this->room->id)
         ->set('description', 'desc')
         ->call('submit')
         ->assertHasErrors(['severity']);
@@ -115,12 +125,16 @@ test('incident creation with optional attachment persists file path', function (
         ->set('title', 'Broken monitor with photo')
         ->set('category', 'อุปกรณ์คอมพิวเตอร์')
         ->set('severity', 'High')
+        ->set('roomId', (string) $this->room->id)
+        ->set('equipmentReference', 'Monitor-02')
         ->set('description', 'Monitor cracked.')
         ->set('attachment', $file)
         ->call('submit')
         ->assertHasNoErrors();
 
     $incident = Incident::latest('id')->first();
+    expect($incident->room_id)->toBe($this->room->id);
+    expect($incident->equipment_reference)->toBe('Monitor-02');
     expect($incident->attachment_path)->not->toBeNull();
     expect($incident->attachment_path)->toContain('incidents/');
 
@@ -133,11 +147,13 @@ test('incident creation without attachment still succeeds', function () {
         ->set('title', 'No photo incident')
         ->set('category', 'ความสะอาด')
         ->set('severity', 'Low')
+        ->set('roomId', (string) $this->room->id)
         ->set('description', 'Minor dust.')
         ->call('submit')
         ->assertHasNoErrors();
 
     $incident = Incident::latest('id')->first();
+    expect($incident->room_id)->toBe($this->room->id);
     expect($incident->attachment_path)->toBeNull();
     expect($incident->status)->toBe(IncidentStatus::Open);
 });
@@ -150,10 +166,12 @@ test('incident create page can prefill checklist follow-up context from query st
         'category' => 'อื่น ๆ',
         'severity' => 'Medium',
         'description' => "Follow-up from the daily checklist.\nItems marked Not Done: Printer",
+        'room' => (string) $this->room->id,
     ])
         ->actingAs($this->operatorA)
         ->test(Create::class)
         ->assertSet('checklistReturnScope', 'opening')
+        ->assertSet('roomId', (string) $this->room->id)
         ->assertSet('title', 'Checklist follow-up issue')
         ->assertSet('category', 'อื่น ๆ')
         ->assertSet('severity', 'Medium')
@@ -166,6 +184,7 @@ test('incident creation outcome screen can reset back to a fresh form', function
         ->set('title', 'Reset flow incident')
         ->set('category', 'อื่น ๆ')
         ->set('severity', 'Low')
+        ->set('roomId', (string) $this->room->id)
         ->set('description', 'Need another quick report afterwards.')
         ->call('submit')
         ->assertHasNoErrors()
@@ -185,16 +204,19 @@ test('incident creation outcome screen keeps checklist return path when prefille
         'category' => 'อื่น ๆ',
         'severity' => 'Medium',
         'description' => "Follow-up from the daily checklist.\nItems marked Not Done: Printer",
+        'room' => (string) $this->room->id,
     ])
         ->actingAs($this->operatorA)
         ->test(Create::class)
         ->set('title', 'Checklist follow-up issue')
         ->set('category', 'อื่น ๆ')
         ->set('severity', 'Medium')
+        ->set('roomId', (string) $this->room->id)
         ->set('description', "Follow-up from the daily checklist.\nItems marked Not Done: Printer")
         ->call('submit')
         ->assertHasNoErrors()
         ->assertSeeHtml('Back to today&apos;s checklist')
         ->assertSeeHtml('/checklists/runs/today/opening')
+        ->assertSeeHtml('room='.$this->room->id)
         ->assertSee('This report is linked to the checklist follow-up path');
 });

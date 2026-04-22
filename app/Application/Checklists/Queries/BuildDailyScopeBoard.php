@@ -23,7 +23,7 @@ class BuildDailyScopeBoard
      *     submitted_at: ?string
      * }>
      */
-    public function __invoke(int $userId): array
+    public function __invoke(int $userId, ?int $roomId = null): array
     {
         $activeTemplates = ChecklistTemplate::query()
             ->where('is_active', true)
@@ -34,6 +34,7 @@ class BuildDailyScopeBoard
         $todayRuns = ChecklistRun::query()
             ->where('created_by', $userId)
             ->whereDate('run_date', today())
+            ->when($roomId !== null, fn ($query) => $query->where('room_id', $roomId))
             ->with(['template', 'items'])
             ->get()
             ->keyBy(fn (ChecklistRun $run) => $run->template?->scope?->value ?? '');

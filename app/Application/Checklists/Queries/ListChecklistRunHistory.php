@@ -25,7 +25,7 @@ class ListChecklistRunHistory
             ->when($filters->runDate !== '', fn ($query) => $query->whereDate('run_date', $filters->runDate))
             ->when($scope !== null, fn ($query) => $query->where('assigned_team_or_scope', $scope->value))
             ->when($operatorId !== null, fn ($query) => $query->where('created_by', $operatorId))
-            ->with(['template', 'creator', 'submitter'])
+            ->with(['template', 'room', 'creator', 'submitter'])
             ->withCount([
                 'items',
                 'items as not_done_items_count' => fn ($query) => $query->where('result', ChecklistResult::NotDone->value),

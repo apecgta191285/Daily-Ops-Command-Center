@@ -11,8 +11,10 @@ use App\Application\Checklists\Queries\BuildDailyScopeBoard;
 use App\Application\Checklists\Support\ChecklistIncidentPrefillBuilder;
 use App\Domain\Checklists\Enums\ChecklistResult;
 use App\Domain\Checklists\Enums\ChecklistScope;
+use App\Models\Room;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class DailyRun extends Component
@@ -20,6 +22,9 @@ class DailyRun extends Component
     public $errorState = null; // 'zero', 'scope_required', or 'scope_missing'
 
     public ?string $scopeRouteKey = null;
+
+    #[Url(except: '')]
+    public string $room = '';
 
     public $run;
 
@@ -34,6 +39,8 @@ class DailyRun extends Component
     public $isSubmitted = false;
 
     public array $scopeBoard = [];
+
+    public array $rooms = [];
 
     public function mount(?string $scope = null): void
     {
@@ -124,6 +131,23 @@ class DailyRun extends Component
         ]);
     }
 
+    public function getSelectedRoomLabelProperty(): ?string
+    {
+        return collect($this->rooms)
+            ->firstWhere('id', $this->room)['name'] ?? null;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function checklistRouteParameters(?string $scope = null): array
+    {
+        return array_filter([
+            'scope' => $scope,
+            'room' => $this->room !== '' ? $this->room : null,
+        ], static fn (?string $value) => $value !== null && $value !== '');
+    }
+
     /**
      * @return list<string>
      */
@@ -160,10 +184,43 @@ class DailyRun extends Component
 
     private function loadState(): void
     {
-        $this->scopeBoard = app(BuildDailyScopeBoard::class)(auth()->id());
+        $this->rooms = Room::query()
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'code'])
+            ->map(fn (Room $room): array => [
+                'id' => (string) $room->id,
+                'name' => $room->name,
+                'code' => $room->code,
+            ])
+            ->all();
+
+        if ($this->room !== '' && ! collect($this->rooms)->pluck('id')->contains($this->room)) {
+            $this->room = '';
+        }
+
+        if ($this->room === '' && count($this->rooms) === 1) {
+            $this->room = $this->rooms[0]['id'];
+        }
+
+        if ($this->room === '' && count($this->rooms) > 1) {
+            $this->errorState = 'room_required';
+            $this->scopeBoard = [];
+            $this->run = null;
+            $this->template = null;
+            $this->runItems = [];
+            $this->recentRuns = [];
+            $this->itemAnomalyMemory = [];
+            $this->isSubmitted = false;
+
+            return;
+        }
+
+        $selectedRoomId = $this->room !== '' ? (int) $this->room : null;
+        $this->scopeBoard = app(BuildDailyScopeBoard::class)(auth()->id(), $selectedRoomId);
 
         $selectedScope = ChecklistScope::fromRouteKey($this->scopeRouteKey);
-        $context = app(InitializeDailyRun::class)(auth()->id(), $selectedScope);
+        $context = app(InitializeDailyRun::class)(auth()->id(), $selectedScope, $selectedRoomId);
 
         $this->applyContext($context);
 

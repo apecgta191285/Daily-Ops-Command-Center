@@ -9,6 +9,7 @@ use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistTemplate;
 use App\Models\Incident;
+use App\Models\Room;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -92,6 +93,7 @@ test('dashboard handles empty data without crashing', function () {
 test('recent incidents are newest first limited to five and linked to details', function () {
     $this->seed();
     $user = User::where('role', UserRole::Admin->value)->first();
+    $room = Room::query()->where('is_active', true)->orderBy('name')->firstOrFail();
     $this->actingAs($user);
 
     $olderIncident = Incident::create([
@@ -114,6 +116,8 @@ test('recent incidents are newest first limited to five and linked to details', 
         'status' => 'Open',
         'description' => 'Newest incident for dashboard ordering audit.',
         'created_by' => $user->id,
+        'room_id' => $room->id,
+        'equipment_reference' => 'AP-01',
     ]);
     $newestIncident->forceFill([
         'created_at' => Carbon::now()->addMinute(),
@@ -131,6 +135,8 @@ test('recent incidents are newest first limited to five and linked to details', 
 
     $response->assertOk();
     $response->assertSee('Newest incident for dashboard proof');
+    $response->assertSee($room->name);
+    $response->assertSee('AP-01');
     $response->assertDontSee('Very old incident');
     $response->assertSeeInOrder([
         $expectedRecentIncidents[0]->title,

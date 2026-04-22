@@ -31,6 +31,7 @@
 
         <div class="ops-print-chip-row">
             <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Submitted archive') }}</span>
+            <span class="ops-shell-chip">{{ $run->room?->name ?? __('No room') }}</span>
             <span class="ops-shell-chip">{{ $scopeLabel }}</span>
             <span class="ops-shell-chip">{{ $run->run_date->format('M d, Y') }}</span>
         </div>
@@ -40,6 +41,10 @@
         <article class="ops-recap-panel">
             <p class="ops-recap-panel__title">{{ __('Run summary') }}</p>
             <dl class="ops-detail-stack">
+                <div>
+                    <dt class="ops-detail-stack__label">{{ __('Room') }}</dt>
+                    <dd class="ops-detail-stack__value">{{ $run->room?->name ?? __('No room recorded') }}</dd>
+                </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Run date') }}</dt>
                     <dd class="ops-detail-stack__value">{{ $run->run_date->format('M d, Y') }}</dd>

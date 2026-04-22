@@ -9,6 +9,7 @@
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Issue detail') }}</span>
+                    <span class="ops-shell-chip">{{ $incident->room?->name ?? __('No room') }}</span>
                     <span class="ops-shell-chip">{{ __($incident->status->value) }}</span>
                     <span class="ops-shell-chip">{{ __($incident->severity->value) }}</span>
                 </div>
@@ -47,6 +48,12 @@
                     </p>
                     <p class="ops-text-shell-muted mt-3 text-sm">
                         Reported by {{ $incident->creator?->name ?? 'Unknown' }} on {{ $incident->created_at->format('M d, Y H:i') }}
+                    </p>
+                    <p class="ops-text-shell-muted mt-2 text-sm">
+                        {{ __('Room: :room', ['room' => $incident->room?->name ?? __('Not recorded')]) }}
+                        @if ($incident->equipment_reference)
+                            {{ __(' • Equipment: :equipment', ['equipment' => $incident->equipment_reference]) }}
+                        @endif
                     </p>
 
                     <div class="ops-incident-meta mt-4">
@@ -97,6 +104,18 @@
                             <p class="ops-glance-card__label">Age</p>
                             <p class="ops-glance-card__value">{{ $this->ageInDays }}</p>
                             <p class="ops-glance-card__meta">Days since the incident first entered the queue.</p>
+                        </div>
+
+                        <div class="ops-glance-card">
+                            <p class="ops-glance-card__label">Room</p>
+                            <p class="ops-glance-card__value">{{ $incident->room?->name ?? 'Not set' }}</p>
+                            <p class="ops-glance-card__meta">The lab room currently tied to this issue record.</p>
+                        </div>
+
+                        <div class="ops-glance-card">
+                            <p class="ops-glance-card__label">Equipment reference</p>
+                            <p class="ops-glance-card__value">{{ $incident->equipment_reference ?? 'Not provided' }}</p>
+                            <p class="ops-glance-card__meta">Optional workstation or equipment context reported by staff.</p>
                         </div>
 
                         <div class="ops-glance-card">
@@ -179,8 +198,14 @@
                             </article>
 
                             <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
-                                <p class="ops-incident-panel__eyebrow">Attachment</p>
-                                <h3 class="ops-incident-panel__title">{{ $incident->attachment_path ? 'Supporting evidence available' : 'No attachment provided' }}</h3>
+                                <p class="ops-incident-panel__eyebrow">Room and evidence</p>
+                                <h3 class="ops-incident-panel__title">{{ $incident->room?->name ?? 'Room not recorded' }}</h3>
+                                <p class="ops-incident-panel__body">
+                                    {{ $incident->equipment_reference
+                                        ? __('Equipment reference: :equipment', ['equipment' => $incident->equipment_reference])
+                                        : __('No equipment reference was attached to this issue record.') }}
+                                </p>
+
                                 <p class="ops-incident-panel__body">
                                     {{ $incident->attachment_path
                                         ? 'Open the uploaded file when you need more proof or supporting visual context before changing status.'
@@ -329,6 +354,8 @@
 
                         <div class="ops-stat-grid">
                             <x-ops.stat-card kicker="Category" :value="$incident->category->value" />
+                            <x-ops.stat-card kicker="Room" :value="$incident->room?->name ?? 'Not set'" />
+                            <x-ops.stat-card kicker="Equipment" :value="$incident->equipment_reference ?? 'Not provided'" />
                             <x-ops.stat-card kicker="Owner" :value="$incident->owner?->name ?? 'Unowned'" />
                             <x-ops.stat-card kicker="Follow-up Target" :value="$incident->follow_up_due_at?->format('M d, Y') ?? 'Not set'" />
                             <x-ops.stat-card kicker="Resolved At" :value="$incident->resolved_at?->format('M d, Y H:i') ?? 'Not resolved yet'" />

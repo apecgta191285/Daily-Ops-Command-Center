@@ -128,6 +128,7 @@
                             <thead>
                                 <tr>
                                     <th>Title</th>
+                                    <th>Room</th>
                                     <th>Category</th>
                                     <th>Severity</th>
                                     <th>Status</th>
@@ -142,6 +143,14 @@
                                 @foreach($incidents as $index => $incident)
                                     <tr class="ops-table__row" data-motion="scale-soft" data-motion-delay="{{ 140 + ($index * 15) }}">
                                         <td data-label="Title" class="ops-text-heading px-4 py-4 text-sm font-medium">{{ $incident->title }}</td>
+                                        <td data-label="Room" class="ops-text-muted px-4 py-4 text-sm">
+                                            <div class="space-y-1">
+                                                <span>{{ $incident->room?->name ?? __('No room') }}</span>
+                                                @if ($incident->equipment_reference)
+                                                    <p class="ops-inline-note">{{ $incident->equipment_reference }}</p>
+                                                @endif
+                                            </div>
+                                        </td>
                                         <td data-label="Category" class="ops-text-muted px-4 py-4 text-sm">{{ $incident->category->value }}</td>
                                         <td data-label="Severity" class="px-4 py-4 text-sm">
                                             <x-incidents.severity-badge :severity="$incident->severity" />

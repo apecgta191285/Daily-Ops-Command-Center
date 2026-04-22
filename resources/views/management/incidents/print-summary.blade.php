@@ -31,6 +31,7 @@
 
         <div class="ops-print-chip-row">
             <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Issue detail') }}</span>
+            <span class="ops-shell-chip">{{ $incident->room?->name ?? __('No room') }}</span>
             <span class="ops-shell-chip">{{ __($incident->status->value) }}</span>
             <span class="ops-shell-chip">{{ __($incident->severity->value) }}</span>
             <span class="ops-shell-chip">{{ $incident->category->value }}</span>
@@ -41,6 +42,10 @@
         <article class="ops-recap-panel">
             <p class="ops-recap-panel__title">{{ __('Incident summary') }}</p>
             <dl class="ops-detail-stack">
+                <div>
+                    <dt class="ops-detail-stack__label">{{ __('Room') }}</dt>
+                    <dd class="ops-detail-stack__value">{{ $incident->room?->name ?? __('No room recorded') }}</dd>
+                </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Reported by') }}</dt>
                     <dd class="ops-detail-stack__value">{{ $incident->creator?->name ?? __('Unknown') }}</dd>
@@ -56,6 +61,10 @@
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Follow-up target') }}</dt>
                     <dd class="ops-detail-stack__value">{{ $incident->follow_up_due_at?->format('M d, Y') ?? __('Not set') }}</dd>
+                </div>
+                <div>
+                    <dt class="ops-detail-stack__label">{{ __('Equipment reference') }}</dt>
+                    <dd class="ops-detail-stack__value">{{ $incident->equipment_reference ?? __('Not provided') }}</dd>
                 </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Resolved at') }}</dt>
@@ -111,8 +120,13 @@
         </article>
 
         <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
-            <p class="ops-incident-panel__eyebrow">{{ __('Attachment') }}</p>
-            <h2 class="ops-incident-panel__title">{{ $incident->attachment_path ? __('Supporting file available') : __('No attachment provided') }}</h2>
+            <p class="ops-incident-panel__eyebrow">{{ __('Room and attachment') }}</p>
+            <h2 class="ops-incident-panel__title">{{ $incident->room?->name ?? __('No room recorded') }}</h2>
+            <p class="ops-incident-panel__body">
+                {{ $incident->equipment_reference
+                    ? __('Equipment reference: :equipment', ['equipment' => $incident->equipment_reference])
+                    : __('No equipment reference was attached to this issue record.') }}
+            </p>
             <p class="ops-incident-panel__body">
                 {{ $incident->attachment_path
                     ? __('The uploaded file is available in the live product detail view when the supervisor needs supporting proof.')

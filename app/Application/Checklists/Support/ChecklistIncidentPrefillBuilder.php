@@ -29,6 +29,7 @@ class ChecklistIncidentPrefillBuilder
             'Follow-up from the daily checklist.',
             'Template: '.($template?->title ?? '-'),
             'Run date: '.optional($run->run_date)->format('Y-m-d'),
+            $run->room?->name ? 'Room: '.$run->room->name : null,
             $notDoneTitles->isNotEmpty() ? 'Items marked Not Done: '.$notDoneTitles->join(', ') : null,
         ])
             ->filter()
@@ -41,6 +42,7 @@ class ChecklistIncidentPrefillBuilder
                 ? IncidentSeverity::Medium->value
                 : IncidentSeverity::Low->value,
             description: $description,
+            roomId: $run->room_id,
         );
     }
 }

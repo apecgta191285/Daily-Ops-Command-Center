@@ -23,6 +23,7 @@ class HistoryShow extends Component
 
         $run->loadMissing([
             'template',
+            'room',
             'creator',
             'submitter',
             'items.checklistItem',
@@ -41,6 +42,11 @@ class HistoryShow extends Component
     public function getSubmittedByLabelProperty(): string
     {
         return $this->run->submitter?->name ?? $this->run->creator?->name ?? 'Unknown';
+    }
+
+    public function getRoomLabelProperty(): string
+    {
+        return $this->run->room?->name ?? 'No room recorded';
     }
 
     public function getPageTitleProperty(): string

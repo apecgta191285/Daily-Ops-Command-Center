@@ -314,6 +314,7 @@
 
     .welcome-stage__aside-card {
         @apply flex h-full w-full flex-col gap-6 px-6 py-7 sm:px-8 sm:py-8;
+        color: var(--app-text);
     }
 
     .welcome-stage__aside-header {
@@ -354,11 +355,28 @@
 
     .welcome-stage__step-copy {
         @apply mt-1 text-sm leading-6;
-        color: var(--app-text-muted);
+        color: var(--app-text-muted-strong);
     }
 
     .welcome-stage__aside-footer {
         @apply flex flex-col gap-3;
+    }
+
+    .welcome-stage__aside .ops-button--primary {
+        background-color: var(--app-action-primary-contrast);
+        border-color: var(--app-action-primary-contrast);
+        color: var(--app-action-primary-text);
+    }
+
+    .welcome-stage__aside .ops-button--primary:hover {
+        background-color: var(--app-action-primary-contrast-hover);
+        border-color: var(--app-action-primary-contrast-hover);
+    }
+
+    .welcome-stage__aside .ops-inline-note {
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+        color: var(--app-heading-soft);
     }
 
     @media (max-width: 1023px) {

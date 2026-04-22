@@ -18,6 +18,7 @@ class PrintChecklistRunRecapController extends Controller
 
         $run->loadMissing([
             'template',
+            'room',
             'creator',
             'submitter',
             'items.checklistItem',

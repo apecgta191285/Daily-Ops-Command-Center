@@ -120,6 +120,11 @@ test('checklist run archive lists only submitted runs and respects date scope an
 });
 
 test('historical run recap shows grouped responses and hides unsubmitted runs', function () {
+    $room = $this->createRoom([
+        'name' => 'Lab Archive 1',
+        'code' => 'LAB-A1',
+    ]);
+
     $submittedRun = $this->createRunForUser(
         $this->operatorA,
         $this->openingTemplate,
@@ -129,6 +134,7 @@ test('historical run recap shows grouped responses and hides unsubmitted runs', 
             ['result' => ChecklistResult::NotDone->value, 'note' => 'Projector lamp issue'],
         ],
         runDate: '2026-04-17',
+        room: $room,
     );
 
     $draftRun = $this->createRunForUser(
@@ -142,6 +148,7 @@ test('historical run recap shows grouped responses and hides unsubmitted runs', 
     $response->assertOk();
     $response->assertSee('Historical recap');
     $response->assertSee($this->openingTemplate->title);
+    $response->assertSee($room->name);
     $response->assertSee('Opening checks');
     $response->assertSee('Unlock room');
     $response->assertSee('Check projector');
@@ -158,6 +165,11 @@ test('historical run recap shows grouped responses and hides unsubmitted runs', 
 });
 
 test('printable historical run recap shows print-friendly evidence summary', function () {
+    $room = $this->createRoom([
+        'name' => 'Lab Print 1',
+        'code' => 'LAB-P1',
+    ]);
+
     $submittedRun = $this->createRunForUser(
         $this->operatorA,
         $this->openingTemplate,
@@ -167,6 +179,7 @@ test('printable historical run recap shows print-friendly evidence summary', fun
             ['result' => ChecklistResult::NotDone->value, 'note' => 'Projector lamp issue'],
         ],
         runDate: '2026-04-17',
+        room: $room,
     );
 
     $response = $this->actingAs($this->admin)->get(route('checklists.history.print', $submittedRun));
@@ -175,6 +188,7 @@ test('printable historical run recap shows print-friendly evidence summary', fun
     $response->assertSee('Checklist recap print view');
     $response->assertSee('Print recap');
     $response->assertSee($this->openingTemplate->title);
+    $response->assertSee($room->name);
     $response->assertSee('Evidence snapshot');
     $response->assertSee('Follow-up worth reviewing');
     $response->assertSee('Projector lamp issue');

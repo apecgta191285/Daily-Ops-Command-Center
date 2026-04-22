@@ -151,6 +151,7 @@
                                 <tr>
                                     <th>{{ __('Run date') }}</th>
                                     <th>{{ __('Template') }}</th>
+                                    <th>{{ __('Room') }}</th>
                                     <th>{{ __('Scope') }}</th>
                                     <th>{{ __('Operator') }}</th>
                                     <th>{{ __('Submitted') }}</th>
@@ -166,6 +167,9 @@
                                         </td>
                                         <td data-label="Template" class="ops-text-muted px-4 py-4 text-sm">
                                             {{ $run->template?->title ?? __('Unknown template') }}
+                                        </td>
+                                        <td data-label="Room" class="ops-text-muted px-4 py-4 text-sm">
+                                            {{ $run->room?->name ?? __('No room') }}
                                         </td>
                                         <td data-label="Scope" class="px-4 py-4 text-sm">
                                             <span class="ops-chip ops-chip--neutral">{{ $run->assigned_team_or_scope ?: __('Unknown scope') }}</span>

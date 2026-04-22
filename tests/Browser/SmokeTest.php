@@ -675,6 +675,10 @@ test('staff can authenticate into the daily checklist workflow without browser s
 
 test('staff incident reporting shows a post-submit outcome screen', function () {
     $staff = $this->createUserForRole(UserRole::Staff);
+    $room = $this->createRoom([
+        'name' => 'Browser Room 1',
+        'code' => 'LAB-B1',
+    ]);
 
     $page = visit('/login');
 
@@ -686,6 +690,7 @@ test('staff incident reporting shows a post-submit outcome screen', function () 
         ->assertPathIs('/incidents/new')
         ->fill('title', 'Browser smoke outcome incident')
         ->select('category', 'อื่น ๆ')
+        ->assertSee($room->name)
         ->select('severity', 'Low')
         ->fill('description', 'Testing the incident outcome surface.')
         ->click('Create incident')

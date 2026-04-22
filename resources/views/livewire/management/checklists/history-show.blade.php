@@ -9,6 +9,7 @@
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Submitted archive') }}</span>
+                    <span class="ops-shell-chip">{{ $this->roomLabel }}</span>
                     <span class="ops-shell-chip">{{ $this->scopeLabel }}</span>
                     <span class="ops-shell-chip">{{ $run->run_date->format('M d, Y') }}</span>
                 </div>
@@ -32,6 +33,7 @@
                         This historical recap freezes what was submitted on {{ $run->run_date->format('M d, Y') }} so the team can review execution truth after the live checklist lane has moved on.
                     </p>
                     <div class="ops-hero__meta">
+                        <span class="ops-badge ops-badge--neutral">{{ __('Room:') }} {{ $this->roomLabel }}</span>
                         <span class="ops-badge ops-badge--neutral">{{ __('Operator:') }} {{ $run->creator?->name ?? __('Unknown') }}</span>
                         <span class="ops-badge ops-badge--neutral">{{ __('Submitted by:') }} {{ $this->submittedByLabel }}</span>
                     </div>
@@ -83,6 +85,10 @@
                 @endif
 
                 <dl class="ops-detail-stack">
+                    <div>
+                        <dt class="ops-detail-stack__label">{{ __('Room') }}</dt>
+                        <dd class="ops-detail-stack__value">{{ $this->roomLabel }}</dd>
+                    </div>
                     <div>
                         <dt class="ops-detail-stack__label">{{ __('Scope lane') }}</dt>
                         <dd class="ops-detail-stack__value">{{ $this->scopeLabel }}</dd>

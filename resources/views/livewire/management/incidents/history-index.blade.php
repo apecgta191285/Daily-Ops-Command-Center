@@ -138,6 +138,12 @@
                                                             </div>
                                                             <p class="ops-inline-note">
                                                                 {{ __('Reported by :creator', ['creator' => $incident['creator_name'] ?? __('Unknown')]) }}
+                                                                @if ($incident['room_name'])
+                                                                    {{ __(' • Room: :room', ['room' => $incident['room_name']]) }}
+                                                                @endif
+                                                                @if ($incident['equipment_reference'])
+                                                                    {{ __(' • Equipment: :equipment', ['equipment' => $incident['equipment_reference']]) }}
+                                                                @endif
                                                                 @if ($incident['owner_name'])
                                                                     {{ __(' • Owner: :owner', ['owner' => $incident['owner_name']]) }}
                                                                 @endif
@@ -169,6 +175,12 @@
                                                             </div>
                                                             <p class="ops-inline-note">
                                                                 {{ __('Originally reported by :creator', ['creator' => $incident['creator_name'] ?? __('Unknown')]) }}
+                                                                @if ($incident['room_name'])
+                                                                    {{ __(' • Room: :room', ['room' => $incident['room_name']]) }}
+                                                                @endif
+                                                                @if ($incident['equipment_reference'])
+                                                                    {{ __(' • Equipment: :equipment', ['equipment' => $incident['equipment_reference']]) }}
+                                                                @endif
                                                                 @if ($incident['owner_name'])
                                                                     {{ __(' • Last owner: :owner', ['owner' => $incident['owner_name']]) }}
                                                                 @endif

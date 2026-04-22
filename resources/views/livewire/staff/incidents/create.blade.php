@@ -9,13 +9,16 @@
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Structured handoff') }}</span>
+                    @if ($roomId !== '')
+                        <span class="ops-shell-chip">{{ collect($rooms)->firstWhere('id', $roomId)['name'] ?? __('Selected room') }}</span>
+                    @endif
                     <span class="ops-shell-chip">{{ __('Evidence-ready') }}</span>
                     <span class="ops-shell-chip">{{ __('Management visible') }}</span>
                 </div>
             </div>
 
             <div class="ops-page-intro__actions">
-                <a href="{{ route('checklists.runs.today', $checklistReturnScope ? ['scope' => $checklistReturnScope] : []) }}" class="ops-button ops-button--secondary">
+                <a href="{{ route('checklists.runs.today', $this->checklistReturnParameters()) }}" class="ops-button ops-button--secondary">
                     {{ __('Back to checklist') }}
                 </a>
             </div>
@@ -48,6 +51,14 @@
                                         <dd class="ops-detail-stack__value">{{ $submissionRecap['severity'] }}</dd>
                                     </div>
                                     <div>
+                                        <dt class="ops-detail-stack__label">Room</dt>
+                                        <dd class="ops-detail-stack__value">{{ $submissionRecap['room_name'] }}</dd>
+                                    </div>
+                                    <div>
+                                        <dt class="ops-detail-stack__label">Equipment Reference</dt>
+                                        <dd class="ops-detail-stack__value">{{ $submissionRecap['equipment_reference'] ?? __('Not provided') }}</dd>
+                                    </div>
+                                    <div>
                                         <dt class="ops-detail-stack__label">Created At</dt>
                                         <dd class="ops-detail-stack__value">{{ $submissionRecap['created_at'] }}</dd>
                                     </div>
@@ -71,7 +82,7 @@
 
                         <div class="ops-divider-top flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:justify-end">
                             @if ($submissionRecap['from_checklist'])
-                                <a href="{{ route('checklists.runs.today', $checklistReturnScope ? ['scope' => $checklistReturnScope] : []) }}" class="ops-button ops-button--secondary">
+                                <a href="{{ route('checklists.runs.today', $this->checklistReturnParameters()) }}" class="ops-button ops-button--secondary">
                                     Back to today&apos;s checklist
                                 </a>
                             @endif
@@ -103,6 +114,17 @@
                                 </div>
 
                                 <div>
+                                    <label for="room_id" class="ops-field-label">Room <span class="ops-required-mark">*</span></label>
+                                    <select id="room_id" wire:model="roomId" class="ops-control">
+                                        <option value="">-- Select Room --</option>
+                                        @foreach($rooms as $roomOption)
+                                            <option value="{{ $roomOption['id'] }}">{{ $roomOption['name'] }} ({{ $roomOption['code'] }})</option>
+                                        @endforeach
+                                    </select>
+                                    @error('roomId') <span class="ops-field-error">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div>
                                     <label for="severity" class="ops-field-label">Severity <span class="ops-required-mark">*</span></label>
                                     <select id="severity" wire:model="severity" class="ops-control">
                                         <option value="">-- Select Severity --</option>
@@ -113,6 +135,13 @@
                                     @error('severity') <span class="ops-field-error">{{ $message }}</span> @enderror
                                     <p class="ops-field-help">Low = รบกวนเล็กน้อย, Medium = กระทบการใช้งานบางส่วน, High = กระทบหลัก/ความปลอดภัย</p>
                                 </div>
+                            </div>
+
+                            <div>
+                                <label for="equipment_reference" class="ops-field-label">Equipment Reference (Optional)</label>
+                                <input type="text" id="equipment_reference" wire:model="equipmentReference" class="ops-control" placeholder="e.g. PC-12, Printer Lab 2, Plug A3">
+                                @error('equipmentReference') <span class="ops-field-error">{{ $message }}</span> @enderror
+                                <p class="ops-field-help">Use a short room-level equipment reference when the issue affects one workstation, printer, projector, or power point.</p>
                             </div>
 
                             <div>
@@ -130,7 +159,7 @@
                         </div>
 
                         <div class="ops-divider-top flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:justify-end">
-                            <a href="{{ route('checklists.runs.today', $checklistReturnScope ? ['scope' => $checklistReturnScope] : []) }}" class="ops-button ops-button--secondary">
+                            <a href="{{ route('checklists.runs.today', $this->checklistReturnParameters()) }}" class="ops-button ops-button--secondary">
                                 Cancel
                             </a>
                             <button type="submit" class="ops-button ops-button--primary min-w-44">
