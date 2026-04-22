@@ -13,6 +13,9 @@
 * ระบบไม่ใช่ enterprise platform, public SaaS, หรือ multi-tenant product
 * กลุ่มผู้ใช้มี 3 บทบาทเท่านั้น: `admin`, `supervisor`, `staff`
 * product stance ปัจจุบันคือ **disciplined MVP+ / strong capstone**, ไม่ใช่ production-grade claim
+* case study reality ปัจจุบันถูกล็อกแล้วว่าเป็นการดูแล **หลายห้องคอม / หลายห้องแล็บในมหาวิทยาลัยเดียว**
+* actor mapping ปัจจุบันถูกล็อกแล้วว่า `admin` = อาจารย์ผู้รับผิดชอบ / ผู้ได้รับมอบหมายดูแลระบบ, `supervisor` = lab boy / เจ้าหน้าที่แล็บ / ผู้ดูแลห้อง, `staff` = นักศึกษาที่เข้าเวรตรวจห้องตามรอบ
+* correction path ปัจจุบันถูกล็อกเป็น **room-centered lab operations** ไม่ใช่ machine-registry-centered expansion
 
 # **2. Current Capabilities**
 
@@ -23,6 +26,12 @@
 * dashboard ทำหน้าที่เป็น today-first workboard จากข้อมูลจริงของ checklist, incidents, ownership pressure, และ recent history context
 * management ใช้ printable checklist recap และ printable incident summary ได้ในฐานะ evidence convenience โดยไม่ทำให้ระบบกลายเป็น report platform
 
+คำอธิบายเชิง case study ที่ต้องใช้ตอนนี้:
+
+* current implementation ยังเป็น scope-centered operations baseline
+* แต่ product truth และ oral-exam framing ต้องอธิบายว่าระบบกำลังถูกยกระดับไปสู่ room-centered operations สำหรับหลายห้อง
+* machine registry แบบเต็มยังไม่อยู่ในความสามารถปัจจุบัน และยังไม่ควรถูกอ้างว่าเป็นส่วนหนึ่งของ repo truth
+
 # **3. Current Technical Truth**
 
 * local baseline คือ PHP 8.4 + Laravel + SQLite + public storage link
@@ -32,6 +41,8 @@
 * management incident queue เริ่ม paginate แล้วแทนการดึง collection ทั้งก้อนใน UI surface
 * frontend มี token layer, modular CSS architecture, shared shells, browser smoke baseline, guest visual baselines, และ deterministic admin governance screenshot baseline แล้ว
 * frontend governance มี admin-only `ui-governance` artifact แล้ว แต่ยังเป็น baseline ไม่ใช่ full governance system
+* room ยังไม่เป็น first-class entity ใน schema ปัจจุบัน และ checklist runs / incidents ยังไม่ได้ persist `room_id`
+* equipment reference แบบ lightweight ยังไม่ถูก implement ใน incident schema ปัจจุบัน
 
 # **4. Current Gaps**
 
@@ -42,6 +53,10 @@
 **story alignment ยังไม่เสร็จทุกหน้า (กลาง)**
 
 * welcome/login ดีขึ้นแล้ว แต่ major authenticated screens ยังเสี่ยงมีภาษาที่ abstract หรือ theatrical เกินจำเป็น
+
+**case-study grounding ยังเพิ่งล็อกในระดับเอกสาร ไม่ใช่ schema (กลาง)**
+
+* product truth ตอนนี้รองรับการอธิบายว่าเป็นหลายห้องแล้ว แต่ persistence และ workflow ยังไม่ room-aware จริงจนกว่าจะเข้ารอบ Phase A2
 
 **frontend QA baseline ยังไม่ปิดครบทุก major authenticated surface (กลาง)**
 
@@ -57,6 +72,7 @@
 * ปิด story alignment ให้ครบทุก major authenticated surface
 * harden type safety และ query hygiene ต่อเฉพาะ hotspot ที่ยังคุ้มค่า
 * keep future work inside A-lite scope
+* ใช้ room-centered framing ในการอธิบาย product และเตรียม oral exam โดยไม่แกล้งอ้างว่า room schema ถูกลงแล้ว
 
 # **6. Current Verdict**
 

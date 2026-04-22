@@ -1,8 +1,8 @@
 # Daily Ops Command Center
 
-Daily Ops Command Center is an internal web application for university computer lab teams. It helps duty staff complete routine checks, report room or equipment issues, and lets lab supervisors monitor the day’s work from one shared workboard.
+Daily Ops Command Center is an internal web application for university computer lab operations. In the current case study, one responsible lecturer oversees several computer labs or rooms, room caretakers supervise daily conditions, and students on duty carry out routine checks and report problems.
 
-Current product stance: internal provisioning only, 3 roles only (`admin`, `supervisor`, `staff`), single-organization demo baseline, no public sign-up, no multi-tenant model, and a disciplined MVP+ / strong capstone stance rather than an enterprise-platform claim.
+Current product stance: internal provisioning only, 3 roles only (`admin`, `supervisor`, `staff`), single-organization demo baseline, no public sign-up, no multi-tenant model, and a disciplined MVP+ / strong capstone stance rather than an enterprise-platform claim. The real case study now assumes multiple university computer labs or rooms, while the current implementation is still grounded in scope-based daily operations and is being corrected toward a room-centered model in later phases.
 
 ## Stack
 
@@ -79,6 +79,19 @@ Current repository capabilities:
 - dashboard workboard built from real checklist, incident, and history signals
 - print-friendly checklist recap and incident summary for review/demo evidence
 
+Current actor mapping for the case study:
+
+- `admin` = responsible lecturer or authorized academic owner
+- `supervisor` = lab boy, lab staff member, or room caretaker
+- `staff` = students assigned to check rooms on duty
+
+Current case-study framing:
+
+- the real operating context involves multiple university computer labs or rooms
+- the current implementation baseline is still time-scope-centered
+- the current correction path is room-centered lab operations
+- a full machine registry is future work and is explicitly out of scope right now
+
 Out of scope by design:
 
 - public registration
@@ -93,11 +106,11 @@ Out of scope by design:
 
 For local/manual demos with seeded data:
 
-1. Log in as `operatora@example.com` / `password` to show duty-staff checklist execution and incident reporting.
-2. Log in as `supervisor@example.com` / `password` to show dashboard attention states, incident follow-up, and printable evidence surfaces.
-3. Log in as `admin@example.com` / `password` to show checklist template governance, user administration, and the UI governance guide.
+1. Log in as `operatora@example.com` / `password` to show a student on duty completing room checks and reporting issues found during a lab round.
+2. Log in as `supervisor@example.com` / `password` to show a lab caretaker reviewing dashboard attention states, incident follow-up, and printable evidence surfaces across the day.
+3. Log in as `admin@example.com` / `password` to show the responsible lecturer or authorized academic owner governing checklist templates, users, and UI guidance inside the same system.
 
-The seeded narrative is intentionally small and realistic: one live opening checklist, a few active/resolved issues, recent history, and internal accounts that support a believable university computer lab demo.
+The seeded narrative is intentionally small and realistic: it is still a compact demo baseline, but it should now be explained as a university computer lab operation that covers several rooms in the real case study, with the current product moving toward room-centered operations rather than machine-registry management.
 
 ## Repo Notes
 
