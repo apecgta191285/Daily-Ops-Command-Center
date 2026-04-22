@@ -2,7 +2,7 @@
 
 Daily Ops Command Center is an internal web application for university computer lab operations. In the current case study, one responsible lecturer oversees several computer labs or rooms, room caretakers supervise daily conditions, and students on duty carry out routine checks and report problems.
 
-Current product stance: internal provisioning only, 3 roles only (`admin`, `supervisor`, `staff`), single-organization demo baseline, no public sign-up, no multi-tenant model, and a disciplined MVP+ / strong capstone stance rather than an enterprise-platform claim. The real case study now assumes multiple university computer labs or rooms, while the current implementation is still grounded in scope-based daily operations and is being corrected toward a room-centered model in later phases.
+Current product stance: internal provisioning only, 3 roles only (`admin`, `supervisor`, `staff`), single-organization demo baseline, no public sign-up, no multi-tenant model, and a disciplined MVP+ / strong capstone stance rather than an enterprise-platform claim. The real case study assumes multiple university computer labs or rooms, and the current implementation already uses room-centered operations with time scope preserved as the second dimension.
 
 ## Stack
 
@@ -71,13 +71,13 @@ Document roles:
 
 Current repository capabilities:
 
-- scope-aware daily checklist runtime for opening, during-day, and closing work
-- incident reporting with lightweight attachment support
-- management incident queue, detail, accountability, and history review
+- room-aware daily checklist runtime for opening, during-day, and closing work
+- incident reporting with room context, optional lightweight equipment reference, and lightweight attachment support
+- management incident queue, detail, accountability, and history review with room context
 - admin template governance by scope
 - admin-owned user lifecycle inside the main app shell
-- dashboard workboard built from real checklist, incident, and history signals
-- print-friendly checklist recap and incident summary for review/demo evidence
+- dashboard workboard built from real checklist, incident, room, and history signals
+- print-friendly checklist recap and incident summary for review/demo evidence with room context
 
 Current actor mapping for the case study:
 
@@ -88,9 +88,16 @@ Current actor mapping for the case study:
 Current case-study framing:
 
 - the real operating context involves multiple university computer labs or rooms
-- the current implementation baseline is still time-scope-centered
-- the current correction path is room-centered lab operations
+- the current implementation baseline is `room + time scope`, not time scope only
+- room-centered lab operations are already landed in the current repository baseline
 - a full machine registry is future work and is explicitly out of scope right now
+
+Known limitations that still matter:
+
+- optional equipment reference is lightweight free text, not a machine registry
+- dashboard/workboard is room-aware, but it is not a deep room-machine intelligence board
+- authenticated browser coverage is meaningful but not a full visual envelope for every heavy screen
+- the system is still not a production-grade platform claim
 
 Out of scope by design:
 
@@ -110,7 +117,7 @@ For local/manual demos with seeded data:
 2. Log in as `supervisor@example.com` / `password` to show a lab caretaker reviewing dashboard attention states, incident follow-up, and printable evidence surfaces across the day.
 3. Log in as `admin@example.com` / `password` to show the responsible lecturer or authorized academic owner governing checklist templates, users, and UI guidance inside the same system.
 
-The seeded narrative is intentionally small and realistic: it is still a compact demo baseline, but it should now be explained as a university computer lab operation that covers several rooms in the real case study, with the current product moving toward room-centered operations rather than machine-registry management.
+The seeded narrative is intentionally small and realistic: it is a compact university computer lab demo baseline that already shows room-centered operations across several rooms, while still stopping short of machine-registry management.
 
 ## Repo Notes
 

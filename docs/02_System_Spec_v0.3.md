@@ -32,8 +32,8 @@ actor mapping ของ case study ถูกล็อกดังนี้:
 หมายเหตุสำคัญของ Phase A1:
 
 * real case study = หลายห้องคอม / หลายห้องปฏิบัติการในมหาวิทยาลัยเดียว
-* current implementation baseline = ยังขับเคลื่อนด้วย `scope` ของเวลาเป็นหลัก
-* current correction path = มุ่งไปสู่ **room-centered operations**
+* current implementation baseline = ใช้ `room + scope` เป็น operational truth แล้ว
+* current correction path แบบ Option A = ลง **room-centered operations** แล้ว
 * machine registry แบบเต็มยังไม่อยู่ใน scope ปัจจุบัน
 
 # **2\. Functional Requirements**
@@ -42,8 +42,8 @@ actor mapping ของ case study ถูกล็อกดังนี้:
 | :---: | ----- | ----- |
 | FR-01 | ผู้ใช้ล็อกอินเข้าสู่ระบบตามบทบาทได้ | Must |
 | FR-02 | Admin สร้าง/แก้ไข Checklist Template และจัดการ user lifecycle ภายในระบบได้ในฐานะผู้รับผิดชอบเชิงวิชาการ | Must |
-| FR-03 | Staff เปิด checklist ของวันและทำรายการตรวจเช็กได้ โดยระบบต้องสร้าง checklist run อัตโนมัติถ้ายังไม่มี run ของวันนั้น | Must |
-| FR-04 | Staff สร้าง incident พร้อมหมวด/ความรุนแรง/รายละเอียด และ optional attachment ได้เมื่อพบปัญหาในห้องที่ตนรับผิดชอบรอบนั้น | Must |
+| FR-03 | Staff เปิด checklist ของวันโดยเลือกห้องที่กำลังตรวจ และทำรายการตรวจเช็กได้ โดยระบบต้องสร้าง checklist run อัตโนมัติถ้ายังไม่มี run ของวันนั้นสำหรับห้องและ scope นั้น | Must |
+| FR-04 | Staff สร้าง incident พร้อมหมวด/ความรุนแรง/รายละเอียด, room context, optional equipment reference, และ optional attachment ได้เมื่อพบปัญหาในห้องที่ตนรับผิดชอบรอบนั้น | Must |
 | FR-05 | Admin และ Supervisor เปลี่ยนสถานะ incident ได้ และสามารถตั้ง owner/follow-up target แบบ lightweight ได้ | Must |
 | FR-06 | ระบบแสดง dashboard workboard สำหรับ management โดยสรุป checklist, incident, ownership pressure, และ recent operational context จากข้อมูลจริงได้ เพื่อใช้ติดตามสถานะของหลายห้องในภาพรวม | Must |
 | FR-07 | ระบบมีประวัติการกระทำขั้นต่ำเพื่อ trace ผู้ใช้และเวลาได้ | Should |
@@ -60,12 +60,12 @@ actor mapping ของ case study ถูกล็อกดังนี้:
 # **4\. User Flows**
 
 1. Admin login → ไปหน้า template management → สร้าง template และ checklist items → บันทึก  
-2. Staff login → เปิด checklist run ของวัน; ถ้ายังไม่มีระบบสร้างให้อัตโนมัติ → ติ๊กแต่ละข้อ / ใส่หมายเหตุ → submit  
-2.1 ถ้ามี live checklist หลาย scope ระบบต้องแสดง workboard ของวันเพื่อให้ staff เลือก lane เช่น เปิดห้อง / ตรวจระหว่างวัน / ปิดห้อง ก่อนเข้า run ของ scope นั้น  
-2.2 ในการอธิบายต่ออาจารย์ ให้ย้ำว่านี่คือ baseline ปัจจุบันก่อนเพิ่ม room dimension; case study จริงมีหลายห้อง และ Phase ถัดไปจะทำให้ run รู้จักห้องอย่างเป็นทางการ  
-3. Staff พบปัญหา → สร้าง incident → ระบุ category + severity + description + optional attachment → บันทึก  
+2. Staff login → เลือกห้องที่กำลังตรวจ → เปิด checklist run ของวัน; ถ้ายังไม่มีระบบสร้างให้อัตโนมัติ → ติ๊กแต่ละข้อ / ใส่หมายเหตุ → submit  
+2.1 ถ้ามี live checklist หลาย scope ระบบต้องแสดง workboard ของวันเพื่อให้ staff เลือก lane เช่น เปิดห้อง / ตรวจระหว่างวัน / ปิดห้อง ภายในห้องที่เลือกก่อนเข้า run ของ scope นั้น  
+2.2 ในการอธิบายต่ออาจารย์ ให้ย้ำว่าปัจจุบันระบบมี room-centered baseline แล้ว แต่ยังใช้ equipment reference แบบ lightweight ไม่ใช่ machine registry  
+3. Staff พบปัญหา → สร้าง incident → ระบุ category + severity + description + room + optional equipment reference + optional attachment → บันทึก  
 4. Supervisor หรือ Admin เปิดหน้า incidents → ดูรายการ open → ตั้ง owner/follow-up target เมื่อจำเป็น → อัปเดตสถานะเป็น In Progress / Resolved  
-5. Supervisor หรือ Admin เปิด dashboard → เห็น workboard ของวันซึ่งตอบว่า lane ไหนยังค้าง, ownership pressure อยู่ตรงไหน, และ recent operational context ช่วงล่าสุดบอกอะไรเกี่ยวกับวันนี้ โดยใน oral exam ต้องอธิบายตรงๆ ว่าระบบกำลังมุ่งไปสู่ room-centered view สำหรับหลายห้อง
+5. Supervisor หรือ Admin เปิด dashboard → เห็น workboard ของวันที่ตอบว่าห้องไหนยังค้าง, ownership pressure อยู่ตรงไหน, incident ใดผูกกับห้องใด, และ recent operational context ช่วงล่าสุดบอกอะไรเกี่ยวกับวันนี้
 6. Admin เปิดหน้า template administration → เห็น live checklist ownership ของแต่ละ scope, duplicate draft อย่างปลอดภัย, และ activate template เฉพาะ lane ที่เกี่ยวข้อง
 7. Admin เปิดหน้า user administration → เห็น roster ปัจจุบัน, สร้าง account ภายใน, ปรับ role/active state, และตั้งหรือเปลี่ยน password แบบ explicit จากใน app shell
 8. Supervisor หรือ Admin เปิดหน้า checklist/incident history → review สิ่งที่เกิดขึ้นในช่วงที่ผ่านมา, pivot ไปยัง recap/detail ที่เกี่ยวข้อง, และใช้ประวัติในระบบเพื่อทบทวนงานจริงโดยไม่ต้องพึ่ง reporting layer ภายนอก
@@ -90,7 +90,7 @@ actor mapping ของ case study ถูกล็อกดังนี้:
 * Incident attachments เป็น optional และเก็บไฟล์แบบ local public disk เท่านั้น  
 * Dashboard ใช้ข้อมูลจริงจาก checklist runs, incidents, และ operational history ที่มีอยู่จริงเท่านั้น และต้องสามารถสะท้อน missing / incomplete scope lanes ของวัน, `unowned / overdue / owned by me` accountability pressure, และ recent command context ได้แบบย่อโดยไม่กลายเป็น analytics subsystem  
 * v1 ไม่รองรับ workflow approval, incident reassignment history, notifications, SLA engine, หรือ checklist draft workflow
-* real case study ปัจจุบันถือว่ามีหลายห้องคอมในมหาวิทยาลัยเดียว แต่ room ยังไม่เป็น first-class entity ใน implementation baseline ของ v1 ณ ตอนนี้
+* real case study ปัจจุบันถือว่ามีหลายห้องคอมในมหาวิทยาลัยเดียว และ room เป็น first-class operational entity ใน implementation baseline ปัจจุบันแล้ว
 * correction path ที่ล็อกไว้คือ room-centered operations ก่อน machine-centered operations; machine registry, inventory, และ machine lifecycle ยังไม่อยู่ใน scope ปัจจุบัน
 
 # **6\. Core Data Model**
@@ -98,18 +98,19 @@ actor mapping ของ case study ถูกล็อกดังนี้:
 | Entity | Fields ขั้นต่ำ |
 | :---: | ----- |
 | User | id, name, email, role, is_active |
+| Room | id, name, code, description, is_active |
 | ChecklistTemplate | id, title, description, scope, is_active |
 | ChecklistItem | id, template_id, title, description, sort_order, is_required |
-| ChecklistRun | id, template_id, run_date, assigned_team_or_scope, created_by, submitted_at, submitted_by |
+| ChecklistRun | id, template_id, room_id, run_date, assigned_team_or_scope, created_by, submitted_at, submitted_by |
 | ChecklistRunItem | id, run_id, item_id, result, note, checked_by, checked_at |
-| Incident | id, title, category, severity, status, description, attachment_path, created_by, owner_id, follow_up_due_at, created_at, resolved_at |
+| Incident | id, title, room_id, category, severity, status, description, equipment_reference, attachment_path, created_by, owner_id, follow_up_due_at, created_at, resolved_at |
 | IncidentActivity | id, incident_id, action_type, summary, actor_id, created_at |
 
 หมายเหตุสำหรับ oral exam:
 
-* ตารางข้อมูลหลักปัจจุบันยังไม่รวม `room_id`
-* นี่ไม่ใช่การปฏิเสธ case study หลายห้อง แต่เป็น baseline implementation ก่อน Phase A2 — Schema Slice
-* ดังนั้นคำอธิบายที่ถูกต้องคือ “repo ปัจจุบัน grounded กับ case study หลายห้องแล้วในเชิง product truth แต่ room-centered persistence ยังเป็นงาน phase ถัดไป”
+* ตารางข้อมูลหลักปัจจุบันรวม `rooms`, `room_id` บน checklist runs และ incidents แล้ว
+* incident รองรับ `equipment_reference` แบบ lightweight เพื่ออ้างถึงเครื่องหรืออุปกรณ์เป็นข้อความสั้น ๆ ได้
+* ดังนั้นคำอธิบายที่ถูกต้องคือ “repo ปัจจุบัน grounded กับ case study หลายห้องทั้งในเชิง product truth และ persistence แล้ว แต่ยังไม่ใช่ machine-registry implementation”
 
 # **7\. Acceptance Criteria**
 

@@ -15,21 +15,21 @@
 * product stance ปัจจุบันคือ **disciplined MVP+ / strong capstone**, ไม่ใช่ production-grade claim
 * case study reality ปัจจุบันถูกล็อกแล้วว่าเป็นการดูแล **หลายห้องคอม / หลายห้องแล็บในมหาวิทยาลัยเดียว**
 * actor mapping ปัจจุบันถูกล็อกแล้วว่า `admin` = อาจารย์ผู้รับผิดชอบ / ผู้ได้รับมอบหมายดูแลระบบ, `supervisor` = lab boy / เจ้าหน้าที่แล็บ / ผู้ดูแลห้อง, `staff` = นักศึกษาที่เข้าเวรตรวจห้องตามรอบ
-* correction path ปัจจุบันถูกล็อกเป็น **room-centered lab operations** ไม่ใช่ machine-registry-centered expansion
+* Option A room-centered correction ปิดแล้ว และ machine-registry-centered expansion ยังไม่อยู่ใน current scope
 
 # **2. Current Capabilities**
 
-* staff ทำ daily checklist runtime ตาม scope ได้จริงสำหรับ opening / during-day / closing
-* staff สร้าง incident พร้อม category, severity, description, และ optional attachment ได้
-* management ใช้ dashboard, incident queue/detail, accountability, checklist history, และ incident history ได้
+* staff ทำ daily checklist runtime ตาม `room + scope` ได้จริงสำหรับ opening / during-day / closing
+* staff สร้าง incident พร้อม room, category, severity, description, optional equipment reference, และ optional attachment ได้
+* management ใช้ dashboard, incident queue/detail, accountability, checklist history, และ incident history แบบ room-aware ได้
 * admin จัดการ checklist templates ตาม scope และจัดการ user lifecycle ภายใน app shell ได้
-* dashboard ทำหน้าที่เป็น today-first workboard จากข้อมูลจริงของ checklist, incidents, ownership pressure, และ recent history context
-* management ใช้ printable checklist recap และ printable incident summary ได้ในฐานะ evidence convenience โดยไม่ทำให้ระบบกลายเป็น report platform
+* dashboard ทำหน้าที่เป็น today-first workboard จากข้อมูลจริงของ checklist, incidents, rooms, ownership pressure, และ recent history context
+* management ใช้ printable checklist recap และ printable incident summary แบบมี room context ได้ในฐานะ evidence convenience โดยไม่ทำให้ระบบกลายเป็น report platform
 
 คำอธิบายเชิง case study ที่ต้องใช้ตอนนี้:
 
-* current implementation ยังเป็น scope-centered operations baseline
-* แต่ product truth และ oral-exam framing ต้องอธิบายว่าระบบกำลังถูกยกระดับไปสู่ room-centered operations สำหรับหลายห้อง
+* current implementation ใช้ `room + time scope` เป็น operational baseline แล้ว
+* oral-exam framing ที่ถูกต้องคือระบบรองรับ room-centered operations สำหรับหลายห้องจริงแล้ว แต่ยังหยุดที่ optional equipment reference ไม่ใช่ machine registry
 * machine registry แบบเต็มยังไม่อยู่ในความสามารถปัจจุบัน และยังไม่ควรถูกอ้างว่าเป็นส่วนหนึ่งของ repo truth
 
 # **3. Current Technical Truth**
@@ -41,8 +41,8 @@
 * management incident queue เริ่ม paginate แล้วแทนการดึง collection ทั้งก้อนใน UI surface
 * frontend มี token layer, modular CSS architecture, shared shells, browser smoke baseline, guest visual baselines, และ deterministic admin governance screenshot baseline แล้ว
 * frontend governance มี admin-only `ui-governance` artifact แล้ว แต่ยังเป็น baseline ไม่ใช่ full governance system
-* room ยังไม่เป็น first-class entity ใน schema ปัจจุบัน และ checklist runs / incidents ยังไม่ได้ persist `room_id`
-* equipment reference แบบ lightweight ยังไม่ถูก implement ใน incident schema ปัจจุบัน
+* room เป็น first-class entity ใน schema ปัจจุบันแล้ว และ checklist runs / incidents persist `room_id` จริง
+* incident schema รองรับ equipment reference แบบ lightweight แล้ว
 
 # **4. Current Gaps**
 
@@ -54,9 +54,9 @@
 
 * welcome/login ดีขึ้นแล้ว แต่ major authenticated screens ยังเสี่ยงมีภาษาที่ abstract หรือ theatrical เกินจำเป็น
 
-**case-study grounding ยังเพิ่งล็อกในระดับเอกสาร ไม่ใช่ schema (กลาง)**
+**machine registry ยังไม่มี และไม่ควรถูกอ้างเกินจริง (กลาง)**
 
-* product truth ตอนนี้รองรับการอธิบายว่าเป็นหลายห้องแล้ว แต่ persistence และ workflow ยังไม่ room-aware จริงจนกว่าจะเข้ารอบ Phase A2
+* room-centered baseline ลงแล้ว แต่ระบบยังตั้งใจหยุดที่ optional equipment reference และยังไม่ขยายไปเป็น machine/entity registry
 
 **frontend QA baseline ยังไม่ปิดครบทุก major authenticated surface (กลาง)**
 
@@ -69,10 +69,9 @@
 # **5. Current Focus**
 
 * รักษา regression baseline ให้เขียวทุกครั้งก่อน merge
-* ปิด story alignment ให้ครบทุก major authenticated surface
-* harden type safety และ query hygiene ต่อเฉพาะ hotspot ที่ยังคุ้มค่า
+* keep canonical docs, product story, และ known limitations ให้ตรงกับ codebase truth
 * keep future work inside A-lite scope
-* ใช้ room-centered framing ในการอธิบาย product และเตรียม oral exam โดยไม่แกล้งอ้างว่า room schema ถูกลงแล้ว
+* ใช้ room-centered framing ในการอธิบาย product และเตรียม oral exam โดยไม่แกล้งอ้างว่า machine registry มีอยู่แล้ว
 
 # **6. Current Verdict**
 
@@ -80,9 +79,9 @@
 
 * foundation remediation ปิดแล้ว
 * product waves `WF1-WF5` ปิดแล้ว
-* identity/story alignment เริ่มลงจริงแล้ว
+* identity/story alignment ลงจริงแล้ว
 * frontend governance baseline ลงจริงแล้ว และ QA proof แน่นขึ้นบน guest + deterministic admin governance surfaces
-* selective tightening ล่าสุดยังอยู่ในกรอบ internal computer-lab ops product
+* Option A room-centered correction ปิดแล้ว และ selective tightening ล่าสุดยังอยู่ในกรอบ internal computer-lab ops product
 
 คำตัดสินที่ยุติธรรมที่สุดตอนนี้คือ:
 
