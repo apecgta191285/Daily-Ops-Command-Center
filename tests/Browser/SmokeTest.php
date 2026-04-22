@@ -282,13 +282,13 @@ test('dashboard screenshot baselines hold for desktop and mobile', function () {
     stabilizeVisualState($dashboardDesktop)
         ->assertNoSmoke()
         ->assertSee('Workboard Framing')
-        ->assertSee('Operational Hotspots')
+        ->assertSee('Room issue hotspots')
         ->assertScreenshotMatches();
 
     stabilizeVisualState($dashboardMobile)
         ->assertNoSmoke()
         ->assertSee('Workboard Framing')
-        ->assertSee('Operational Hotspots')
+        ->assertSee('Room issue hotspots')
         ->assertScreenshotMatches();
 });
 
@@ -437,6 +437,7 @@ test('management incident queue shows accountability filters and fields without 
         ->assertSee('Only overdue follow-up')
         ->assertSee('Owner')
         ->assertSee('Follow-up')
+        ->assertNoAccessibilityIssues()
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });
@@ -474,6 +475,7 @@ test('management can browse incident history slices without browser smoke issues
         ->assertSee('Still active')
         ->assertSee('Browser incident history open record')
         ->assertSee('Browser incident history resolved record')
+        ->assertNoAccessibilityIssues()
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });
@@ -525,6 +527,7 @@ test('management can browse checklist run archive without browser smoke issues',
         ->assertSee('Review same operator')
         ->assertSee('Opening checks')
         ->assertSee('Lamp issue')
+        ->assertNoAccessibilityIssues()
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });
@@ -601,7 +604,7 @@ test('management dashboard shows trend and hotspot sections without browser smok
         ->assertSee('History-Aware Command Layer')
         ->assertSee('Checklist Trend')
         ->assertSee('Incident Intake Trend')
-        ->assertSee('Operational Hotspots')
+        ->assertSee('Room issue hotspots')
         ->assertSee('Review unowned incidents')
         ->assertSee('Review overdue follow-up')
         ->assertPresent('svg.ops-arc')

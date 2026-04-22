@@ -6,8 +6,25 @@ Current baseline:
 
 - smoke checks for guest, staff, management, and admin flows
 - axe-backed accessibility assertions through Pest Browser's `assertNoAccessibilityIssues()` on deterministic guest and admin-governance surfaces
+- accessibility-backed smoke checks on selected management heavy screens where render state is stable enough for repeatable audits
 - screenshot baselines for stable entry surfaces plus selected authenticated dashboard and checklist runtime screens
 - authenticated authoring and incident-detail screens currently stay under smoke coverage only until their render state is deterministic enough for stable screenshot gating
+
+Coverage shorthand:
+
+- `smoke only` = no JS errors, no console noise, core content present
+- `smoke + accessibility` = smoke plus `assertNoAccessibilityIssues()`
+- `screenshot-locked` = smoke plus `assertScreenshotMatches()`
+
+Heavy-screen coverage stance right now:
+
+- dashboard = `screenshot-locked`
+- checklist runtime = `screenshot-locked`
+- incident queue = `smoke + accessibility`
+- incident history = `smoke + accessibility`
+- checklist archive recap flow = `smoke + accessibility`
+- template authoring = `smoke only`
+- incident detail = `smoke only`
 
 Snapshot update rule:
 
