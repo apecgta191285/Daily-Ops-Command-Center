@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Historical recap') }}</p>
                 <h2 class="ops-page__title">{{ $this->pageTitle }}</h2>
                 <p class="ops-page-intro__body">
-                    Re-open a submitted checklist run as operational recap so management can review completion, not-done answers, and notes without going back into the live checklist flow.
+                    Re-open a submitted room check as operational recap so management can review what happened in that room without going back into the live checklist flow.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Submitted archive') }}</span>
@@ -30,7 +30,7 @@
                     <p class="ops-hero__eyebrow">{{ __('Run archive') }}</p>
                     <h3 class="ops-hero__title">{{ $run->template?->title ?? __('Checklist run') }}</h3>
                     <p class="ops-hero__lead">
-                        This historical recap freezes what was submitted on {{ $run->run_date->format('M d, Y') }} so the team can review execution truth after the live checklist lane has moved on.
+                        This historical recap freezes what was submitted for {{ $this->roomLabel }} on {{ $run->run_date->format('M d, Y') }} so the team can review execution truth after the live checklist lane has moved on.
                     </p>
                     <div class="ops-hero__meta">
                         <span class="ops-badge ops-badge--neutral">{{ __('Room:') }} {{ $this->roomLabel }}</span>

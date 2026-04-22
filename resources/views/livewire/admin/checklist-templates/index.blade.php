@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Admin checklist control') }}</p>
                 <h2 class="ops-page__title">{{ __('Checklist Templates') }}</h2>
                 <p class="ops-page-intro__body">
-                    Govern the live checklist lanes by scope, shape draft revisions safely, and keep the lab team aligned with the real daily routine.
+                    Govern the shared checklist lanes that students use when checking rooms, shape draft revisions safely, and keep the lab team aligned with the real daily routine.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live template control') }}</span>
@@ -42,7 +42,7 @@
                         This screen now lives inside the main application shell so template administration uses the same navigation, authentication, and visual language as the rest of the product.
                     </p>
                     <p class="mt-3">
-                        Each checklist scope now owns its own live lab lane. Saving a template as active only retires the currently active template inside the same scope.
+                        Each checklist scope still owns its own live lane. Those lanes are now used inside room-centered operations, so one template change can affect how multiple rooms are checked in the same operating moment.
                     </p>
                 </x-ops.callout>
             </div>

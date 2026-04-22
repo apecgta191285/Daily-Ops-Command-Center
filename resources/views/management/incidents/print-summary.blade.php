@@ -5,7 +5,7 @@
                 <p class="ops-print-toolbar__eyebrow">{{ __('Printable evidence surface') }}</p>
                 <h1 class="ops-print-toolbar__title">{{ __('Incident summary print view') }}</h1>
                 <p class="ops-print-toolbar__copy">
-                    {{ __('Use this version when you need one clean incident record for review, handoff discussion, or capstone evidence.') }}
+                    {{ __('Use this version when you need one clean room issue record for review, handoff discussion, or capstone evidence.') }}
                 </p>
             </div>
 
@@ -25,7 +25,7 @@
             <p class="ops-print-header__eyebrow">{{ __('Lab issue evidence pack') }}</p>
             <h1 class="ops-print-header__title">{{ $incident->title }}</h1>
             <p class="ops-print-header__body">
-                {{ __('This print-friendly summary captures the reported lab issue, current accountability state, and the most relevant handling context without turning the incident into a report theater document.') }}
+                {{ __('This print-friendly summary captures the reported room issue, current accountability state, and the most relevant handling context without turning the incident into a report theater document.') }}
             </p>
         </div>
 
@@ -120,7 +120,7 @@
         </article>
 
         <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
-            <p class="ops-incident-panel__eyebrow">{{ __('Room and attachment') }}</p>
+            <p class="ops-incident-panel__eyebrow">{{ __('Room and evidence') }}</p>
             <h2 class="ops-incident-panel__title">{{ $incident->room?->name ?? __('No room recorded') }}</h2>
             <p class="ops-incident-panel__body">
                 {{ $incident->equipment_reference

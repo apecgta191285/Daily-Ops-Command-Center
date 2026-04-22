@@ -11,16 +11,16 @@
                     @if ($errorState === 'room_required')
                         Choose the lab room first, then continue with the checklist lane that matches the real operating moment for that room.
                     @elseif ($errorState === 'scope_required')
-                        Choose the live checklist lane for this lab shift, then continue with the checklist that matches the operating moment you are actually working in.
+                        Choose the checklist lane for this room, then continue with the opening, during-day, or closing checks that match what is happening there now.
                     @elseif ($errorState === 'scope_missing' && $this->scopeLabel)
                         The {{ $this->scopeLabel }} lane is not configured yet. Pick another live lane or ask an administrator to activate a template for that operating moment.
                     @else
-                        Complete the live checklist, record what actually happened, and hand off real lab issues without losing context.
+                        Complete the room check, record what actually happened there, and hand off room issues without losing the checklist context.
                     @endif
                 </p>
                 @if (! $errorState)
                     <div class="ops-page-intro__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Live daily run') }}</span>
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room duty run') }}</span>
                         @if ($this->selectedRoomLabel)
                             <span class="ops-shell-chip">{{ $this->selectedRoomLabel }}</span>
                         @endif
@@ -34,7 +34,7 @@
                     </div>
                 @elseif ($errorState === 'scope_required')
                     <div class="ops-page-intro__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Scope-aware checklist') }}</span>
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room and lane selection') }}</span>
                         @if ($this->selectedRoomLabel)
                             <span class="ops-shell-chip">{{ $this->selectedRoomLabel }}</span>
                         @endif
@@ -139,21 +139,21 @@
                         <p class="ops-hero__eyebrow">Daily checklist board</p>
                         <h3 class="ops-hero__title">
                             @if ($errorState === 'scope_required')
-                                Choose today&apos;s checklist lane
+                                Choose the checklist lane for this room
                             @else
                                 {{ $this->scopeLabel }} lane is not live yet
                             @endif
                         </h3>
                         <p class="ops-hero__lead">
                             @if ($errorState === 'scope_required')
-                                Staff checklist flow now follows the real operating moment. Pick the checklist lane you are working in so today&apos;s run, history, and issue follow-up stay aligned.
+                                Pick the opening, during-day, or closing lane that matches what is happening in {{ $this->selectedRoomLabel ?? 'this room' }} so today&apos;s checks and any follow-up issue stay tied to the same place.
                             @else
                                 There is no active template for the {{ $this->scopeLabel }} operating lane right now. You can move into another live lane, or ask an administrator to activate the correct template first.
                             @endif
                         </p>
 
                         <div class="ops-hero__meta">
-                            <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Scope-aware checklist') }}</span>
+                            <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room and lane selection') }}</span>
                             @if ($this->selectedRoomLabel)
                                 <span class="ops-shell-chip">{{ $this->selectedRoomLabel }}</span>
                             @endif
@@ -167,7 +167,7 @@
                             <p class="ops-hero__aside-title">Checklist board</p>
                             <p class="ops-hero__aside-value">{{ $activeScopeCount }}</p>
                             <p class="ops-hero__aside-copy">
-                                Active checklist lane(s) are currently available for duty staff today.
+                                Active checklist lane(s) are currently available for the selected room today.
                             </p>
                         </div>
 
@@ -199,7 +199,7 @@
                             <div>
                                 <p class="ops-section-heading__eyebrow">Today&apos;s operating lanes</p>
                                 <h3 class="ops-section-heading__title">Choose the right checklist scope</h3>
-                                <p class="ops-section-heading__body">Each live lane keeps its own checklist template, progress state, and history for today&apos;s work.</p>
+                                <p class="ops-section-heading__body">Each lane keeps the right checklist for this room so the room check, incident handoff, and later history stay aligned.</p>
                             </div>
                         </div>
 

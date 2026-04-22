@@ -35,7 +35,7 @@ test('staff checklist surface uses lab-team wording for live checklist work', fu
 
     $response->assertOk();
     $response->assertSee('Duty staff checklist');
-    $response->assertSee('Complete the live checklist, record what actually happened, and hand off real lab issues without losing context.');
+    $response->assertSee('Complete the room check, record what actually happened there, and hand off room issues without losing the checklist context.');
     $response->assertSee('Daily Checklist');
 });
 
@@ -47,11 +47,11 @@ test('admin governance surfaces use lab-team framing and expose the UI contract 
     $guide = $this->actingAs($admin)->get(route('ui-governance'));
 
     $templates->assertOk();
-    $templates->assertSee('Govern the live checklist lanes by scope');
+    $templates->assertSee('Govern the shared checklist lanes that students use when checking rooms');
     $templates->assertSee('Live checklist ownership by scope');
 
     $users->assertOk();
-    $users->assertSee('Govern internal lab team accounts');
+    $users->assertSee('Govern the lecturer, lab staff, and student duty accounts');
     $users->assertSee('Manage lab team access from inside the product');
 
     $guide->assertOk();
@@ -76,7 +76,7 @@ test('major authenticated surfaces avoid leftover theatrical wording', function 
     $checklist = $this->actingAs($staff)->get(route('checklists.runs.today'));
 
     $dashboard->assertOk();
-    $dashboard->assertSee('Lab operations today');
+    $dashboard->assertSee('Room-centered lab operations');
     $dashboard->assertDontSee('Management visibility');
 
     $usersManage->assertOk();

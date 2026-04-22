@@ -374,12 +374,12 @@ test('incident detail smoke coverage holds for desktop and mobile', function () 
 
     stabilizeVisualState($incidentDesktop)
         ->assertNoSmoke()
-        ->assertSee('Latest handling context')
+        ->assertSee('Description and evidence')
         ->assertSee('Accountability lane');
 
     stabilizeVisualState($incidentMobile)
         ->assertNoSmoke()
-        ->assertSee('Latest handling context')
+        ->assertSee('Description and evidence')
         ->assertSee('Accountability lane');
 });
 

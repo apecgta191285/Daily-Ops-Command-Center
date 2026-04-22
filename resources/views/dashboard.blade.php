@@ -47,7 +47,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Lab supervisor workboard') }}</p>
                 <h2 class="ops-page__title">{{ __('Dashboard') }}</h2>
                 <p class="ops-page-intro__body">
-                    Track checklist lane coverage, unresolved issues, and follow-up pressure for the lab team from one shared workboard.
+                    Track which rooms still need checklist coverage, which room issues are still open, and where follow-up pressure is building for the lab team.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Today-first workboard') }}</span>
@@ -69,10 +69,10 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Lab operations today</p>
+                    <p class="ops-hero__eyebrow">Room-centered lab operations</p>
                     <h3 class="ops-hero__title">Today&apos;s lab workboard.</h3>
                     <p class="ops-hero__lead">
-                        Use this screen to see which checklist lanes still need attention, which incidents are still open, and whether the team is keeping up with today&apos;s lab work.
+                        Use this screen to see which rooms still need checks, which room issues are still open, and whether the team is keeping up with today&apos;s lab work across the shared lab spaces.
                     </p>
 
                     <div class="ops-hero__meta">
@@ -103,7 +103,7 @@
                         <div class="ops-glance-card">
                             <p class="ops-glance-card__label">Incomplete lanes</p>
                             <p class="ops-glance-card__value">{{ $scopeLaneIncompleteCount }}</p>
-                            <p class="ops-glance-card__meta">Opening, during-day, or closing lanes that still need checklist progress today.</p>
+                            <p class="ops-glance-card__meta">Opening, during-day, or closing checks that still need progress in one or more rooms today.</p>
                         </div>
 
                         <div class="ops-glance-card">

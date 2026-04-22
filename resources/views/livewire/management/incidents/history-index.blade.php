@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Operational record') }}</p>
                 <h2 class="ops-page__title">{{ __('Incident History') }}</h2>
                 <p class="ops-page-intro__body">
-                    Review what opened, what resolved, and what from the recent incident stream is still carrying operational weight.
+                    Review what opened, what resolved, and which room issues from the recent stream are still carrying operational weight.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Recent incident slices') }}</span>
@@ -29,7 +29,7 @@
                     <div>
                         <p class="ops-eyebrow-label">{{ __('History window') }}</p>
                         <p class="ops-text-muted mt-2 text-sm">
-                            Keep this surface lightweight. We are reviewing the recent operational record, not building a reporting warehouse.
+                            Keep this surface lightweight. We are reviewing the recent room issue record, not building a reporting warehouse.
                         </p>
                     </div>
 
@@ -86,7 +86,7 @@
                         <p class="ops-section-heading__eyebrow">{{ __('Daily slices') }}</p>
                         <h3 class="ops-section-heading__title">{{ __('Opened and resolved by day') }}</h3>
                         <p class="ops-section-heading__body">
-                            {{ __('Use these slices to understand recent operational flow without leaving the management shell.') }}
+                            {{ __('Use these slices to understand recent room-by-room issue flow without leaving the management shell.') }}
                         </p>
                     </div>
                 </div>

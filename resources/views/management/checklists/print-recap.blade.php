@@ -5,7 +5,7 @@
                 <p class="ops-print-toolbar__eyebrow">{{ __('Printable evidence surface') }}</p>
                 <h1 class="ops-print-toolbar__title">{{ __('Checklist recap print view') }}</h1>
                 <p class="ops-print-toolbar__copy">
-                    {{ __('Use this version when you need one clean recap page for review, demo evidence, or discussion with a lab supervisor.') }}
+                    {{ __('Use this version when you need one clean room-check recap page for review, demo evidence, or discussion with a lab supervisor.') }}
                 </p>
             </div>
 
@@ -25,7 +25,7 @@
             <p class="ops-print-header__eyebrow">{{ __('Checklist evidence pack') }}</p>
             <h1 class="ops-print-header__title">{{ $run->template?->title ?? __('Checklist run') }}</h1>
             <p class="ops-print-header__body">
-                {{ __('This print-friendly recap freezes one submitted lab checklist run so the team can review what was completed, what was marked Not Done, and what note context was captured at submission time.') }}
+                {{ __('This print-friendly recap freezes one submitted room check so the team can review what was completed, what was marked Not Done, and what note context was captured at submission time.') }}
             </p>
         </div>
 

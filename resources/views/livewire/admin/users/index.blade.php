@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('User administration') }}</p>
                 <h2 class="ops-page__title">{{ __('Team Access Roster') }}</h2>
                 <p class="ops-page-intro__body">
-                    Govern internal lab team accounts, keep role ownership visible, and make active versus inactive access read as an intentional operating decision.
+                    Govern the lecturer, lab staff, and student duty accounts behind the room-check workflow, and keep active versus inactive access readable as an intentional operating decision.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Internal roster') }}</span>
@@ -41,7 +41,7 @@
                     <p class="ops-hero__eyebrow">Lab team access</p>
                     <h3 class="ops-hero__title">Manage lab team access from inside the product.</h3>
                     <p class="ops-hero__lead">
-                        Create accounts, adjust roles, and disable access when needed. Keep the roster small, internal, and easy to review.
+                        Create accounts, adjust roles, and disable access when needed. Keep the roster small, internal, and easy to review across the lecturer, lab caretaker, and student duty lanes.
                     </p>
 
                     <div class="ops-hero__meta">

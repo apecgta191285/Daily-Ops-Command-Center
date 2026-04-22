@@ -5,12 +5,12 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Operational history') }}</p>
                 <h2 class="ops-page__title">{{ __('Checklist Run Archive') }}</h2>
                 <p class="ops-page-intro__body">
-                    Review submitted checklist runs by date, scope, and operator so the team can revisit what actually happened without reading raw tables or relying on memory.
+                    Review submitted checklist runs by date, room, scope, and operator so the team can revisit what actually happened in each lab room without relying on memory.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Archive review') }}</span>
                     <span class="ops-shell-chip">{{ __('Submitted runs only') }}</span>
-                    <span class="ops-shell-chip">{{ __('Scope-aware') }}</span>
+                    <span class="ops-shell-chip">{{ __('Room-aware recap') }}</span>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
                             <p class="ops-section-heading__eyebrow">{{ __('Archive day context') }}</p>
                             <h3 class="ops-section-heading__title">{{ \Carbon\Carbon::parse($archiveContext['focus_date'])->format('M d, Y') }}</h3>
                             <p class="ops-section-heading__body">
-                                Review the visible submitted coverage for this archive date before drilling into one run. This keeps the archive useful as an operational review lane instead of a flat list only.
+                                Review the visible submitted room coverage for this date before drilling into one run. This keeps the archive useful as an operational recap instead of a flat list only.
                             </p>
                         </div>
                     </div>

@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Issue review') }}</p>
                 <h2 class="ops-page__title">{{ __('Incident Detail') }}</h2>
                 <p class="ops-page-intro__body">
-                    Review the lab issue, understand the latest handling context, and move the queue forward with a clear next decision.
+                    Review the room issue, confirm where it happened, and move the queue forward with a clear next decision.
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Issue detail') }}</span>
@@ -44,7 +44,7 @@
                     <p class="ops-hero__eyebrow">Lab issue record</p>
                     <h3 class="ops-hero__title">{{ $incident->title }}</h3>
                     <p class="ops-hero__lead">
-                        Use this screen to review what was reported, see the latest handling note, and decide the next follow-up for this lab issue.
+                        Use this screen to review what was reported in this room, see the latest handling note, and decide the next follow-up for the room or equipment involved.
                     </p>
                     <p class="ops-text-shell-muted mt-3 text-sm">
                         Reported by {{ $incident->creator?->name ?? 'Unknown' }} on {{ $incident->created_at->format('M d, Y H:i') }}
@@ -203,7 +203,7 @@
                                 <p class="ops-incident-panel__body">
                                     {{ $incident->equipment_reference
                                         ? __('Equipment reference: :equipment', ['equipment' => $incident->equipment_reference])
-                                        : __('No equipment reference was attached to this issue record.') }}
+                                        : __('No equipment reference was attached to this room issue record.') }}
                                 </p>
 
                                 <p class="ops-incident-panel__body">

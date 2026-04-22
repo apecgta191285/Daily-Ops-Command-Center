@@ -51,11 +51,13 @@ test('route and access audit', function () {
 
 test('daily checklist shows a runtime board when multiple scope templates are live', function () {
     $this->template2->update(['is_active' => true]);
+    $room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
 
     Livewire::actingAs($this->operatorB)
+        ->withQueryParams(['room' => $room->id])
         ->test(DailyRun::class)
         ->assertSet('errorState', 'scope_required')
-        ->assertSee('Choose today&apos;s checklist lane', escape: false)
+        ->assertSee('Choose the checklist lane for this room')
         ->assertSee('Opening')
         ->assertSee('Closing')
         ->assertSee('Enter lane');

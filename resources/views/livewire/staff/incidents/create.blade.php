@@ -5,14 +5,14 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Duty staff issue handoff') }}</p>
                 <h2 class="ops-page__title">{{ __('Report Incident') }}</h2>
                 <p class="ops-page-intro__body">
-                    Capture the lab issue clearly so management can triage it quickly without losing the operating context behind the report.
+                    Capture the room issue clearly so management can see where it happened, what it affected, and what the duty student actually found.
                 </p>
                 <div class="ops-page-intro__meta">
-                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Structured handoff') }}</span>
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room-tied handoff') }}</span>
                     @if ($roomId !== '')
                         <span class="ops-shell-chip">{{ collect($rooms)->firstWhere('id', $roomId)['name'] ?? __('Selected room') }}</span>
                     @endif
-                    <span class="ops-shell-chip">{{ __('Evidence-ready') }}</span>
+                    <span class="ops-shell-chip">{{ __('Optional equipment reference') }}</span>
                     <span class="ops-shell-chip">{{ __('Management visible') }}</span>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 @if ($submissionRecap)
                     <div class="space-y-6">
                         <div class="ops-alert ops-alert--success">
-                            Incident reported successfully. Management can now see it in the dashboard and issue follow-up views.
+                            Incident reported successfully. Management can now review it with the room context intact in the dashboard and follow-up views.
                         </div>
 
                         <div class="ops-recap-grid">
@@ -69,6 +69,7 @@
                                 <h3 class="ops-recap-panel__title">What Happens Next</h3>
                                 <ul role="list" class="ops-next-steps">
                                     <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>Management users will see the incident in the dashboard attention and incident follow-up screens.</span></li>
+                                    <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>The room and any equipment reference stay attached to the issue so the next reviewer knows exactly where to look.</span></li>
                                     <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>The incident starts as <span class="ops-text-heading font-medium">{{ $submissionRecap['status'] }}</span> until someone updates it.</span></li>
                                     @if ($submissionRecap['has_attachment'])
                                         <li class="ops-next-steps__item"><span class="ops-next-steps__bullet" aria-hidden="true"></span><span>Your attachment was included with the report.</span></li>
