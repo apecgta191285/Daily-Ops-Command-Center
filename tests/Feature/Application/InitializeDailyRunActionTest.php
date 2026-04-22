@@ -12,6 +12,7 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->operator = $this->createUserForRole(UserRole::Staff);
+    $this->room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
     $this->activeTemplate = $this->createTemplateWithItems([
         'title' => 'Active opening template',
         'scope' => ChecklistScope::OPENING->value,
@@ -26,6 +27,7 @@ test('initialize daily run creates exactly one run for the active template', fun
 
     expect($context->errorState)->toBeNull();
     expect($context->run)->not->toBeNull();
+    expect($context->run?->room_id)->toBe($this->room->id);
     expect($context->template)->not->toBeNull();
     expect($context->isSubmitted)->toBeFalse();
     expect($context->runItems)->not->toBeEmpty();
@@ -47,8 +49,38 @@ test('initialize daily run creates exactly one run for the active template', fun
     expect($countAfterSecondCall)->toBe(1);
 });
 
+test('initialize daily run returns room missing when no active room exists', function () {
+    $this->room->update(['is_active' => false]);
+
+    $context = app(InitializeDailyRun::class)($this->operator->id);
+
+    expect($context->errorState)->toBe('room_missing');
+    expect($context->run)->toBeNull();
+    expect($context->template)->toBeNull();
+});
+
+test('initialize daily run requires room selection when multiple active rooms exist and no room was chosen', function () {
+    $this->createRoom(['name' => 'Lab 2', 'code' => 'LAB-02']);
+
+    $context = app(InitializeDailyRun::class)($this->operator->id);
+
+    expect($context->errorState)->toBe('room_required');
+    expect($context->run)->toBeNull();
+    expect($context->template)->toBeNull();
+});
+
+test('initialize daily run requires a valid active room when one is provided explicitly', function () {
+    $this->room->update(['is_active' => false]);
+
+    $context = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::OPENING, $this->room->id);
+
+    expect($context->errorState)->toBe('room_missing');
+    expect($context->run)->toBeNull();
+    expect($context->template)->toBeNull();
+});
+
 test('initialize daily run keeps room-specific runs distinct while remaining idempotent inside one room', function () {
-    $roomA = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
+    $roomA = $this->room;
     $roomB = $this->createRoom(['name' => 'Lab 2', 'code' => 'LAB-02']);
     $action = app(InitializeDailyRun::class);
 
@@ -85,25 +117,25 @@ test('initialize daily run requires scope selection when multiple live scopes ex
         'is_active' => true,
     ]);
 
-    $context = app(InitializeDailyRun::class)($this->operator->id);
+    $context = app(InitializeDailyRun::class)($this->operator->id, roomId: $this->room->id);
 
     expect($context->errorState)->toBe('scope_required');
     expect($context->run)->toBeNull();
     expect($context->template)->toBeNull();
 
-    $openingContext = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::OPENING);
+    $openingContext = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::OPENING, $this->room->id);
 
     expect($openingContext->errorState)->toBeNull();
     expect($openingContext->template?->id)->toBe($this->activeTemplate->id);
 
-    $middayContext = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::MIDDAY);
+    $middayContext = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::MIDDAY, $this->room->id);
 
     expect($middayContext->errorState)->toBeNull();
     expect($middayContext->template?->id)->toBe($middayTemplate->id);
 });
 
 test('initialize daily run returns scope missing when selected lane has no active template', function () {
-    $context = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::CLOSING);
+    $context = app(InitializeDailyRun::class)($this->operator->id, ChecklistScope::CLOSING, $this->room->id);
 
     expect($context->errorState)->toBe('scope_missing');
     expect($context->run)->toBeNull();

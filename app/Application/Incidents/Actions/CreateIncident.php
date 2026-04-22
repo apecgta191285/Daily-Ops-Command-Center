@@ -34,9 +34,15 @@ class CreateIncident
 
         $roomId = isset($payload['room_id']) ? (int) $payload['room_id'] : null;
 
-        if ($roomId !== null && ! Room::query()->whereKey($roomId)->exists()) {
+        if ($roomId === null || $roomId <= 0) {
             throw ValidationException::withMessages([
-                'room_id' => ['Room is invalid.'],
+                'room_id' => ['Room is required.'],
+            ]);
+        }
+
+        if (! Room::query()->whereKey($roomId)->where('is_active', true)->exists()) {
+            throw ValidationException::withMessages([
+                'room_id' => ['Room is invalid or inactive.'],
             ]);
         }
 

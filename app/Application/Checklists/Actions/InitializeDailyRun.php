@@ -9,6 +9,7 @@ use App\Application\Checklists\Support\ChecklistAnomalyMemoryBuilder;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistTemplate;
+use App\Models\Room;
 
 class InitializeDailyRun
 {
@@ -18,6 +19,27 @@ class InitializeDailyRun
 
     public function __invoke(int $userId, ?ChecklistScope $scope = null, ?int $roomId = null): DailyRunContext
     {
+        $activeRooms = Room::query()
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id']);
+
+        if ($activeRooms->isEmpty()) {
+            return new DailyRunContext(errorState: 'room_missing');
+        }
+
+        if ($roomId !== null && ! $activeRooms->pluck('id')->contains($roomId)) {
+            return new DailyRunContext(errorState: 'room_required');
+        }
+
+        if ($roomId === null) {
+            if ($activeRooms->count() > 1) {
+                return new DailyRunContext(errorState: 'room_required');
+            }
+
+            $roomId = (int) $activeRooms->first()->id;
+        }
+
         $templates = ChecklistTemplate::query()
             ->where('is_active', true)
             ->with('items')
@@ -79,7 +101,7 @@ class InitializeDailyRun
         $recentRuns = ChecklistRun::query()
             ->where('created_by', $userId)
             ->where('assigned_team_or_scope', $scope->value)
-            ->when($roomId !== null, fn ($query) => $query->where('room_id', $roomId))
+            ->where('room_id', $roomId)
             ->where('submitted_at', '!=', null)
             ->whereKeyNot($run->id)
             ->with('items')
