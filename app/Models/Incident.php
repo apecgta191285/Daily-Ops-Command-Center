@@ -22,8 +22,10 @@ class Incident extends Model
         'title',
         'category',
         'severity',
+        'room_id',
         'status',
         'description',
+        'equipment_reference',
         'attachment_path',
         'created_by',
         'owner_id',
@@ -47,6 +49,11 @@ class Incident extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function room(): BelongsTo
+    {
+        return $this->belongsTo(Room::class);
     }
 
     public function owner(): BelongsTo

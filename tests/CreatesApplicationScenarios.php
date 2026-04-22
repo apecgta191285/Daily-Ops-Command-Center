@@ -13,6 +13,7 @@ use App\Models\ChecklistRunItem;
 use App\Models\ChecklistTemplate;
 use App\Models\Incident;
 use App\Models\IncidentActivity;
+use App\Models\Room;
 use App\Models\User;
 
 trait CreatesApplicationScenarios
@@ -56,6 +57,11 @@ trait CreatesApplicationScenarios
         return $template->fresh('items');
     }
 
+    protected function createRoom(array $attributes = []): Room
+    {
+        return Room::factory()->create($attributes);
+    }
+
     /**
      * @param  list<array{result:?string,note:?string}>|null  $itemStates
      */
@@ -65,9 +71,11 @@ trait CreatesApplicationScenarios
         bool $submitted = false,
         ?array $itemStates = null,
         ?string $runDate = null,
+        ?Room $room = null,
     ): ChecklistRun {
         $run = ChecklistRun::factory()->create([
             'checklist_template_id' => $template->id,
+            'room_id' => $room?->id,
             'run_date' => $runDate ?? today(),
             'assigned_team_or_scope' => $template->scope->value,
             'created_by' => $user->id,
@@ -100,9 +108,11 @@ trait CreatesApplicationScenarios
         User $creator,
         array $attributes = [],
         ?User $statusActor = null,
+        ?Room $room = null,
     ): Incident {
         $incident = Incident::factory()->create(array_merge([
             'created_by' => $creator->id,
+            'room_id' => $room?->id,
             'category' => IncidentCategory::ComputerEquipment->value,
             'severity' => IncidentSeverity::Medium->value,
             'status' => IncidentStatus::Open->value,

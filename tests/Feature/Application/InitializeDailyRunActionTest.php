@@ -47,6 +47,28 @@ test('initialize daily run creates exactly one run for the active template', fun
     expect($countAfterSecondCall)->toBe(1);
 });
 
+test('initialize daily run keeps room-specific runs distinct while remaining idempotent inside one room', function () {
+    $roomA = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
+    $roomB = $this->createRoom(['name' => 'Lab 2', 'code' => 'LAB-02']);
+    $action = app(InitializeDailyRun::class);
+
+    $firstRoomContext = $action($this->operator->id, ChecklistScope::OPENING, $roomA->id);
+    $repeatFirstRoomContext = $action($this->operator->id, ChecklistScope::OPENING, $roomA->id);
+    $secondRoomContext = $action($this->operator->id, ChecklistScope::OPENING, $roomB->id);
+
+    expect($firstRoomContext->run?->room_id)->toBe($roomA->id);
+    expect($repeatFirstRoomContext->run?->id)->toBe($firstRoomContext->run?->id);
+    expect($secondRoomContext->run?->room_id)->toBe($roomB->id);
+    expect($secondRoomContext->run?->id)->not->toBe($firstRoomContext->run?->id);
+
+    $count = ChecklistRun::query()
+        ->where('created_by', $this->operator->id)
+        ->where('checklist_template_id', $this->activeTemplate->id)
+        ->count();
+
+    expect($count)->toBe(2);
+});
+
 test('initialize daily run returns zero error when no active template exists', function () {
     $this->activeTemplate->update(['is_active' => false]);
 

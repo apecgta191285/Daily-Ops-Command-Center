@@ -16,7 +16,7 @@ class InitializeDailyRun
         private readonly ChecklistAnomalyMemoryBuilder $anomalyMemoryBuilder,
     ) {}
 
-    public function __invoke(int $userId, ?ChecklistScope $scope = null): DailyRunContext
+    public function __invoke(int $userId, ?ChecklistScope $scope = null, ?int $roomId = null): DailyRunContext
     {
         $templates = ChecklistTemplate::query()
             ->where('is_active', true)
@@ -51,6 +51,7 @@ class InitializeDailyRun
         $run = ChecklistRun::query()->firstOrCreate(
             [
                 'checklist_template_id' => $template->id,
+                'room_id' => $roomId,
                 'run_date' => $today,
                 'created_by' => $userId,
             ],
@@ -78,6 +79,7 @@ class InitializeDailyRun
         $recentRuns = ChecklistRun::query()
             ->where('created_by', $userId)
             ->where('assigned_team_or_scope', $scope->value)
+            ->when($roomId !== null, fn ($query) => $query->where('room_id', $roomId))
             ->where('submitted_at', '!=', null)
             ->whereKeyNot($run->id)
             ->with('items')

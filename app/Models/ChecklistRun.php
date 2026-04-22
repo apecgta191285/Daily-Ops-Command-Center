@@ -17,6 +17,7 @@ class ChecklistRun extends Model
 
     protected $fillable = [
         'checklist_template_id',
+        'room_id',
         'run_date',
         'assigned_team_or_scope',
         'created_by',
@@ -37,6 +38,11 @@ class ChecklistRun extends Model
     public function template(): BelongsTo
     {
         return $this->belongsTo(ChecklistTemplate::class, 'checklist_template_id');
+    }
+
+    public function room(): BelongsTo
+    {
+        return $this->belongsTo(Room::class);
     }
 
     public function creator(): BelongsTo

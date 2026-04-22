@@ -15,16 +15,21 @@ beforeEach(function () {
 
 test('create incident action persists incident attachment and activity log', function () {
     Storage::fake('public');
+    $room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
 
     $incident = app(CreateIncident::class)([
         'title' => 'Action-created incident',
         'category' => 'เครือข่าย',
         'severity' => 'High',
         'description' => 'Created through application action.',
+        'room_id' => $room->id,
+        'equipment_reference' => 'PC-12',
     ], $this->operator->id, UploadedFile::fake()->create('proof.pdf', 100, 'application/pdf'));
 
     expect($incident->status)->toBe(IncidentStatus::Open);
     expect($incident->created_by)->toBe($this->operator->id);
+    expect($incident->room_id)->toBe($room->id);
+    expect($incident->equipment_reference)->toBe('PC-12');
     expect($incident->attachment_path)->not->toBeNull();
     Storage::disk('public')->assertExists($incident->attachment_path);
 
