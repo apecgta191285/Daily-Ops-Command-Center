@@ -19,8 +19,9 @@ test('guest entry surfaces describe the product as a university computer lab ope
 
     $login->assertOk();
     $login->assertSee('Use your assigned lab team account to continue into today’s lab work');
-    $login->assertSee('Duty staff');
-    $login->assertSee('lab opening or closing checklist execution and incident reporting');
+    $login->assertSee('Duty staff A');
+    $login->assertSee('student on duty checking assigned rooms and reporting room issues');
+    $login->assertSee('responsible lecturer or authorized academic owner');
 });
 
 test('staff checklist surface uses lab-team wording for live checklist work', function () {

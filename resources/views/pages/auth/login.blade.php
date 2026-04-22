@@ -8,9 +8,10 @@
             <div class="auth-callout">
                 <p class="auth-callout__eyebrow">{{ __('Local demo accounts') }}</p>
                 <ul class="mt-3 space-y-2">
-                    <li><strong class="ops-text-heading">Admin</strong>: <code>admin@example.com</code> / <code>password</code> — {{ __('template governance, user lifecycle, dashboard, and incident follow-up') }}</li>
-                    <li><strong class="ops-text-heading">Supervisor</strong>: <code>supervisor@example.com</code> / <code>password</code> — {{ __('dashboard, queue review, and incident follow-up without admin governance') }}</li>
-                    <li><strong class="ops-text-heading">Duty staff</strong>: <code>operatora@example.com</code> / <code>password</code> — {{ __('lab opening or closing checklist execution and incident reporting') }}</li>
+                    <li><strong class="ops-text-heading">Admin</strong>: <code>admin@example.com</code> / <code>password</code> — {{ __('responsible lecturer or authorized academic owner handling templates, users, dashboard review, and follow-up') }}</li>
+                    <li><strong class="ops-text-heading">Supervisor</strong>: <code>supervisor@example.com</code> / <code>password</code> — {{ __('lab staff or room caretaker reviewing dashboard, queue, and room-specific incident follow-up') }}</li>
+                    <li><strong class="ops-text-heading">Duty staff A</strong>: <code>operatora@example.com</code> / <code>password</code> — {{ __('student on duty checking assigned rooms and reporting room issues') }}</li>
+                    <li><strong class="ops-text-heading">Duty staff B</strong>: <code>operatorb@example.com</code> / <code>password</code> — {{ __('second student-on-duty account for multi-room demo walkthroughs') }}</li>
                 </ul>
             </div>
         @endif

@@ -8,10 +8,10 @@
 
 ใช้บัญชีมาตรฐานจาก `DatabaseSeeder`:
 
-* `admin@example.com` / `password`
-* `supervisor@example.com` / `password`
-* `operatora@example.com` / `password`
-* `operatorb@example.com` / `password`
+* `admin@example.com` / `password` = อาจารย์ผู้รับผิดชอบ / ผู้ได้รับมอบหมายดูแลระบบ
+* `supervisor@example.com` / `password` = lab boy / เจ้าหน้าที่แล็บ / ผู้ดูแลห้อง
+* `operatora@example.com` / `password` = นักศึกษาที่เข้าเวรตรวจห้องตามรอบ
+* `operatorb@example.com` / `password` = นักศึกษาที่เข้าเวรตรวจห้องตามรอบ
 
 # **2. Recommended Demo Order**
 
@@ -21,14 +21,16 @@
 
 สิ่งที่ควรโชว์:
 
-* หน้า checklist ของวัน
+* การเลือกห้องก่อนเริ่มงาน เมื่อมีหลายห้อง active
+* หน้า checklist ของวันสำหรับห้องที่เลือก
 * progress summary และ recent submission context
-* การกด `Report Incident`
+* การกด `Report Incident` พร้อม room context
+* optional `equipment_reference` เช่น `PC-03` หรือ `Projector Front`
 
 ผลที่ควรเล่า:
 
-* staff ทำ routine work ใน flow เดียว
-* checklist ไม่ใช่ฟอร์มลอย แต่เชื่อมกับ incident handoff ได้
+* นักศึกษาที่เข้าเวรรู้ว่ากำลังตรวจห้องไหน
+* checklist ไม่ใช่ฟอร์มลอย แต่เชื่อมกับ incident handoff ได้โดยไม่ทำ room context หาย
 
 ## **Step 2 — Supervisor workflow**
 
@@ -39,10 +41,11 @@
 * dashboard attention panel
 * quick drill-down ไป incident list ที่ถูก filter แล้ว
 * incident detail timeline และ next action note
+* room context ที่ช่วยแยกว่าเป็นปัญหาของห้องไหน
 
 ผลที่ควรเล่า:
 
-* supervisor เห็นว่ามีอะไรต้องตามก่อน
+* supervisor เห็นว่าห้องไหนมีอะไรต้องตามก่อน
 * incident workflow มี sense ของ follow-up มากกว่าแค่รายการข้อมูล
 
 ## **Step 3 — Admin workflow**
@@ -56,17 +59,19 @@
 
 ผลที่ควรเล่า:
 
-* admin ไม่ได้ออกไปอีกระบบ
-* การดูแล template อยู่ใน product เดียวกับ daily operations
+* อาจารย์ผู้รับผิดชอบไม่ต้องออกไปอีกระบบ
+* การดูแล template และบัญชีผู้ใช้ยังอยู่ใน product เดียวกับ daily operations
 
 # **3. Expected Story in Seeded Data**
 
 seed ปัจจุบันถูกออกแบบให้รองรับ demo narrative นี้:
 
 * มี opening template ที่ active อยู่ 1 อัน
-* มี checklist run ล่าสุดของ staff บางส่วนที่ถูก submit แล้ว
-* มี mix ของ incidents แบบ open / in progress / resolved
+* มีข้อมูลห้อง `Lab 1` ถึง `Lab 5`
+* มี checklist run ที่ผูกกับ room context อยู่แล้ว
+* มี mix ของ incidents แบบ open / in progress / resolved พร้อม room context
 * มี incident ที่ high severity และ stale เพื่อให้ dashboard มี attention state
+* optional equipment reference ใช้แค่เป็นข้อความสั้น ไม่ใช่ machine registry
 
 # **4. Local Reset**
 
@@ -87,4 +92,5 @@ composer test:browser
 
 * หน้า login แสดง demo accounts เฉพาะ `local/testing`
 * อย่าอ้าง feature ที่ระบบยังไม่มี เช่น assignment, notifications, approvals
-* ถ้าจะเดโม checklist follow-up handoff ให้สร้าง incident จาก checklist ที่มี `Not Done` เพื่อให้เรื่องเล่าดูต่อเนื่อง
+* ถ้าจะเดโม checklist follow-up handoff ให้สร้าง incident จาก checklist ของห้องที่เลือกจริง เพื่อให้เรื่องเล่าดูต่อเนื่อง
+* อย่า claim ว่าระบบมี machine registry หรือ machine history ถ้ายังไม่มีจริง
