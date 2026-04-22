@@ -701,3 +701,38 @@ test('staff incident reporting shows a post-submit outcome screen', function () 
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });
+
+test('staff can choose a room before entering the live checklist lane', function () {
+    $staff = $this->createUserForRole(UserRole::Staff, ['name' => 'Room Choice Staff']);
+
+    $this->createRoom([
+        'name' => 'Browser Lab 1',
+        'code' => 'LAB-B1',
+    ]);
+
+    $this->createRoom([
+        'name' => 'Browser Lab 2',
+        'code' => 'LAB-B2',
+    ]);
+
+    $this->createTemplateWithItems([
+        'title' => 'Browser room choice opening template',
+        'scope' => ChecklistScope::OPENING->value,
+        'is_active' => true,
+    ]);
+
+    visit('/login')
+        ->fill('email', $staff->email)
+        ->fill('password', 'password')
+        ->click('[data-test="login-button"]')
+        ->assertPathIs('/checklists/runs/today')
+        ->assertSee('Choose today\'s lab room first')
+        ->assertSee('Browser Lab 1')
+        ->assertSee('Browser Lab 2')
+        ->click('Use this room')
+        ->assertPathBeginsWith('/checklists/runs/today')
+        ->assertSee('Browser Lab 1')
+        ->assertSee('Submit Checklist')
+        ->assertNoJavaScriptErrors()
+        ->assertNoConsoleLogs();
+});
