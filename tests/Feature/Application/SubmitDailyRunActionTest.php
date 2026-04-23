@@ -11,12 +11,17 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->operator = $this->createUserForRole(UserRole::Staff);
+    $this->room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
     $this->createTemplateWithItems([
         'title' => 'Submit action template',
         'scope' => ChecklistScope::OPENING->value,
         'is_active' => true,
     ]);
-    $this->context = app(InitializeDailyRun::class)($this->operator->id);
+    $this->context = app(InitializeDailyRun::class)(
+        $this->operator->id,
+        ChecklistScope::OPENING,
+        $this->room->id,
+    );
 });
 
 test('submit daily run persists answers and submit metadata', function () {

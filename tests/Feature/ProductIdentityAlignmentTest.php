@@ -26,13 +26,17 @@ test('guest entry surfaces describe the product as a university computer lab ope
 
 test('staff checklist surface uses lab-team wording for live checklist work', function () {
     $staff = $this->createUserForRole(UserRole::Staff);
+    $room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
     $this->createTemplateWithItems([
         'title' => 'Lab opening check',
         'scope' => ChecklistScope::OPENING->value,
         'is_active' => true,
     ]);
 
-    $response = $this->actingAs($staff)->get(route('checklists.runs.today'));
+    $response = $this->actingAs($staff)->get(route('checklists.runs.today', [
+        'scope' => ChecklistScope::OPENING->routeKey(),
+        'room' => $room->id,
+    ]));
 
     $response->assertOk();
     $response->assertSee('Duty staff checklist');
@@ -64,6 +68,7 @@ test('admin governance surfaces use lab-team framing and expose the UI contract 
 test('major authenticated surfaces avoid leftover theatrical wording', function () {
     $admin = $this->createUserForRole(UserRole::Admin);
     $staff = $this->createUserForRole(UserRole::Staff);
+    $room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
 
     $this->createTemplateWithItems([
         'title' => 'Lab opening check',
@@ -74,7 +79,10 @@ test('major authenticated surfaces avoid leftover theatrical wording', function 
     $dashboard = $this->actingAs($admin)->get(route('dashboard'));
     $usersManage = $this->actingAs($admin)->get(route('users.create'));
     $templateManage = $this->actingAs($admin)->get(route('templates.create'));
-    $checklist = $this->actingAs($staff)->get(route('checklists.runs.today'));
+    $checklist = $this->actingAs($staff)->get(route('checklists.runs.today', [
+        'scope' => ChecklistScope::OPENING->routeKey(),
+        'room' => $room->id,
+    ]));
 
     $dashboard->assertOk();
     $dashboard->assertSee('Room-centered lab operations');
