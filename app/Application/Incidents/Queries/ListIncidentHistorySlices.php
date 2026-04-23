@@ -40,8 +40,8 @@ class ListIncidentHistorySlices
             ->with(['creator', 'owner', 'room'])
             ->where(function ($query) use ($startDate): void {
                 $query
-                    ->whereDate('created_at', '>=', $startDate->toDateString())
-                    ->orWhereDate('resolved_at', '>=', $startDate->toDateString());
+                    ->where('created_at', '>=', $startDate->toDateTimeString())
+                    ->orWhere('resolved_at', '>=', $startDate->toDateTimeString());
             })
             ->latest('created_at')
             ->get();

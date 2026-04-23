@@ -91,6 +91,35 @@ test('incident history shows recent opened and resolved slices for selected rang
         ->assertSee($resolvedRecently->title);
 });
 
+test('incident history applies day boundary windows without pulling in out-of-range records', function () {
+    $boundaryOpened = $this->createIncidentWithActivity($this->admin, [
+        'title' => 'Boundary opened incident',
+        'status' => IncidentStatus::Open->value,
+        'created_at' => now()->subDays(6)->startOfDay(),
+    ]);
+
+    $boundaryResolved = $this->createIncidentWithActivity($this->supervisor, [
+        'title' => 'Boundary resolved incident',
+        'status' => IncidentStatus::Resolved->value,
+        'created_at' => now()->subDays(20),
+        'resolved_at' => now()->subDays(6)->startOfDay(),
+    ]);
+
+    $justOutsideRange = $this->createIncidentWithActivity($this->admin, [
+        'title' => 'Outside range boundary incident',
+        'status' => IncidentStatus::Resolved->value,
+        'created_at' => now()->subDays(20),
+        'resolved_at' => now()->subDays(7)->subSecond(),
+    ]);
+
+    $response = $this->actingAs($this->admin)->get('/incidents/history');
+
+    $response->assertOk();
+    $response->assertSee($boundaryOpened->title);
+    $response->assertSee($boundaryResolved->title);
+    $response->assertDontSee($justOutsideRange->title);
+});
+
 test('printable incident summary shows evidence and accountability snapshot', function () {
     $owner = $this->createUserForRole(UserRole::Supervisor, [
         'name' => 'Printable Summary Owner',

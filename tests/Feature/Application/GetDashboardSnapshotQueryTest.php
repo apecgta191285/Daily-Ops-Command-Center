@@ -7,6 +7,7 @@ use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistTemplate;
 use App\Models\Incident;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -145,4 +146,50 @@ test('dashboard snapshot query exposes recent history context', function () {
     expect($snapshot->recentHistoryContext['archive']['focus_date'])->toBe(now()->subDay()->toDateString());
     expect($snapshot->recentHistoryContext['archive']['total_not_done_items'])->toBeGreaterThanOrEqual(1);
     expect($snapshot->recentHistoryContext['incidents']['opened_count'])->toBeGreaterThanOrEqual(1);
+});
+
+test('dashboard snapshot query keeps incident intake counts on the correct day boundaries', function () {
+    Carbon::setTestNow(Carbon::parse('2026-04-23 10:00:00'));
+
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    $justBeforeToday = Incident::factory()->create([
+        'title' => 'Boundary incident before today',
+        'status' => 'Open',
+        'created_by' => $admin->id,
+    ]);
+
+    $justBeforeToday->forceFill([
+        'created_at' => Carbon::parse('2026-04-22 23:59:59'),
+        'updated_at' => Carbon::parse('2026-04-22 23:59:59'),
+    ])->saveQuietly();
+
+    $startOfToday = Incident::factory()->create([
+        'title' => 'Boundary incident at start of today',
+        'status' => 'Open',
+        'created_by' => $admin->id,
+    ]);
+
+    $startOfToday->forceFill([
+        'created_at' => Carbon::parse('2026-04-23 00:00:00'),
+        'updated_at' => Carbon::parse('2026-04-23 00:00:00'),
+    ])->saveQuietly();
+
+    $snapshot = app(GetDashboardSnapshot::class)($admin->id);
+
+    $series = $snapshot->incidentIntakeTrend['series'];
+    $todayCount = Incident::query()
+        ->where('created_at', '>=', Carbon::parse('2026-04-23 00:00:00'))
+        ->where('created_at', '<', Carbon::parse('2026-04-24 00:00:00'))
+        ->count();
+    $yesterdayCount = Incident::query()
+        ->where('created_at', '>=', Carbon::parse('2026-04-22 00:00:00'))
+        ->where('created_at', '<', Carbon::parse('2026-04-23 00:00:00'))
+        ->count();
+
+    expect($series)->toHaveCount(7);
+    expect($series[array_key_last($series)])->toBe($todayCount);
+    expect($series[array_key_last($series) - 1])->toBe($yesterdayCount);
+
+    Carbon::setTestNow();
 });

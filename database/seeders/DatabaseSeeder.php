@@ -129,8 +129,8 @@ class DatabaseSeeder extends Seeder
         }
 
         // 5. Checklist Runs & Checklist Run Items
-        $today = Carbon::today()->format('Y-m-d 00:00:00');
-        $yesterday = Carbon::yesterday()->format('Y-m-d 00:00:00');
+        $today = Carbon::today()->toDateString();
+        $yesterday = Carbon::yesterday()->toDateString();
         $lab1 = $rooms[0];
         $lab2 = $rooms[1];
         $lab3 = $rooms[2];

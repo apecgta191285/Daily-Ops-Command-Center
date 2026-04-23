@@ -68,21 +68,26 @@ class InitializeDailyRun
             return new DailyRunContext(errorState: 'scope_missing');
         }
 
-        $today = now()->format('Y-m-d 00:00:00');
+        $today = today()->toDateString();
+        $tomorrow = today()->addDay()->toDateString();
 
-        $run = ChecklistRun::query()->firstOrCreate(
-            [
+        $run = ChecklistRun::query()
+            ->where('checklist_template_id', $template->id)
+            ->where('room_id', $roomId)
+            ->where('created_by', $userId)
+            ->where('run_date', '>=', $today)
+            ->where('run_date', '<', $tomorrow)
+            ->first();
+
+        if ($run === null) {
+            $run = ChecklistRun::query()->create([
                 'checklist_template_id' => $template->id,
                 'room_id' => $roomId,
                 'run_date' => $today,
                 'created_by' => $userId,
-            ],
-            [
                 'assigned_team_or_scope' => $template->scope->value,
-            ],
-        );
+            ]);
 
-        if ($run->wasRecentlyCreated) {
             $run->items()->createMany(
                 $template->items->map(fn ($item) => [
                     'checklist_item_id' => $item->id,

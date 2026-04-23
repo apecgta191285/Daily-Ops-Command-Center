@@ -40,30 +40,18 @@ class GetDashboardSnapshot
 
     public function __invoke(?int $actorId = null): DashboardSnapshot
     {
-        $today = today();
-        $yesterday = today()->subDay();
+        $today = today()->startOfDay();
+        $yesterday = $today->copy()->subDay();
+        $checklistRunSummary = $this->buildChecklistRunSummary($today, $yesterday);
         $checklistCompletionSeries = $this->buildChecklistCompletionSeries();
         $incidentIntakeSeries = $this->buildIncidentIntakeSeries();
         $scopeChecklistLanes = ($this->scopeLaneBuilder)();
         $incidentSummary = $this->buildIncidentSummary($today, $yesterday, $actorId);
 
-        $todayRuns = ChecklistRun::query()
-            ->whereDate('run_date', $today)
-            ->count();
-
-        $submittedTodayRuns = ChecklistRun::query()
-            ->whereDate('run_date', $today)
-            ->whereNotNull('submitted_at')
-            ->count();
-
-        $yesterdayRuns = ChecklistRun::query()
-            ->whereDate('run_date', $yesterday)
-            ->count();
-
-        $submittedYesterdayRuns = ChecklistRun::query()
-            ->whereDate('run_date', $yesterday)
-            ->whereNotNull('submitted_at')
-            ->count();
+        $todayRuns = $checklistRunSummary['todayRuns'];
+        $submittedTodayRuns = $checklistRunSummary['submittedTodayRuns'];
+        $yesterdayRuns = $checklistRunSummary['yesterdayRuns'];
+        $submittedYesterdayRuns = $checklistRunSummary['submittedYesterdayRuns'];
 
         $completionRate = $todayRuns > 0
             ? (int) round(($submittedTodayRuns / $todayRuns) * 100)
@@ -120,8 +108,8 @@ class GetDashboardSnapshot
 
         $recentArchiveRuns = ChecklistRun::query()
             ->whereNotNull('submitted_at')
-            ->whereDate('run_date', '<', $today)
-            ->whereDate('run_date', '>=', $today->copy()->subDays(6))
+            ->where('run_date', '<', $today->toDateString())
+            ->where('run_date', '>=', $today->copy()->subDays(6)->toDateString())
             ->with(['template', 'creator', 'submitter'])
             ->withCount([
                 'items',
@@ -188,6 +176,47 @@ class GetDashboardSnapshot
 
     /**
      * @return array{
+     *     todayRuns: int,
+     *     submittedTodayRuns: int,
+     *     yesterdayRuns: int,
+     *     submittedYesterdayRuns: int
+     * }
+     */
+    private function buildChecklistRunSummary(CarbonInterface $today, CarbonInterface $yesterday): array
+    {
+        $todayDate = $today->toDateString();
+        $yesterdayDate = $yesterday->toDateString();
+        $tomorrowDate = $today->copy()->addDay()->toDateString();
+
+        $summary = ChecklistRun::query()
+            ->selectRaw(
+                'SUM(CASE WHEN run_date >= ? AND run_date < ? THEN 1 ELSE 0 END) as today_runs',
+                [$todayDate, $tomorrowDate],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN run_date >= ? AND run_date < ? AND submitted_at IS NOT NULL THEN 1 ELSE 0 END) as submitted_today_runs',
+                [$todayDate, $tomorrowDate],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN run_date >= ? AND run_date < ? THEN 1 ELSE 0 END) as yesterday_runs',
+                [$yesterdayDate, $todayDate],
+            )
+            ->selectRaw(
+                'SUM(CASE WHEN run_date >= ? AND run_date < ? AND submitted_at IS NOT NULL THEN 1 ELSE 0 END) as submitted_yesterday_runs',
+                [$yesterdayDate, $todayDate],
+            )
+            ->first();
+
+        return [
+            'todayRuns' => (int) ($summary?->today_runs ?? 0),
+            'submittedTodayRuns' => (int) ($summary?->submitted_today_runs ?? 0),
+            'yesterdayRuns' => (int) ($summary?->yesterday_runs ?? 0),
+            'submittedYesterdayRuns' => (int) ($summary?->submitted_yesterday_runs ?? 0),
+        ];
+    }
+
+    /**
+     * @return array{
      *     openCount: int,
      *     inProgressCount: int,
      *     resolvedCount: int,
@@ -208,8 +237,10 @@ class GetDashboardSnapshot
         $highSeverity = IncidentSeverity::High->value;
         $staleCutoff = IncidentStalePolicy::cutoff()->toDateTimeString();
         $followUpCutoff = $today->toDateString();
-        $todayDate = $today->toDateString();
-        $yesterdayDate = $yesterday->toDateString();
+        $todayStart = $today->copy()->startOfDay()->toDateTimeString();
+        $todayEnd = $today->copy()->addDay()->startOfDay()->toDateTimeString();
+        $yesterdayStart = $yesterday->copy()->startOfDay()->toDateTimeString();
+        $yesterdayEnd = $today->copy()->startOfDay()->toDateTimeString();
 
         $summary = Incident::query()
             ->selectRaw(
@@ -237,7 +268,7 @@ class GetDashboardSnapshot
                 [$resolved],
             )
             ->selectRaw(
-                'SUM(CASE WHEN status != ? AND follow_up_due_at IS NOT NULL AND DATE(follow_up_due_at) < ? THEN 1 ELSE 0 END) as overdue_follow_up_count',
+                'SUM(CASE WHEN status != ? AND follow_up_due_at IS NOT NULL AND follow_up_due_at < ? THEN 1 ELSE 0 END) as overdue_follow_up_count',
                 [$resolved, $followUpCutoff],
             )
             ->selectRaw(
@@ -245,12 +276,12 @@ class GetDashboardSnapshot
                 [$resolved, $actorId ?? 0],
             )
             ->selectRaw(
-                'SUM(CASE WHEN DATE(created_at) = ? THEN 1 ELSE 0 END) as today_incident_intake',
-                [$todayDate],
+                'SUM(CASE WHEN created_at >= ? AND created_at < ? THEN 1 ELSE 0 END) as today_incident_intake',
+                [$todayStart, $todayEnd],
             )
             ->selectRaw(
-                'SUM(CASE WHEN DATE(created_at) = ? THEN 1 ELSE 0 END) as yesterday_incident_intake',
-                [$yesterdayDate],
+                'SUM(CASE WHEN created_at >= ? AND created_at < ? THEN 1 ELSE 0 END) as yesterday_incident_intake',
+                [$yesterdayStart, $yesterdayEnd],
             )
             ->first();
 
@@ -273,13 +304,15 @@ class GetDashboardSnapshot
      */
     private function buildChecklistCompletionSeries(int $days = 7): array
     {
-        $startDate = today()->subDays($days - 1);
+        $startDate = today()->subDays($days - 1)->toDateString();
+        $endDate = today()->addDay()->toDateString();
 
         $rows = ChecklistRun::query()
             ->selectRaw('DATE(run_date) as run_day')
             ->selectRaw('COUNT(*) as total_runs')
             ->selectRaw('SUM(CASE WHEN submitted_at IS NOT NULL THEN 1 ELSE 0 END) as submitted_runs')
-            ->whereDate('run_date', '>=', $startDate)
+            ->where('run_date', '>=', $startDate)
+            ->where('run_date', '<', $endDate)
             ->groupBy('run_day')
             ->orderBy('run_day')
             ->get()
@@ -306,12 +339,12 @@ class GetDashboardSnapshot
      */
     private function buildIncidentIntakeSeries(int $days = 7): array
     {
-        $startDate = today()->subDays($days - 1);
+        $startDate = today()->subDays($days - 1)->startOfDay()->toDateTimeString();
 
         $rows = Incident::query()
             ->selectRaw('DATE(created_at) as report_day')
             ->selectRaw('COUNT(*) as reported_count')
-            ->whereDate('created_at', '>=', $startDate)
+            ->where('created_at', '>=', $startDate)
             ->groupBy('report_day')
             ->orderBy('report_day')
             ->get()

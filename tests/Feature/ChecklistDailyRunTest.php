@@ -170,6 +170,23 @@ test('daily checklist shows recent submission context for the current operator',
         ->assertSee('2 note(s)');
 });
 
+test('daily checklist runtime board stays anchored to today instead of older runs', function () {
+    $this->createRunForUser(
+        $this->operatorB,
+        $this->template1,
+        submitted: true,
+        runDate: now()->subDay()->toDateString(),
+        room: $this->room,
+    );
+
+    Livewire::actingAs($this->operatorB)
+        ->withQueryParams(['room' => $this->room->id])
+        ->test(DailyRun::class)
+        ->assertSet('errorState', null)
+        ->assertSet('isSubmitted', false)
+        ->assertSee($this->template1->title);
+});
+
 test('daily checklist can load a selected scope lane directly from the route key', function () {
     $this->template2->update(['is_active' => true]);
 

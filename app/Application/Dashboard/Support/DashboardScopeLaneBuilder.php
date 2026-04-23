@@ -23,6 +23,9 @@ class DashboardScopeLaneBuilder
      */
     public function __invoke(): array
     {
+        $today = today()->toDateString();
+        $tomorrow = today()->addDay()->toDateString();
+
         $activeTemplates = ChecklistTemplate::query()
             ->where('is_active', true)
             ->get()
@@ -32,7 +35,8 @@ class DashboardScopeLaneBuilder
             ->selectRaw('assigned_team_or_scope as scope')
             ->selectRaw('COUNT(*) as total_runs')
             ->selectRaw('SUM(CASE WHEN submitted_at IS NOT NULL THEN 1 ELSE 0 END) as submitted_runs')
-            ->whereDate('run_date', today())
+            ->where('run_date', '>=', $today)
+            ->where('run_date', '<', $tomorrow)
             ->groupBy('assigned_team_or_scope')
             ->get()
             ->keyBy('scope');

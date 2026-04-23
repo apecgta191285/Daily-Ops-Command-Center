@@ -76,7 +76,7 @@ trait CreatesApplicationScenarios
         $run = ChecklistRun::factory()->create([
             'checklist_template_id' => $template->id,
             'room_id' => $room?->id,
-            'run_date' => $runDate ?? today(),
+            'run_date' => $runDate ?? today()->toDateString(),
             'assigned_team_or_scope' => $template->scope->value,
             'created_by' => $user->id,
             'submitted_at' => $submitted ? now() : null,
