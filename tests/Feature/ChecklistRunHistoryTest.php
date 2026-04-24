@@ -119,6 +119,28 @@ test('checklist run archive lists only submitted runs and respects date scope an
         ->assertDontSee($this->closingTemplate->title);
 });
 
+test('checklist run archive ignores malformed runDate values instead of crashing', function () {
+    $this->createRunForUser(
+        $this->operatorA,
+        $this->openingTemplate,
+        submitted: true,
+        runDate: '2026-04-17',
+    );
+
+    $this->createRunForUser(
+        $this->operatorB,
+        $this->closingTemplate,
+        submitted: true,
+        runDate: '2026-04-18',
+    );
+
+    $response = $this->actingAs($this->admin)->get('/checklists/history?runDate=not-a-date');
+
+    $response->assertOk();
+    $response->assertSee($this->openingTemplate->title);
+    $response->assertSee($this->closingTemplate->title);
+});
+
 test('historical run recap shows grouped responses and hides unsubmitted runs', function () {
     $room = $this->createRoom([
         'name' => 'Lab Archive 1',

@@ -157,3 +157,21 @@ test('persistence invariant allows one active template per scope and forbids dup
         'is_active' => true,
     ]))->toThrow(QueryException::class);
 });
+
+test('database forbids duplicate room-aware checklist runs for the same template day and operator', function () {
+    ChecklistRun::query()->create([
+        'checklist_template_id' => $this->activeTemplate->id,
+        'room_id' => $this->room->id,
+        'run_date' => today()->toDateString(),
+        'assigned_team_or_scope' => $this->activeTemplate->scope->value,
+        'created_by' => $this->operator->id,
+    ]);
+
+    expect(fn () => ChecklistRun::query()->create([
+        'checklist_template_id' => $this->activeTemplate->id,
+        'room_id' => $this->room->id,
+        'run_date' => today()->toDateString(),
+        'assigned_team_or_scope' => $this->activeTemplate->scope->value,
+        'created_by' => $this->operator->id,
+    ]))->toThrow(QueryException::class);
+});

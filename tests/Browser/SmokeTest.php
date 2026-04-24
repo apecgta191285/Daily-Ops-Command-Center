@@ -323,6 +323,7 @@ test('template authoring smoke coverage holds for desktop and mobile', function 
 
 test('checklist runtime screenshot baselines hold for desktop and mobile', function () {
     $staff = $this->createUserForRole(UserRole::Staff, ['name' => 'Checklist Snapshot Staff']);
+    $this->createRoom(['name' => 'Checklist Snapshot Lab', 'code' => 'LAB-QA1']);
 
     $this->createTemplateWithItems([
         'title' => 'Checklist snapshot template',
@@ -342,13 +343,13 @@ test('checklist runtime screenshot baselines hold for desktop and mobile', funct
 
     stabilizeVisualState($checklistDesktop)
         ->assertNoSmoke()
-        ->assertSee('Today\'s Progress')
+        ->assertSee('Completion')
         ->assertSee('Recent Submission Context')
         ->assertScreenshotMatches();
 
     stabilizeVisualState($checklistMobile)
         ->assertNoSmoke()
-        ->assertSee('Today\'s Progress')
+        ->assertSee('Completion')
         ->assertSee('Recent Submission Context')
         ->assertScreenshotMatches();
 });
@@ -652,6 +653,7 @@ test('management incident detail reads as a narrative surface without browser sm
 
 test('staff can authenticate into the daily checklist workflow without browser smoke issues', function () {
     $staff = $this->createUserForRole(UserRole::Staff);
+    $this->createRoom(['name' => 'Staff Browser Lab', 'code' => 'LAB-QA2']);
 
     $this->createTemplateWithItems([
         'title' => 'Staff browser smoke template',
@@ -670,7 +672,7 @@ test('staff can authenticate into the daily checklist workflow without browser s
         ->assertPresent('body > [data-flux-main]')
         ->assertPresent('#main-content[data-flux-main]')
         ->assertSee('Daily Checklist')
-        ->assertSee('Today\'s Progress')
+        ->assertSee('Completion')
         ->assertSee('Recent Submission Context')
         ->assertSee('Report Incident')
         ->assertSee('Submit Checklist');

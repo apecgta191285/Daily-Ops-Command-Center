@@ -20,7 +20,7 @@ class ListChecklistRunHistory
     {
         $scope = ChecklistScope::fromRouteKey($filters->scopeRouteKey);
         $operatorId = is_numeric($filters->operatorId) ? (int) $filters->operatorId : null;
-        $runDate = $filters->runDate;
+        $runDate = $filters->normalizedRunDate();
         $nextRunDate = $runDate !== ''
             ? CarbonImmutable::parse($runDate)->addDay()->toDateString()
             : null;

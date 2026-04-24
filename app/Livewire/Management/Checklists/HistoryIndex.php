@@ -28,6 +28,8 @@ class HistoryIndex extends Component
 
     public function mount(): void
     {
+        $this->runDate = ChecklistRunHistoryFilters::normalizeRunDate($this->runDate);
+
         $this->scopeOptions = collect(ChecklistScope::cases())
             ->map(fn (ChecklistScope $scope) => [
                 'route_key' => $scope->routeKey(),
