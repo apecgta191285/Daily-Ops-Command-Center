@@ -11,7 +11,8 @@ use Illuminate\Support\Collection;
 class IncidentHistorySliceBuilder
 {
     /**
-     * @param  Collection<int, Incident>  $incidents
+     * @param  Collection<int, Incident>  $openedIncidents
+     * @param  Collection<int, Incident>  $resolvedIncidents
      * @return array{
      *   days:int,
      *   start_date:string,
@@ -31,23 +32,28 @@ class IncidentHistorySliceBuilder
      * }
      */
     public function __invoke(
-        Collection $incidents,
+        Collection $openedIncidents,
+        Collection $resolvedIncidents,
         CarbonImmutable $startDate,
         CarbonImmutable $endDate,
         int $days,
     ): array {
+        $openedByDate = $openedIncidents
+            ->groupBy(fn (Incident $incident): ?string => $incident->created_at?->toDateString());
+
+        $resolvedByDate = $resolvedIncidents
+            ->groupBy(fn (Incident $incident): ?string => $incident->resolved_at?->toDateString());
+
         $slices = collect(range(0, $days - 1))
-            ->map(function (int $offset) use ($incidents, $startDate): array {
+            ->map(function (int $offset) use ($openedByDate, $resolvedByDate, $startDate): array {
                 $date = $startDate->addDays($offset);
                 $dateKey = $date->toDateString();
 
-                $opened = $incidents
-                    ->filter(fn (Incident $incident) => $incident->created_at?->toDateString() === $dateKey)
-                    ->values();
+                /** @var Collection<int, Incident> $opened */
+                $opened = $openedByDate->get($dateKey, collect())->values();
 
-                $resolved = $incidents
-                    ->filter(fn (Incident $incident) => $incident->resolved_at?->toDateString() === $dateKey)
-                    ->values();
+                /** @var Collection<int, Incident> $resolved */
+                $resolved = $resolvedByDate->get($dateKey, collect())->values();
 
                 return [
                     'date' => $dateKey,

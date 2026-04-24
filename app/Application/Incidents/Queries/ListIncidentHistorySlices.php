@@ -7,6 +7,7 @@ namespace App\Application\Incidents\Queries;
 use App\Application\Incidents\Support\IncidentHistorySliceBuilder;
 use App\Models\Incident;
 use Carbon\CarbonImmutable;
+use Illuminate\Support\Collection;
 
 class ListIncidentHistorySlices
 {
@@ -36,21 +37,45 @@ class ListIncidentHistorySlices
         $startDate = CarbonImmutable::today()->subDays($days - 1)->startOfDay();
         $endDate = CarbonImmutable::today()->endOfDay();
 
-        $incidents = Incident::query()
-            ->with(['creator', 'owner', 'room'])
-            ->where(function ($query) use ($startDate): void {
-                $query
-                    ->where('created_at', '>=', $startDate->toDateTimeString())
-                    ->orWhere('resolved_at', '>=', $startDate->toDateTimeString());
-            })
-            ->latest('created_at')
-            ->get();
-
         return app(IncidentHistorySliceBuilder::class)(
-            $incidents,
+            $this->openedIncidents($startDate, $endDate),
+            $this->resolvedIncidents($startDate, $endDate),
             $startDate,
             $endDate,
             $days,
         );
+    }
+
+    /**
+     * @return Collection<int, Incident>
+     */
+    protected function openedIncidents(CarbonImmutable $startDate, CarbonImmutable $endDate): Collection
+    {
+        return Incident::query()
+            ->with(['creator', 'owner', 'room'])
+            ->whereBetween('created_at', [
+                $startDate->toDateTimeString(),
+                $endDate->toDateTimeString(),
+            ])
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->get();
+    }
+
+    /**
+     * @return Collection<int, Incident>
+     */
+    protected function resolvedIncidents(CarbonImmutable $startDate, CarbonImmutable $endDate): Collection
+    {
+        return Incident::query()
+            ->with(['creator', 'owner', 'room'])
+            ->whereNotNull('resolved_at')
+            ->whereBetween('resolved_at', [
+                $startDate->toDateTimeString(),
+                $endDate->toDateTimeString(),
+            ])
+            ->orderByDesc('resolved_at')
+            ->orderByDesc('id')
+            ->get();
     }
 }
