@@ -10,11 +10,14 @@ use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Incident;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Gate;
 
 class PrintIncidentSummaryController extends Controller
 {
     public function __invoke(Incident $incident): View
     {
+        Gate::authorize('view', $incident);
+
         $incident->loadMissing(['creator', 'owner', 'room', 'activities.actor']);
 
         $latestNextActionNote = $incident->activities

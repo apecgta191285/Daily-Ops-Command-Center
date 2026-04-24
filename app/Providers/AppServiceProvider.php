@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\ChecklistRun;
+use App\Models\Incident;
+use App\Policies\ChecklistRunPolicy;
+use App\Policies\IncidentPolicy;
 use App\Support\ProductionEnvironmentContract;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -28,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->registerPolicies();
         $this->assertProductionEnvironmentContract();
     }
 
@@ -53,6 +59,15 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised()
             : null,
         );
+    }
+
+    /**
+     * Register application policy mappings explicitly so object-level authorization does not rely only on routes.
+     */
+    protected function registerPolicies(): void
+    {
+        Gate::policy(Incident::class, IncidentPolicy::class);
+        Gate::policy(ChecklistRun::class, ChecklistRunPolicy::class);
     }
 
     /**

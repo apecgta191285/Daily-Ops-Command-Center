@@ -8,6 +8,7 @@ use App\Application\Checklists\Support\ChecklistRunArchiveRecapBuilder;
 use App\Http\Controllers\Controller;
 use App\Models\ChecklistRun;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class PrintChecklistRunRecapController extends Controller
@@ -15,6 +16,7 @@ class PrintChecklistRunRecapController extends Controller
     public function __invoke(ChecklistRun $run): View
     {
         abort_if($run->submitted_at === null, 404);
+        Gate::authorize('view', $run);
 
         $run->loadMissing([
             'template',

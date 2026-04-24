@@ -7,6 +7,7 @@ namespace App\Livewire\Management\Checklists;
 use App\Application\Checklists\Support\ChecklistRunArchiveRecapBuilder;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistRun;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -20,6 +21,7 @@ class HistoryShow extends Component
     public function mount(ChecklistRun $run): void
     {
         abort_if($run->submitted_at === null, 404);
+        Gate::authorize('view', $run);
 
         $run->loadMissing([
             'template',

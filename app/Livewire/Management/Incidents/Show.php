@@ -12,6 +12,7 @@ use App\Domain\Access\Enums\UserRole;
 use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\Incident;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -34,6 +35,8 @@ class Show extends Component
 
     public function mount(Incident $incident): void
     {
+        Gate::authorize('view', $incident);
+
         $this->statuses = IncidentStatus::values();
         $this->incident = $incident->load(['creator', 'owner', 'room', 'activities.actor']);
         $this->status = $this->incident->status->value;
@@ -54,6 +57,8 @@ class Show extends Component
 
     public function updateStatus(): void
     {
+        Gate::authorize('update', $this->incident);
+
         $this->validate([
             'status' => 'required|in:'.implode(',', IncidentStatus::values()),
             'followUpNote' => 'nullable|string|max:500',
@@ -72,6 +77,8 @@ class Show extends Component
 
     public function updateAccountability(): void
     {
+        Gate::authorize('update', $this->incident);
+
         $payload = [
             'ownerId' => filled($this->ownerId) ? $this->ownerId : null,
             'followUpDueAt' => filled($this->followUpDueAt) ? $this->followUpDueAt : null,
