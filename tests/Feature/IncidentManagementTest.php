@@ -8,6 +8,7 @@ use App\Models\Incident;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
@@ -421,6 +422,9 @@ test('incident detail page renders incident data timeline and null attachment st
 });
 
 test('incident detail page shows attachment link when attachment exists', function () {
+    Storage::fake('local');
+    Storage::disk('local')->put('incidents/evidence.pdf', 'secure-attachment-proof');
+
     $incidentWithAttachment = Incident::create([
         'title' => 'Attached proof incident',
         'category' => 'อุปกรณ์คอมพิวเตอร์',
@@ -442,8 +446,58 @@ test('incident detail page shows attachment link when attachment exists', functi
     $response = $this->actingAs($this->supervisor)->get(route('incidents.show', $incidentWithAttachment));
 
     $response->assertOk();
-    $response->assertSee('View attachment');
-    $response->assertSee(asset('storage/incidents/evidence.pdf'), false);
+    $response->assertSee('Open attachment');
+    $response->assertSee(route('incidents.attachment', $incidentWithAttachment), false);
+});
+
+test('incident attachment download route is restricted to management users', function () {
+    Storage::fake('local');
+
+    $incidentWithAttachment = Incident::create([
+        'title' => 'Attachment access control proof',
+        'category' => 'อุปกรณ์คอมพิวเตอร์',
+        'severity' => 'High',
+        'room_id' => $this->room->id,
+        'status' => 'Open',
+        'description' => 'Attachment route should stay management-only.',
+        'attachment_path' => 'incidents/access-control.pdf',
+        'created_by' => $this->staff->id,
+    ]);
+
+    Storage::disk('local')->put($incidentWithAttachment->attachment_path, 'secure-proof');
+
+    $this->get(route('incidents.attachment', $incidentWithAttachment))->assertRedirect(route('login'));
+    $this->actingAs($this->staff)->get(route('incidents.attachment', $incidentWithAttachment))->assertForbidden();
+    $this->actingAs($this->admin)->get(route('incidents.attachment', $incidentWithAttachment))->assertOk();
+    $this->actingAs($this->supervisor)->get(route('incidents.attachment', $incidentWithAttachment))->assertOk();
+});
+
+test('incident attachment download route serves legacy public evidence through authenticated access', function () {
+    Storage::fake('public');
+
+    $incidentWithAttachment = Incident::create([
+        'title' => 'Legacy public attachment proof',
+        'category' => 'อุปกรณ์คอมพิวเตอร์',
+        'severity' => 'Medium',
+        'room_id' => $this->room->id,
+        'status' => 'Open',
+        'description' => 'Legacy file should still be retrievable after the secure route change.',
+        'attachment_path' => 'incidents/legacy-proof.pdf',
+        'created_by' => $this->staff->id,
+    ]);
+
+    Storage::disk('public')->put($incidentWithAttachment->attachment_path, 'legacy-public-proof');
+
+    $response = $this->actingAs($this->admin)->get(route('incidents.attachment', $incidentWithAttachment));
+
+    $response->assertOk();
+    $response->assertHeader('content-disposition');
+});
+
+test('incident attachment download route returns not found when no file exists', function () {
+    $response = $this->actingAs($this->admin)->get(route('incidents.attachment', $this->openIncident));
+
+    $response->assertNotFound();
 });
 
 test('incident detail page shows age and stale indicators for old unresolved incidents', function () {

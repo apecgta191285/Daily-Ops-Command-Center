@@ -131,7 +131,7 @@ test('incident creation validation blocks invalid severity', function () {
 });
 
 test('incident creation with optional attachment persists file path', function () {
-    Storage::fake('public');
+    Storage::fake('local');
 
     $file = UploadedFile::fake()->create('evidence.pdf', 100, 'application/pdf');
 
@@ -153,7 +153,24 @@ test('incident creation with optional attachment persists file path', function (
     expect($incident->attachment_path)->not->toBeNull();
     expect($incident->attachment_path)->toContain('incidents/');
 
-    Storage::disk('public')->assertExists($incident->attachment_path);
+    Storage::disk('local')->assertExists($incident->attachment_path);
+});
+
+test('incident creation validation blocks unsupported attachment types', function () {
+    Storage::fake('local');
+
+    $file = UploadedFile::fake()->create('evidence.exe', 100, 'application/octet-stream');
+
+    Livewire::actingAs($this->operatorA)
+        ->test(Create::class)
+        ->set('title', 'Unsupported attachment type')
+        ->set('category', 'อุปกรณ์คอมพิวเตอร์')
+        ->set('severity', 'High')
+        ->set('roomId', (string) $this->room->id)
+        ->set('description', 'This should not allow executable uploads.')
+        ->set('attachment', $file)
+        ->call('submit')
+        ->assertHasErrors(['attachment']);
 });
 
 test('incident creation without attachment still succeeds', function () {

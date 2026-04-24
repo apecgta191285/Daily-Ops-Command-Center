@@ -214,8 +214,8 @@
 
                                 @if($incident->attachment_path)
                                     <div class="ops-incident-panel__actions">
-                                        <a href="{{ asset('storage/' . $incident->attachment_path) }}" target="_blank" rel="noopener noreferrer" class="ops-button ops-button--secondary">
-                                            View attachment
+                                        <a href="{{ route('incidents.attachment', $incident) }}" target="_blank" rel="noopener noreferrer" class="ops-button ops-button--secondary">
+                                            Open attachment
                                         </a>
                                     </div>
                                 @endif

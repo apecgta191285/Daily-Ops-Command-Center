@@ -110,7 +110,7 @@ class Create extends Component
             'roomId' => 'required|integer|exists:rooms,id',
             'description' => 'required|string',
             'equipmentReference' => 'nullable|string|max:120',
-            'attachment' => 'nullable|file|max:10240', // Limit to 10MB
+            'attachment' => 'nullable|file|mimes:pdf,jpg,jpeg,png,webp|max:10240', // Limit to 10MB
         ]);
 
         $incident = app(CreateIncident::class)([

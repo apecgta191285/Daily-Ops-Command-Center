@@ -176,7 +176,7 @@
                                 <label for="attachment" class="ops-field-label">Attachment (Optional)</label>
                                 <input type="file" id="attachment" wire:model="attachment" class="ops-control ops-control--file">
                                 @error('attachment') <span class="ops-field-error">{{ $message }}</span> @enderror
-                                <p class="ops-field-help">Max file size: 10MB.</p>
+                                <p class="ops-field-help">Accepted files: PDF, JPG, PNG, and WEBP. Max file size: 10MB.</p>
                             </div>
                         </div>
 

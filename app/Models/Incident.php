@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Incident extends Model
 {
@@ -64,5 +66,37 @@ class Incident extends Model
     public function activities(): HasMany
     {
         return $this->hasMany(IncidentActivity::class);
+    }
+
+    public function attachmentDisk(): ?string
+    {
+        if (! filled($this->attachment_path)) {
+            return null;
+        }
+
+        if (Storage::disk('local')->exists($this->attachment_path)) {
+            return 'local';
+        }
+
+        if (Storage::disk('public')->exists($this->attachment_path)) {
+            return 'public';
+        }
+
+        return null;
+    }
+
+    public function hasStoredAttachment(): bool
+    {
+        return $this->attachmentDisk() !== null;
+    }
+
+    public function attachmentDownloadName(): string
+    {
+        $extension = pathinfo((string) $this->attachment_path, PATHINFO_EXTENSION);
+        $baseName = Str::slug($this->title !== '' ? $this->title : 'incident-evidence');
+
+        return $extension !== ''
+            ? sprintf('%s.%s', $baseName, $extension)
+            : $baseName;
     }
 }

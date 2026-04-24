@@ -315,6 +315,7 @@
     .welcome-stage__aside-card {
         @apply flex h-full w-full flex-col gap-6 px-6 py-7 sm:px-8 sm:py-8;
         color: var(--app-text);
+        opacity: 1;
     }
 
     .welcome-stage__aside-header {
@@ -323,18 +324,18 @@
 
     .welcome-stage__aside-eyebrow {
         @apply text-[0.72rem] font-bold uppercase tracking-[0.2em];
-        color: var(--app-text-muted);
+        color: #52525b;
     }
 
     .welcome-stage__aside-title {
         @apply text-2xl font-semibold tracking-tight;
         font-family: var(--font-display);
-        color: var(--app-heading);
+        color: #09090b;
     }
 
     .welcome-stage__aside-copy {
         @apply text-sm leading-6;
-        color: var(--app-text-muted);
+        color: #3f3f46;
     }
 
     .welcome-stage__steps {
@@ -350,12 +351,12 @@
 
     .welcome-stage__step-title {
         @apply text-sm font-semibold;
-        color: var(--app-heading);
+        color: #18181b;
     }
 
     .welcome-stage__step-copy {
         @apply mt-1 text-sm leading-6;
-        color: var(--app-text-muted-strong);
+        color: #3f3f46;
     }
 
     .welcome-stage__aside-footer {
@@ -363,20 +364,20 @@
     }
 
     .welcome-stage__aside .ops-button--primary {
-        background-color: var(--app-action-primary-contrast);
-        border-color: var(--app-action-primary-contrast);
-        color: var(--app-action-primary-text);
+        background-color: #1d4ed8;
+        border-color: #1d4ed8;
+        color: #ffffff;
     }
 
     .welcome-stage__aside .ops-button--primary:hover {
-        background-color: var(--app-action-primary-contrast-hover);
-        border-color: var(--app-action-primary-contrast-hover);
+        background-color: #1e40af;
+        border-color: #1e40af;
     }
 
     .welcome-stage__aside .ops-inline-note {
-        border-color: var(--app-border);
-        background-color: var(--app-surface-subtle);
-        color: var(--app-heading-soft);
+        border-color: #d4d4d8;
+        background-color: #f4f4f5;
+        color: #18181b;
     }
 
     @media (max-width: 1023px) {

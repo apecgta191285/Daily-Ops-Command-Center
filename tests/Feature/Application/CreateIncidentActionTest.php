@@ -19,7 +19,7 @@ beforeEach(function () {
 });
 
 test('create incident action persists incident attachment and activity log', function () {
-    Storage::fake('public');
+    Storage::fake('local');
     $room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
 
     $incident = app(CreateIncident::class)([
@@ -36,7 +36,7 @@ test('create incident action persists incident attachment and activity log', fun
     expect($incident->room_id)->toBe($room->id);
     expect($incident->equipment_reference)->toBe('PC-12');
     expect($incident->attachment_path)->not->toBeNull();
-    Storage::disk('public')->assertExists($incident->attachment_path);
+    Storage::disk('local')->assertExists($incident->attachment_path);
 
     $activity = $incident->activities()->first();
     expect($activity->summary)->toBe('Incident reported');

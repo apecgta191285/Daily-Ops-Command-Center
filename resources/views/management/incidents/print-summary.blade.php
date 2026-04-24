@@ -129,12 +129,9 @@
             </p>
             <p class="ops-incident-panel__body">
                 {{ $incident->attachment_path
-                    ? __('The uploaded file is available in the live product detail view when the supervisor needs supporting proof.')
+                    ? __('The uploaded file is available through the authenticated incident detail view when the supervisor needs supporting proof.')
                     : __('This issue was reported without an attachment.') }}
             </p>
-            @if ($incident->attachment_path)
-                <p class="ops-text-muted text-sm">{{ asset('storage/' . $incident->attachment_path) }}</p>
-            @endif
         </article>
     </section>
 

@@ -61,7 +61,7 @@ class CreateIncident
         }
 
         return DB::transaction(function () use ($payload, $actorId, $attachment, $roomId, $equipmentReference): Incident {
-            $attachmentPath = $attachment?->store('incidents', 'public');
+            $attachmentPath = $attachment?->store('incidents', 'local');
 
             $incident = Incident::create([
                 'title' => $payload['title'],
