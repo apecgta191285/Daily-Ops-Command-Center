@@ -12,9 +12,12 @@ use App\Models\User;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class HistoryIndex extends Component
 {
+    use WithPagination;
+
     #[Url(except: '')]
     public string $runDate = '';
 
@@ -25,6 +28,8 @@ class HistoryIndex extends Component
     public string $operator = '';
 
     public array $scopeOptions = [];
+
+    protected string $paginationTheme = 'tailwind';
 
     public function mount(): void
     {
@@ -51,16 +56,29 @@ class HistoryIndex extends Component
         $this->runDate = '';
         $this->scope = '';
         $this->operator = '';
+        $this->resetPage();
+    }
+
+    public function updated(string $property): void
+    {
+        if (in_array($property, ['runDate', 'scope', 'operator'], true)) {
+            $this->resetPage();
+        }
     }
 
     #[Layout('layouts.app')]
     public function render()
     {
-        $runs = app(ListChecklistRunHistory::class)(new ChecklistRunHistoryFilters(
+        $filters = new ChecklistRunHistoryFilters(
             runDate: $this->runDate,
             scopeRouteKey: $this->scope,
             operatorId: $this->operator,
-        ));
+        );
+
+        $historyQuery = app(ListChecklistRunHistory::class);
+        $runs = $historyQuery->paginate($filters, perPage: 15);
+        $focusDate = $this->runDate !== '' ? $this->runDate : $runs->getCollection()->first()?->run_date?->toDateString();
+        $focusDateRuns = $historyQuery->focusDateRuns($filters, $focusDate);
 
         return view('livewire.management.checklists.history-index', [
             'runs' => $runs,
@@ -69,8 +87,8 @@ class HistoryIndex extends Component
                 ->orderBy('name')
                 ->get(['id', 'name']),
             'archiveContext' => app(ChecklistRunArchiveContextBuilder::class)(
-                $runs,
-                $this->runDate !== '' ? $this->runDate : null,
+                $focusDateRuns,
+                $focusDate,
             ),
         ]);
     }

@@ -119,6 +119,53 @@ test('checklist run archive lists only submitted runs and respects date scope an
         ->assertDontSee($this->closingTemplate->title);
 });
 
+test('checklist run archive paginates long filtered result sets without losing archive context', function () {
+    $firstRoom = null;
+    $lastRoom = null;
+
+    foreach (range(1, 18) as $index) {
+        $room = $this->createRoom([
+            'name' => "Archive Pagination Lab {$index}",
+            'code' => sprintf('LAB-AP-%02d', $index),
+        ]);
+
+        $firstRoom ??= $room;
+        $lastRoom = $room;
+
+        $this->createRunForUser(
+            $this->operatorA,
+            $this->openingTemplate,
+            submitted: true,
+            runDate: '2026-04-17',
+            room: $room,
+        );
+    }
+
+    $this->createRunForUser(
+        $this->operatorB,
+        $this->closingTemplate,
+        submitted: true,
+        runDate: '2026-04-18',
+    );
+
+    $response = $this->actingAs($this->admin)->get('/checklists/history?runDate=2026-04-17');
+
+    $response->assertOk();
+    $response->assertSee('Archive day context');
+    $response->assertSee('Opening archive template');
+    $response->assertDontSee('Closing archive template');
+    $response->assertSee($lastRoom->name);
+
+    $pageTwoResponse = $this->actingAs($this->admin)->get('/checklists/history?runDate=2026-04-17&page=2');
+
+    $pageTwoResponse->assertOk();
+    $pageTwoResponse->assertSee('Archive day context');
+    $pageTwoResponse->assertSee('Opening archive template');
+    $pageTwoResponse->assertSee($firstRoom->name);
+    $pageTwoResponse->assertDontSee($lastRoom->name);
+    $pageTwoResponse->assertDontSee('Closing archive template');
+});
+
 test('checklist run archive ignores malformed runDate values instead of crashing', function () {
     $this->createRunForUser(
         $this->operatorA,

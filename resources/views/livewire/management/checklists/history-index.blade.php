@@ -139,7 +139,7 @@
 
         <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="{{ $archiveContext['focus_date'] ? '80' : '40' }}">
             <div class="ops-card__body">
-                @if ($runs->isEmpty())
+                @if ($runs->count() === 0)
                     <x-ops.empty-state
                         title="No archived checklist runs match the current filters."
                         body="Try another date, scope lane, or operator. This archive only shows runs that were actually submitted."
@@ -207,6 +207,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="mt-6">
+                        {{ $runs->links() }}
                     </div>
                 @endif
             </div>

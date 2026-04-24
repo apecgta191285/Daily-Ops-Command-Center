@@ -9,6 +9,8 @@ use App\Domain\Checklists\Enums\ChecklistResult;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistRun;
 use Carbon\CarbonImmutable;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class ListChecklistRunHistory
@@ -18,9 +20,34 @@ class ListChecklistRunHistory
      */
     public function __invoke(ChecklistRunHistoryFilters $filters): Collection
     {
+        /** @var Collection<int, ChecklistRun> $runs */
+        $runs = $this->query($filters)->get();
+
+        return $runs;
+    }
+
+    public function paginate(ChecklistRunHistoryFilters $filters, int $perPage = 15, string $pageName = 'page'): LengthAwarePaginator
+    {
+        return $this->query($filters)->paginate($perPage, ['*'], $pageName);
+    }
+
+    /**
+     * @return Collection<int, ChecklistRun>
+     */
+    public function focusDateRuns(ChecklistRunHistoryFilters $filters, ?string $focusDate): Collection
+    {
+        if ($focusDate === null || $focusDate === '') {
+            return new Collection;
+        }
+
+        return $this->query($filters, $focusDate)->get();
+    }
+
+    public function query(ChecklistRunHistoryFilters $filters, ?string $forcedRunDate = null): Builder
+    {
         $scope = ChecklistScope::fromRouteKey($filters->scopeRouteKey);
         $operatorId = is_numeric($filters->operatorId) ? (int) $filters->operatorId : null;
-        $runDate = $filters->normalizedRunDate();
+        $runDate = $forcedRunDate ?? $filters->normalizedRunDate();
         $nextRunDate = $runDate !== ''
             ? CarbonImmutable::parse($runDate)->addDay()->toDateString()
             : null;
@@ -40,6 +67,6 @@ class ListChecklistRunHistory
             ])
             ->orderByDesc('run_date')
             ->orderByDesc('submitted_at')
-            ->get();
+            ->orderByDesc('id');
     }
 }
