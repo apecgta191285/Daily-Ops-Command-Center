@@ -14,11 +14,11 @@ class RoomFactory extends Factory
 
     public function definition(): array
     {
-        $number = fake()->unique()->numberBetween(1, 9);
+        $number = fake()->unique()->numberBetween(100, 999);
 
         return [
             'name' => "Lab {$number}",
-            'code' => sprintf('LAB-%02d', $number),
+            'code' => sprintf('LAB-%03d', $number),
             'description' => "University computer lab room {$number}",
             'is_active' => true,
         ];

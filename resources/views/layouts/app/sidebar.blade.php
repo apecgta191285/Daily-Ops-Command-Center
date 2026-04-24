@@ -3,7 +3,7 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="ops-shell-body">
+    <body class="ops-shell-body" data-no-progress-bar>
         <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
 
         <flux:sidebar sticky collapsible="mobile" class="ops-shell-sidebar">

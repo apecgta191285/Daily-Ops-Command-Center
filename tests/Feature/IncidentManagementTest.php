@@ -5,6 +5,7 @@ use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
 use App\Models\Incident;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -16,6 +17,7 @@ beforeEach(function () {
     $this->admin = User::where('role', UserRole::Admin->value)->first();
     $this->supervisor = User::where('role', UserRole::Supervisor->value)->first();
     $this->staff = User::where('role', UserRole::Staff->value)->first();
+    $this->room = Room::query()->where('is_active', true)->orderBy('name')->firstOrFail();
     $this->openIncident = Incident::where('status', 'Open')->firstOrFail();
     $this->inProgressIncident = Incident::where('status', 'In Progress')->firstOrFail();
     $this->resolvedIncident = Incident::where('status', 'Resolved')->firstOrFail();
@@ -69,6 +71,7 @@ test('incident list paginates long queues without dropping filter behavior', fun
             'title' => sprintf('Queue incident %02d', $index),
             'category' => 'อื่น ๆ',
             'severity' => 'Low',
+            'room_id' => $this->room->id,
             'status' => 'Open',
             'description' => 'Queue pagination proof.',
             'created_by' => $this->admin->id,
@@ -99,6 +102,7 @@ test('incident list honors unresolved and stale query-driven filters', function 
         'title' => 'Fresh open incident',
         'category' => 'อื่น ๆ',
         'severity' => 'Low',
+        'room_id' => $this->room->id,
         'status' => 'Open',
         'description' => 'Fresh unresolved incident.',
         'created_by' => $this->admin->id,
@@ -108,6 +112,7 @@ test('incident list honors unresolved and stale query-driven filters', function 
         'title' => 'Stale open incident',
         'category' => 'เครือข่าย',
         'severity' => 'High',
+        'room_id' => $this->room->id,
         'status' => 'Open',
         'description' => 'Old unresolved incident.',
         'created_by' => $this->admin->id,
@@ -122,6 +127,7 @@ test('incident list honors unresolved and stale query-driven filters', function 
         'title' => 'Resolved incident for filter proof',
         'category' => 'อื่น ๆ',
         'severity' => 'Medium',
+        'room_id' => $this->room->id,
         'status' => 'Resolved',
         'description' => 'Resolved incident should be excluded by unresolved filter.',
         'created_by' => $this->admin->id,
@@ -156,6 +162,7 @@ test('incident list honors accountability query-driven filters', function () {
         'title' => 'Owned by admin in queue',
         'category' => 'อื่น ๆ',
         'severity' => 'Medium',
+        'room_id' => $this->room->id,
         'status' => 'In Progress',
         'description' => 'Owned queue incident.',
         'created_by' => $this->staff->id,
@@ -167,6 +174,7 @@ test('incident list honors accountability query-driven filters', function () {
         'title' => 'Unowned queue incident',
         'category' => 'เครือข่าย',
         'severity' => 'High',
+        'room_id' => $this->room->id,
         'status' => 'Open',
         'description' => 'Needs an owner.',
         'created_by' => $this->staff->id,
@@ -176,6 +184,7 @@ test('incident list honors accountability query-driven filters', function () {
         'title' => 'Overdue queue incident',
         'category' => 'ความปลอดภัย',
         'severity' => 'High',
+        'room_id' => $this->room->id,
         'status' => 'Open',
         'description' => 'Follow-up target has passed.',
         'created_by' => $this->staff->id,
@@ -416,6 +425,7 @@ test('incident detail page shows attachment link when attachment exists', functi
         'title' => 'Attached proof incident',
         'category' => 'อุปกรณ์คอมพิวเตอร์',
         'severity' => 'High',
+        'room_id' => $this->room->id,
         'status' => 'Open',
         'description' => 'Attachment present for verification.',
         'attachment_path' => 'incidents/evidence.pdf',
@@ -441,6 +451,7 @@ test('incident detail page shows age and stale indicators for old unresolved inc
         'title' => 'Old unresolved incident',
         'category' => 'เครือข่าย',
         'severity' => 'High',
+        'room_id' => $this->room->id,
         'status' => 'Open',
         'description' => 'Needs follow-up because it has been open for days.',
         'created_by' => $this->staff->id,
@@ -470,6 +481,7 @@ test('incident detail page highlights overdue follow-up pressure', function () {
         'title' => 'Overdue follow-up detail incident',
         'category' => 'เครือข่าย',
         'severity' => 'High',
+        'room_id' => $this->room->id,
         'status' => 'In Progress',
         'description' => 'Needs review because the follow-up date passed.',
         'created_by' => $this->staff->id,

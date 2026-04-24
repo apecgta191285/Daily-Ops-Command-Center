@@ -2,7 +2,11 @@
 
 use App\Application\Incidents\Actions\CreateIncident;
 use App\Domain\Access\Enums\UserRole;
+use App\Domain\Incidents\Enums\IncidentCategory;
+use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
+use App\Models\Incident;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -59,4 +63,16 @@ test('create incident action rejects inactive rooms', function () {
         'description' => 'Created through application action.',
         'room_id' => $room->id,
     ], $this->operator->id))->toThrow(ValidationException::class);
+});
+
+test('database forbids room-less incidents now that room context is mandatory', function () {
+    expect(fn () => Incident::query()->create([
+        'title' => 'Roomless incident',
+        'category' => IncidentCategory::ComputerEquipment->value,
+        'severity' => IncidentSeverity::Medium->value,
+        'room_id' => null,
+        'status' => IncidentStatus::Open->value,
+        'description' => 'This should not be persisted without a room.',
+        'created_by' => $this->operator->id,
+    ]))->toThrow(QueryException::class);
 });

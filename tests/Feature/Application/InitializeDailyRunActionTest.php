@@ -175,3 +175,13 @@ test('database forbids duplicate room-aware checklist runs for the same template
         'created_by' => $this->operator->id,
     ]))->toThrow(QueryException::class);
 });
+
+test('database forbids room-less checklist runs now that room context is mandatory', function () {
+    expect(fn () => ChecklistRun::query()->create([
+        'checklist_template_id' => $this->activeTemplate->id,
+        'room_id' => null,
+        'run_date' => today()->toDateString(),
+        'assigned_team_or_scope' => $this->activeTemplate->scope->value,
+        'created_by' => $this->operator->id,
+    ]))->toThrow(QueryException::class);
+});

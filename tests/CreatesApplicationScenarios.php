@@ -73,9 +73,11 @@ trait CreatesApplicationScenarios
         ?string $runDate = null,
         ?Room $room = null,
     ): ChecklistRun {
+        $room ??= Room::query()->where('is_active', true)->orderBy('id')->first() ?? $this->createRoom();
+
         $run = ChecklistRun::factory()->create([
             'checklist_template_id' => $template->id,
-            'room_id' => $room?->id,
+            'room_id' => $room->id,
             'run_date' => $runDate ?? today()->toDateString(),
             'assigned_team_or_scope' => $template->scope->value,
             'created_by' => $user->id,
@@ -110,9 +112,11 @@ trait CreatesApplicationScenarios
         ?User $statusActor = null,
         ?Room $room = null,
     ): Incident {
+        $room ??= Room::query()->where('is_active', true)->orderBy('id')->first() ?? $this->createRoom();
+
         $incident = Incident::factory()->create(array_merge([
             'created_by' => $creator->id,
-            'room_id' => $room?->id,
+            'room_id' => $room->id,
             'category' => IncidentCategory::ComputerEquipment->value,
             'severity' => IncidentSeverity::Medium->value,
             'status' => IncidentStatus::Open->value,

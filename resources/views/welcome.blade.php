@@ -4,7 +4,7 @@
         @include('partials.head')
         <title>{{ config('app.name', 'Daily Ops Command Center') }}</title>
     </head>
-    <body class="auth-shell antialiased">
+    <body class="auth-shell antialiased" data-no-progress-bar>
         <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
 
         <main id="main-content" class="auth-stage auth-stage--welcome">

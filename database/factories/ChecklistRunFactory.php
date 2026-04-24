@@ -19,7 +19,7 @@ class ChecklistRunFactory extends Factory
     {
         return [
             'checklist_template_id' => ChecklistTemplate::factory(),
-            'room_id' => null,
+            'room_id' => Room::factory(),
             'run_date' => today()->toDateString(),
             'assigned_team_or_scope' => null,
             'created_by' => User::factory(),
