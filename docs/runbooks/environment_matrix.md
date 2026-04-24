@@ -12,7 +12,7 @@
 | App env | `local` | `staging` | `production` |
 | Debug | `true` ได้ | `false` | `false` |
 | Database | SQLite | MySQL 8.0 | MySQL 8.0 |
-| Storage | local + `public` disk | host-local `public` disk | host-local `public` disk |
+| Storage | local + `public` disk | host-local private attachment storage | host-local private attachment storage |
 | Queue | `database` | `database` | `database` |
 | Cache | `database` | `database` | `database` |
 | Session | `database` | `database` | `database` |
@@ -33,7 +33,8 @@
 - ห้ามถือว่า local attachment path = production deployment model โดยอัตโนมัติ หาก phase ถัดไปเปลี่ยน storage strategy
 
 ## Deployment Preconditions Implied By This Matrix
-- staging และ production ต้องมี writable storage path สำหรับ `public` disk
+- staging และ production ต้องมี writable private storage path สำหรับ incident attachments
 - staging และ production ต้องมี database tables สำหรับ queue, cache, และ sessions
 - staging และ production ต้องมี cron/worker ownership ที่ชัดสำหรับ `database` queue
 - staging และ production ต้องมี SMTP config ที่ไม่ใช้ `log` mailer
+- staging และ production ต้องเปิด secure session cookies และใช้ daily file logs

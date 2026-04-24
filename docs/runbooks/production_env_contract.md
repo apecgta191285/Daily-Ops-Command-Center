@@ -7,7 +7,7 @@
 - room-centered internal lab operations
 - single organization
 - internal provisioning only
-- attachment support ผ่าน `public` disk
+- attachment support ผ่าน secure download route โดยเก็บไฟล์บน host-local private storage
 - no machine registry
 - not HA / not multi-region / not multi-tenant
 
@@ -18,10 +18,11 @@ production v1 รองรับ baseline นี้เท่านั้น:
 - Laravel 13 app current branch
 - MySQL 8.0 database
 - single-node web app host
-- `public` disk attachment storage on same host
+- host-local private attachment storage on same host
 - `database` queue
 - `database` cache
 - `database` session
+- daily file logs
 
 สิ่งที่ยังไม่อยู่ใน baseline:
 - PostgreSQL official support claim
@@ -42,6 +43,9 @@ production v1 รองรับ baseline นี้เท่านั้น:
 - `QUEUE_CONNECTION=database`
 - `CACHE_STORE=database`
 - `SESSION_DRIVER=database`
+- `SESSION_SECURE_COOKIE=true`
+- `LOG_CHANNEL=daily` หรือ `LOG_CHANNEL=stack` ที่ include `daily`
+- `LOG_LEVEL=info` หรือเข้มกว่านั้น
 
 ## 4) Secrets Handling Minimum Policy
 - ห้าม commit secrets ลง repo
@@ -51,12 +55,12 @@ production v1 รองรับ baseline นี้เท่านั้น:
 - ถ้ายังไม่มีวิธีหมุน secrets อย่างน้อยในเชิง procedure ห้ามอ้างว่า environment hardening ปิดแล้ว
 
 ## 5) Storage Contract
-production v1 ใช้ `public` disk baseline ตามระบบปัจจุบัน
+production v1 ใช้ host-local private storage baseline ตามระบบปัจจุบัน
 
 ความหมาย:
-- attachment files อยู่บน host เดียวกันกับแอป
+- attachment files อยู่บน host เดียวกันกับแอปใน private storage path
 - ต้องมี writable storage path
-- ต้องมี `storage:link` และ deploy procedure ที่ตรวจจุดนี้ทุกครั้ง
+- attachment access ต้องผ่าน authenticated route เท่านั้น
 - phase นี้ยังไม่อ้าง durability class แบบ object storage
 
 ข้อจำกัดที่ต้องพูดตรง:
@@ -89,6 +93,7 @@ production v1 ล็อกเป็น:
 - production mail ส่งออกทางไหน
 - production debug/log level เป็นอะไร
 - ใครเป็น owner ของ env file/secrets/worker/cron
+- ใครตรวจ production contract violations ก่อนเปิดใช้ app จริง
 
 ## 8) Gate
 ห้าม deploy production ถ้ายังไม่มี:
@@ -97,6 +102,8 @@ production v1 ล็อกเป็น:
 - queue/cache/session tables ครบ
 - writable attachment storage
 - SMTP config จริง
+- secure session cookies เปิดจริง
+- logging baseline เป็น daily files และไม่ใช้ debug level
 
 ## 9) Follow-On Phase Dependency
 หลังเอกสารนี้ ต้องไปต่อที่:

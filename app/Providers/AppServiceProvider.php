@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Support\ProductionEnvironmentContract;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -27,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->assertProductionEnvironmentContract();
     }
 
     /**
@@ -51,5 +53,17 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised()
             : null,
         );
+    }
+
+    /**
+     * Fail fast when production runtime assumptions drift from the supported baseline.
+     */
+    protected function assertProductionEnvironmentContract(): void
+    {
+        if (! app()->isProduction()) {
+            return;
+        }
+
+        app(ProductionEnvironmentContract::class)->assertSatisfied(config()->all());
     }
 }
