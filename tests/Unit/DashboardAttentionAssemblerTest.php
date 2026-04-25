@@ -24,15 +24,15 @@ test('dashboard attention assembler builds checklist and incident attention item
     );
 
     expect($items)->toHaveCount(5)
-        ->and($items[0]['title'])->toBe('Checklist completion is still in progress')
+        ->and($items[0]['title'])->toBe('การตรวจเช็กวันนี้ยังดำเนินการไม่ครบ')
         ->and($items[0]['count'])->toBe(2)
-        ->and($items[1]['title'])->toBe('High severity incidents need attention')
+        ->and($items[1]['title'])->toBe('มีรายงานปัญหาความรุนแรงสูงที่ต้องรีบดู')
         ->and($items[1]['url'])->toContain('severity=High')
-        ->and($items[2]['title'])->toBe('Unresolved incidents are going stale')
+        ->and($items[2]['title'])->toBe('มีรายงานปัญหาที่ยังค้างนานเกินควร')
         ->and($items[2]['url'])->toContain('stale=1')
-        ->and($items[3]['title'])->toBe('Unowned incidents need accountability')
+        ->and($items[3]['title'])->toBe('มีรายงานปัญหาที่ไม่มีผู้รับผิดชอบ')
         ->and($items[3]['url'])->toContain('unowned=1')
-        ->and($items[4]['title'])->toBe('Follow-up targets have already passed')
+        ->and($items[4]['title'])->toBe('มีรายงานปัญหาที่เลยกำหนดติดตามแล้ว')
         ->and($items[4]['url'])->toContain('overdue=1');
 });
 
@@ -50,8 +50,8 @@ test('dashboard attention assembler adds scope lane warnings when coverage is mi
     );
 
     expect($items)->toHaveCount(2)
-        ->and($items[0]['title'])->toBe('Checklist coverage is missing a live scope lane')
+        ->and($items[0]['title'])->toBe('มีรอบเวลาที่ไม่มีแม่แบบใช้งานจริง')
         ->and($items[0]['count'])->toBe(1)
-        ->and($items[1]['title'])->toBe('Scope lanes are still incomplete today')
+        ->and($items[1]['title'])->toBe('บางช่วงตรวจของวันนี้ยังไม่เสร็จ')
         ->and($items[1]['count'])->toBe(2);
 });

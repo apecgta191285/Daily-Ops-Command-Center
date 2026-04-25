@@ -27,7 +27,7 @@ class DashboardOwnershipPressureBuilder
 
         if ($unownedCount > 0) {
             $actions[] = [
-                'label' => 'Review unowned incidents',
+                'label' => 'ดูกลุ่มปัญหาที่ไม่มีผู้รับผิดชอบ',
                 'count' => $unownedCount,
                 'url' => $this->incidentsIndexUrl(['unowned' => 1]),
                 'tone' => 'warning',
@@ -36,7 +36,7 @@ class DashboardOwnershipPressureBuilder
 
         if ($overdueCount > 0) {
             $actions[] = [
-                'label' => 'Review overdue follow-up',
+                'label' => 'ดูกลุ่มที่เลยกำหนดติดตาม',
                 'count' => $overdueCount,
                 'url' => $this->incidentsIndexUrl(['overdue' => 1]),
                 'tone' => 'danger',
@@ -45,7 +45,7 @@ class DashboardOwnershipPressureBuilder
 
         if ($ownedByActorCount > 0) {
             $actions[] = [
-                'label' => 'Review incidents you own',
+                'label' => 'ดูปัญหาที่คุณรับผิดชอบ',
                 'count' => $ownedByActorCount,
                 'url' => $this->incidentsIndexUrl(['mine' => 1]),
                 'tone' => 'info',

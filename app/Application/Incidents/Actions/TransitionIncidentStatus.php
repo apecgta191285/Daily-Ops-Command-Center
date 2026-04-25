@@ -16,7 +16,7 @@ class TransitionIncidentStatus
     {
         if (! in_array($nextStatus, IncidentStatus::values(), true)) {
             throw ValidationException::withMessages([
-                'status' => ['Incident status is invalid.'],
+                'status' => ['สถานะรายงานปัญหาไม่ถูกต้อง'],
             ]);
         }
 
@@ -34,6 +34,8 @@ class TransitionIncidentStatus
 
         DB::transaction(function () use ($incident, $nextStatus, $previousStatus, $actorId, $followUpNote): void {
             $nextStatusEnum = IncidentStatus::from($nextStatus);
+            $previousStatusLabel = $this->statusLabel($previousStatus);
+            $nextStatusLabel = $this->statusLabel($nextStatus);
 
             $incident->update([
                 'status' => $nextStatusEnum,
@@ -42,7 +44,7 @@ class TransitionIncidentStatus
 
             $incident->activities()->create([
                 'action_type' => 'status_changed',
-                'summary' => "Status changed from {$previousStatus} to {$nextStatus}",
+                'summary' => "เปลี่ยนสถานะจาก {$previousStatusLabel} เป็น {$nextStatusLabel}",
                 'actor_id' => $actorId,
                 'created_at' => now(),
             ]);
@@ -53,8 +55,8 @@ class TransitionIncidentStatus
                 $incident->activities()->create([
                     'action_type' => $isResolutionNote ? 'resolution_note' : 'next_action_note',
                     'summary' => $isResolutionNote
-                        ? "Resolution: {$followUpNote}"
-                        : "Next action: {$followUpNote}",
+                        ? "สรุปการแก้ไข: {$followUpNote}"
+                        : "การดำเนินการถัดไป: {$followUpNote}",
                     'actor_id' => $actorId,
                     'created_at' => now(),
                 ]);
@@ -66,5 +68,15 @@ class TransitionIncidentStatus
             changed: true,
             previousStatus: $previousStatus,
         );
+    }
+
+    private function statusLabel(string $status): string
+    {
+        return match ($status) {
+            IncidentStatus::Open->value => 'เปิดใหม่',
+            IncidentStatus::InProgress->value => 'กำลังดำเนินการ',
+            IncidentStatus::Resolved->value => 'แก้ไขแล้ว',
+            default => $status,
+        };
     }
 }

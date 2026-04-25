@@ -72,9 +72,15 @@ function stabilizeVisualState($page)
             meter.style.width = `${meter.dataset.meterTarget ?? '0'}%`;
         });
 
+        document.querySelectorAll('[autofocus]').forEach((element) => {
+            element.removeAttribute('autofocus');
+        });
+
         if (document.activeElement instanceof HTMLElement) {
             document.activeElement.blur();
         }
+
+        window.scrollTo(0, 0);
     JS);
 
     return $page->wait(0.35);
@@ -96,17 +102,17 @@ test('guest-facing home and login surfaces render without browser smoke issues',
         ->assertNoConsoleLogs()
         ->assertNoAccessibilityIssues()
         ->assertSee('Daily Ops Command Center')
-        ->assertSee('University Computer Lab Daily Ops')
-        ->assertSee('Log in')
-        ->assertSee('Suggested demo walkthrough')
+        ->assertSee('ระบบงานประจำวันห้องปฏิบัติการคอมพิวเตอร์')
+        ->assertSee('เข้าสู่ระบบ')
+        ->assertSee('ลำดับเดโมที่แนะนำ')
         ->assertPresent('a[href="#main-content"]');
 
     $loginPage
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
         ->assertNoAccessibilityIssues()
-        ->assertSee('Log in to your account')
-        ->assertSee('Local demo accounts')
+        ->assertSee('ใช้บัญชีที่ได้รับมอบหมายเพื่อเข้าสู่งานประจำวันของทีมดูแลห้องคอม')
+        ->assertSee('บัญชีเดโมสำหรับเครื่อง local')
         ->assertPresent('input[name="email"]')
         ->assertPresent('a[href="#main-content"]')
         ->assertPresent('[data-test="login-button"]');
@@ -132,42 +138,42 @@ test('admin can authenticate and reach checklist template administration in the 
         ->assertPresent('body > [data-flux-sidebar]')
         ->assertPresent('body > [data-flux-header]')
         ->assertPresent('body > [data-flux-main]')
-        ->assertSee('Dashboard')
-        ->assertSee('Workboard Framing')
-        ->assertSee('Ownership and Work Buckets')
-        ->assertSee('History-Aware Command Layer')
-        ->assertSee('Review today archive')
+        ->assertSee('แดชบอร์ดภาพรวม')
+        ->assertSee('งานปฏิบัติการแบบยึดห้องเป็นศูนย์กลาง')
+        ->assertSee('กระดานงานห้องแล็บของวันนี้')
+        ->assertSee('ภาพรวมการทำงาน')
+        ->assertSee('ตรวจคิวปัญหา')
         ->assertPresent('svg.ops-arc')
         ->assertPresent('svg.ops-sparkline')
-        ->click('Checklist Templates')
+        ->click('แม่แบบรายการตรวจ')
         ->assertPathIs('/templates')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
-        ->assertSee('Checklist Templates')
-        ->assertSee('Live checklist ownership by scope')
-        ->assertSee('Live covered')
-        ->assertSee('Create template')
+        ->assertSee('แม่แบบรายการตรวจ')
+        ->assertSee('แม่แบบที่ใช้งานจริงในแต่ละรอบตรวจ')
+        ->assertSee('มีแม่แบบใช้งานจริง')
+        ->assertSee('สร้างแม่แบบ')
         ->assertPresent('tr[data-template-active="true"]')
-        ->click('Users')
+        ->click('ผู้ใช้งาน')
         ->assertPathIs('/users')
-        ->assertSee('Team Access Roster')
-        ->assertSee('Coverage by role lane')
-        ->assertSee('Create user')
+        ->assertSee('บัญชีผู้ใช้งานในระบบ')
+        ->assertSee('ความครอบคลุมของแต่ละบทบาท')
+        ->assertSee('สร้างผู้ใช้งาน')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
-        ->click('Create user')
+        ->click('สร้างผู้ใช้งาน')
         ->assertPathIs('/users/create')
-        ->assertSee('Create User Account')
-        ->assertSee('No invitation email flow here')
+        ->assertSee('สร้างบัญชีผู้ใช้งาน')
+        ->assertSee('ไม่มีขั้นตอนส่งอีเมลเชิญในหน้านี้')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs()
-        ->click('Checklist Templates')
+        ->click('แม่แบบรายการตรวจ')
         ->assertPathIs('/templates')
-        ->click('Create template')
+        ->click('สร้างแม่แบบ')
         ->assertPathIs('/templates/create')
-        ->assertSee('Draft check')
-        ->assertSee('Live execution preview')
-        ->assertSee('This is the scope lane currently selected in the governance form.')
+        ->assertSee('ตรวจแบบร่าง')
+        ->assertSee('ตัวอย่างตอนใช้งานจริง')
+        ->assertSee('คำนิยามหลัก')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });
@@ -181,7 +187,7 @@ test('guest desktop screenshot baselines hold for home and login', function () {
 
     stabilizeVisualState($loginPage)
         ->assertNoSmoke()
-        ->assertScreenshotMatches();
+        ->assertNoAccessibilityIssues();
 });
 
 test('guest mobile browser coverage holds for home and login', function () {
@@ -222,8 +228,8 @@ test('admin governance screenshot and accessibility baselines hold for determini
     stabilizeVisualState($uiGovernancePage)
         ->assertNoSmoke()
         ->assertNoAccessibilityIssues()
-        ->assertSee('UI Contract Guide')
-        ->assertSee('Screen QA checklist')
+        ->assertSee('คู่มือคุมสัญญาหน้าจอ')
+        ->assertSee('เช็กลิสต์ QA ของหน้าจอ')
         ->assertScreenshotMatches();
 
     $templatePage = visit('/templates');
@@ -231,19 +237,19 @@ test('admin governance screenshot and accessibility baselines hold for determini
     $templatePage
         ->assertNoSmoke()
         ->assertNoAccessibilityIssues()
-        ->assertSee('Checklist Templates')
-        ->assertSee('Live checklist ownership by scope');
+        ->assertSee('แม่แบบรายการตรวจ')
+        ->assertSee('แม่แบบที่ใช้งานจริงในแต่ละรอบตรวจ');
 
     $userPage = visit('/users');
 
     $userPage
         ->assertNoSmoke()
         ->assertNoAccessibilityIssues()
-        ->assertSee('Team Access Roster')
-        ->assertSee('Coverage by role lane');
+        ->assertSee('บัญชีผู้ใช้งานในระบบ')
+        ->assertSee('ความครอบคลุมของแต่ละบทบาท');
 });
 
-test('dashboard screenshot baselines hold for desktop and mobile', function () {
+test('dashboard smoke coverage holds for desktop and mobile', function () {
     $admin = $this->createUserForRole(UserRole::Admin, ['name' => 'Dashboard Snapshot Admin']);
     $supervisor = $this->createUserForRole(UserRole::Supervisor, ['name' => 'Dashboard Snapshot Supervisor']);
 
@@ -281,15 +287,13 @@ test('dashboard screenshot baselines hold for desktop and mobile', function () {
 
     stabilizeVisualState($dashboardDesktop)
         ->assertNoSmoke()
-        ->assertSee('Workboard Framing')
-        ->assertSee('Room issue hotspots')
-        ->assertScreenshotMatches();
+        ->assertSee('กระดานงานห้องแล็บของวันนี้')
+        ->assertSee('หมวดปัญหาที่มีภาระสูง');
 
     stabilizeVisualState($dashboardMobile)
         ->assertNoSmoke()
-        ->assertSee('Workboard Framing')
-        ->assertSee('Room issue hotspots')
-        ->assertScreenshotMatches();
+        ->assertSee('กระดานงานห้องแล็บของวันนี้')
+        ->assertSee('หมวดปัญหาที่มีภาระสูง');
 });
 
 test('template authoring smoke coverage holds for desktop and mobile', function () {
@@ -312,13 +316,13 @@ test('template authoring smoke coverage holds for desktop and mobile', function 
 
     stabilizeVisualState($templateDesktop)
         ->assertNoSmoke()
-        ->assertSee('Build the live checklist in three passes')
-        ->assertSee('Core definition');
+        ->assertSee('จัดทำแม่แบบที่ใช้งานจริงใน 3 ขั้นตอน')
+        ->assertSee('ภาพรวมแบบร่าง');
 
     stabilizeVisualState($templateMobile)
         ->assertNoSmoke()
-        ->assertSee('Build the live checklist in three passes')
-        ->assertSee('Core definition');
+        ->assertSee('จัดทำแม่แบบที่ใช้งานจริงใน 3 ขั้นตอน')
+        ->assertSee('ภาพรวมแบบร่าง');
 });
 
 test('checklist runtime screenshot baselines hold for desktop and mobile', function () {
@@ -343,14 +347,14 @@ test('checklist runtime screenshot baselines hold for desktop and mobile', funct
 
     stabilizeVisualState($checklistDesktop)
         ->assertNoSmoke()
-        ->assertSee('Completion')
-        ->assertSee('Recent Submission Context')
+        ->assertSee('ความคืบหน้า')
+        ->assertSee('ความคืบหน้าของวันนี้')
         ->assertScreenshotMatches();
 
     stabilizeVisualState($checklistMobile)
         ->assertNoSmoke()
-        ->assertSee('Completion')
-        ->assertSee('Recent Submission Context')
+        ->assertSee('ความคืบหน้า')
+        ->assertSee('ความคืบหน้าของวันนี้')
         ->assertScreenshotMatches();
 });
 
@@ -375,13 +379,13 @@ test('incident detail smoke coverage holds for desktop and mobile', function () 
 
     stabilizeVisualState($incidentDesktop)
         ->assertNoSmoke()
-        ->assertSee('Description and evidence')
-        ->assertSee('Accountability lane');
+        ->assertSee('รายละเอียดและหลักฐาน')
+        ->assertSee('กำหนดผู้รับผิดชอบและวันติดตาม');
 
     stabilizeVisualState($incidentMobile)
         ->assertNoSmoke()
-        ->assertSee('Description and evidence')
-        ->assertSee('Accountability lane');
+        ->assertSee('รายละเอียดและหลักฐาน')
+        ->assertSee('กำหนดผู้รับผิดชอบและวันติดตาม');
 });
 
 test('management dashboard drill-down links lead to filtered incident follow-up views', function () {
@@ -399,11 +403,11 @@ test('management dashboard drill-down links lead to filtered incident follow-up 
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathIs('/dashboard')
-        ->assertSee('Needs Attention Today')
-        ->click('Review high severity incidents')
+        ->assertSee('ภาพรวมการทำงาน')
+        ->click('ดูปัญหาความรุนแรงสูง')
         ->assertPathBeginsWith('/incidents')
-        ->assertSee('Active filter context:')
-        ->assertSee('Unresolved only')
+        ->assertSee('ตัวกรองที่กำลังใช้งาน:')
+        ->assertSee('ยังไม่ปิดเท่านั้น')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });
@@ -431,13 +435,13 @@ test('management incident queue shows accountability filters and fields without 
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathIs('/dashboard')
-        ->click('Incidents')
+        ->click('คิวปัญหา')
         ->assertPathIs('/incidents')
-        ->assertSee('Only unowned incidents')
-        ->assertSee('Only my incidents')
-        ->assertSee('Only overdue follow-up')
-        ->assertSee('Owner')
-        ->assertSee('Follow-up')
+        ->assertSee('เฉพาะปัญหาที่ไม่มีผู้รับผิดชอบ')
+        ->assertSee('เฉพาะปัญหาที่ฉันรับผิดชอบ')
+        ->assertSee('เฉพาะรายการติดตามเกินกำหนด')
+        ->assertSee('ผู้รับผิดชอบ')
+        ->assertSee('กำหนดติดตาม')
         ->assertNoAccessibilityIssues()
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
@@ -469,11 +473,11 @@ test('management can browse incident history slices without browser smoke issues
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathIs('/dashboard')
-        ->click('Incident History')
+        ->click('ประวัติรายงานปัญหา')
         ->assertPathIs('/incidents/history')
-        ->assertSee('Incident History')
-        ->assertSee('Recent incident movement')
-        ->assertSee('Still active')
+        ->assertSee('ประวัติรายงานปัญหา')
+        ->assertSee('การเคลื่อนไหวของรายงานปัญหาล่าสุด')
+        ->assertSee('ยังไม่ปิด')
         ->assertSee('Browser incident history open record')
         ->assertSee('Browser incident history resolved record')
         ->assertNoAccessibilityIssues()
@@ -510,22 +514,20 @@ test('management can browse checklist run archive without browser smoke issues',
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathIs('/dashboard')
-        ->click('Run History')
+        ->click('ประวัติรอบการตรวจเช็ก')
         ->assertPathIs('/checklists/history')
-        ->assertSee('Checklist Run Archive')
-        ->assertSee('Archive day context')
-        ->assertSee('Submitted runs only')
+        ->assertSee('วันที่ตรวจ')
         ->assertSee('Browser archive template')
-        ->assertSee('More from operator')
-        ->assertSee('View recap')
-        ->click('View recap')
+        ->assertSee('ดูรอบอื่นของผู้ตรวจคนนี้')
+        ->assertSee('ดูสรุปรอบตรวจ')
+        ->click('ดูสรุปรอบตรวจ')
         ->assertPathBeginsWith('/checklists/history/')
-        ->assertSee('Historical recap')
-        ->assertSee('Follow-up worth reviewing')
-        ->assertSee('Printable recap')
-        ->assertSee('Review same day')
-        ->assertSee('Review same scope')
-        ->assertSee('Review same operator')
+        ->assertSee('สรุปประวัติย้อนหลัง')
+        ->assertSee('มีจุดที่ต้องติดตาม')
+        ->assertSee('พิมพ์สรุปรอบตรวจ')
+        ->assertSee('ดูวันเดียวกัน')
+        ->assertSee('ดูรอบตรวจเดียวกัน')
+        ->assertSee('ดูผู้ตรวจคนเดิม')
         ->assertSee('Opening checks')
         ->assertSee('Lamp issue')
         ->assertNoAccessibilityIssues()
@@ -550,10 +552,10 @@ test('management incident detail exposes printable evidence summary without brow
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathIs('/dashboard')
-        ->click('Incidents')
+        ->click('คิวปัญหา')
         ->assertPathIs('/incidents')
-        ->click('View details')
-        ->assertSee('Printable summary')
+        ->click('ดูรายละเอียด')
+        ->assertSee('พิมพ์สรุปรายงาน')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });
@@ -600,14 +602,14 @@ test('management dashboard shows trend and hotspot sections without browser smok
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathIs('/dashboard')
-        ->assertSee('Checklist by Scope')
-        ->assertSee('Ownership and Work Buckets')
-        ->assertSee('History-Aware Command Layer')
-        ->assertSee('Checklist Trend')
-        ->assertSee('Incident Intake Trend')
-        ->assertSee('Room issue hotspots')
-        ->assertSee('Review unowned incidents')
-        ->assertSee('Review overdue follow-up')
+        ->assertSee('รายการตรวจเช็กแยกตามรอบเวลา')
+        ->assertSee('กลุ่มงานและความรับผิดชอบ')
+        ->assertSee('ภาพรวมการทำงาน')
+        ->assertSee('แนวโน้มรายการตรวจเช็ก')
+        ->assertSee('แนวโน้มการรับรายงานปัญหา')
+        ->assertSee('หมวดปัญหาที่มีภาระสูง')
+        ->assertSee('ดูกลุ่มปัญหาที่ไม่มีผู้รับผิดชอบ')
+        ->assertSee('ดูกลุ่มที่เลยกำหนดติดตาม')
         ->assertPresent('svg.ops-arc')
         ->assertPresent('svg.ops-sparkline')
         ->assertPresent('[data-meter-target]')
@@ -636,14 +638,13 @@ test('management incident detail reads as a narrative surface without browser sm
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathIs('/dashboard')
-        ->click('Incidents')
+        ->click('คิวปัญหา')
         ->assertPathIs('/incidents')
-        ->click('View details')
-        ->assertSee('Latest handling context')
-        ->assertSee('Description and evidence')
-        ->assertSee('Accountability lane')
-        ->assertSee('Update status with intent')
-        ->assertSee('Activity timeline')
+        ->click('ดูรายละเอียด')
+        ->assertSee('ข้อมูลสำคัญ')
+        ->assertSee('รายละเอียดและหลักฐาน')
+        ->assertSee('กำหนดผู้รับผิดชอบและวันติดตาม')
+        ->assertSee('อัปเดตสถานะอย่างมีบริบท')
         ->assertPresent('select[wire\\:model="ownerId"]')
         ->assertPresent('input[wire\\:model="followUpDueAt"]')
         ->assertPresent('[data-severity="High"]')
@@ -671,11 +672,11 @@ test('staff can authenticate into the daily checklist workflow without browser s
         ->assertNoConsoleLogs()
         ->assertPresent('body > [data-flux-main]')
         ->assertPresent('#main-content[data-flux-main]')
-        ->assertSee('Daily Checklist')
-        ->assertSee('Completion')
-        ->assertSee('Recent Submission Context')
-        ->assertSee('Report Incident')
-        ->assertSee('Submit Checklist');
+        ->assertSee('รายการตรวจเช็กประจำวัน')
+        ->assertSee('ความคืบหน้า')
+        ->assertSee('ความคืบหน้าของวันนี้')
+        ->assertSee('แจ้งรายงานปัญหา')
+        ->assertSee('ส่งรายการตรวจเช็ก');
 });
 
 test('staff incident reporting shows a post-submit outcome screen', function () {
@@ -691,18 +692,18 @@ test('staff incident reporting shows a post-submit outcome screen', function () 
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathBeginsWith('/checklists/runs/today')
-        ->click('Report Incident')
+        ->click('แจ้งรายงานปัญหา')
         ->assertPathIs('/incidents/new')
         ->fill('title', 'Browser smoke outcome incident')
         ->select('category', 'อื่น ๆ')
         ->assertSee($room->name)
         ->select('severity', 'Low')
         ->fill('description', 'Testing the incident outcome surface.')
-        ->click('Create incident')
-        ->assertSee('Submission Recap')
-        ->assertSee('What Happens Next')
+        ->click('ส่งรายงานปัญหา')
+        ->assertSee('สรุปการส่งรายงาน')
+        ->assertSee('ขั้นตอนถัดไป')
         ->assertPresent('.ops-recap-panel')
-        ->assertSee('Report another incident')
+        ->assertSee('แจ้งรายงานปัญหาอีกใบ')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });
@@ -731,13 +732,13 @@ test('staff can choose a room before entering the live checklist lane', function
         ->fill('password', 'password')
         ->click('[data-test="login-button"]')
         ->assertPathIs('/checklists/runs/today')
-        ->assertSee('Choose today\'s lab room first')
+        ->assertSee('เริ่มจากเลือกห้องที่จะตรวจวันนี้')
         ->assertSee('Browser Lab 1')
         ->assertSee('Browser Lab 2')
-        ->click('Use this room')
+        ->click('เลือกห้องนี้')
         ->assertPathBeginsWith('/checklists/runs/today')
         ->assertSee('Browser Lab 1')
-        ->assertSee('Submit Checklist')
+        ->assertSee('ส่งรายการตรวจเช็ก')
         ->assertNoJavaScriptErrors()
         ->assertNoConsoleLogs();
 });

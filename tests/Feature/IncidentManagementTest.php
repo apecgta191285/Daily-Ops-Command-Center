@@ -199,21 +199,21 @@ test('incident list honors accountability query-driven filters', function () {
         ->assertSee($ownedByAdmin->title)
         ->assertDontSee($unownedIncident->title)
         ->assertDontSee($overdueIncident->title)
-        ->assertSee('Owned by me');
+        ->assertSee('ฉันรับผิดชอบ');
 
     $this->actingAs($this->admin)
         ->get(route('incidents.index', ['unowned' => 1]))
         ->assertOk()
         ->assertSee($unownedIncident->title)
         ->assertDontSee($ownedByAdmin->title)
-        ->assertSee('Unowned');
+        ->assertSee('ไม่มีผู้รับผิดชอบ');
 
     $this->actingAs($this->admin)
         ->get(route('incidents.index', ['overdue' => 1]))
         ->assertOk()
         ->assertSee($overdueIncident->title)
         ->assertDontSee($ownedByAdmin->title)
-        ->assertSee('Overdue follow-up');
+        ->assertSee('ติดตามเกินกำหนด');
 });
 
 test('incident list sanitizes unknown query-driven filters and allows filters to be cleared', function () {
@@ -246,7 +246,7 @@ test('admin can move incident from open to in progress and create activity trail
     $component->set('status', 'In Progress')
         ->call('updateStatus')
         ->assertHasNoErrors()
-        ->assertSee('Incident status updated successfully.');
+        ->assertSee('อัปเดตสถานะรายงานปัญหาเรียบร้อยแล้ว');
 
     $incident = $this->openIncident->fresh();
 
@@ -256,7 +256,7 @@ test('admin can move incident from open to in progress and create activity trail
     $activity = $incident->activities()->latest('id')->first();
     expect($activity->action_type)->toBe('status_changed');
     expect($activity->actor_id)->toBe($this->admin->id);
-    expect($activity->summary)->toBe('Status changed from Open to In Progress');
+    expect($activity->summary)->toBe('เปลี่ยนสถานะจาก เปิดใหม่ เป็น กำลังดำเนินการ');
 });
 
 test('supervisor can move incident from in progress to resolved and set resolved timestamp', function () {
@@ -274,7 +274,7 @@ test('supervisor can move incident from in progress to resolved and set resolved
     $activity = $incident->activities()->latest('id')->first();
     expect($activity->action_type)->toBe('status_changed');
     expect($activity->actor_id)->toBe($this->supervisor->id);
-    expect($activity->summary)->toBe('Status changed from In Progress to Resolved');
+    expect($activity->summary)->toBe('เปลี่ยนสถานะจาก กำลังดำเนินการ เป็น แก้ไขแล้ว');
 });
 
 test('management user can add a next action note when updating incident status', function () {
@@ -284,7 +284,7 @@ test('management user can add a next action note when updating incident status',
         ->set('followUpNote', 'Check the device logs and report back to the supervisor.')
         ->call('updateStatus')
         ->assertHasNoErrors()
-        ->assertSee('Next action: Check the device logs and report back to the supervisor.');
+        ->assertSee('การดำเนินการถัดไป: Check the device logs and report back to the supervisor.');
 
     $incident = $this->openIncident->fresh();
 
@@ -299,9 +299,9 @@ test('management user can assign incident owner and follow-up target', function 
         ->set('followUpDueAt', '2026-04-21')
         ->call('updateAccountability')
         ->assertHasNoErrors()
-        ->assertSee('Incident accountability updated successfully.')
+        ->assertSee('อัปเดตผู้รับผิดชอบและกำหนดติดตามเรียบร้อยแล้ว')
         ->assertSee($this->supervisor->name)
-        ->assertSee('Apr 21, 2026');
+        ->assertSee('21/04/2026');
 
     $incident = $this->openIncident->fresh();
 
@@ -342,7 +342,7 @@ test('management user can add a resolution summary when resolving an incident', 
         ->set('followUpNote', 'Reset the router, confirmed connectivity, and notified the room owner.')
         ->call('updateStatus')
         ->assertHasNoErrors()
-        ->assertSee('Resolution: Reset the router, confirmed connectivity, and notified the room owner.');
+        ->assertSee('สรุปการแก้ไข: Reset the router, confirmed connectivity, and notified the room owner.');
 
     $incident = $this->openIncident->fresh();
 
@@ -367,7 +367,7 @@ test('supervisor can reopen a resolved incident and clear resolved timestamp', f
     $activity = $incident->activities()->latest('id')->first();
     expect($activity->action_type)->toBe('status_changed');
     expect($activity->actor_id)->toBe($this->supervisor->id);
-    expect($activity->summary)->toBe('Status changed from Resolved to Open');
+    expect($activity->summary)->toBe('เปลี่ยนสถานะจาก แก้ไขแล้ว เป็น เปิดใหม่');
 });
 
 test('no-op status update does not create a new activity row', function () {
@@ -409,16 +409,16 @@ test('incident detail page renders incident data timeline and null attachment st
     $response->assertSee($this->openIncident->description);
     $response->assertSee($room->name);
     $response->assertSee('PC-14');
-    $response->assertSee('Latest handling context');
-    $response->assertSee('Ownership still missing');
-    $response->assertSee('Description and evidence');
-    $response->assertSee('Accountability lane');
-    $response->assertSee('Update status with intent');
-    $response->assertSee('Activity timeline');
-    $response->assertSee('Next action: Verify the incident detail narrative lane.');
+    $response->assertSee('สิ่งที่ผู้ตรวจทวนคนถัดไปควรรู้ก่อน');
+    $response->assertSee('ยังไม่มีผู้รับผิดชอบ');
+    $response->assertSee('รายละเอียดและหลักฐาน');
+    $response->assertSee('ข้อมูลสำคัญ');
+    $response->assertSee('อัปเดตสถานะอย่างมีบริบท');
+    $response->assertSee('ลำดับเหตุการณ์');
+    $response->assertSee('Verify the incident detail narrative lane.');
     $response->assertSee('data-severity="'.$this->openIncident->severity->value.'"', false);
-    $response->assertSee('Reported');
-    $response->assertDontSee('View attachment');
+    $response->assertSee('ผู้รายงาน');
+    $response->assertDontSee('Open attachment');
 });
 
 test('incident detail page shows attachment link when attachment exists', function () {
@@ -446,7 +446,7 @@ test('incident detail page shows attachment link when attachment exists', functi
     $response = $this->actingAs($this->supervisor)->get(route('incidents.show', $incidentWithAttachment));
 
     $response->assertOk();
-    $response->assertSee('Open attachment');
+    $response->assertSee('เปิดไฟล์แนบ');
     $response->assertSee(route('incidents.attachment', $incidentWithAttachment), false);
 });
 
@@ -526,8 +526,8 @@ test('incident detail page shows age and stale indicators for old unresolved inc
     $response = $this->actingAs($this->supervisor)->get(route('incidents.show', $oldIncident));
 
     $response->assertOk();
-    $response->assertSee('Open for 3 days');
-    $response->assertSee('Stale');
+    $response->assertSee('เปิดค้างมา 3 วัน');
+    $response->assertSee('ค้างเกิน 2 วัน');
 });
 
 test('incident detail page highlights overdue follow-up pressure', function () {
@@ -553,6 +553,6 @@ test('incident detail page highlights overdue follow-up pressure', function () {
     $response = $this->actingAs($this->supervisor)->get(route('incidents.show', $overdueIncident));
 
     $response->assertOk();
-    $response->assertSee('Follow-up target overdue');
-    $response->assertSee('Follow-up overdue');
+    $response->assertSee('เลยกำหนดติดตามแล้ว');
+    $response->assertSee('ติดตามเกินกำหนด');
 });

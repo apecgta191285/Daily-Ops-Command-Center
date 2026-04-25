@@ -73,22 +73,22 @@ class Manage extends Component
         }
 
         session()->flash('message', $this->user
-            ? 'User account updated successfully.'
-            : 'User account created successfully.');
+            ? 'อัปเดตบัญชีผู้ใช้งานเรียบร้อยแล้ว'
+            : 'สร้างบัญชีผู้ใช้งานเรียบร้อยแล้ว');
 
         $this->redirectRoute('users.edit', $managedUser, navigate: true);
     }
 
     public function getPageTitleProperty(): string
     {
-        return $this->user ? 'Edit User Account' : 'Create User Account';
+        return $this->user ? 'แก้ไขบัญชีผู้ใช้งาน' : 'สร้างบัญชีผู้ใช้งาน';
     }
 
     public function getPageDescriptionProperty(): string
     {
         return $this->user
-            ? 'Update role, access state, and password control without leaving the main administration area.'
-            : 'Create a new internal account with a clear role, access state, and initial password.';
+            ? 'ปรับบทบาท สิทธิ์การเข้าใช้งาน และการตั้งรหัสผ่านได้จากหน้าจัดการหลักของระบบ'
+            : 'สร้างบัญชีภายในใหม่พร้อมกำหนดบทบาท สถานะการใช้งาน และรหัสผ่านเริ่มต้นอย่างชัดเจน';
     }
 
     /**
@@ -105,48 +105,48 @@ class Manage extends Component
         if ($this->role === UserRole::Admin->value) {
             $signals[] = [
                 'tone' => 'warning',
-                'title' => 'Admin role is a governance lane',
-                'body' => 'Administrators can manage templates, users, and other protected control surfaces. Use this role intentionally.',
+                'title' => 'บทบาทผู้ดูแลระบบเป็นสิทธิ์ระดับกำกับดูแล',
+                'body' => 'ผู้ดูแลระบบสามารถจัดการแม่แบบ ผู้ใช้งาน และหน้าควบคุมที่มีการป้องกันได้ จึงควรกำหนดบทบาทนี้อย่างตั้งใจ',
             ];
         }
 
         if (! $this->is_active) {
             $signals[] = [
                 'tone' => 'warning',
-                'title' => 'Inactive accounts cannot sign in',
-                'body' => 'Turning access off is immediate at authentication time. Keep inactive state for intentionally disabled accounts, not temporary confusion.',
+                'title' => 'บัญชีที่ปิดใช้งานจะเข้าสู่ระบบไม่ได้',
+                'body' => 'เมื่อปิดการใช้งาน บัญชีจะถูกบล็อกทันทีตอนยืนยันตัวตน ควรใช้สถานะนี้กับบัญชีที่ตั้งใจปิดจริง ไม่ใช่กรณีที่ยังไม่แน่ใจ',
             ];
         }
 
         if ($this->user && auth()->id() === $this->user->id) {
             $signals[] = [
                 'tone' => 'info',
-                'title' => 'You are editing your own account',
-                'body' => 'Role and active-state guard rails apply here. You can still update identity details and set a new password, but you cannot deactivate or demote your own administrator account on this screen.',
+                'title' => 'คุณกำลังแก้ไขบัญชีของตนเอง',
+                'body' => 'หน้าจอนี้มีข้อจำกัดเพื่อป้องกันการลดสิทธิ์หรือปิดการใช้งานบัญชีผู้ดูแลระบบของตนเอง คุณยังแก้ข้อมูลส่วนตัวและตั้งรหัสผ่านใหม่ได้ตามปกติ',
             ];
         }
 
         if ($this->user && filled($this->password)) {
             $signals[] = [
                 'tone' => 'info',
-                'title' => 'Saving will replace the current password',
-                'body' => 'Leave password fields blank when you only want to update role, email, or active state.',
+                'title' => 'การบันทึกครั้งนี้จะเปลี่ยนรหัสผ่านปัจจุบัน',
+                'body' => 'หากต้องการแก้เฉพาะบทบาท อีเมล หรือสถานะการใช้งาน ให้เว้นช่องรหัสผ่านว่างไว้',
             ];
         }
 
         if (! $this->user) {
             $signals[] = [
                 'tone' => 'success',
-                'title' => 'Provisioning stays internal and explicit',
-                'body' => 'Account creation stays inside admin control. No invitation flow or public registration is introduced here.',
+                'title' => 'การสร้างบัญชีอยู่ภายใต้การควบคุมภายใน',
+                'body' => 'การสร้างบัญชีทำได้จากผู้ดูแลระบบเท่านั้น ไม่มีการส่งคำเชิญหรือเปิดให้สมัครใช้งานสาธารณะจากหน้าจอนี้',
             ];
         }
 
         return $signals === []
             ? [[
                 'tone' => 'success',
-                'title' => 'Lifecycle baseline looks healthy',
-                'body' => 'This account can be updated safely from inside the product shell without falling back to manual database edits.',
+                'title' => 'การตั้งค่าบัญชีอยู่ในสภาพพร้อมใช้งาน',
+                'body' => 'บัญชีนี้สามารถปรับปรุงได้จากภายในระบบอย่างปลอดภัย โดยไม่ต้องย้อนกลับไปแก้ฐานข้อมูลด้วยมือ',
             ]]
             : $signals;
     }
@@ -159,8 +159,8 @@ class Manage extends Component
     public function getPasswordHandoffNoteProperty(): string
     {
         return $this->user
-            ? 'Use this only when an admin needs to set a replacement password directly, then hand it off through the team’s real internal communication path.'
-            : 'Set an explicit initial password here, then hand it off through the team’s real internal onboarding path. This screen does not depend on invitation email delivery.';
+            ? 'ใช้ส่วนนี้เมื่อผู้ดูแลระบบต้องตั้งรหัสผ่านใหม่ให้ผู้ใช้งานโดยตรง แล้วส่งต่อผ่านช่องทางสื่อสารภายในที่ทีมใช้งานจริง'
+            : 'กำหนดรหัสผ่านเริ่มต้นจากหน้านี้ แล้วส่งต่อผ่านกระบวนการภายในของทีม หน้านี้ไม่ได้พึ่งการส่งอีเมลเชิญ';
     }
 
     /**

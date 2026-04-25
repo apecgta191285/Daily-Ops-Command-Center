@@ -18,11 +18,11 @@ class UserLifecycleGuardRail
         $errors = [];
 
         if ($user->is($actor) && $validated['role'] !== UserRole::Admin->value) {
-            $errors['role'][] = 'You cannot remove administrator access from your own account.';
+            $errors['role'][] = 'คุณไม่สามารถถอดสิทธิ์ผู้ดูแลระบบออกจากบัญชีของตนเองได้';
         }
 
         if ($user->is($actor) && $validated['is_active'] === false) {
-            $errors['is_active'][] = 'You cannot deactivate your own administrator account.';
+            $errors['is_active'][] = 'คุณไม่สามารถปิดการใช้งานบัญชีผู้ดูแลระบบของตนเองได้';
         }
 
         if (
@@ -31,8 +31,8 @@ class UserLifecycleGuardRail
             && ($validated['role'] !== UserRole::Admin->value || $validated['is_active'] === false)
             && $this->activeAdminCountExcluding($user) === 0
         ) {
-            $errors['role'][] = 'At least one active administrator must remain in the system.';
-            $errors['is_active'][] = 'At least one active administrator must remain in the system.';
+            $errors['role'][] = 'ต้องมีผู้ดูแลระบบที่เปิดใช้งานอย่างน้อยหนึ่งบัญชีในระบบเสมอ';
+            $errors['is_active'][] = 'ต้องมีผู้ดูแลระบบที่เปิดใช้งานอย่างน้อยหนึ่งบัญชีในระบบเสมอ';
         }
 
         if ($errors !== []) {

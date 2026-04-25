@@ -60,8 +60,8 @@ class DailyRun extends Component
 
         foreach ($this->runItems as $id => $data) {
             $rules["runItems.{$id}.result"] = "required|in:{$allowedResults}";
-            $messages["runItems.{$id}.result.required"] = 'Please answer this item.';
-            $messages["runItems.{$id}.result.in"] = 'Please answer Done or Not Done.';
+            $messages["runItems.{$id}.result.required"] = 'กรุณาเลือกผลการตรวจของรายการนี้';
+            $messages["runItems.{$id}.result.in"] = 'กรุณาเลือกผลเป็น เรียบร้อย หรือ ไม่เรียบร้อย';
         }
 
         $this->validate($rules, $messages);
@@ -75,8 +75,8 @@ class DailyRun extends Component
         session()->flash(
             'message',
             $notDoneCount > 0
-                ? "Checklist submitted successfully. {$notDoneCount} item(s) were marked Not Done."
-                : 'Checklist submitted successfully. All items were marked Done.'
+                ? "ส่งรอบการตรวจเช็กเรียบร้อยแล้ว มี {$notDoneCount} รายการที่ถูกระบุว่าไม่เรียบร้อย"
+                : 'ส่งรอบการตรวจเช็กเรียบร้อยแล้ว ทุกรายการถูกระบุว่าเรียบร้อย'
         );
     }
 

@@ -72,7 +72,7 @@ class Show extends Component
         }
 
         $this->followUpNote = '';
-        session()->flash('message', 'Incident status updated successfully.');
+        session()->flash('message', 'อัปเดตสถานะรายงานปัญหาเรียบร้อยแล้ว');
     }
 
     public function updateAccountability(): void
@@ -104,7 +104,7 @@ class Show extends Component
             return;
         }
 
-        session()->flash('message', 'Incident accountability updated successfully.');
+        session()->flash('message', 'อัปเดตผู้รับผิดชอบและกำหนดติดตามเรียบร้อยแล้ว');
     }
 
     public function getIsStaleProperty(): bool
@@ -125,15 +125,15 @@ class Show extends Component
     public function getFollowUpNoteLabelProperty(): string
     {
         return $this->status === IncidentStatus::Resolved->value
-            ? 'Resolution Summary (Optional)'
-            : 'Next Action Note (Optional)';
+            ? 'สรุปการแก้ไข (ถ้ามี)'
+            : 'บันทึกการดำเนินการถัดไป (ถ้ามี)';
     }
 
     public function getFollowUpNoteHelpProperty(): string
     {
         return $this->status === IncidentStatus::Resolved->value
-            ? 'Summarize what fixed the issue or what condition now counts as resolved.'
-            : 'Use this when the status changes and you want the activity timeline to show the next follow-up step.';
+            ? 'สรุปสิ่งที่ทำให้ปัญหานี้ถือว่าแก้ไขแล้ว หรืออธิบายสภาพล่าสุดที่ยืนยันว่าปิดงานได้'
+            : 'ใช้เมื่อมีการเปลี่ยนสถานะและต้องการบันทึกการติดตามขั้นถัดไปให้เห็นในลำดับกิจกรรม';
     }
 
     public function getLatestNextActionNoteProperty(): ?string
@@ -168,12 +168,12 @@ class Show extends Component
     public function getActivityTypeLabel(string $actionType): string
     {
         return match ($actionType) {
-            'status_changed' => 'Status update',
-            'owner_changed' => 'Ownership update',
-            'follow_up_due_at_changed' => 'Follow-up target',
-            'next_action_note' => 'Next action',
-            'resolution_note' => 'Resolution note',
-            'created' => 'Reported',
+            'status_changed' => 'อัปเดตสถานะ',
+            'owner_changed' => 'อัปเดตผู้รับผิดชอบ',
+            'follow_up_due_at_changed' => 'อัปเดตกำหนดติดตาม',
+            'next_action_note' => 'การดำเนินการถัดไป',
+            'resolution_note' => 'บันทึกการแก้ไข',
+            'created' => 'แจ้งรายงานปัญหา',
             default => str_replace('_', ' ', $actionType),
         };
     }

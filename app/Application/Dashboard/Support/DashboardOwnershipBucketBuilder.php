@@ -37,28 +37,28 @@ class DashboardOwnershipBucketBuilder
             'buckets' => [
                 [
                     'key' => 'overdue',
-                    'title' => 'Overdue follow-up',
+                    'title' => 'ติดตามเกินกำหนด',
                     'count' => $overdueCount,
-                    'description' => 'Unresolved incidents already past their target review date.',
-                    'action_label' => 'Review overdue follow-up',
+                    'description' => 'รายงานปัญหาที่ยังไม่ปิดและเลยวันที่เป้าหมายสำหรับการติดตามแล้ว',
+                    'action_label' => 'ดูกลุ่มที่เลยกำหนดติดตาม',
                     'url' => $this->incidentsIndexUrl(['overdue' => 1]),
                     'tone' => 'danger',
                 ],
                 [
                     'key' => 'unowned',
-                    'title' => 'Unowned incidents',
+                    'title' => 'ปัญหาที่ไม่มีผู้รับผิดชอบ',
                     'count' => $unownedCount,
-                    'description' => 'Unresolved incidents still waiting for a clear management owner.',
-                    'action_label' => 'Review unowned incidents',
+                    'description' => 'รายงานปัญหาที่ยังไม่ปิดและยังไม่มีผู้ดูแลรับผิดชอบอย่างชัดเจน',
+                    'action_label' => 'ดูกลุ่มปัญหาที่ไม่มีผู้รับผิดชอบ',
                     'url' => $this->incidentsIndexUrl(['unowned' => 1]),
                     'tone' => 'warning',
                 ],
                 [
                     'key' => 'mine',
-                    'title' => 'Owned by you',
+                    'title' => 'งานที่คุณรับผิดชอบ',
                     'count' => $ownedByActorCount,
-                    'description' => 'Unresolved incidents currently sitting in your operating bucket.',
-                    'action_label' => 'Review incidents you own',
+                    'description' => 'รายงานปัญหาที่ยังไม่ปิดและอยู่ในคิวที่คุณต้องขยับงานต่อ',
+                    'action_label' => 'ดูปัญหาที่คุณรับผิดชอบ',
                     'url' => $this->incidentsIndexUrl(['mine' => 1]),
                     'tone' => 'info',
                 ],
@@ -69,20 +69,20 @@ class DashboardOwnershipBucketBuilder
     private function headline(int $unownedCount, int $overdueCount, int $ownedByActorCount): string
     {
         return match (true) {
-            $overdueCount > 0 => 'Follow-up has started slipping past target',
-            $unownedCount > 0 => 'Some incidents still do not have a clear owner',
-            $ownedByActorCount > 0 => 'Your current incident bucket still needs review',
-            default => 'Ownership pressure is currently under control',
+            $overdueCount > 0 => 'งานติดตามเริ่มเลยเป้าหมายที่ตั้งไว้',
+            $unownedCount > 0 => 'ยังมีรายงานปัญหาที่ไม่มีผู้รับผิดชอบชัดเจน',
+            $ownedByActorCount > 0 => 'คิวงานที่คุณรับผิดชอบยังต้องทบทวนต่อ',
+            default => 'ภาระเรื่องผู้รับผิดชอบยังอยู่ในระดับควบคุมได้',
         };
     }
 
     private function body(string $state): string
     {
         if ($state === 'calm') {
-            return 'No unresolved incidents are unowned, overdue, or sitting with you right now. Management can stay in review mode instead of active queue recovery.';
+            return 'ตอนนี้ไม่มีรายงานปัญหาที่ยังไม่ปิดซึ่งไม่มีผู้รับผิดชอบ เลยกำหนดติดตาม หรือค้างอยู่กับคุณ ผู้ดูแลจึงยังอยู่ในโหมดทบทวนได้';
         }
 
-        return 'Use these buckets to decide whether the next move is assigning ownership, clearing overdue follow-up, or closing work already sitting with you.';
+        return 'ใช้กลุ่มงานเหล่านี้เพื่อตัดสินใจว่าควรกำหนดผู้รับผิดชอบ เร่งงานที่เลยกำหนด หรือปิดงานที่อยู่กับคุณก่อน';
     }
 
     /**

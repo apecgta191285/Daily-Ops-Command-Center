@@ -18,6 +18,6 @@ class DuplicateChecklistTemplateController
 
         return redirect()
             ->route('templates.edit', $duplicate)
-            ->with('message', 'Checklist template duplicated. Review the copy, then activate it when ready.');
+            ->with('message', 'ทำสำเนาแม่แบบรายการตรวจเรียบร้อยแล้ว กรุณาทบทวนฉบับคัดลอกก่อนเปิดใช้งาน');
     }
 }

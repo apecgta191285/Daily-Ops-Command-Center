@@ -11,5 +11,10 @@
 @endphp
 
 <span {{ $attributes->class(['ops-badge', $badgeClass]) }}>
-    {{ $severityValue }}
+    {{ match ($severityValue) {
+        'Low' => 'ต่ำ',
+        'Medium' => 'กลาง',
+        'High' => 'สูง',
+        default => $severityValue,
+    } }}
 </span>

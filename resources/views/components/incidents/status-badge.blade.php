@@ -11,5 +11,10 @@
 @endphp
 
 <span {{ $attributes->class(['ops-badge', $badgeClass]) }}>
-    {{ $statusValue }}
+    {{ match ($statusValue) {
+        'Open' => 'เปิดใหม่',
+        'In Progress' => 'กำลังดำเนินการ',
+        'Resolved' => 'แก้ไขแล้ว',
+        default => $statusValue,
+    } }}
 </span>

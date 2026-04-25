@@ -5,7 +5,7 @@
                 <p class="ops-print-toolbar__eyebrow">{{ __('Printable evidence surface') }}</p>
                 <h1 class="ops-print-toolbar__title">{{ __('Checklist recap print view') }}</h1>
                 <p class="ops-print-toolbar__copy">
-                    {{ __('Use this version when you need one clean room-check recap page for review, demo evidence, or discussion with a lab supervisor.') }}
+                    ใช้หน้านี้เมื่อต้องการสรุปรายการตรวจเช็กของห้องแบบพิมพ์ได้ เพื่อทบทวน ใช้เป็นหลักฐานประกอบการนำเสนอ หรือพูดคุยกับผู้ดูแลห้องแล็บ
                 </p>
             </div>
 
@@ -25,7 +25,7 @@
             <p class="ops-print-header__eyebrow">{{ __('Checklist evidence pack') }}</p>
             <h1 class="ops-print-header__title">{{ $run->template?->title ?? __('Checklist run') }}</h1>
             <p class="ops-print-header__body">
-                {{ __('This print-friendly recap freezes one submitted room check so the team can review what was completed, what was marked Not Done, and what note context was captured at submission time.') }}
+                สรุปแบบพิมพ์ได้นี้คงข้อมูลของรอบตรวจที่ส่งแล้วไว้ในหน้าเดียว เพื่อให้ทีมทบทวนได้ว่าอะไรเรียบร้อย อะไรไม่เรียบร้อย และมีบันทึกใดถูกเก็บไว้ตอนส่ง
             </p>
         </div>
 
@@ -33,7 +33,7 @@
             <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Submitted archive') }}</span>
             <span class="ops-shell-chip">{{ $run->room?->name ?? __('No room') }}</span>
             <span class="ops-shell-chip">{{ $scopeLabel }}</span>
-            <span class="ops-shell-chip">{{ $run->run_date->format('M d, Y') }}</span>
+            <span class="ops-shell-chip">{{ $run->run_date->format('d/m/Y') }}</span>
         </div>
     </section>
 
@@ -47,7 +47,7 @@
                 </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Run date') }}</dt>
-                    <dd class="ops-detail-stack__value">{{ $run->run_date->format('M d, Y') }}</dd>
+                    <dd class="ops-detail-stack__value">{{ $run->run_date->format('d/m/Y') }}</dd>
                 </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Scope lane') }}</dt>
@@ -63,7 +63,7 @@
                 </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Submitted at') }}</dt>
-                    <dd class="ops-detail-stack__value">{{ $run->submitted_at?->format('M d, Y H:i') ?? __('Unknown') }}</dd>
+                    <dd class="ops-detail-stack__value">{{ $run->submitted_at?->format('d/m/Y H:i') ?? __('Unknown') }}</dd>
                 </div>
             </dl>
         </article>
@@ -93,8 +93,8 @@
 
     @if ($recap['not_done_items'] > 0)
         <section class="ops-print-section">
-            <x-ops.callout title="Follow-up worth reviewing" tone="warning">
-                {{ __('This submitted run contains Not Done answers. Review those items first when you need a compact printout for discussion or follow-up tracking.') }}
+            <x-ops.callout title="จุดที่ควรหยิบไปติดตามต่อ" tone="warning">
+                รอบตรวจนี้มีคำตอบที่เป็นไม่เรียบร้อย ควรเริ่มทบทวนจากรายการเหล่านี้ก่อนเมื่อใช้เอกสารฉบับย่อเพื่อคุยงานหรือส่งต่อการติดตาม
             </x-ops.callout>
         </section>
     @endif
@@ -105,7 +105,7 @@
                 <div>
                     <p class="ops-section-heading__eyebrow">{{ __('Submitted responses') }}</p>
                     <h2 class="ops-section-heading__title">{{ $group['group'] }}</h2>
-                    <p class="ops-section-heading__body">{{ __('Each answer below is printed exactly from the archived submission record.') }}</p>
+                    <p class="ops-section-heading__body">คำตอบด้านล่างพิมพ์จากข้อมูลที่ถูกเก็บไว้ตอนส่งจริง เพื่อใช้ทบทวนย้อนหลังโดยไม่เปลี่ยนความหมายของประวัติ</p>
                 </div>
             </div>
 

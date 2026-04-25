@@ -66,14 +66,14 @@ class UserRosterSummaryBuilder
         return [
             'role' => $role->value,
             'title' => match ($role) {
-                UserRole::Admin => 'Administrators',
-                UserRole::Supervisor => 'Supervisors',
-                UserRole::Staff => 'Staff operators',
+                UserRole::Admin => 'ผู้ดูแลระบบ',
+                UserRole::Supervisor => 'ผู้ดูแลห้องแล็บ',
+                UserRole::Staff => 'ผู้ตรวจห้อง',
             },
             'description' => match ($role) {
-                UserRole::Admin => 'Own platform governance, template administration, and user lifecycle decisions.',
-                UserRole::Supervisor => 'Own dashboard, incident queue, and follow-up handling without admin-level control.',
-                UserRole::Staff => 'Own checklist execution and incident reporting during day-to-day operations.',
+                UserRole::Admin => 'ดูแลการตั้งค่าหลักของระบบ แม่แบบรายการตรวจ และการจัดการวงจรชีวิตผู้ใช้งาน',
+                UserRole::Supervisor => 'ดูแลแดชบอร์ดภาพรวม คิวปัญหา และการติดตามงาน โดยไม่เปิดสิทธิ์ระดับผู้ดูแลระบบ',
+                UserRole::Staff => 'ดูแลการทำรายการตรวจเช็กและแจ้งรายงานปัญหาในงานประจำวัน',
             },
             'total_count' => $lane->count(),
             'active_count' => $activeCount,

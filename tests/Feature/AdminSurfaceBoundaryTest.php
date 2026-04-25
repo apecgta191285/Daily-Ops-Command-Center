@@ -28,10 +28,10 @@ test('admin can access checklist templates inside the main application shell', f
     $response = $this->actingAs($this->admin)->get(route('templates.index'));
 
     $response->assertOk();
-    $response->assertSee('Checklist Templates');
-    $response->assertSee('Create template');
-    $response->assertSee('Live checklist ownership by scope');
-    $response->assertSee('Live covered');
+    $response->assertSee('แม่แบบรายการตรวจ');
+    $response->assertSee('สร้างแม่แบบ');
+    $response->assertSee('แม่แบบที่ใช้งานจริงในแต่ละรอบตรวจ');
+    $response->assertSee('มีแม่แบบใช้งานจริง');
     $response->assertSee('Baseline active template');
     $response->assertSee('data-template-active="true"', false);
 });
@@ -40,12 +40,12 @@ test('template create page shows activation impact against the current live temp
     $response = $this->actingAs($this->admin)->get(route('templates.create'));
 
     $response->assertOk();
-    $response->assertSee('Draft check');
-    $response->assertSee('Live execution preview');
-    $response->assertSee('Activation impact');
-    $response->assertSee('Scope lane');
-    $response->assertSee('This is the scope lane currently selected in the governance form.');
-    $response->assertSee('Activation will retire the current live template for this scope');
+    $response->assertSee('ตรวจแบบร่าง');
+    $response->assertSee('ตัวอย่างตอนใช้งานจริง');
+    $response->assertSee('ผลกระทบเมื่อเปิดใช้งาน');
+    $response->assertSee('รอบตรวจ');
+    $response->assertSee('รอบเวลาจะกำหนดว่าแม่แบบนี้สามารถเป็นตัวใช้งานจริงของรอบตรวจใดได้');
+    $response->assertSee('การเปิดใช้งานจะยกเลิกแม่แบบที่ใช้งานจริงเดิมของรอบเวลานี้');
     $response->assertSee('Baseline active template');
 });
 
@@ -61,10 +61,10 @@ test('inactive template edit page shows draft activation guidance and live templ
     $response = $this->actingAs($this->admin)->get(route('templates.edit', $draft));
 
     $response->assertOk();
-    $response->assertSee('How staff will scan this checklist');
-    $response->assertSee('Draft mode');
-    $response->assertSee('This is the scope lane currently selected in the governance form.');
-    $response->assertSee('Current live template for this scope: Baseline active template');
+    $response->assertSee('ตัวอย่างตอนใช้งานจริง');
+    $response->assertSee('โหมดฉบับร่าง');
+    $response->assertSee('รอบเวลาจะกำหนดว่าแม่แบบนี้สามารถเป็นตัวใช้งานจริงของรอบตรวจใดได้');
+    $response->assertSee('แม่แบบที่ใช้งานจริงของรอบเวลานี้ตอนนี้: Baseline active template');
 });
 
 test('non-admin users cannot access checklist template administration routes', function () {
@@ -186,7 +186,7 @@ test('admin can duplicate a checklist template into an inactive editable copy', 
         ->firstOrFail();
 
     $response->assertRedirect(route('templates.edit', $duplicate));
-    $response->assertSessionHas('message', 'Checklist template duplicated. Review the copy, then activate it when ready.');
+    $response->assertSessionHas('message', 'ทำสำเนาแม่แบบรายการตรวจเรียบร้อยแล้ว กรุณาทบทวนฉบับคัดลอกก่อนเปิดใช้งาน');
 
     expect($duplicate->is_active)->toBeFalse();
     expect($duplicate->scope)->toBe($this->activeTemplate->scope);

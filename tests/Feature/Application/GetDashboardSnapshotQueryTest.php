@@ -98,11 +98,11 @@ test('dashboard snapshot query exposes ownership pressure summary', function () 
     expect($snapshot->ownershipPressure['overdueCount'])->toBeGreaterThanOrEqual(1);
     expect($snapshot->ownershipPressure['ownedByActorCount'])->toBeGreaterThanOrEqual(1);
     expect(collect($snapshot->ownershipPressure['actions'])->pluck('label')->all())
-        ->toContain('Review unowned incidents', 'Review overdue follow-up', 'Review incidents you own');
+        ->toContain('ดูกลุ่มปัญหาที่ไม่มีผู้รับผิดชอบ', 'ดูกลุ่มที่เลยกำหนดติดตาม', 'ดูปัญหาที่คุณรับผิดชอบ');
     expect($snapshot->ownershipBuckets['state'])->toBe('active');
-    expect($snapshot->ownershipBuckets['headline'])->toBe('Follow-up has started slipping past target');
+    expect($snapshot->ownershipBuckets['headline'])->toBe('งานติดตามเริ่มเลยเป้าหมายที่ตั้งไว้');
     expect(collect($snapshot->ownershipBuckets['buckets'])->pluck('title')->all())
-        ->toBe(['Overdue follow-up', 'Unowned incidents', 'Owned by you']);
+        ->toBe(['ติดตามเกินกำหนด', 'ปัญหาที่ไม่มีผู้รับผิดชอบ', 'งานที่คุณรับผิดชอบ']);
 });
 
 test('dashboard snapshot query exposes recent history context', function () {
@@ -142,7 +142,7 @@ test('dashboard snapshot query exposes recent history context', function () {
     $snapshot = app(GetDashboardSnapshot::class)($admin->id);
 
     expect($snapshot->recentHistoryContext['state'])->toBe('unstable');
-    expect($snapshot->recentHistoryContext['headline'])->toBe('Recent operating record still shows carryover');
+    expect($snapshot->recentHistoryContext['headline'])->toBe('ประวัติล่าสุดยังมีงานค้างต่อเนื่อง');
     expect($snapshot->recentHistoryContext['archive']['focus_date'])->toBe(now()->subDay()->toDateString());
     expect($snapshot->recentHistoryContext['archive']['total_not_done_items'])->toBeGreaterThanOrEqual(1);
     expect($snapshot->recentHistoryContext['incidents']['opened_count'])->toBeGreaterThanOrEqual(1);

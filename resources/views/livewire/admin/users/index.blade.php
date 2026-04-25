@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('User administration') }}</p>
                 <h2 class="ops-page__title">{{ __('Team Access Roster') }}</h2>
                 <p class="ops-page-intro__body">
-                    Govern the lecturer, lab staff, and student duty accounts behind the room-check workflow, and keep active versus inactive access readable as an intentional operating decision.
+                    จัดการบัญชีของอาจารย์ผู้รับผิดชอบ เจ้าหน้าที่แล็บ และผู้ตรวจห้องที่อยู่เบื้องหลัง workflow การตรวจห้อง พร้อมทำให้สถานะเปิดใช้งานและปิดใช้งานอ่านเข้าใจได้ชัดเจน
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Internal roster') }}</span>
@@ -38,25 +38,25 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Lab team access</p>
-                    <h3 class="ops-hero__title">Manage lab team access from inside the product.</h3>
+                    <p class="ops-hero__eyebrow">สิทธิ์การเข้าถึงของทีมแล็บ</p>
+                    <h3 class="ops-hero__title">จัดการสิทธิ์ของทีมแล็บจากในระบบ</h3>
                     <p class="ops-hero__lead">
-                        Create accounts, adjust roles, and disable access when needed. Keep the roster small, internal, and easy to review across the lecturer, lab caretaker, and student duty lanes.
+                        สร้างบัญชี ปรับบทบาท และปิดการเข้าถึงเมื่อจำเป็น โดยคงให้รายชื่อผู้ใช้มีขนาดเล็ก เป็นระบบภายใน และตรวจสอบได้ง่ายในกลุ่มอาจารย์ ผู้ดูแลห้องแล็บ และผู้ตรวจห้อง
                     </p>
 
                     <div class="ops-hero__meta">
                         <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Internal roster') }}</span>
-                        <span class="ops-shell-chip">{{ __('Admin-governed lifecycle') }}</span>
-                        <span class="ops-shell-chip">{{ __('Explicit initial password') }}</span>
+                    <span class="ops-shell-chip">วงจรบัญชีที่ผู้ดูแลระบบควบคุม</span>
+                    <span class="ops-shell-chip">กำหนดรหัสผ่านเริ่มต้นอย่างชัดเจน</span>
                     </div>
                 </div>
 
                 <aside class="ops-hero__aside">
                     <div>
-                        <p class="ops-hero__aside-title">Roster size</p>
+                        <p class="ops-hero__aside-title">จำนวนบัญชีทั้งหมด</p>
                         <p class="ops-hero__aside-value">{{ $rosterSummary['total_count'] }}</p>
                         <p class="ops-hero__aside-copy">
-                            Internal account(s) currently governed from inside the product shell.
+                            จำนวนบัญชีภายในที่ถูกดูแลอยู่จากในระบบตอนนี้
                         </p>
                     </div>
 
@@ -81,9 +81,9 @@
         <section class="ops-card overflow-hidden">
             <div class="ops-section-heading">
                 <div>
-                    <p class="ops-section-heading__eyebrow">Role governance</p>
-                    <h3 class="ops-section-heading__title">Coverage by role lane</h3>
-                    <p class="ops-section-heading__body">Use this board to understand how lecturer, room-caretaker, and student duty access is currently distributed before you add or revise accounts.</p>
+                    <p class="ops-section-heading__eyebrow">การกำกับตามบทบาท</p>
+                    <h3 class="ops-section-heading__title">ความครอบคลุมของแต่ละบทบาท</h3>
+                    <p class="ops-section-heading__body">ใช้บอร์ดนี้ดูว่าบัญชีของอาจารย์ ผู้ดูแลห้องแล็บ และผู้ตรวจห้องกระจายอยู่แบบใดก่อนจะเพิ่มหรือแก้ไขบัญชี</p>
                 </div>
             </div>
 
@@ -128,12 +128,12 @@
 
         <section class="ops-card overflow-hidden">
             <div class="ops-card__body space-y-3">
-                <x-ops.callout title="Lifecycle meaning" tone="neutral">
+                <x-ops.callout title="ความหมายของสถานะบัญชี" tone="neutral">
                     <p>
-                        Active accounts can sign in and continue through protected routes. Inactive accounts are intentionally blocked at authentication time and should read as disabled access for the lab team, not a broken login.
+                        บัญชีที่เปิดใช้งานสามารถเข้าสู่ระบบและใช้งานหน้าที่มีสิทธิ์ได้ ส่วนบัญชีที่ปิดใช้งานจะถูกบล็อกตั้งแต่ขั้นตอนเข้าสู่ระบบโดยตั้งใจ
                     </p>
                     <p class="mt-3">
-                        This workflow stays small on purpose: one internal roster, one create/edit path, and one clear active access switch without invitations or approval chains.
+                        workflow นี้ถูกออกแบบให้เล็กและชัดเจน: มีรายชื่อภายในระบบเดียว เส้นทางสร้างและแก้ไขเดียว และสวิตช์เปิดปิดการใช้งานที่ชัดเจน โดยไม่มีระบบเชิญหรือสายอนุมัติ
                     </p>
                 </x-ops.callout>
             </div>
@@ -171,7 +171,7 @@
                                     </td>
                                     <td data-label="Role" class="px-4 py-4 text-sm">
                                         <span class="ops-badge {{ $managedUser->role === \App\Domain\Access\Enums\UserRole::Admin ? 'ops-badge--info' : ($managedUser->role === \App\Domain\Access\Enums\UserRole::Supervisor ? 'ops-badge--warning' : 'ops-badge--neutral') }}">
-                                            {{ \Illuminate\Support\Str::headline($managedUser->role->value) }}
+                                            {{ __($managedUser->role->value) }}
                                         </span>
                                     </td>
                                     <td data-label="State" class="px-4 py-4 text-sm">

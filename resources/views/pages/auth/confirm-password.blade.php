@@ -1,8 +1,8 @@
-<x-layouts::auth :title="__('Confirm password')">
+<x-layouts::auth :title="__('ยืนยันรหัสผ่าน')">
     <div class="flex flex-col gap-6">
         <x-auth-header
-            :title="__('Confirm password')"
-            :description="__('This is a secure area of the application. Please confirm your password before continuing.')"
+            :title="__('ยืนยันรหัสผ่าน')"
+            :description="__('นี่คือพื้นที่ที่ต้องยืนยันตัวตนก่อน กรุณากรอกรหัสผ่านอีกครั้งเพื่อดำเนินการต่อ')"
         />
 
         <x-auth-session-status class="text-center" :status="session('status')" />
@@ -11,21 +11,21 @@
             @csrf
 
             <div>
-                <label for="password" class="ops-field-label">{{ __('Password') }}</label>
+                <label for="password" class="ops-field-label">{{ __('รหัสผ่าน') }}</label>
                 <input
                     id="password"
                     name="password"
                     type="password"
                     required
                     autocomplete="current-password"
-                    placeholder="{{ __('Password') }}"
+                    placeholder="{{ __('รหัสผ่าน') }}"
                     class="ops-control"
                 >
                 @error('password') <span class="ops-field-error">{{ $message }}</span> @enderror
             </div>
 
             <button type="submit" class="ops-button ops-button--primary w-full" data-test="confirm-password-button">
-                {{ __('Confirm') }}
+                {{ __('ยืนยัน') }}
             </button>
         </form>
     </div>

@@ -5,49 +5,49 @@
         <title>{{ config('app.name', 'Daily Ops Command Center') }}</title>
     </head>
     <body class="auth-shell antialiased" data-no-progress-bar>
-        <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
+        <a href="#main-content" class="ops-skip-link">{{ __('ข้ามไปยังเนื้อหาหลัก') }}</a>
 
         <main id="main-content" class="auth-stage auth-stage--welcome">
             <section class="auth-stage__frame auth-stage__frame--welcome">
                 <div class="auth-stage__scene auth-stage__scene--welcome" data-motion="fade-right">
                     <div class="auth-stage__scene-inner">
                         <div class="auth-stage__brand-lockup">
-                            <p class="auth-stage__kicker">{{ __('University computer lab ops') }}</p>
+                            <p class="auth-stage__kicker">{{ __('งานประจำวันห้องปฏิบัติการคอมพิวเตอร์') }}</p>
                             <div class="auth-stage__brand-link">
                                 <span class="app-brand-mark size-14">
                                     <x-app-logo-icon class="size-8 fill-current text-current" />
                                 </span>
                                 <div class="space-y-1">
                                     <p class="auth-stage__brand-name">{{ config('app.name', 'Daily Ops Command Center') }}</p>
-                                    <p class="auth-stage__brand-copy">{{ __('One shared system for lab opening checks, issue reporting, and supervisor follow-up.') }}</p>
+                                    <p class="auth-stage__brand-copy">{{ __('ระบบกลางสำหรับตรวจห้อง แจ้งปัญหา และติดตามงานของผู้ดูแลห้องแล็บ') }}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="welcome-stage__hero">
                             <div class="space-y-4">
-                                <span class="ops-shell-chip ops-shell-chip--accent">{{ __('University Computer Lab Daily Ops') }}</span>
-                                <h1 class="welcome-stage__title">{{ __('Run lab opening checks, catch room issues early, and keep the team aligned from one shared workspace.') }}</h1>
-                                <p class="welcome-stage__lead">{{ __('Designed for university computer lab teams that need one trustworthy place for routine checks, issue handoff, and supervisor visibility without drifting into paper notes, scattered chat, or spreadsheet theatre.') }}</p>
+                                <span class="ops-shell-chip ops-shell-chip--accent">{{ __('ระบบงานประจำวันห้องปฏิบัติการคอมพิวเตอร์') }}</span>
+                                <h1 class="welcome-stage__title">{{ __('ตรวจห้อง แจ้งปัญหา และติดตามงานของทีมจากพื้นที่ทำงานร่วมกันเพียงจุดเดียว') }}</h1>
+                                <p class="welcome-stage__lead">{{ __('ออกแบบมาสำหรับทีมดูแลห้องคอมในมหาวิทยาลัยที่ต้องการระบบกลางที่เชื่อถือได้สำหรับรายการตรวจเช็ก การส่งต่องานปัญหา และการมองเห็นภาพรวมของผู้ดูแลห้องแล็บ โดยไม่ต้องกระจายงานไปอยู่ในกระดาษ แชต หรือสเปรดชีต') }}</p>
                             </div>
 
                             <div class="welcome-stage__grid">
                                 <article class="auth-signal-card auth-signal-card--wide">
-                                    <p class="auth-signal-card__eyebrow">{{ __('Staff lane') }}</p>
-                                    <p class="auth-signal-card__title">{{ __('Daily work stays explicit') }}</p>
-                                    <p class="auth-signal-card__body">{{ __('Checklist progress, workstation readiness, and issue handoff stay visible in one path instead of scattered notes or chat fragments.') }}</p>
+                                    <p class="auth-signal-card__eyebrow">{{ __('ฝั่งผู้ตรวจห้อง') }}</p>
+                                    <p class="auth-signal-card__title">{{ __('งานประจำวันชัดเจนในเส้นทางเดียว') }}</p>
+                                    <p class="auth-signal-card__body">{{ __('ความคืบหน้าของรายการตรวจเช็ก ความพร้อมของจุดใช้งาน และการส่งต่อรายงานปัญหาอยู่ในเส้นทางเดียว ไม่กระจายเป็นโน้ตหรือแชตย่อย') }}</p>
                                 </article>
 
                                 <article class="auth-signal-card">
-                                    <p class="auth-signal-card__eyebrow">{{ __('Supervisor lane') }}</p>
-                                    <p class="auth-signal-card__title">{{ __('Triage without noise') }}</p>
-                                    <p class="auth-signal-card__body">{{ __('See overdue issues, follow-up direction, and unfinished lanes before the day slips.') }}</p>
+                                    <p class="auth-signal-card__eyebrow">{{ __('ฝั่งผู้ดูแลห้องแล็บ') }}</p>
+                                    <p class="auth-signal-card__title">{{ __('คัดแยกปัญหาได้โดยไม่สับสน') }}</p>
+                                    <p class="auth-signal-card__body">{{ __('เห็นปัญหาที่เลยกำหนดติดตาม ทิศทางการติดตาม และช่วงตรวจที่ยังไม่เสร็จก่อนงานจะค้างสะสม') }}</p>
                                 </article>
 
                                 <article class="auth-signal-card">
-                                    <p class="auth-signal-card__eyebrow">{{ __('Admin lane') }}</p>
-                                    <p class="auth-signal-card__title">{{ __('Govern live lab checks') }}</p>
-                                    <p class="auth-signal-card__body">{{ __('Keep the opening, during-day, and closing checklist lanes accurate without fracturing the live staff workflow.') }}</p>
+                                    <p class="auth-signal-card__eyebrow">{{ __('ฝั่งผู้ดูแลระบบ') }}</p>
+                                    <p class="auth-signal-card__title">{{ __('ควบคุมแม่แบบรายการตรวจได้ตรงกับงานจริง') }}</p>
+                                    <p class="auth-signal-card__body">{{ __('ดูแลแม่แบบช่วงเปิดห้อง ระหว่างวัน และปิดห้องให้ตรงกับงานจริง โดยไม่รบกวน workflow ของผู้ตรวจห้อง') }}</p>
                                 </article>
                             </div>
                         </div>
@@ -57,31 +57,31 @@
                 <div class="welcome-stage__aside" data-motion="fade-left">
                     <div class="welcome-stage__aside-card">
                         <div class="welcome-stage__aside-header">
-                            <p class="welcome-stage__aside-eyebrow">{{ __('Suggested demo walkthrough') }}</p>
-                            <h2 class="welcome-stage__aside-title">{{ __('See the system in one short sequence') }}</h2>
-                            <p class="welcome-stage__aside-copy">{{ __('This product is intentionally compact: one lab team, one daily workflow, and one operational thread from checklist to issue follow-up.') }}</p>
+                            <p class="welcome-stage__aside-eyebrow">{{ __('ลำดับเดโมที่แนะนำ') }}</p>
+                            <h2 class="welcome-stage__aside-title">{{ __('ดูภาพรวมระบบในลำดับสั้น ๆ') }}</h2>
+                            <p class="welcome-stage__aside-copy">{{ __('ระบบนี้ออกแบบให้กระชับ ใช้กับทีมเดียวในมหาวิทยาลัยเดียว และเชื่อมงานตั้งแต่รายการตรวจเช็กไปจนถึงการติดตามรายงานปัญหา') }}</p>
                         </div>
 
                         <ol class="welcome-stage__steps">
                             <li class="welcome-stage__step">
                                 <span class="ops-step-index">1</span>
                                 <div>
-                                    <p class="welcome-stage__step-title">{{ __('Run the checklist as staff') }}</p>
-                                    <p class="welcome-stage__step-copy">{{ __('Open the correct lab lane, complete today’s checklist, and submit with clear progress feedback.') }}</p>
+                                    <p class="welcome-stage__step-title">{{ __('ทำรายการตรวจเช็กในบทบาทผู้ตรวจห้อง') }}</p>
+                                    <p class="welcome-stage__step-copy">{{ __('เลือกช่วงตรวจที่ถูกต้อง ทำรายการตรวจเช็กของวันนี้ให้ครบ และส่งผลพร้อมดูความคืบหน้าได้ชัดเจน') }}</p>
                                 </div>
                             </li>
                             <li class="welcome-stage__step">
                                 <span class="ops-step-index">2</span>
                                 <div>
-                                    <p class="welcome-stage__step-title">{{ __('Escalate an incident') }}</p>
-                                    <p class="welcome-stage__step-copy">{{ __('Create an incident for a workstation, network, printer, or room problem, then review it from the supervisor side.') }}</p>
+                                    <p class="welcome-stage__step-title">{{ __('แจ้งรายงานปัญหา') }}</p>
+                                    <p class="welcome-stage__step-copy">{{ __('สร้างรายงานปัญหาสำหรับเครื่อง อุปกรณ์ เครือข่าย หรือห้อง แล้วไปดูต่อในมุมของผู้ดูแลห้องแล็บ') }}</p>
                                 </div>
                             </li>
                             <li class="welcome-stage__step">
                                 <span class="ops-step-index">3</span>
                                 <div>
-                                    <p class="welcome-stage__step-title">{{ __('Check the live checklist setup') }}</p>
-                                    <p class="welcome-stage__step-copy">{{ __('Move into template administration to see how each scope owns its own live lab checklist lane.') }}</p>
+                                    <p class="welcome-stage__step-title">{{ __('ตรวจการตั้งค่าแม่แบบรายการตรวจ') }}</p>
+                                    <p class="welcome-stage__step-copy">{{ __('เข้าสู่หน้าจัดการแม่แบบเพื่อดูว่าแต่ละรอบเวลามีแม่แบบที่ใช้งานจริงของตัวเองอย่างไร') }}</p>
                                 </div>
                             </li>
                         </ol>
@@ -89,11 +89,11 @@
                         <div class="welcome-stage__aside-footer">
                             @if (Route::has('login'))
                                 <a href="{{ route('login') }}" class="ops-button ops-button--primary w-full" wire:navigate>
-                                    {{ __('Log in') }}
+                                    {{ __('เข้าสู่ระบบ') }}
                                 </a>
                             @endif
 
-                            <p class="ops-inline-note">{{ __('Internal access for duty staff, lab supervisors, and admins') }}</p>
+                            <p class="ops-inline-note">{{ __('ใช้งานภายในสำหรับผู้ตรวจห้อง ผู้ดูแลห้องแล็บ และผู้ดูแลระบบ') }}</p>
                         </div>
                     </div>
                 </div>

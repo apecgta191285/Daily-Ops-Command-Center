@@ -94,18 +94,18 @@ class DashboardRecentHistoryContextBuilder
     private function headline(string $state): string
     {
         return match ($state) {
-            'unstable' => 'Recent operating record still shows carryover',
-            'watch' => 'Recent operating record needs a light review',
-            default => 'Recent operating record looks settled',
+            'unstable' => 'ประวัติล่าสุดยังมีงานค้างต่อเนื่อง',
+            'watch' => 'ประวัติล่าสุดควรตรวจทบทวนเล็กน้อย',
+            default => 'ประวัติล่าสุดอยู่ในสภาพค่อนข้างนิ่ง',
         };
     }
 
     private function body(string $state): string
     {
         return match ($state) {
-            'unstable' => 'Use the recent archive and incident history to confirm whether today is inheriting unfinished work rather than only reacting to current counts.',
-            'watch' => 'The recent record is not alarming, but there are enough notes or new inflow signals to justify a quick review before calling the day stable.',
-            default => 'Recent archive and incident slices do not show meaningful carryover pressure right now. Today can be managed from the live board first.',
+            'unstable' => 'ใช้ข้อมูลจากประวัติรายการตรวจเช็กและประวัติรายงานปัญหาเพื่อตรวจว่ามีงานค้างจากวันก่อนต่อเนื่องมาถึงวันนี้หรือไม่',
+            'watch' => 'ประวัติล่าสุดยังไม่ถึงขั้นน่ากังวล แต่มีสัญญาณมากพอให้ควรทบทวนสั้น ๆ ก่อนสรุปว่าวันนี้นิ่งแล้ว',
+            default => 'ข้อมูลประวัติล่าสุดยังไม่แสดงแรงกดดันจากงานค้างอย่างมีนัยสำคัญ ตอนนี้สามารถบริหารจากแดชบอร์ดภาพรวมปัจจุบันเป็นหลักได้',
         };
     }
 

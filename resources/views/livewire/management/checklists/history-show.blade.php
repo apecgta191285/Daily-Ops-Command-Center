@@ -5,13 +5,13 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Historical recap') }}</p>
                 <h2 class="ops-page__title">{{ $this->pageTitle }}</h2>
                 <p class="ops-page-intro__body">
-                    Re-open a submitted room check as operational recap so management can review what happened in that room without going back into the live checklist flow.
+                    เปิดดูรอบการตรวจที่ส่งแล้วอีกครั้งในฐานะสรุปย้อนหลัง เพื่อให้ผู้ดูแลทบทวนสิ่งที่เกิดขึ้นในห้องนั้นได้โดยไม่ต้องกลับไปยัง flow การตรวจจริง
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Submitted archive') }}</span>
                     <span class="ops-shell-chip">{{ $this->roomLabel }}</span>
                     <span class="ops-shell-chip">{{ $this->scopeLabel }}</span>
-                    <span class="ops-shell-chip">{{ $run->run_date->format('M d, Y') }}</span>
+                    <span class="ops-shell-chip">{{ $run->run_date->format('d/m/Y') }}</span>
                 </div>
             </div>
 
@@ -30,7 +30,7 @@
                     <p class="ops-hero__eyebrow">{{ __('Run archive') }}</p>
                     <h3 class="ops-hero__title">{{ $run->template?->title ?? __('Checklist run') }}</h3>
                     <p class="ops-hero__lead">
-                        This historical recap freezes what was submitted for {{ $this->roomLabel }} on {{ $run->run_date->format('M d, Y') }} so the team can review execution truth after the live checklist lane has moved on.
+                        สรุปย้อนหลังนี้คงสภาพข้อมูลที่ส่งจริงของ {{ $this->roomLabel }} เมื่อวันที่ {{ $run->run_date->format('d/m/Y') }} เพื่อให้ทีมทบทวนงานที่เกิดขึ้นจริงได้ แม้ flow รายการตรวจเช็กปัจจุบันจะเดินต่อไปแล้ว
                     </p>
                     <div class="ops-hero__meta">
                         <span class="ops-badge ops-badge--neutral">{{ __('Room:') }} {{ $this->roomLabel }}</span>
@@ -75,7 +75,7 @@
         <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
             <div class="ops-card__body space-y-4">
                 @if ($recap['not_done_items'] > 0)
-                    <x-ops.callout title="Follow-up worth reviewing" tone="warning">
+                    <x-ops.callout :title="__('Follow-up worth reviewing')" tone="warning">
                         {{ __('This archived run contains Not Done answers. Use the grouped responses below to understand what was incomplete and what note context was captured at the time of submission.') }}
                     </x-ops.callout>
                 @else
@@ -95,7 +95,7 @@
                     </div>
                     <div>
                         <dt class="ops-detail-stack__label">{{ __('Run date') }}</dt>
-                        <dd class="ops-detail-stack__value">{{ $run->run_date->format('M d, Y') }}</dd>
+                    <dd class="ops-detail-stack__value">{{ $run->run_date->format('d/m/Y') }}</dd>
                     </div>
                     <div>
                         <dt class="ops-detail-stack__label">{{ __('Created by') }}</dt>
@@ -103,7 +103,7 @@
                     </div>
                     <div>
                         <dt class="ops-detail-stack__label">{{ __('Submitted at') }}</dt>
-                        <dd class="ops-detail-stack__value">{{ $run->submitted_at?->format('M d, Y H:i') ?? __('Unknown') }}</dd>
+                        <dd class="ops-detail-stack__value">{{ $run->submitted_at?->format('d/m/Y H:i') ?? __('Unknown') }}</dd>
                     </div>
                 </dl>
 

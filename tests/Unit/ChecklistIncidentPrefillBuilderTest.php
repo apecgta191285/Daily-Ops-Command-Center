@@ -37,11 +37,11 @@ test('checklist incident prefill builder creates follow-up context from a daily 
         $secondItem->id => ['result' => ChecklistResult::Done->value, 'note' => null],
     ]);
 
-    expect($prefill->title)->toBe('Checklist follow-up issue')
+    expect($prefill->title)->toBe('รายงานติดตามจากรายการตรวจเช็ก')
         ->and($prefill->category)->toBe(IncidentCategory::Other->value)
         ->and($prefill->severity)->toBe(IncidentSeverity::Medium->value)
-        ->and($prefill->description)->toContain('Follow-up from the daily checklist.')
-        ->and($prefill->description)->toContain('Template: Opening Duties')
-        ->and($prefill->description)->toContain('Run date: 2026-04-17')
+        ->and($prefill->description)->toContain('ติดตามต่อจากรายการตรวจเช็กประจำวัน')
+        ->and($prefill->description)->toContain('แม่แบบ: Opening Duties')
+        ->and($prefill->description)->toContain('วันที่ตรวจ: 17/04/2026')
         ->and($prefill->description)->toContain($firstItem->checklistItem->title);
 });

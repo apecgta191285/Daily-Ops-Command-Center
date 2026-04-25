@@ -50,25 +50,25 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Checklist drafting</p>
+                    <p class="ops-hero__eyebrow">การจัดทำแม่แบบรายการตรวจ</p>
                     <h3 class="ops-hero__title">{{ __($this->pageTitle) }}</h3>
                     <p class="ops-hero__lead">
-                        Build the checklist that duty staff will actually use, keep the sequence easy to scan, and review live impact before anything replaces the current lab routine.
+                        จัดทำรายการตรวจที่ผู้ตรวจห้องจะใช้งานจริง วางลำดับให้อ่านง่าย และทบทวนผลกระทบก่อนแทนที่แม่แบบที่ใช้อยู่
                     </p>
 
                     <div class="ops-hero__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">{{ $template ? __('Template revision mode') : __('New template draft') }}</span>
-                        <span class="ops-shell-chip">{{ __('Admin-only surface') }}</span>
-                        <span class="ops-shell-chip">{{ __('One live template per scope') }}</span>
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ $template ? 'โหมดแก้ไขแม่แบบ' : 'แบบร่างแม่แบบใหม่' }}</span>
+                        <span class="ops-shell-chip">หน้าสำหรับผู้ดูแลระบบ</span>
+                        <span class="ops-shell-chip">หนึ่งแม่แบบใช้งานจริงต่อหนึ่งรอบเวลา</span>
                     </div>
                 </div>
 
                 <aside class="ops-hero__aside">
                     <div>
-                        <p class="ops-hero__aside-title">Control note</p>
+                            <p class="ops-hero__aside-title">ภาพรวมแบบร่าง</p>
                         <p class="ops-hero__aside-value">{{ $summary['item_count'] }}</p>
                         <p class="ops-hero__aside-copy">
-                            Checklist item(s) currently defined in this template draft.
+                            จำนวนรายการตรวจที่กำหนดอยู่ในแบบร่างนี้
                         </p>
                     </div>
 
@@ -90,7 +90,7 @@
                     <div class="ops-hero__aside-stack">
                         <div class="ops-shell-chip">
                             <span>{{ __('Scope') }}</span>
-                            <strong class="font-semibold text-white">{{ $scope }}</strong>
+                            <strong class="font-semibold text-white">{{ __($scope) }}</strong>
                         </div>
                         <div class="ops-shell-chip">
                             <span>{{ __('State') }}</span>
@@ -107,9 +107,9 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Authoring rhythm</p>
-                                <h3 class="ops-section-heading__title">Build the live checklist in three passes</h3>
-                                <p class="ops-section-heading__body">Define the identity, shape the staff-facing sequence, then confirm the activation impact before this draft becomes the daily operational standard.</p>
+                                <p class="ops-section-heading__eyebrow">ลำดับการจัดทำแม่แบบ</p>
+                                <h3 class="ops-section-heading__title">จัดทำแม่แบบที่ใช้งานจริงใน 3 ขั้นตอน</h3>
+                                <p class="ops-section-heading__body">กำหนดข้อมูลหลัก วางลำดับการใช้งานของผู้ตรวจห้อง แล้วค่อยทบทวนผลกระทบก่อนเปิดใช้งานแบบร่างนี้</p>
                             </div>
                         </div>
 
@@ -118,24 +118,24 @@
                                 <div class="ops-authoring-rhythm__step">
                                     <span class="ops-step-index">1</span>
                                     <div>
-                                        <p class="ops-authoring-rhythm__title">{{ __('Frame the template') }}</p>
-                                        <p class="ops-authoring-rhythm__body">{{ __('Choose a clear title, explain the operating moment, and keep the description focused on why the checklist exists.') }}</p>
+                                        <p class="ops-authoring-rhythm__title">ตั้งกรอบแม่แบบ</p>
+                                        <p class="ops-authoring-rhythm__body">ตั้งชื่อให้ชัด อธิบายว่าใช้ในช่วงงานใด และทำให้คำอธิบายบอกเหตุผลของการมีรายการตรวจนี้อย่างตรงไปตรงมา</p>
                                     </div>
                                 </div>
 
                                 <div class="ops-authoring-rhythm__step">
                                     <span class="ops-step-index">2</span>
                                     <div>
-                                        <p class="ops-authoring-rhythm__title">{{ __('Shape execution order') }}</p>
-                                        <p class="ops-authoring-rhythm__body">{{ __('Use group labels and item order to make the run read like a real shift routine instead of a flat collection of tasks.') }}</p>
+                                        <p class="ops-authoring-rhythm__title">จัดลำดับการใช้งานจริง</p>
+                                        <p class="ops-authoring-rhythm__body">ใช้ชื่อหมวดและลำดับรายการเพื่อให้รอบตรวจอ่านแล้วเหมือนงานประจำวันจริง ไม่ใช่แค่รายการงานแบบแบน ๆ</p>
                                     </div>
                                 </div>
 
                                 <div class="ops-authoring-rhythm__step">
                                     <span class="ops-step-index">3</span>
                                     <div>
-                                        <p class="ops-authoring-rhythm__title">{{ __('Review live impact') }}</p>
-                                        <p class="ops-authoring-rhythm__body">{{ __('Pause on the governance lane before save so you understand whether this draft stays private or replaces the current live checklist.') }}</p>
+                                        <p class="ops-authoring-rhythm__title">ทบทวนผลกระทบก่อนเปิดใช้งาน</p>
+                                        <p class="ops-authoring-rhythm__body">หยุดดูบอร์ดกำกับก่อนบันทึก เพื่อให้แน่ใจว่าแบบร่างนี้เป็นเพียงฉบับร่างหรือจะเข้าไปแทนแม่แบบที่ใช้งานจริงอยู่</p>
                                     </div>
                                 </div>
                             </div>
@@ -145,21 +145,21 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="80">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Template identity</p>
-                                <h3 class="ops-section-heading__title">Core definition</h3>
-                                <p class="ops-section-heading__body">Set the operating name and description that explain when this template should be used.</p>
+                                <p class="ops-section-heading__eyebrow">ข้อมูลแม่แบบ</p>
+                                <h3 class="ops-section-heading__title">คำนิยามหลัก</h3>
+                                <p class="ops-section-heading__body">กำหนดชื่อและคำอธิบายที่บอกว่าแม่แบบนี้ควรใช้เมื่อใด</p>
                             </div>
                         </div>
 
                         <div class="ops-card__body space-y-6">
                             <div>
-                                <label for="title" class="ops-field-label">Title <span class="ops-required-mark">*</span></label>
+                                <label for="title" class="ops-field-label">ชื่อแม่แบบ <span class="ops-required-mark">*</span></label>
                                 <input id="title" type="text" wire:model="title" class="ops-control" placeholder="เช่น เปิดห้องปฏิบัติการ">
                                 @error('title') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
                             <div>
-                                <label for="description" class="ops-field-label">Description</label>
+                                <label for="description" class="ops-field-label">คำอธิบาย</label>
                                 <textarea id="description" wire:model="description" rows="4" class="ops-control" placeholder="อธิบายว่าทำไม template นี้จึงมีอยู่"></textarea>
                                 @error('description') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
@@ -169,9 +169,9 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="120">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Checklist structure</p>
-                                <h3 class="ops-section-heading__title">Checklist Items</h3>
-                                <p class="ops-section-heading__body">Define the ordered steps duty staff will see during the daily checklist flow.</p>
+                                <p class="ops-section-heading__eyebrow">โครงสร้างรายการตรวจ</p>
+                                <h3 class="ops-section-heading__title">รายการตรวจเช็ก</h3>
+                                <p class="ops-section-heading__body">กำหนดขั้นตอนตามลำดับที่ผู้ตรวจห้องจะเห็นระหว่างการทำรายการตรวจเช็กประจำวัน</p>
                             </div>
 
                             <button type="button" wire:click="addItem" class="ops-button ops-button--secondary">
@@ -211,21 +211,21 @@
                                             <div class="space-y-5">
                                                 
                                                 <div>
-                                                    <label for="item-title-{{ $index }}" class="ops-field-label">Item title <span class="ops-required-mark">*</span></label>
+                                                    <label for="item-title-{{ $index }}" class="ops-field-label">ชื่อรายการ <span class="ops-required-mark">*</span></label>
                                                     <input id="item-title-{{ $index }}" type="text" wire:model="items.{{ $index }}.title" class="ops-control" placeholder="เช่น ตรวจการเชื่อมต่ออินเทอร์เน็ต">
                                                     @error('items.'.$index.'.title') <span class="ops-field-error">{{ $message }}</span> @enderror
                                                 </div>
 
                                                 <div>
-                                                    <label for="item-description-{{ $index }}" class="ops-field-label">Item description</label>
+                                                    <label for="item-description-{{ $index }}" class="ops-field-label">คำอธิบายรายการ</label>
                                                     <textarea id="item-description-{{ $index }}" wire:model="items.{{ $index }}.description" rows="3" class="ops-control" placeholder="อธิบายความหมายหรือเหตุผลของรายการนี้"></textarea>
                                                     @error('items.'.$index.'.description') <span class="ops-field-error">{{ $message }}</span> @enderror
                                                 </div>
 
                                                 <div>
-                                                    <label for="item-group-{{ $index }}" class="ops-field-label">Group label</label>
-                                                    <input id="item-group-{{ $index }}" type="text" wire:model="items.{{ $index }}.group_label" class="ops-control" placeholder="เช่น Safety checks">
-                                                    <p class="ops-field-help">Optional. Use the same label on related items to create lightweight sections in the daily checklist.</p>
+                                                    <label for="item-group-{{ $index }}" class="ops-field-label">ชื่อหมวด</label>
+                                                    <input id="item-group-{{ $index }}" type="text" wire:model="items.{{ $index }}.group_label" class="ops-control" placeholder="เช่น ตรวจความปลอดภัย">
+                                                    <p class="ops-field-help">ไม่บังคับ ใช้ชื่อเดียวกันกับรายการที่เกี่ยวข้องเพื่อจัดเป็นหมวดแบบสั้น ๆ ในหน้ารายการตรวจประจำวัน</p>
                                                     @error('items.'.$index.'.group_label') <span class="ops-field-error">{{ $message }}</span> @enderror
                                                 </div>
                                             </div>
@@ -239,7 +239,7 @@
                                                 </div>
 
                                                 <div>
-                                                    <label for="item-order-{{ $index }}" class="ops-field-label">Order</label>
+                                                    <label for="item-order-{{ $index }}" class="ops-field-label">ลำดับ</label>
                                                     <input id="item-order-{{ $index }}" type="number" min="1" wire:model="items.{{ $index }}.sort_order" class="ops-control">
                                                     @error('items.'.$index.'.sort_order') <span class="ops-field-error">{{ $message }}</span> @enderror
                                                 </div>
@@ -270,9 +270,9 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Draft check</p>
-                                <h3 class="ops-section-heading__title">Checkpoint summary</h3>
-                                <p class="ops-section-heading__body">A quick scan of what is ready, what is still thin, and which decisions will affect staff most once this draft goes live.</p>
+                                <p class="ops-section-heading__eyebrow">ตรวจแบบร่าง</p>
+                                <h3 class="ops-section-heading__title">สรุปก่อนบันทึก</h3>
+                                <p class="ops-section-heading__body">ทบทวนอย่างรวดเร็วว่าอะไรพร้อมแล้ว อะไรยังบางเกินไป และการตัดสินใจใดจะกระทบผู้ตรวจห้องมากที่สุดเมื่อแบบร่างนี้ถูกเปิดใช้งาน</p>
                             </div>
                         </div>
 
@@ -288,9 +288,9 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Live execution preview</p>
-                                <h3 class="ops-section-heading__title">How staff will scan this checklist</h3>
-                                <p class="ops-section-heading__body">This compact preview mirrors the way the checklist will read during execution once the draft is active.</p>
+                                <p class="ops-section-heading__eyebrow">ตัวอย่างตอนใช้งานจริง</p>
+                                <h3 class="ops-section-heading__title">ผู้ตรวจห้องจะเห็นรายการนี้อย่างไร</h3>
+                                <p class="ops-section-heading__body">ตัวอย่างย่อนี้สะท้อนลักษณะการอ่านรายการตรวจเช็กตอนใช้งานจริงเมื่อแบบร่างนี้ถูกเปิดใช้งาน</p>
                             </div>
                         </div>
 
@@ -320,29 +320,29 @@
                         <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="160">
                             <div class="ops-section-heading">
                                 <div>
-                                    <p class="ops-section-heading__eyebrow">Revision safety</p>
-                                    <h3 class="ops-section-heading__title">Safer iteration path</h3>
-                                    <p class="ops-section-heading__body">Duplicate before major structural edits when you need a cleaner revision trail.</p>
+                                    <p class="ops-section-heading__eyebrow">ความปลอดภัยของการแก้ไข</p>
+                                    <h3 class="ops-section-heading__title">เส้นทางที่ปลอดภัยกว่าสำหรับการปรับปรุง</h3>
+                                    <p class="ops-section-heading__body">ทำสำเนาก่อนแก้โครงสร้างใหญ่เมื่อคุณต้องการประวัติการปรับปรุงที่อ่านย้อนกลับได้ชัดเจนกว่าเดิม</p>
                                 </div>
                             </div>
 
                             <div class="ops-card__body">
-                                <x-ops.callout title="Safer iteration path" tone="neutral">
+                                <x-ops.callout title="เส้นทางที่ปลอดภัยกว่าสำหรับการปรับปรุง" tone="neutral">
                                     @if ($hasRunHistory)
-                                        {{ __('This template already has :count recorded run(s). Duplicate it before major structural edits so historical runs stay easy to interpret.', ['count' => $runCount]) }}
+                                        {{ __('แม่แบบนี้มีประวัติรอบตรวจเช็กแล้ว :count รอบ ควรทำสำเนาก่อนแก้โครงสร้างใหญ่เพื่อให้ประวัติเดิมยังอ่านและตีความได้ง่าย', ['count' => $runCount]) }}
                                     @elseif ($is_active)
-                                        {{ __('This template is currently active for its scope. Duplicate it if you want to prepare a revised version without changing that live checklist lane immediately.') }}
+                                        {{ __('แม่แบบนี้กำลังใช้งานจริงอยู่ในรอบเวลานี้ หากต้องการเตรียมฉบับปรับปรุงโดยยังไม่กระทบรอบตรวจจริงทันที ควรทำสำเนาก่อน') }}
                                     @else
-                                        {{ __('Duplicate this template when you want to branch a new revision instead of overwriting the current draft.') }}
+                                        {{ __('ทำสำเนาแม่แบบนี้เมื่อคุณต้องการแตกฉบับปรับปรุงใหม่แทนการเขียนทับแบบร่างปัจจุบัน') }}
                                     @endif
                                 </x-ops.callout>
                                 @if ($currentLiveTemplateTitle)
                                     <p class="ops-text-muted mt-3 text-sm">
-                                        {{ __('Current live template for this scope: :title', ['title' => $currentLiveTemplateTitle]) }}
+                                        {{ __('แม่แบบที่ใช้งานจริงของรอบเวลานี้ตอนนี้: :title', ['title' => $currentLiveTemplateTitle]) }}
                                     </p>
                                 @endif
                                 <button type="submit" form="duplicate-template-form" class="ops-button ops-button--secondary mt-4 w-full">
-                                    {{ __('Duplicate template instead') }}
+                                    {{ __('ทำสำเนาแม่แบบแทน') }}
                                 </button>
                             </div>
                         </section>
@@ -351,21 +351,21 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="210">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Governance</p>
-                                <h3 class="ops-section-heading__title">Activation impact</h3>
-                                <p class="ops-section-heading__body">Each scope owns its own live template. Activation only replaces the currently active template inside the selected operating lane.</p>
+                                <p class="ops-section-heading__eyebrow">การกำกับการใช้งาน</p>
+                                <h3 class="ops-section-heading__title">ผลกระทบเมื่อเปิดใช้งาน</h3>
+                                <p class="ops-section-heading__body">แต่ละรอบเวลามีแม่แบบที่ใช้งานจริงของตัวเอง การเปิดใช้งานจะสลับเฉพาะแม่แบบตัวจริงของรอบเวลาที่เลือกเท่านั้น</p>
                             </div>
                         </div>
 
                         <div class="ops-card__body space-y-6">
                             <div>
-                                <label for="scope" class="ops-field-label">Scope <span class="ops-required-mark">*</span></label>
+                                <label for="scope" class="ops-field-label">รอบเวลา <span class="ops-required-mark">*</span></label>
                                 <select id="scope" wire:model="scope" class="ops-control">
                                     @foreach ($scopes as $scopeOption)
-                                        <option value="{{ $scopeOption }}">{{ $scopeOption }}</option>
+                                        <option value="{{ $scopeOption }}">{{ __($scopeOption) }}</option>
                                     @endforeach
                                 </select>
-                                <p class="ops-field-help">Scope determines which live checklist lane this template can own. Only one active template may exist within each scope.</p>
+                                <p class="ops-field-help">รอบเวลาจะกำหนดว่าแม่แบบนี้สามารถเป็นตัวใช้งานจริงของรอบตรวจใดได้ โดยในแต่ละรอบเวลาจะมีแม่แบบที่เปิดใช้งานได้เพียงหนึ่งตัวเท่านั้น</p>
                                 @error('scope') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
@@ -374,15 +374,15 @@
                                 $activationTone = $activationImpact['tone'] === 'warning' ? 'warning' : 'neutral';
                             @endphp
 
-                            <x-ops.callout title="Activation impact" :tone="$activationTone">
+                            <x-ops.callout title="ผลกระทบเมื่อเปิดใช้งาน" :tone="$activationTone">
                                 <p>{{ __($activationImpact['title']) }}</p>
                                 <p class="mt-3">{{ __($activationImpact['description']) }}</p>
                             </x-ops.callout>
 
                             <label class="ops-choice w-full justify-between">
                                 <span>
-                                    <span class="ops-text-heading block font-medium">{{ __('Active template') }}</span>
-                                    <span class="ops-text-muted mt-1 block text-xs">{{ __('Saving as active will automatically retire the current live template in this scope only.') }}</span>
+                                    <span class="ops-text-heading block font-medium">{{ __('แม่แบบที่เปิดใช้งาน') }}</span>
+                                    <span class="ops-text-muted mt-1 block text-xs">{{ __('การบันทึกแบบเปิดใช้งานจะยกเลิกแม่แบบตัวจริงของรอบเวลานี้เท่านั้นโดยอัตโนมัติ') }}</span>
                                 </span>
                                 <input type="checkbox" wire:model="is_active" class="ops-choice__control">
                             </label>
@@ -407,11 +407,11 @@
                                             </p>
                                             <p class="ops-governance-card__meta">
                                                 @if ($lane['is_selected_scope'])
-                                                    {{ __('This is the scope lane currently selected in the governance form.') }}
+                                                    {{ __('รอบตรวจนี้คือรอบเวลาที่เลือกอยู่ในแบบฟอร์มกำกับแม่แบบ') }}
                                                 @elseif ($lane['state'] === 'missing')
-                                                    {{ __('No live checklist owner exists in this scope yet.') }}
+                                                    {{ __('รอบเวลานี้ยังไม่มีแม่แบบที่ใช้งานจริงอยู่') }}
                                                 @else
-                                                    {{ __('This scope already has a live checklist owner.') }}
+                                                    {{ __('รอบเวลานี้มีแม่แบบที่ใช้งานจริงอยู่แล้ว') }}
                                                 @endif
                                             </p>
                                         </div>
@@ -429,8 +429,8 @@
                 </a>
 
                 <button type="submit" class="ops-button ops-button--primary min-w-52">
-                    <span wire:loading.remove wire:target="save">{{ $template ? __('Save template changes') : __('Create template') }}</span>
-                    <span wire:loading wire:target="save">{{ __('Saving...') }}</span>
+                    <span wire:loading.remove wire:target="save">{{ $template ? __('บันทึกการเปลี่ยนแปลงแม่แบบ') : __('สร้างแม่แบบ') }}</span>
+                    <span wire:loading wire:target="save">{{ __('กำลังบันทึก...') }}</span>
                 </button>
             </div>
         </form>

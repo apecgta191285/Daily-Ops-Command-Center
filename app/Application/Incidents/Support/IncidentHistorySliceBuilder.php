@@ -57,7 +57,7 @@ class IncidentHistorySliceBuilder
 
                 return [
                     'date' => $dateKey,
-                    'label' => $date->format('M d'),
+                    'label' => $date->format('d/m'),
                     'opened_count' => $opened->count(),
                     'resolved_count' => $resolved->count(),
                     'still_active_count' => $opened->whereNull('resolved_at')->count(),

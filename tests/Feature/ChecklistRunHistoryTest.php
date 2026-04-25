@@ -93,8 +93,8 @@ test('checklist run archive lists only submitted runs and respects date scope an
     $response = $this->actingAs($this->admin)->get('/checklists/history');
 
     $response->assertOk();
-    $response->assertSee('Checklist Run Archive');
-    $response->assertSee('Archive day context');
+    $response->assertSee('คลังรอบการตรวจเช็ก');
+    $response->assertSee('บริบทของวันในประวัติ');
     $response->assertSee('Opening');
     $response->assertSee('Closing');
     $response->assertSee($this->openingTemplate->title);
@@ -151,7 +151,7 @@ test('checklist run archive paginates long filtered result sets without losing a
     $response = $this->actingAs($this->admin)->get('/checklists/history?runDate=2026-04-17');
 
     $response->assertOk();
-    $response->assertSee('Archive day context');
+    $response->assertSee('บริบทของวันในประวัติ');
     $response->assertSee('Opening archive template');
     $response->assertDontSee('Closing archive template');
     $response->assertSee($lastRoom->name);
@@ -159,7 +159,7 @@ test('checklist run archive paginates long filtered result sets without losing a
     $pageTwoResponse = $this->actingAs($this->admin)->get('/checklists/history?runDate=2026-04-17&page=2');
 
     $pageTwoResponse->assertOk();
-    $pageTwoResponse->assertSee('Archive day context');
+    $pageTwoResponse->assertSee('บริบทของวันในประวัติ');
     $pageTwoResponse->assertSee('Opening archive template');
     $pageTwoResponse->assertSee($firstRoom->name);
     $pageTwoResponse->assertDontSee($lastRoom->name);
@@ -215,18 +215,18 @@ test('historical run recap shows grouped responses and hides unsubmitted runs', 
     $response = $this->actingAs($this->supervisor)->get(route('checklists.history.show', $submittedRun));
 
     $response->assertOk();
-    $response->assertSee('Historical recap');
+    $response->assertSee('สรุปประวัติย้อนหลัง');
     $response->assertSee($this->openingTemplate->title);
     $response->assertSee($room->name);
     $response->assertSee('Opening checks');
     $response->assertSee('Unlock room');
     $response->assertSee('Check projector');
     $response->assertSee('Projector lamp issue');
-    $response->assertSee('Follow-up worth reviewing');
-    $response->assertSee('Review same day');
-    $response->assertSee('Review same scope');
-    $response->assertSee('Review same operator');
-    $response->assertSee('Printable recap');
+    $response->assertSee('มีจุดที่ต้องติดตาม');
+    $response->assertSee('ดูวันเดียวกัน');
+    $response->assertSee('ดูรอบตรวจเดียวกัน');
+    $response->assertSee('ดูผู้ตรวจคนเดิม');
+    $response->assertSee('พิมพ์สรุปรอบตรวจ');
 
     $this->actingAs($this->supervisor)
         ->get(route('checklists.history.show', $draftRun))
@@ -254,11 +254,11 @@ test('printable historical run recap shows print-friendly evidence summary', fun
     $response = $this->actingAs($this->admin)->get(route('checklists.history.print', $submittedRun));
 
     $response->assertOk();
-    $response->assertSee('Checklist recap print view');
-    $response->assertSee('Print recap');
+    $response->assertSee('มุมมองพิมพ์สรุปรอบตรวจ');
+    $response->assertSee('พิมพ์สรุปรอบตรวจ');
     $response->assertSee($this->openingTemplate->title);
     $response->assertSee($room->name);
-    $response->assertSee('Evidence snapshot');
-    $response->assertSee('Follow-up worth reviewing');
+    $response->assertSee('สรุปหลักฐาน');
+    $response->assertSee('จุดที่ควรหยิบไปติดตามต่อ');
     $response->assertSee('Projector lamp issue');
 });

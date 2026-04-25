@@ -22,7 +22,7 @@ test('transition incident status updates incident state and appends activity', f
     expect($result->changed)->toBeTrue();
     expect($result->incident->status)->toBe(IncidentStatus::InProgress);
     expect($result->incident->resolved_at)->toBeNull();
-    expect($result->incident->activities()->latest('id')->first()->summary)->toBe('Status changed from Open to In Progress');
+    expect($result->incident->activities()->latest('id')->first()->summary)->toBe('เปลี่ยนสถานะจาก เปิดใหม่ เป็น กำลังดำเนินการ');
 });
 
 test('transition incident status clears resolved timestamp when reopening', function () {
@@ -50,7 +50,7 @@ test('transition incident status can append an optional next action note', funct
     expect($result->changed)->toBeTrue();
     expect($result->incident->activities()->where('action_type', 'next_action_note')->exists())->toBeTrue();
     expect($result->incident->activities()->where('action_type', 'next_action_note')->latest('id')->first()->summary)
-        ->toBe('Next action: Follow up with the lab technician before noon.');
+        ->toBe('การดำเนินการถัดไป: Follow up with the lab technician before noon.');
 });
 
 test('transition incident status records a resolution summary when resolving an incident', function () {
@@ -65,5 +65,5 @@ test('transition incident status records a resolution summary when resolving an 
     expect($result->incident->status)->toBe(IncidentStatus::Resolved);
     expect($result->incident->activities()->where('action_type', 'resolution_note')->exists())->toBeTrue();
     expect($result->incident->activities()->where('action_type', 'resolution_note')->latest('id')->first()->summary)
-        ->toBe('Resolution: Replaced the faulty power strip and verified the workstation is back online.');
+        ->toBe('สรุปการแก้ไข: Replaced the faulty power strip and verified the workstation is back online.');
 });

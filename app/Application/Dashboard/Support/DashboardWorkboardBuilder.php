@@ -88,29 +88,29 @@ class DashboardWorkboardBuilder
     private function headline(string $state, int $pendingLaneCount): string
     {
         if ($state === 'calm') {
-            return 'Today is covered and currently calm';
+            return 'วันนี้ครอบคลุมครบและอยู่ในสภาพค่อนข้างนิ่ง';
         }
 
         return $pendingLaneCount > 0
-            ? 'Today still has open operating lanes'
-            : 'Checklist coverage is closed, but pressure remains';
+            ? 'วันนี้ยังมีช่วงตรวจที่ยังเปิดค้างอยู่'
+            : 'รายการตรวจเช็กปิดครบแล้ว แต่ยังมีงานติดตามค้างอยู่';
     }
 
     private function body(string $state, int $pendingLaneCount, int $attentionCount): string
     {
         if ($state === 'calm') {
-            return 'All live checklist lanes are configured and submitted. Management can use the supporting trend and history surfaces for review, not firefighting.';
+            return 'ช่วงตรวจที่ใช้งานจริงทั้งหมดถูกตั้งค่าและส่งผลครบแล้ว ผู้ดูแลห้องแล็บสามารถใช้ประวัติและแนวโน้มเพื่อทบทวนงานได้โดยไม่ต้องเร่งแก้ปัญหาเฉพาะหน้า';
         }
 
         if ($pendingLaneCount > 0) {
             return sprintf(
-                '%d scope lane(s) still need coverage or completion today. Use this workboard to confirm where the operating day is still open before unresolved pressure turns into drift.',
+                'วันนี้ยังมี %d ช่วงตรวจที่ต้องดำเนินการหรือส่งผลให้ครบ ใช้บอร์ดนี้เพื่อตรวจว่าจุดใดยังเปิดค้างอยู่ก่อนจะกลายเป็นงานสะสม',
                 $pendingLaneCount,
             );
         }
 
         return sprintf(
-            'Checklist coverage is already closed, but %d attention signal(s) still need management follow-up before the day is genuinely settled.',
+            'แม้ว่ารายการตรวจเช็กจะปิดครบแล้ว แต่ยังมี %d สัญญาณที่ผู้ดูแลห้องแล็บต้องติดตามก่อนจะถือว่าวันนี้เรียบร้อยจริง',
             $attentionCount,
         );
     }
@@ -124,14 +124,14 @@ class DashboardWorkboardBuilder
 
         if ($state === 'attention') {
             $actions[] = [
-                'label' => 'Review incidents',
+                'label' => 'ดูคิวปัญหา',
                 'url' => $this->routeOrNull('incidents.index'),
                 'tone' => 'primary',
             ];
         }
 
         $actions[] = [
-            'label' => 'Review today archive',
+            'label' => 'ดูประวัติของวันนี้',
             'url' => $this->routeOrNull('checklists.history.index', ['runDate' => today()->toDateString()]),
             'tone' => 'secondary',
         ];
@@ -142,10 +142,10 @@ class DashboardWorkboardBuilder
     private function stateLabel(string $state): string
     {
         return match ($state) {
-            'unavailable' => 'Missing live template',
-            'not_started' => 'Not started',
-            'in_progress' => 'In progress',
-            default => 'Submitted',
+            'unavailable' => 'ไม่มีแม่แบบใช้งานจริง',
+            'not_started' => 'ยังไม่เริ่ม',
+            'in_progress' => 'กำลังดำเนินการ',
+            default => 'ส่งผลแล้ว',
         };
     }
 
@@ -162,14 +162,14 @@ class DashboardWorkboardBuilder
     private function laneSummary(array $lane): string
     {
         return match ($lane['state']) {
-            'unavailable' => 'No active template is covering this operating lane yet, so the workday is not fully configured.',
-            'not_started' => 'A live template exists, but staff have not opened this lane today yet.',
+            'unavailable' => 'ช่วงตรวจนี้ยังไม่มีแม่แบบใช้งานจริง จึงยังถือว่าการตั้งค่างานประจำวันไม่ครบ',
+            'not_started' => 'มีแม่แบบใช้งานจริงแล้ว แต่ผู้ตรวจห้องยังไม่ได้เริ่มช่วงตรวจนี้ในวันนี้',
             'in_progress' => sprintf(
-                '%d of %d run(s) are submitted. This lane is active, but the day is not closed here yet.',
+                'ส่งผลแล้ว %d จาก %d รอบ ช่วงตรวจนี้ถูกใช้งานแล้ว แต่ยังไม่ปิดงานครบ',
                 $lane['submitted_runs'],
                 $lane['total_runs'],
             ),
-            default => 'This lane is already submitted.',
+            default => 'ช่วงตรวจนี้ส่งผลเรียบร้อยแล้ว',
         };
     }
 

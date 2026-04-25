@@ -1,6 +1,6 @@
-<x-layouts::auth :title="__('Forgot password')">
+<x-layouts::auth :title="__('ลืมรหัสผ่าน')">
     <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Forgot password')" :description="__('Enter your email to receive a password reset link')" />
+        <x-auth-header :title="__('ลืมรหัสผ่าน')" :description="__('กรอกอีเมลเพื่อรับลิงก์สำหรับตั้งรหัสผ่านใหม่')" />
 
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
@@ -9,7 +9,7 @@
             @csrf
 
             <div>
-                <label for="email" class="ops-field-label">{{ __('Email address') }}</label>
+                <label for="email" class="ops-field-label">{{ __('อีเมล') }}</label>
                 <input
                     id="email"
                     name="email"
@@ -24,13 +24,13 @@
             </div>
 
             <button type="submit" class="ops-button ops-button--primary w-full" data-test="email-password-reset-link-button">
-                {{ __('Email password reset link') }}
+                {{ __('ส่งลิงก์ตั้งรหัสผ่านใหม่') }}
             </button>
         </form>
 
         <div class="ops-text-muted space-x-1 text-center text-sm rtl:space-x-reverse">
-            <span>{{ __('Or, return to') }}</span>
-            <a href="{{ route('login') }}" class="auth-link" wire:navigate>{{ __('log in') }}</a>
+            <span>{{ __('หรือกลับไป') }}</span>
+            <a href="{{ route('login') }}" class="auth-link" wire:navigate>{{ __('เข้าสู่ระบบ') }}</a>
         </div>
     </div>
 </x-layouts::auth>

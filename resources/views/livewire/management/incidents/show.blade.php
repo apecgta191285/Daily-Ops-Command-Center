@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Issue review') }}</p>
                 <h2 class="ops-page__title">{{ __('Incident Detail') }}</h2>
                 <p class="ops-page-intro__body">
-                    Review the room issue, confirm where it happened, and move the queue forward with a clear next decision.
+                    ตรวจสอบปัญหาของห้อง ยืนยันว่าเกิดขึ้นที่ใด และขยับคิวปัญหาต่อด้วยการตัดสินใจที่ชัดเจน
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Issue detail') }}</span>
@@ -41,13 +41,13 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Lab issue record</p>
+                    <p class="ops-hero__eyebrow">บันทึกรายงานปัญหา</p>
                     <h3 class="ops-hero__title">{{ $incident->title }}</h3>
                     <p class="ops-hero__lead">
-                        Use this screen to review what was reported in this room, see the latest handling note, and decide the next follow-up for the room or equipment involved.
+                        ใช้หน้านี้เพื่อตรวจสิ่งที่ถูกรายงานในห้องนี้ ดูบันทึกล่าสุด และตัดสินใจว่าควรติดตามต่ออย่างไรสำหรับห้องหรืออุปกรณ์/เครื่องที่เกี่ยวข้อง
                     </p>
                     <p class="ops-text-shell-muted mt-3 text-sm">
-                        Reported by {{ $incident->creator?->name ?? 'Unknown' }} on {{ $incident->created_at->format('M d, Y H:i') }}
+                        ผู้รายงาน {{ $incident->creator?->name ?? 'ไม่ทราบ' }} เมื่อ {{ $incident->created_at->format('d/m/Y H:i') }}
                     </p>
                     <p class="ops-text-shell-muted mt-2 text-sm">
                         {{ __('Room: :room', ['room' => $incident->room?->name ?? __('Not recorded')]) }}
@@ -57,21 +57,21 @@
                     </p>
 
                     <div class="ops-incident-meta mt-4">
-                        <span class="ops-badge ops-badge--neutral">Open for {{ $this->ageInDays }} day{{ $this->ageInDays === 1 ? '' : 's' }}</span>
+                        <span class="ops-badge ops-badge--neutral">เปิดค้างมา {{ $this->ageInDays }} วัน</span>
                         @if ($this->isStale)
-                            <span class="ops-badge ops-badge--warning">Stale {{ $this->staleThresholdDays }}+ days</span>
+                            <span class="ops-badge ops-badge--warning">ค้างเกิน {{ $this->staleThresholdDays }} วัน</span>
                         @endif
                         @if ($this->needsOwner)
-                            <span class="ops-badge ops-badge--warning">Needs owner</span>
+                            <span class="ops-badge ops-badge--warning">ต้องกำหนดผู้รับผิดชอบ</span>
                         @endif
                         @if ($this->isFollowUpOverdue)
-                            <span class="ops-badge ops-badge--danger">Follow-up overdue</span>
+                            <span class="ops-badge ops-badge--danger">ติดตามเกินกำหนด</span>
                         @endif
                         @if ($incident->owner)
-                            <span class="ops-badge ops-badge--neutral">Owner: {{ $incident->owner->name }}</span>
+                            <span class="ops-badge ops-badge--neutral">ผู้รับผิดชอบ: {{ $incident->owner->name }}</span>
                         @endif
                         @if ($incident->follow_up_due_at)
-                            <span class="ops-badge ops-badge--warning">Follow-up {{ $incident->follow_up_due_at->format('M d, Y') }}</span>
+                            <span class="ops-badge ops-badge--warning">ติดตาม {{ $incident->follow_up_due_at->format('d/m/Y') }}</span>
                         @endif
                         <x-incidents.status-badge :status="$incident->status" />
                         <x-incidents.severity-badge :severity="$incident->severity" />
@@ -80,54 +80,54 @@
 
                 <aside class="ops-hero__aside">
                     <div>
-                        <p class="ops-hero__aside-title">Current state</p>
-                        <p class="ops-hero__aside-value">{{ $incident->category->value }}</p>
+                        <p class="ops-hero__aside-title">สถานะปัจจุบัน</p>
+                        <p class="ops-hero__aside-value">{{ __($incident->category->value) }}</p>
                         <p class="ops-hero__aside-copy">
-                            {{ $incident->resolved_at ? 'Resolved at '.$incident->resolved_at->format('M d, Y H:i') : 'Still active in the team queue.' }}
+                            {{ $incident->resolved_at ? 'แก้ไขแล้วเมื่อ '.$incident->resolved_at->format('d/m/Y H:i') : 'ยังอยู่ในคิวของทีม' }}
                         </p>
                     </div>
 
                     <div class="ops-glance-grid--hero">
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Severity</p>
+                            <p class="ops-glance-card__label">ความรุนแรง</p>
                             <div class="mt-3"><x-incidents.severity-badge :severity="$incident->severity" /></div>
-                            <p class="ops-glance-card__meta">Risk signal for how urgently the issue should be handled.</p>
+                            <p class="ops-glance-card__meta">สัญญาณว่ารายการนี้ควรถูกจัดการเร่งด่วนแค่ไหน</p>
                         </div>
 
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Status</p>
+                            <p class="ops-glance-card__label">สถานะ</p>
                             <div class="mt-3"><x-incidents.status-badge :status="$incident->status" /></div>
-                            <p class="ops-glance-card__meta">Live handling state as of the most recent management action.</p>
+                            <p class="ops-glance-card__meta">สถานะการดำเนินงานล่าสุดตามการอัปเดตครั้งสุดท้ายของผู้ดูแล</p>
                         </div>
 
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Age</p>
+                            <p class="ops-glance-card__label">อายุรายการ</p>
                             <p class="ops-glance-card__value">{{ $this->ageInDays }}</p>
-                            <p class="ops-glance-card__meta">Days since the incident first entered the queue.</p>
+                            <p class="ops-glance-card__meta">จำนวนวันนับจากรายงานปัญหานี้เข้าสู่คิวครั้งแรก</p>
                         </div>
 
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Room</p>
-                            <p class="ops-glance-card__value">{{ $incident->room?->name ?? 'Not set' }}</p>
-                            <p class="ops-glance-card__meta">The lab room currently tied to this issue record.</p>
+                            <p class="ops-glance-card__label">ห้อง</p>
+                            <p class="ops-glance-card__value">{{ $incident->room?->name ?? 'ยังไม่กำหนด' }}</p>
+                            <p class="ops-glance-card__meta">ห้องที่ผูกอยู่กับรายงานปัญหานี้ในปัจจุบัน</p>
                         </div>
 
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Equipment reference</p>
-                            <p class="ops-glance-card__value">{{ $incident->equipment_reference ?? 'Not provided' }}</p>
-                            <p class="ops-glance-card__meta">Optional workstation or equipment context reported by staff.</p>
+                            <p class="ops-glance-card__label">อุปกรณ์/เครื่องที่เกี่ยวข้อง</p>
+                            <p class="ops-glance-card__value">{{ $incident->equipment_reference ?? 'ไม่ได้ระบุ' }}</p>
+                            <p class="ops-glance-card__meta">ข้อมูลเพิ่มเติมของเครื่องหรืออุปกรณ์ที่ผู้ตรวจห้องระบุไว้</p>
                         </div>
 
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Owner</p>
-                            <p class="ops-glance-card__value">{{ $incident->owner?->name ?? 'Unowned' }}</p>
-                            <p class="ops-glance-card__meta">The management person currently accountable for moving this issue forward.</p>
+                            <p class="ops-glance-card__label">ผู้รับผิดชอบ</p>
+                            <p class="ops-glance-card__value">{{ $incident->owner?->name ?? 'ยังไม่มีผู้รับผิดชอบ' }}</p>
+                            <p class="ops-glance-card__meta">ผู้ดูแลที่รับผิดชอบการขยับงานปัญหานี้ต่อในตอนนี้</p>
                         </div>
 
                         <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">Follow-up target</p>
-                            <p class="ops-glance-card__value">{{ $incident->follow_up_due_at?->format('M d, Y') ?? 'Not set' }}</p>
-                            <p class="ops-glance-card__meta">Target date for the next meaningful review or action.</p>
+                            <p class="ops-glance-card__label">กำหนดติดตาม</p>
+                            <p class="ops-glance-card__value">{{ $incident->follow_up_due_at?->format('d/m/Y') ?? 'ยังไม่กำหนด' }}</p>
+                            <p class="ops-glance-card__meta">วันที่เป้าหมายสำหรับการทบทวนหรือการดำเนินการครั้งถัดไป</p>
                         </div>
                     </div>
                 </aside>
@@ -141,21 +141,21 @@
                         <div class="ops-card__body ops-incident-summary-stack">
                             <div class="ops-section-heading">
                                 <div>
-                                    <p class="ops-section-heading__eyebrow">Latest handling context</p>
-                                    <h2 class="ops-section-heading__title">What the next reviewer should know first</h2>
-                                    <p class="ops-section-heading__body">The newest direction and the newest resolution summary are surfaced here before the full timeline.</p>
+                                    <p class="ops-section-heading__eyebrow">บริบทล่าสุดของการดำเนินงาน</p>
+                                    <h2 class="ops-section-heading__title">สิ่งที่ผู้ตรวจทวนคนถัดไปควรรู้ก่อน</h2>
+                                    <p class="ops-section-heading__body">แสดงแนวทางล่าสุดและสรุปการแก้ไขล่าสุดก่อนเข้าสู่ไทม์ไลน์เต็ม</p>
                                 </div>
                             </div>
 
                             <div class="grid gap-4 xl:grid-cols-2">
                                 @if ($this->latestNextActionNote)
-                                    <x-ops.callout title="Latest Follow-up Direction" tone="warning">
+                                    <x-ops.callout title="แนวทางติดตามล่าสุด" tone="warning">
                                         {{ $this->latestNextActionNote }}
                                     </x-ops.callout>
                                 @endif
 
                                 @if ($this->latestResolutionNote)
-                                    <x-ops.callout title="Latest Resolution Summary" tone="success">
+                                    <x-ops.callout title="สรุปการแก้ไขล่าสุด" tone="success">
                                         {{ $this->latestResolutionNote }}
                                     </x-ops.callout>
                                 @endif
@@ -168,12 +168,12 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="65">
                         <div class="ops-card__body">
                             @if ($this->isFollowUpOverdue)
-                                <x-ops.callout title="Follow-up target overdue" tone="danger">
-                                    {{ $incident->follow_up_due_at?->format('M d, Y') }} has passed and this incident is still unresolved. Review ownership and the next move before this room issue sits in the queue any longer.
+                                <x-ops.callout title="เลยกำหนดติดตามแล้ว" tone="danger">
+                                    กำหนดติดตามวันที่ {{ $incident->follow_up_due_at?->format('d/m/Y') }} ผ่านไปแล้ว แต่รายงานนี้ยังไม่ถูกปิด กรุณาทบทวนผู้รับผิดชอบและการดำเนินการถัดไป
                                 </x-ops.callout>
                             @elseif ($this->needsOwner)
-                                <x-ops.callout title="Ownership still missing" tone="warning">
-                                    This unresolved incident does not currently have a management owner. Assign one in the accountability lane so the next move is clearly carried by someone.
+                                <x-ops.callout title="ยังไม่มีผู้รับผิดชอบ" tone="warning">
+                                    รายงานปัญหาที่ยังไม่ปิดนี้ยังไม่มีผู้ดูแลรับผิดชอบ กรุณากำหนดผู้รับผิดชอบในส่วนจัดการงานเพื่อให้การติดตามชัดเจน
                                 </x-ops.callout>
                             @endif
                         </div>
@@ -184,38 +184,38 @@
                     <div class="ops-card__body">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Reported context</p>
-                                <h2 class="ops-section-heading__title">Description and evidence</h2>
-                                <p class="ops-section-heading__body">This is the original room issue report the team is responding to, plus any supporting file attached during reporting.</p>
+                                <p class="ops-section-heading__eyebrow">บริบทที่ถูกรายงาน</p>
+                                <h2 class="ops-section-heading__title">รายละเอียดและหลักฐาน</h2>
+                                <p class="ops-section-heading__body">นี่คือข้อมูลต้นฉบับของรายงานปัญหาของห้อง รวมถึงไฟล์แนบประกอบถ้ามี</p>
                             </div>
                         </div>
 
                         <div class="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(18rem,1fr)]">
                             <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
-                                <p class="ops-incident-panel__eyebrow">Description</p>
-                                <h3 class="ops-incident-panel__title">What was reported</h3>
+                                <p class="ops-incident-panel__eyebrow">รายละเอียด</p>
+                                <h3 class="ops-incident-panel__title">สิ่งที่ถูกรายงาน</h3>
                                 <p class="ops-incident-panel__body whitespace-pre-line">{{ $incident->description }}</p>
                             </article>
 
                             <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
-                                <p class="ops-incident-panel__eyebrow">Room and evidence</p>
-                                <h3 class="ops-incident-panel__title">{{ $incident->room?->name ?? 'Room not recorded' }}</h3>
+                                <p class="ops-incident-panel__eyebrow">ห้องและหลักฐาน</p>
+                                <h3 class="ops-incident-panel__title">{{ $incident->room?->name ?? 'ไม่มีข้อมูลห้อง' }}</h3>
                                 <p class="ops-incident-panel__body">
                                     {{ $incident->equipment_reference
                                         ? __('Equipment reference: :equipment', ['equipment' => $incident->equipment_reference])
-                                        : __('No equipment reference was attached to this room issue record.') }}
+                                        : 'ไม่ได้ระบุอุปกรณ์หรือเครื่องที่เกี่ยวข้องไว้กับรายงานปัญหานี้' }}
                                 </p>
 
                                 <p class="ops-incident-panel__body">
                                     {{ $incident->attachment_path
-                                        ? 'Open the uploaded file when you need more proof or supporting visual context before changing status.'
-                                        : 'This incident was reported without a file. Review the description and timeline before deciding the next step.' }}
+                                        ? 'เปิดไฟล์แนบเมื่อจำเป็นต้องดูหลักฐานหรือข้อมูลประกอบเพิ่มเติมก่อนเปลี่ยนสถานะ'
+                                        : 'รายงานนี้ถูกส่งมาโดยไม่มีไฟล์แนบ กรุณาใช้รายละเอียดและไทม์ไลน์ประกอบการตัดสินใจก่อนดำเนินการต่อ' }}
                                 </p>
 
                                 @if($incident->attachment_path)
                                     <div class="ops-incident-panel__actions">
                                         <a href="{{ route('incidents.attachment', $incident) }}" target="_blank" rel="noopener noreferrer" class="ops-button ops-button--secondary">
-                                            Open attachment
+                                            เปิดไฟล์แนบ
                                         </a>
                                     </div>
                                 @endif
@@ -228,9 +228,9 @@
                     <div class="ops-card__body">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Operational history</p>
-                                <h2 class="ops-section-heading__title">Activity timeline</h2>
-                                <p class="ops-section-heading__body">Read the sequence below to understand how the incident moved from report to the current state.</p>
+                            <p class="ops-section-heading__eyebrow">ประวัติการดำเนินงาน</p>
+                            <h2 class="ops-section-heading__title">ลำดับเหตุการณ์</h2>
+                            <p class="ops-section-heading__body">อ่านลำดับด้านล่างเพื่อดูว่ารายงานปัญหานี้เคลื่อนจากการแจ้งครั้งแรกมาถึงสถานะปัจจุบันได้อย่างไร</p>
                             </div>
                         </div>
 
@@ -244,7 +244,7 @@
                                                 <div>
                                                     <p class="ops-incident-sequence__title">{{ $this->getActivityTypeLabel($activity->action_type) }}</p>
                                                     <p class="ops-incident-sequence__meta">
-                                                        {{ $activity->actor?->name ?? 'Unknown' }} · {{ $activity->created_at?->format('M d, Y H:i') ?? 'Unknown time' }}
+                                                        {{ $activity->actor?->name ?? 'ไม่ทราบ' }} · {{ $activity->created_at?->format('d/m/Y H:i') ?? 'ไม่ทราบเวลา' }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -262,40 +262,40 @@
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="40">
                     <div class="ops-card__body ops-incident-lane">
                         <div>
-                            <p class="ops-section-heading__eyebrow">Accountability lane</p>
-                            <h2 class="ops-incident-lane__title">Set owner and follow-up target</h2>
-                            <p class="ops-incident-lane__body">Use this lane to make accountability explicit without changing incident status. Keep ownership light, visible, and honest.</p>
+                            <p class="ops-section-heading__eyebrow">ส่วนกำหนดผู้รับผิดชอบ</p>
+                            <h2 class="ops-incident-lane__title">กำหนดผู้รับผิดชอบและวันติดตาม</h2>
+                            <p class="ops-incident-lane__body">ใช้ส่วนนี้เพื่อกำหนดความรับผิดชอบให้ชัด โดยยังไม่เปลี่ยนสถานะของรายงาน</p>
                         </div>
 
                         <form wire:submit="updateAccountability" class="space-y-4">
                             <div>
-                                <label for="owner-id" class="ops-field-label">Incident Owner</label>
+                                <label for="owner-id" class="ops-field-label">ผู้รับผิดชอบรายงานปัญหา</label>
                                 <select id="owner-id" wire:model="ownerId" class="ops-control">
                                     <option value="">{{ __('Unowned') }}</option>
                                     @foreach($managementOwners as $owner)
-                                        <option value="{{ $owner['id'] }}">{{ $owner['name'] }} ({{ ucfirst($owner['role']) }})</option>
+                                        <option value="{{ $owner['id'] }}">{{ $owner['name'] }} ({{ __($owner['role']) }})</option>
                                     @endforeach
                                 </select>
-                                <p class="ops-field-help">Only administrators and supervisors can own active incident follow-up.</p>
+                                <p class="ops-field-help">เฉพาะผู้ดูแลระบบและผู้ดูแลห้องแล็บเท่านั้นที่เป็นผู้รับผิดชอบการติดตามรายงานปัญหาได้</p>
                                 @error('ownerId') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
                             <div>
-                                <label for="follow-up-due-at" class="ops-field-label">Follow-up Target Date</label>
+                                <label for="follow-up-due-at" class="ops-field-label">วันที่เป้าหมายในการติดตาม</label>
                                 <input
                                     id="follow-up-due-at"
                                     type="date"
                                     wire:model="followUpDueAt"
                                     class="ops-control"
                                 >
-                                <p class="ops-field-help">This is an internal target date for the next review or next lab-team action, not a formal SLA.</p>
+                                <p class="ops-field-help">นี่คือวันที่เป้าหมายภายในระบบสำหรับการทบทวนหรือการดำเนินการครั้งถัดไป ไม่ใช่ SLA อย่างเป็นทางการ</p>
                                 @error('followUpDueAt') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="ops-divider-top flex justify-end pt-5">
                                 <button type="submit" class="ops-button ops-button--secondary min-w-44">
-                                    <span wire:loading.remove wire:target="updateAccountability">Save accountability</span>
-                                    <span wire:loading wire:target="updateAccountability">Saving...</span>
+                                    <span wire:loading.remove wire:target="updateAccountability">บันทึกข้อมูลการรับผิดชอบ</span>
+                                    <span wire:loading wire:target="updateAccountability">กำลังบันทึก...</span>
                                 </button>
                             </div>
                         </form>
@@ -305,17 +305,17 @@
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="80">
                     <div class="ops-card__body ops-incident-lane">
                         <div>
-                            <p class="ops-section-heading__eyebrow">Action lane</p>
-                            <h2 class="ops-incident-lane__title">Update status with intent</h2>
-                            <p class="ops-incident-lane__body">Use this form when you want the timeline to show a real handoff, progress update, or resolution summary.</p>
+                            <p class="ops-section-heading__eyebrow">ส่วนอัปเดตสถานะ</p>
+                            <h2 class="ops-incident-lane__title">อัปเดตสถานะอย่างมีบริบท</h2>
+                            <p class="ops-incident-lane__body">ใช้ฟอร์มนี้เมื่อคุณต้องการให้ไทม์ไลน์แสดงการส่งต่องาน ความคืบหน้า หรือสรุปการแก้ไขอย่างชัดเจน</p>
                         </div>
 
                         <form wire:submit="updateStatus" class="space-y-4">
                             <div>
-                                <label for="status" class="ops-field-label">Update Status</label>
+                                <label for="status" class="ops-field-label">อัปเดตสถานะ</label>
                                 <select id="status" wire:model="status" class="ops-control">
                                     @foreach($statuses as $statusOption)
-                                        <option value="{{ $statusOption }}">{{ $statusOption }}</option>
+                                        <option value="{{ $statusOption }}">{{ __($statusOption) }}</option>
                                     @endforeach
                                 </select>
                                 @error('status') <span class="ops-field-error">{{ $message }}</span> @enderror
@@ -328,7 +328,7 @@
                                     wire:model="followUpNote"
                                     rows="3"
                                     class="ops-control"
-                                    placeholder="{{ $status === 'Resolved' ? 'Summarize what resolved the issue...' : 'Add a short follow-up note for the next person reviewing this incident...' }}"
+                                    placeholder="{{ $status === 'Resolved' ? 'สรุปว่าแก้ปัญหานี้ได้อย่างไร...' : 'เพิ่มบันทึกสั้น ๆ สำหรับผู้ที่เข้ามาตรวจทวนรายงานนี้ต่อ...' }}"
                                 ></textarea>
                                 <p class="ops-field-help">{{ $this->followUpNoteHelp }}</p>
                                 @error('followUpNote') <span class="ops-field-error">{{ $message }}</span> @enderror
@@ -336,8 +336,8 @@
 
                             <div class="ops-divider-top flex justify-end pt-5">
                                 <button type="submit" class="ops-button ops-button--primary min-w-44">
-                                    <span wire:loading.remove wire:target="updateStatus">Update Status</span>
-                                    <span wire:loading wire:target="updateStatus">Updating...</span>
+                                    <span wire:loading.remove wire:target="updateStatus">บันทึกการอัปเดตสถานะ</span>
+                                    <span wire:loading wire:target="updateStatus">กำลังอัปเดต...</span>
                                 </button>
                             </div>
                         </form>
@@ -347,18 +347,18 @@
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="140">
                     <div class="ops-card__body ops-incident-lane">
                         <div>
-                            <p class="ops-section-heading__eyebrow">Reference snapshot</p>
-                            <h2 class="ops-incident-lane__title">Quick facts</h2>
-                            <p class="ops-incident-lane__body">Keep these details visible while deciding the next move so the update stays grounded in the reported context.</p>
+                            <p class="ops-section-heading__eyebrow">สรุปอ้างอิง</p>
+                            <h2 class="ops-incident-lane__title">ข้อมูลสำคัญ</h2>
+                            <p class="ops-incident-lane__body">ใช้ข้อมูลชุดนี้ประกอบการตัดสินใจ เพื่อให้การอัปเดตครั้งถัดไปยังยึดตามบริบทของรายงานปัญหาที่แจ้งเข้ามาจริง</p>
                         </div>
 
                         <div class="ops-stat-grid">
-                            <x-ops.stat-card kicker="Category" :value="$incident->category->value" />
-                            <x-ops.stat-card kicker="Room" :value="$incident->room?->name ?? 'Not set'" />
-                            <x-ops.stat-card kicker="Equipment" :value="$incident->equipment_reference ?? 'Not provided'" />
-                            <x-ops.stat-card kicker="Owner" :value="$incident->owner?->name ?? 'Unowned'" />
-                            <x-ops.stat-card kicker="Follow-up Target" :value="$incident->follow_up_due_at?->format('M d, Y') ?? 'Not set'" />
-                            <x-ops.stat-card kicker="Resolved At" :value="$incident->resolved_at?->format('M d, Y H:i') ?? 'Not resolved yet'" />
+                            <x-ops.stat-card kicker="หมวดหมู่" :value="__($incident->category->value)" />
+                            <x-ops.stat-card kicker="ห้อง" :value="$incident->room?->name ?? 'ยังไม่กำหนด'" />
+                            <x-ops.stat-card kicker="อุปกรณ์/เครื่องที่เกี่ยวข้อง" :value="$incident->equipment_reference ?? 'ไม่ได้ระบุ'" />
+                            <x-ops.stat-card kicker="ผู้รับผิดชอบ" :value="$incident->owner?->name ?? 'ยังไม่มีผู้รับผิดชอบ'" />
+                            <x-ops.stat-card kicker="กำหนดติดตาม" :value="$incident->follow_up_due_at?->format('d/m/Y') ?? 'ยังไม่กำหนด'" />
+                            <x-ops.stat-card kicker="เวลาที่แก้ไขแล้ว" :value="$incident->resolved_at?->format('d/m/Y H:i') ?? 'ยังไม่ปิดรายงาน'" />
                         </div>
                     </div>
                 </section>

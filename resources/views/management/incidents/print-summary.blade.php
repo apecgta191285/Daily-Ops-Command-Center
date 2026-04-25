@@ -5,7 +5,7 @@
                 <p class="ops-print-toolbar__eyebrow">{{ __('Printable evidence surface') }}</p>
                 <h1 class="ops-print-toolbar__title">{{ __('Incident summary print view') }}</h1>
                 <p class="ops-print-toolbar__copy">
-                    {{ __('Use this version when you need one clean room issue record for review, handoff discussion, or capstone evidence.') }}
+                    ใช้หน้านี้เมื่อต้องการสรุปรายงานปัญหาของห้องแบบพิมพ์ได้ เพื่อทบทวน ส่งต่องาน หรือใช้เป็นหลักฐานประกอบการนำเสนอ
                 </p>
             </div>
 
@@ -25,7 +25,7 @@
             <p class="ops-print-header__eyebrow">{{ __('Lab issue evidence pack') }}</p>
             <h1 class="ops-print-header__title">{{ $incident->title }}</h1>
             <p class="ops-print-header__body">
-                {{ __('This print-friendly summary captures the reported room issue, current accountability state, and the most relevant handling context without turning the incident into a report theater document.') }}
+                สรุปแบบพิมพ์ได้นี้รวบรวมปัญหาของห้อง สถานะผู้รับผิดชอบ และบริบทการติดตามที่สำคัญไว้ในหน้าเดียว โดยไม่ทำให้รายงานกลายเป็นเอกสารที่เกินความจำเป็น
             </p>
         </div>
 
@@ -34,7 +34,7 @@
             <span class="ops-shell-chip">{{ $incident->room?->name ?? __('No room') }}</span>
             <span class="ops-shell-chip">{{ __($incident->status->value) }}</span>
             <span class="ops-shell-chip">{{ __($incident->severity->value) }}</span>
-            <span class="ops-shell-chip">{{ $incident->category->value }}</span>
+            <span class="ops-shell-chip">{{ __($incident->category->value) }}</span>
         </div>
     </section>
 
@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Reported at') }}</dt>
-                    <dd class="ops-detail-stack__value">{{ $incident->created_at->format('M d, Y H:i') }}</dd>
+                    <dd class="ops-detail-stack__value">{{ $incident->created_at->format('d/m/Y H:i') }}</dd>
                 </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Owner') }}</dt>
@@ -60,7 +60,7 @@
                 </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Follow-up target') }}</dt>
-                    <dd class="ops-detail-stack__value">{{ $incident->follow_up_due_at?->format('M d, Y') ?? __('Not set') }}</dd>
+                    <dd class="ops-detail-stack__value">{{ $incident->follow_up_due_at?->format('d/m/Y') ?? __('Not set') }}</dd>
                 </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Equipment reference') }}</dt>
@@ -68,13 +68,13 @@
                 </div>
                 <div>
                     <dt class="ops-detail-stack__label">{{ __('Resolved at') }}</dt>
-                    <dd class="ops-detail-stack__value">{{ $incident->resolved_at?->format('M d, Y H:i') ?? __('Still active') }}</dd>
+                    <dd class="ops-detail-stack__value">{{ $incident->resolved_at?->format('d/m/Y H:i') ?? __('Still active') }}</dd>
                 </div>
             </dl>
         </article>
 
         <article class="ops-recap-panel ops-recap-panel--subtle">
-            <p class="ops-recap-panel__title">{{ __('Queue pressure snapshot') }}</p>
+            <p class="ops-recap-panel__title">สรุปภาระการติดตาม</p>
             <div class="ops-history-summary-grid">
                 <div class="ops-history-summary-card">
                     <p class="ops-glance-card__label">{{ __('Age') }}</p>
@@ -99,13 +99,13 @@
     @if ($latestNextActionNote || $latestResolutionNote)
         <section class="ops-print-section ops-print-grid">
             @if ($latestNextActionNote)
-                <x-ops.callout title="Latest follow-up direction" tone="warning">
+                <x-ops.callout title="แนวทางติดตามล่าสุด" tone="warning">
                     {{ $latestNextActionNote }}
                 </x-ops.callout>
             @endif
 
             @if ($latestResolutionNote)
-                <x-ops.callout title="Latest resolution summary" tone="success">
+                <x-ops.callout title="สรุปการแก้ไขล่าสุด" tone="success">
                     {{ $latestResolutionNote }}
                 </x-ops.callout>
             @endif
@@ -114,23 +114,23 @@
 
     <section class="ops-print-section ops-print-grid ops-print-grid--summary">
         <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
-            <p class="ops-incident-panel__eyebrow">{{ __('Description') }}</p>
-            <h2 class="ops-incident-panel__title">{{ __('What was reported') }}</h2>
+            <p class="ops-incident-panel__eyebrow">รายละเอียดปัญหา</p>
+            <h2 class="ops-incident-panel__title">สิ่งที่ถูกรายงานเข้ามา</h2>
             <p class="ops-incident-panel__body whitespace-pre-line">{{ $incident->description }}</p>
         </article>
 
         <article class="ops-incident-panel" data-severity="{{ $incident->severity->value }}">
-            <p class="ops-incident-panel__eyebrow">{{ __('Room and evidence') }}</p>
+            <p class="ops-incident-panel__eyebrow">ห้องและหลักฐาน</p>
             <h2 class="ops-incident-panel__title">{{ $incident->room?->name ?? __('No room recorded') }}</h2>
             <p class="ops-incident-panel__body">
                 {{ $incident->equipment_reference
                     ? __('Equipment reference: :equipment', ['equipment' => $incident->equipment_reference])
-                    : __('No equipment reference was attached to this issue record.') }}
+                    : 'ไม่มีการระบุอุปกรณ์/เครื่องที่เกี่ยวข้องไว้ในรายงานนี้' }}
             </p>
             <p class="ops-incident-panel__body">
                 {{ $incident->attachment_path
-                    ? __('The uploaded file is available through the authenticated incident detail view when the supervisor needs supporting proof.')
-                    : __('This issue was reported without an attachment.') }}
+                    ? 'ไฟล์แนบของรายงานนี้เปิดดูได้จากหน้ารายละเอียดรายงานปัญหาสำหรับผู้ใช้ที่มีสิทธิ์'
+                    : 'รายงานนี้ถูกส่งโดยไม่มีไฟล์แนบ' }}
             </p>
         </article>
     </section>
@@ -152,9 +152,17 @@
                         <div class="ops-incident-sequence__item">
                             <div class="ops-incident-sequence__header">
                                 <div>
-                                    <p class="ops-incident-sequence__title">{{ str_replace('_', ' ', ucfirst($activity->action_type)) }}</p>
+                                    <p class="ops-incident-sequence__title">{{ match ($activity->action_type) {
+                                        'created' => 'สร้างรายการ',
+                                        'status_changed' => 'เปลี่ยนสถานะ',
+                                        'next_action_note' => 'บันทึกแผนติดตาม',
+                                        'resolution_note' => 'บันทึกการแก้ไข',
+                                        'owner_changed' => 'เปลี่ยนผู้รับผิดชอบ',
+                                        'follow_up_updated' => 'อัปเดตกำหนดติดตาม',
+                                        default => str_replace('_', ' ', ucfirst($activity->action_type)),
+                                    } }}</p>
                                     <p class="ops-incident-sequence__meta">
-                                        {{ $activity->actor?->name ?? __('Unknown') }} · {{ $activity->created_at?->format('M d, Y H:i') ?? __('Unknown time') }}
+                                        {{ $activity->actor?->name ?? __('Unknown') }} · {{ $activity->created_at?->format('d/m/Y H:i') ?? __('Unknown time') }}
                                     </p>
                                 </div>
                             </div>

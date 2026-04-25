@@ -22,13 +22,13 @@ class CreateIncident
     {
         if (! in_array($payload['category'], IncidentCategory::values(), true)) {
             throw ValidationException::withMessages([
-                'category' => ['Incident category is invalid.'],
+                'category' => ['หมวดหมู่รายงานปัญหาไม่ถูกต้อง'],
             ]);
         }
 
         if (! in_array($payload['severity'], IncidentSeverity::values(), true)) {
             throw ValidationException::withMessages([
-                'severity' => ['Incident severity is invalid.'],
+                'severity' => ['ระดับความรุนแรงของรายงานปัญหาไม่ถูกต้อง'],
             ]);
         }
 
@@ -36,13 +36,13 @@ class CreateIncident
 
         if ($roomId === null || $roomId <= 0) {
             throw ValidationException::withMessages([
-                'room_id' => ['Room is required.'],
+                'room_id' => ['กรุณาเลือกห้อง'],
             ]);
         }
 
         if (! Room::query()->whereKey($roomId)->where('is_active', true)->exists()) {
             throw ValidationException::withMessages([
-                'room_id' => ['Room is invalid or inactive.'],
+                'room_id' => ['ห้องที่เลือกไม่ถูกต้องหรือไม่ได้เปิดใช้งาน'],
             ]);
         }
 
@@ -56,7 +56,7 @@ class CreateIncident
 
         if ($equipmentReference !== null && mb_strlen($equipmentReference) > 120) {
             throw ValidationException::withMessages([
-                'equipment_reference' => ['Equipment reference must not exceed 120 characters.'],
+                'equipment_reference' => ['อุปกรณ์หรือเครื่องที่เกี่ยวข้องต้องยาวไม่เกิน 120 ตัวอักษร'],
             ]);
         }
 
@@ -77,7 +77,7 @@ class CreateIncident
 
             $incident->activities()->create([
                 'action_type' => 'created',
-                'summary' => 'Incident reported',
+                'summary' => 'แจ้งรายงานปัญหา',
                 'actor_id' => $actorId,
             ]);
 

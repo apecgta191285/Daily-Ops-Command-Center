@@ -76,7 +76,7 @@ class UpdateIncidentAccountability
 
         if ($owner === null || ! in_array($owner->role, [UserRole::Admin, UserRole::Supervisor], true)) {
             throw ValidationException::withMessages([
-                'ownerId' => ['Incident owner must be an administrator or supervisor.'],
+                'ownerId' => ['ผู้รับผิดชอบต้องเป็นผู้ดูแลระบบหรือผู้ดูแลห้องแล็บ'],
             ]);
         }
 
@@ -93,7 +93,7 @@ class UpdateIncidentAccountability
             return Carbon::parse($followUpDueAt)->toDateString();
         } catch (\Throwable) {
             throw ValidationException::withMessages([
-                'followUpDueAt' => ['Follow-up target date is invalid.'],
+                'followUpDueAt' => ['วันที่กำหนดติดตามไม่ถูกต้อง'],
             ]);
         }
     }
@@ -101,21 +101,21 @@ class UpdateIncidentAccountability
     private function ownerSummary(?string $previousOwnerName, ?string $nextOwnerName): string
     {
         return match (true) {
-            $previousOwnerName === null && $nextOwnerName !== null => "Owner assigned to {$nextOwnerName}",
-            $previousOwnerName !== null && $nextOwnerName === null => "Owner cleared from {$previousOwnerName}",
-            default => "Owner reassigned from {$previousOwnerName} to {$nextOwnerName}",
+            $previousOwnerName === null && $nextOwnerName !== null => "กำหนดผู้รับผิดชอบเป็น {$nextOwnerName}",
+            $previousOwnerName !== null && $nextOwnerName === null => "ล้างผู้รับผิดชอบเดิม {$previousOwnerName}",
+            default => "เปลี่ยนผู้รับผิดชอบจาก {$previousOwnerName} เป็น {$nextOwnerName}",
         };
     }
 
     private function followUpDueDateSummary(?string $previousDate, ?string $nextDate): string
     {
-        $formattedPrevious = $previousDate !== null ? Carbon::parse($previousDate)->format('M d, Y') : null;
-        $formattedNext = $nextDate !== null ? Carbon::parse($nextDate)->format('M d, Y') : null;
+        $formattedPrevious = $previousDate !== null ? Carbon::parse($previousDate)->format('d/m/Y') : null;
+        $formattedNext = $nextDate !== null ? Carbon::parse($nextDate)->format('d/m/Y') : null;
 
         return match (true) {
-            $formattedPrevious === null && $formattedNext !== null => "Follow-up target set for {$formattedNext}",
-            $formattedPrevious !== null && $formattedNext === null => "Follow-up target cleared (was {$formattedPrevious})",
-            default => "Follow-up target changed from {$formattedPrevious} to {$formattedNext}",
+            $formattedPrevious === null && $formattedNext !== null => "ตั้งกำหนดติดตามเป็น {$formattedNext}",
+            $formattedPrevious !== null && $formattedNext === null => "ลบกำหนดติดตามเดิม ({$formattedPrevious})",
+            default => "เปลี่ยนกำหนดติดตามจาก {$formattedPrevious} เป็น {$formattedNext}",
         };
     }
 }

@@ -1,4 +1,4 @@
-<x-layouts::auth :title="__('Two-factor authentication')">
+<x-layouts::auth :title="__('การยืนยันตัวตนสองชั้น')">
     <div class="flex flex-col gap-6">
         <div
             class="relative w-full h-auto"
@@ -25,15 +25,15 @@
         >
             <div x-show="!showRecoveryInput">
                 <x-auth-header
-                    :title="__('Authentication code')"
-                    :description="__('Enter the authentication code provided by your authenticator application.')"
+                    :title="__('รหัสยืนยันตัวตน')"
+                    :description="__('กรอกรหัสยืนยันที่ได้จากแอปยืนยันตัวตนของคุณ')"
                 />
             </div>
 
             <div x-show="showRecoveryInput">
                 <x-auth-header
-                    :title="__('Recovery code')"
-                    :description="__('Please confirm access to your account by entering one of your emergency recovery codes.')"
+                    :title="__('รหัสกู้คืน')"
+                    :description="__('กรุณายืนยันการเข้าถึงบัญชีของคุณด้วยรหัสกู้คืนฉุกเฉินที่มีอยู่')"
                 />
             </div>
 
@@ -42,7 +42,7 @@
 
                 <div class="space-y-5">
                     <div x-show="!showRecoveryInput">
-                        <label for="code" class="ops-field-label">{{ __('Authentication code') }}</label>
+                        <label for="code" class="ops-field-label">{{ __('รหัสยืนยันตัวตน') }}</label>
                         <input
                             id="code"
                             type="text"
@@ -58,7 +58,7 @@
                     </div>
 
                     <div x-show="showRecoveryInput">
-                        <label for="recovery_code" class="ops-field-label">{{ __('Recovery code') }}</label>
+                        <label for="recovery_code" class="ops-field-label">{{ __('รหัสกู้คืน') }}</label>
                         <input
                             id="recovery_code"
                             type="text"
@@ -76,15 +76,15 @@
                     </div>
 
                     <button type="submit" class="ops-button ops-button--primary w-full">
-                        {{ __('Continue') }}
+                        {{ __('ดำเนินการต่อ') }}
                     </button>
                 </div>
 
                 <div class="ops-text-muted mt-5 space-x-0.5 text-center text-sm leading-5">
-                    <span>{{ __('or you can') }}</span>
+                    <span>{{ __('หรือคุณสามารถ') }}</span>
                     <div class="auth-link inline cursor-pointer">
-                        <span x-show="!showRecoveryInput" @click="toggleInput()">{{ __('login using a recovery code') }}</span>
-                        <span x-show="showRecoveryInput" @click="toggleInput()">{{ __('login using an authentication code') }}</span>
+                        <span x-show="!showRecoveryInput" @click="toggleInput()">{{ __('เข้าสู่ระบบด้วยรหัสกู้คืน') }}</span>
+                        <span x-show="showRecoveryInput" @click="toggleInput()">{{ __('เข้าสู่ระบบด้วยรหัสยืนยันตัวตน') }}</span>
                     </div>
                 </div>
             </form>

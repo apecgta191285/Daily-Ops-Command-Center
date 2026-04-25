@@ -34,8 +34,8 @@ class DashboardAttentionAssembler
 
         if ($todayRuns === 0) {
             $attentionItems[] = [
-                'title' => 'No checklist runs created today',
-                'description' => 'Staff have not opened today\'s checklist flow yet, so daily completion cannot be tracked.',
+                'title' => 'วันนี้ยังไม่มีรอบการตรวจเช็กถูกสร้าง',
+                'description' => 'ผู้ตรวจห้องยังไม่ได้เริ่มรายการตรวจเช็กของวันนี้ จึงยังติดตามความครบถ้วนของงานประจำวันไม่ได้',
                 'count' => 0,
                 'actionLabel' => null,
                 'url' => null,
@@ -43,9 +43,9 @@ class DashboardAttentionAssembler
             ];
         } elseif ($completionRate < 100) {
             $attentionItems[] = [
-                'title' => 'Checklist completion is still in progress',
+                'title' => 'การตรวจเช็กวันนี้ยังดำเนินการไม่ครบ',
                 'description' => sprintf(
-                    '%d of %d checklist runs are submitted today. Follow up if the team should already be finished.',
+                    'วันนี้ส่งรอบการตรวจเช็กแล้ว %d จาก %d รอบ หากทีมควรทำงานเสร็จแล้ว ควรติดตามต่อทันที',
                     $submittedTodayRuns,
                     $todayRuns,
                 ),
@@ -58,8 +58,8 @@ class DashboardAttentionAssembler
 
         if ($scopeLanesMissingTemplateCount > 0) {
             $attentionItems[] = [
-                'title' => 'Checklist coverage is missing a live scope lane',
-                'description' => 'At least one operating lane still has no active template, so management cannot confirm that the full daily routine is configured.',
+                'title' => 'มีรอบเวลาที่ไม่มีแม่แบบใช้งานจริง',
+                'description' => 'ยังมีอย่างน้อยหนึ่งช่วงตรวจที่ไม่มีแม่แบบใช้งานจริง ทำให้ยืนยันไม่ได้ว่างานประจำวันถูกตั้งค่าครบแล้ว',
                 'count' => $scopeLanesMissingTemplateCount,
                 'actionLabel' => null,
                 'url' => null,
@@ -69,8 +69,8 @@ class DashboardAttentionAssembler
 
         if ($scopeLanesIncompleteCount > 0) {
             $attentionItems[] = [
-                'title' => 'Scope lanes are still incomplete today',
-                'description' => 'One or more live checklist lanes have not started or are still in progress, so the daily routine is not fully closed yet.',
+                'title' => 'บางช่วงตรวจของวันนี้ยังไม่เสร็จ',
+                'description' => 'ยังมีช่วงตรวจที่ยังไม่เริ่มหรือกำลังดำเนินการอยู่ จึงยังปิดงานประจำวันไม่ได้ครบถ้วน',
                 'count' => $scopeLanesIncompleteCount,
                 'actionLabel' => null,
                 'url' => null,
@@ -80,10 +80,10 @@ class DashboardAttentionAssembler
 
         if ($highSeverityUnresolvedCount > 0) {
             $attentionItems[] = [
-                'title' => 'High severity incidents need attention',
-                'description' => 'Open or in-progress incidents with high severity should be reviewed first.',
+                'title' => 'มีรายงานปัญหาความรุนแรงสูงที่ต้องรีบดู',
+                'description' => 'รายงานปัญหาที่ยังเปิดอยู่หรือกำลังดำเนินการและมีความรุนแรงสูงควรถูกตรวจสอบก่อน',
                 'count' => $highSeverityUnresolvedCount,
-                'actionLabel' => 'Review high severity incidents',
+                'actionLabel' => 'ดูปัญหาความรุนแรงสูง',
                 'url' => $this->incidentsIndexUrl(['unresolved' => 1, 'severity' => 'High']),
                 'tone' => 'danger',
             ];
@@ -91,13 +91,13 @@ class DashboardAttentionAssembler
 
         if ($staleUnresolvedCount > 0) {
             $attentionItems[] = [
-                'title' => 'Unresolved incidents are going stale',
+                'title' => 'มีรายงานปัญหาที่ยังค้างนานเกินควร',
                 'description' => sprintf(
-                    'These incidents have stayed unresolved for at least %d days and may need follow-up.',
+                    'รายงานปัญหาเหล่านี้ยังไม่ถูกแก้ไขมาแล้วอย่างน้อย %d วัน และควรได้รับการติดตาม',
                     IncidentStalePolicy::thresholdDays(),
                 ),
                 'count' => $staleUnresolvedCount,
-                'actionLabel' => 'Review stale incidents',
+                'actionLabel' => 'ดูปัญหาที่ค้างนาน',
                 'url' => $this->incidentsIndexUrl(['unresolved' => 1, 'stale' => 1]),
                 'tone' => 'warning',
             ];
@@ -105,10 +105,10 @@ class DashboardAttentionAssembler
 
         if ($unownedUnresolvedCount > 0) {
             $attentionItems[] = [
-                'title' => 'Unowned incidents need accountability',
-                'description' => 'Some unresolved incidents still do not have a management owner, so the next move is not clearly carried by anyone yet.',
+                'title' => 'มีรายงานปัญหาที่ไม่มีผู้รับผิดชอบ',
+                'description' => 'ยังมีรายงานปัญหาที่ยังไม่ปิดและยังไม่มีผู้รับผิดชอบ ทำให้ขั้นตอนถัดไปยังไม่ชัดว่าใครเป็นคนดูแล',
                 'count' => $unownedUnresolvedCount,
-                'actionLabel' => 'Review unowned incidents',
+                'actionLabel' => 'ดูกลุ่มปัญหาที่ไม่มีผู้รับผิดชอบ',
                 'url' => $this->incidentsIndexUrl(['unowned' => 1]),
                 'tone' => 'warning',
             ];
@@ -116,10 +116,10 @@ class DashboardAttentionAssembler
 
         if ($overdueFollowUpCount > 0) {
             $attentionItems[] = [
-                'title' => 'Follow-up targets have already passed',
-                'description' => 'One or more unresolved incidents are now beyond their target review date and should be checked before they turn into passive queue debt.',
+                'title' => 'มีรายงานปัญหาที่เลยกำหนดติดตามแล้ว',
+                'description' => 'มีอย่างน้อยหนึ่งรายงานปัญหาที่ยังไม่ปิดและเลยวันที่กำหนดติดตามแล้ว ควรตรวจสอบก่อนจะกลายเป็นงานค้างในคิว',
                 'count' => $overdueFollowUpCount,
-                'actionLabel' => 'Review overdue follow-up',
+                'actionLabel' => 'ดูกลุ่มที่เลยกำหนดติดตาม',
                 'url' => $this->incidentsIndexUrl(['overdue' => 1]),
                 'tone' => 'danger',
             ];

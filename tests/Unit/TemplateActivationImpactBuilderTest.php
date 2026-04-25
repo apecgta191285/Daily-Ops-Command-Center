@@ -16,7 +16,7 @@ test('template activation impact builder explains draft live and replacement sta
         currentLiveTemplate: null,
     );
 
-    expect($draftImpact['title'])->toBe('Draft mode')
+    expect($draftImpact['title'])->toBe('โหมดฉบับร่าง')
         ->and($draftImpact['tone'])->toBe('info');
 
     $liveTemplate = new ChecklistTemplate([
@@ -32,9 +32,9 @@ test('template activation impact builder explains draft live and replacement sta
         currentLiveTemplate: $liveTemplate,
     );
 
-    expect($replacementImpact['title'])->toBe('Activation will retire the current live template for this scope')
+    expect($replacementImpact['title'])->toBe('การเปิดใช้งานจะยกเลิกแม่แบบที่ใช้งานจริงเดิมของรอบเวลานี้')
         ->and($replacementImpact['description'])->toContain('Current live template')
-        ->and($replacementImpact['description'])->toContain('live Opening use')
-        ->and($replacementImpact['description'])->toContain('3 recorded run(s)')
+        ->and($replacementImpact['description'])->toContain('รอบ Opening')
+        ->and($replacementImpact['description'])->toContain('3 รอบ')
         ->and($replacementImpact['tone'])->toBe('warning');
 });

@@ -37,38 +37,38 @@ test('admin sees management navigation links for dashboard incidents incident hi
     $response = $this->actingAs($this->admin)->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('Dashboard');
-    $response->assertSee('Incidents');
-    $response->assertSee('Incident History');
-    $response->assertSee('Run History');
-    $response->assertSee('Checklist Templates');
-    $response->assertSee('Users');
-    $response->assertDontSee('Checklist Today');
-    $response->assertDontSee('Report Incident');
+    $response->assertSee('แดชบอร์ดภาพรวม');
+    $response->assertSee('คิวปัญหา');
+    $response->assertSee('ประวัติรายงานปัญหา');
+    $response->assertSee('ประวัติรอบการตรวจเช็ก');
+    $response->assertSee('แม่แบบรายการตรวจ');
+    $response->assertSee('ผู้ใช้งาน');
+    $response->assertDontSee(route('checklists.runs.today'), false);
+    $response->assertDontSee(route('incidents.create'), false);
 });
 
 test('supervisor sees dashboard incidents incident history and run history navigation but not templates', function () {
     $response = $this->actingAs($this->supervisor)->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('Dashboard');
-    $response->assertSee('Incidents');
-    $response->assertSee('Incident History');
-    $response->assertSee('Run History');
-    $response->assertDontSee('Checklist Templates');
-    $response->assertDontSee('Users');
-    $response->assertDontSee('Checklist Today');
+    $response->assertSee('แดชบอร์ดภาพรวม');
+    $response->assertSee('คิวปัญหา');
+    $response->assertSee('ประวัติรายงานปัญหา');
+    $response->assertSee('ประวัติรอบการตรวจเช็ก');
+    $response->assertDontSee('แม่แบบรายการตรวจ');
+    $response->assertDontSee('ผู้ใช้งาน');
+    $response->assertDontSee(route('checklists.runs.today'), false);
 });
 
 test('staff sees checklist and incident creation navigation instead of forbidden dashboard links', function () {
     $response = $this->actingAs($this->staff)->get(route('checklists.runs.today'));
 
     $response->assertOk();
-    $response->assertSee('Checklist Today');
-    $response->assertSee('Report Incident');
-    $response->assertDontSee('Dashboard');
-    $response->assertDontSee('Incident History');
-    $response->assertDontSee('Run History');
-    $response->assertDontSee('Checklist Templates');
-    $response->assertDontSee('Users');
+    $response->assertSee('รายการตรวจเช็กวันนี้');
+    $response->assertSee('แจ้งรายงานปัญหา');
+    $response->assertDontSee('แดชบอร์ดภาพรวม');
+    $response->assertDontSee('ประวัติรายงานปัญหา');
+    $response->assertDontSee('ประวัติรอบการตรวจเช็ก');
+    $response->assertDontSee('แม่แบบรายการตรวจ');
+    $response->assertDontSee('ผู้ใช้งาน');
 });

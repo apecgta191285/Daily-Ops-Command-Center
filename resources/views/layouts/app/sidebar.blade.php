@@ -4,7 +4,7 @@
         @include('partials.head')
     </head>
     <body class="ops-shell-body" data-no-progress-bar>
-        <a href="#main-content" class="ops-skip-link">{{ __('Skip to main content') }}</a>
+        <a href="#main-content" class="ops-skip-link">{{ __('ข้ามไปยังเนื้อหาหลัก') }}</a>
 
         <flux:sidebar sticky collapsible="mobile" class="ops-shell-sidebar">
             <flux:sidebar.header>
@@ -52,7 +52,7 @@
 
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                            {{ __('Settings') }}
+                            {{ __('การตั้งค่า') }}
                         </flux:menu.item>
                     </flux:menu.radio.group>
 
@@ -67,7 +67,7 @@
                             class="w-full cursor-pointer"
                             data-test="logout-button"
                         >
-                            {{ __('Log out') }}
+                            {{ __('ออกจากระบบ') }}
                         </flux:menu.item>
                     </form>
                 </flux:menu>

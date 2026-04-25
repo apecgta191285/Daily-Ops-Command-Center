@@ -43,7 +43,7 @@ test('option A demo flow keeps room context from checklist through management fo
     Livewire::actingAs($this->staff)
         ->test(DailyRun::class)
         ->assertSet('errorState', 'room_required')
-        ->assertSee('Choose today&apos;s lab room first', escape: false)
+        ->assertSee('เริ่มจากเลือกห้องที่จะตรวจวันนี้', escape: false)
         ->assertSee($this->roomA->name)
         ->assertSee($this->roomB->name);
 
@@ -55,7 +55,7 @@ test('option A demo flow keeps room context from checklist through management fo
         ->test(DailyRun::class)
         ->assertSet('room', (string) $this->roomA->id)
         ->assertSee($this->roomA->name)
-        ->assertSee('Submit Checklist');
+        ->assertSee('ส่งรายการตรวจเช็ก');
 
     $runItems = $dailyRun->get('runItems');
     $itemIds = array_keys($runItems);
@@ -96,7 +96,7 @@ test('option A demo flow keeps room context from checklist through management fo
         ->set('description', 'PC-12 failed to power on during the opening room check.')
         ->call('submit')
         ->assertHasNoErrors()
-        ->assertSee('Submission Recap')
+        ->assertSee('สรุปการส่งรายงาน')
         ->assertSee($this->roomA->name)
         ->assertSee('PC-12');
 
@@ -138,12 +138,12 @@ test('option A still keeps admin governance usable inside the room-centered case
     $this->actingAs($this->admin)
         ->get(route('templates.index'))
         ->assertOk()
-        ->assertSee('Govern the shared checklist lanes that students use when checking rooms')
-        ->assertSee('room-centered operations');
+        ->assertSee('จัดการแม่แบบรายการตรวจที่ผู้ตรวจห้องใช้จริง')
+        ->assertSee('ยึดห้องเป็นศูนย์กลาง');
 
     $this->actingAs($this->admin)
         ->get(route('users.index'))
         ->assertOk()
-        ->assertSee('lecturer, lab staff, and student duty accounts')
-        ->assertSee('room-check workflow');
+        ->assertSee('อาจารย์ผู้รับผิดชอบ เจ้าหน้าที่แล็บ และผู้ตรวจห้อง')
+        ->assertSee('workflow การตรวจห้อง');
 });

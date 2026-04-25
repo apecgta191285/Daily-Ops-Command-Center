@@ -75,9 +75,9 @@ test('incident history shows recent opened and resolved slices for selected rang
     $response = $this->actingAs($this->admin)->get('/incidents/history');
 
     $response->assertOk();
-    $response->assertSee('Incident History');
-    $response->assertSee('Recent incident movement');
-    $response->assertSee('Still active');
+    $response->assertSee('ประวัติรายงานปัญหา');
+    $response->assertSee('การเคลื่อนไหวของรายงานปัญหาล่าสุด');
+    $response->assertSee('ยังไม่ปิด');
     $response->assertSee($openedStillActive->title);
     $response->assertSee($room->name);
     $response->assertSee('PC-21');
@@ -142,12 +142,12 @@ test('printable incident summary shows evidence and accountability snapshot', fu
     $response = $this->actingAs($this->admin)->get(route('incidents.print', $incident));
 
     $response->assertOk();
-    $response->assertSee('Incident summary print view');
-    $response->assertSee('Print summary');
+    $response->assertSee('มุมมองพิมพ์สรุปรายงานปัญหา');
+    $response->assertSee('พิมพ์สรุปรายงาน');
     $response->assertSee('Printer queue jam on lab floor');
     $response->assertSee($room->name);
     $response->assertSee('Printer-Queue-A');
-    $response->assertSee('Queue pressure snapshot');
+    $response->assertSee('สรุปภาระการติดตาม');
     $response->assertSee($owner->name);
-    $response->assertSee('Activity trail');
+    $response->assertSee('ลำดับเหตุการณ์');
 });

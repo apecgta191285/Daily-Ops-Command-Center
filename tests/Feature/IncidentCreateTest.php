@@ -52,13 +52,13 @@ test('incident creation with all required fields persists correctly', function (
         ->set('description', 'PC-99 will not boot at all.')
         ->call('submit')
         ->assertHasNoErrors()
-        ->assertSee('Submission Recap')
-        ->assertSee('What Happens Next')
+        ->assertSee('สรุปการส่งรายงาน')
+        ->assertSee('ขั้นตอนถัดไป')
         ->assertSee($this->room->name)
         ->assertSee('PC-99')
         ->assertSeeHtml('ops-recap-panel')
         ->assertSeeHtml('ops-next-steps')
-        ->assertSee('Report another incident');
+        ->assertSee('แจ้งรายงานปัญหาอีกใบ');
 
     // Verify incident was created
     expect(Incident::count())->toBe($incidentCountBefore + 1);
@@ -80,7 +80,7 @@ test('incident creation with all required fields persists correctly', function (
 
     $activity = $incident->activities()->first();
     expect($activity->action_type)->toBe('created');
-    expect($activity->summary)->toBe('Incident reported');
+    expect($activity->summary)->toBe('แจ้งรายงานปัญหา');
     expect($activity->actor_id)->toBe($this->operatorA->id);
 });
 
@@ -98,8 +98,8 @@ test('incident create page pauses reporting when no active room is available', f
 
     Livewire::actingAs($this->operatorA)
         ->test(Create::class)
-        ->assertSee('No active lab room is available right now')
-        ->assertSee('Every incident in this workflow must stay tied to one room.')
+        ->assertSee('ตอนนี้ยังไม่มีห้องที่เปิดใช้งานอยู่')
+        ->assertSee('รายงานปัญหาทุกใบใน workflow นี้ต้องผูกกับห้องหนึ่งห้องเสมอ')
         ->call('submit')
         ->assertHasErrors(['roomId']);
 
@@ -194,20 +194,20 @@ test('incident create page can prefill checklist follow-up context from query st
     Livewire::withQueryParams([
         'from' => 'checklist',
         'checklist_scope' => 'opening',
-        'title' => 'Checklist follow-up issue',
+        'title' => 'รายงานติดตามจากรายการตรวจเช็ก',
         'category' => 'อื่น ๆ',
         'severity' => 'Medium',
-        'description' => "Follow-up from the daily checklist.\nItems marked Not Done: Printer",
+        'description' => "ติดตามต่อจากรายการตรวจเช็กประจำวัน\nรายการที่ไม่เรียบร้อย: Printer",
         'room' => (string) $this->room->id,
     ])
         ->actingAs($this->operatorA)
         ->test(Create::class)
         ->assertSet('checklistReturnScope', 'opening')
         ->assertSet('roomId', (string) $this->room->id)
-        ->assertSet('title', 'Checklist follow-up issue')
+        ->assertSet('title', 'รายงานติดตามจากรายการตรวจเช็ก')
         ->assertSet('category', 'อื่น ๆ')
         ->assertSet('severity', 'Medium')
-        ->assertSet('description', "Follow-up from the daily checklist.\nItems marked Not Done: Printer");
+        ->assertSet('description', "ติดตามต่อจากรายการตรวจเช็กประจำวัน\nรายการที่ไม่เรียบร้อย: Printer");
 });
 
 test('incident creation outcome screen can reset back to a fresh form', function () {
@@ -225,30 +225,30 @@ test('incident creation outcome screen can reset back to a fresh form', function
     $component
         ->call('startAnother')
         ->assertSet('submissionRecap', null)
-        ->assertSee('Create incident');
+        ->assertSee('ส่งรายงานปัญหา');
 });
 
 test('incident creation outcome screen keeps checklist return path when prefilled from checklist', function () {
     Livewire::withQueryParams([
         'from' => 'checklist',
         'checklist_scope' => 'opening',
-        'title' => 'Checklist follow-up issue',
+        'title' => 'รายงานติดตามจากรายการตรวจเช็ก',
         'category' => 'อื่น ๆ',
         'severity' => 'Medium',
-        'description' => "Follow-up from the daily checklist.\nItems marked Not Done: Printer",
+        'description' => "ติดตามต่อจากรายการตรวจเช็กประจำวัน\nรายการที่ไม่เรียบร้อย: Printer",
         'room' => (string) $this->room->id,
     ])
         ->actingAs($this->operatorA)
         ->test(Create::class)
-        ->set('title', 'Checklist follow-up issue')
+        ->set('title', 'รายงานติดตามจากรายการตรวจเช็ก')
         ->set('category', 'อื่น ๆ')
         ->set('severity', 'Medium')
         ->set('roomId', (string) $this->room->id)
-        ->set('description', "Follow-up from the daily checklist.\nItems marked Not Done: Printer")
+        ->set('description', "ติดตามต่อจากรายการตรวจเช็กประจำวัน\nรายการที่ไม่เรียบร้อย: Printer")
         ->call('submit')
         ->assertHasNoErrors()
-        ->assertSeeHtml('Back to today&apos;s checklist')
+        ->assertSeeHtml('กลับไปหน้ารายการตรวจเช็กของวันนี้')
         ->assertSeeHtml('/checklists/runs/today/opening')
         ->assertSeeHtml('room='.$this->room->id)
-        ->assertSee('This report is linked to the checklist follow-up path');
+        ->assertSee('รายงานนี้เชื่อมกับเส้นทางติดตามจากรายการตรวจเช็ก');
 });

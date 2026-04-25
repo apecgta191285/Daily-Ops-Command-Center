@@ -13,15 +13,15 @@ test('guest entry surfaces describe the product as a university computer lab ope
     $login = $this->get(route('login'));
 
     $home->assertOk();
-    $home->assertSee('University Computer Lab Daily Ops');
-    $home->assertSee('Run lab opening checks, catch room issues early, and keep the team aligned from one shared workspace.');
-    $home->assertSee('Internal access for duty staff, lab supervisors, and admins');
+    $home->assertSee('ระบบงานประจำวันห้องปฏิบัติการคอมพิวเตอร์');
+    $home->assertSee('ตรวจห้อง แจ้งปัญหา และติดตามงานของทีมจากพื้นที่ทำงานร่วมกันเพียงจุดเดียว');
+    $home->assertSee('ใช้งานภายในสำหรับผู้ตรวจห้อง ผู้ดูแลห้องแล็บ และผู้ดูแลระบบ');
 
     $login->assertOk();
-    $login->assertSee('Use your assigned lab team account to continue into today’s lab work');
-    $login->assertSee('Duty staff A');
-    $login->assertSee('student on duty checking assigned rooms and reporting room issues');
-    $login->assertSee('responsible lecturer or authorized academic owner');
+    $login->assertSee('ใช้บัญชีที่ได้รับมอบหมายเพื่อเข้าสู่งานประจำวันของทีมดูแลห้องคอม');
+    $login->assertSee('ผู้ตรวจห้อง A');
+    $login->assertSee('นักศึกษาที่เข้าเวรตรวจห้องและแจ้งรายงานปัญหาของห้อง');
+    $login->assertSee('อาจารย์ผู้รับผิดชอบหรือผู้ได้รับมอบหมายที่ดูแลแม่แบบ ผู้ใช้งาน แดชบอร์ดภาพรวม และการติดตามงาน');
 });
 
 test('staff checklist surface uses lab-team wording for live checklist work', function () {
@@ -39,9 +39,9 @@ test('staff checklist surface uses lab-team wording for live checklist work', fu
     ]));
 
     $response->assertOk();
-    $response->assertSee('Duty staff checklist');
-    $response->assertSee('Complete the room check, record what actually happened there, and hand off room issues without losing the checklist context.');
-    $response->assertSee('Daily Checklist');
+    $response->assertSee('รายการตรวจเช็กของผู้ตรวจห้อง');
+    $response->assertSee('ตรวจเช็กห้องให้ครบ บันทึกสิ่งที่เกิดขึ้นจริง และส่งต่อปัญหาของห้องโดยไม่ทำให้บริบทของรายการตรวจเช็กหายไป');
+    $response->assertSee('รายการตรวจเช็กประจำวัน');
 });
 
 test('admin governance surfaces use lab-team framing and expose the UI contract guide', function () {
@@ -52,17 +52,17 @@ test('admin governance surfaces use lab-team framing and expose the UI contract 
     $guide = $this->actingAs($admin)->get(route('ui-governance'));
 
     $templates->assertOk();
-    $templates->assertSee('Govern the shared checklist lanes that students use when checking rooms');
-    $templates->assertSee('Live checklist ownership by scope');
+    $templates->assertSee('จัดการแม่แบบรายการตรวจที่ผู้ตรวจห้องใช้จริง');
+    $templates->assertSee('แม่แบบที่ใช้งานจริงในแต่ละรอบตรวจ');
 
     $users->assertOk();
-    $users->assertSee('Govern the lecturer, lab staff, and student duty accounts');
-    $users->assertSee('Manage lab team access from inside the product');
+    $users->assertSee('จัดการบัญชีของอาจารย์ผู้รับผิดชอบ เจ้าหน้าที่แล็บ และผู้ตรวจห้อง');
+    $users->assertSee('จัดการสิทธิ์ของทีมแล็บจากในระบบ');
 
     $guide->assertOk();
-    $guide->assertSee('UI Contract Guide');
-    $guide->assertSee('University Computer Lab Daily Ops');
-    $guide->assertSee('One icon family only');
+    $guide->assertSee('คู่มือคุมสัญญาหน้าจอ');
+    $guide->assertSee('งานประจำวันของห้องปฏิบัติการคอมพิวเตอร์ในมหาวิทยาลัย');
+    $guide->assertSee('ใช้ชุดไอคอนเดียวเท่านั้น');
 });
 
 test('major authenticated surfaces avoid leftover theatrical wording', function () {
@@ -85,15 +85,15 @@ test('major authenticated surfaces avoid leftover theatrical wording', function 
     ]));
 
     $dashboard->assertOk();
-    $dashboard->assertSee('Room-centered lab operations');
+    $dashboard->assertSee('งานปฏิบัติการแบบยึดห้องเป็นศูนย์กลาง');
     $dashboard->assertDontSee('Management visibility');
 
     $usersManage->assertOk();
-    $usersManage->assertSee('Account setup');
+    $usersManage->assertSee('การตั้งค่าบัญชีผู้ใช้');
     $usersManage->assertDontSee('database rituals');
 
     $templateManage->assertOk();
-    $templateManage->assertSee('Checklist drafting');
+    $templateManage->assertSee('การจัดทำแม่แบบรายการตรวจ');
     $templateManage->assertDontSee('Authoring pulse');
 
     $checklist->assertOk();

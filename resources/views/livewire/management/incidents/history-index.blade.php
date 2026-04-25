@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Room issue record') }}</p>
                 <h2 class="ops-page__title">{{ __('Incident History') }}</h2>
                 <p class="ops-page-intro__body">
-                    Review what opened, what resolved, and which room issues from the recent stream are still carrying over for the lab team.
+                    ตรวจดูว่ามีปัญหาใดเปิดใหม่ ปัญหาใดแก้ไขแล้ว และปัญหาของห้องใดยังถูกส่งต่อค้างมาถึงทีมดูแล
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Recent incident slices') }}</span>
@@ -29,7 +29,7 @@
                     <div>
                         <p class="ops-eyebrow-label">{{ __('History window') }}</p>
                         <p class="ops-text-muted mt-2 text-sm">
-                            Keep this surface lightweight. We are reviewing the recent room issue record, not building a reporting warehouse.
+                            หน้านี้ตั้งใจให้เบาและตรงประเด็น ใช้ทบทวนประวัติปัญหาของห้องในช่วงล่าสุด ไม่ใช่ระบบรายงานเชิงคลังข้อมูล
                         </p>
                     </div>
 
@@ -93,8 +93,8 @@
 
                 @if ($history['slices'] === [])
                     <x-ops.empty-state
-                        title="No incident movement in this range."
-                        body="When incidents are reported or resolved inside the selected window, this surface will summarize the daily record here."
+                        title="ไม่มีความเคลื่อนไหวของรายงานปัญหาในช่วงเวลานี้"
+                        body="เมื่อมีการแจ้งหรือปิดรายงานปัญหาภายในช่วงเวลาที่เลือก หน้านี้จะสรุปข้อมูลรายวันให้ที่นี่"
                     />
                 @else
                     <div class="ops-incident-history-grid mt-6" data-motion-group data-stagger-base="140" data-stagger-unit="35" data-stagger-max="320">

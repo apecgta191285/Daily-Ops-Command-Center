@@ -1,17 +1,17 @@
-<x-layouts::auth :title="__('Log in')">
+<x-layouts::auth :title="__('เข้าสู่ระบบ')">
     <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Log in to your account')" :description="__('Use your assigned lab team account to continue into today’s lab work')" />
+        <x-auth-header :title="__('เข้าสู่ระบบด้วยบัญชีของคุณ')" :description="__('ใช้บัญชีที่ได้รับมอบหมายเพื่อเข้าสู่งานประจำวันของทีมดูแลห้องคอม')" />
 
         <x-auth-session-status class="text-center" :status="session('status')" />
 
         @if (app()->environment(['local', 'testing']))
             <div class="auth-callout">
-                <p class="auth-callout__eyebrow">{{ __('Local demo accounts') }}</p>
+                <p class="auth-callout__eyebrow">{{ __('บัญชีเดโมสำหรับเครื่อง local') }}</p>
                 <ul class="mt-3 space-y-2">
-                    <li><strong class="ops-text-heading">Admin</strong>: <code>admin@example.com</code> / <code>password</code> — {{ __('responsible lecturer or authorized academic owner handling templates, users, dashboard review, and follow-up') }}</li>
-                    <li><strong class="ops-text-heading">Supervisor</strong>: <code>supervisor@example.com</code> / <code>password</code> — {{ __('lab staff or room caretaker reviewing dashboard, queue, and room-specific incident follow-up') }}</li>
-                    <li><strong class="ops-text-heading">Duty staff A</strong>: <code>operatora@example.com</code> / <code>password</code> — {{ __('student on duty checking assigned rooms and reporting room issues') }}</li>
-                    <li><strong class="ops-text-heading">Duty staff B</strong>: <code>operatorb@example.com</code> / <code>password</code> — {{ __('second student-on-duty account for multi-room demo walkthroughs') }}</li>
+                    <li><strong class="ops-text-heading">ผู้ดูแลระบบ</strong>: <code>admin@example.com</code> / <code>password</code> — {{ __('อาจารย์ผู้รับผิดชอบหรือผู้ได้รับมอบหมายที่ดูแลแม่แบบ ผู้ใช้งาน แดชบอร์ดภาพรวม และการติดตามงาน') }}</li>
+                    <li><strong class="ops-text-heading">ผู้ดูแลห้องแล็บ</strong>: <code>supervisor@example.com</code> / <code>password</code> — {{ __('เจ้าหน้าที่แล็บหรือผู้ดูแลห้องที่ตรวจแดชบอร์ด คิวปัญหา และการติดตามรายงานปัญหาแยกตามห้อง') }}</li>
+                    <li><strong class="ops-text-heading">ผู้ตรวจห้อง A</strong>: <code>operatora@example.com</code> / <code>password</code> — {{ __('นักศึกษาที่เข้าเวรตรวจห้องและแจ้งรายงานปัญหาของห้อง') }}</li>
+                    <li><strong class="ops-text-heading">ผู้ตรวจห้อง B</strong>: <code>operatorb@example.com</code> / <code>password</code> — {{ __('บัญชีนักศึกษาอีกหนึ่งคนสำหรับใช้เดโมกรณีหลายห้อง') }}</li>
                 </ul>
             </div>
         @endif
@@ -20,7 +20,7 @@
             @csrf
 
             <div>
-                <label for="email" class="ops-field-label">{{ __('Email address') }}</label>
+                <label for="email" class="ops-field-label">{{ __('อีเมล') }}</label>
                 <input
                     id="email"
                     name="email"
@@ -37,11 +37,11 @@
 
             <div>
                 <div class="flex items-center justify-between gap-3">
-                    <label for="password" class="ops-field-label !mb-0">{{ __('Password') }}</label>
+                    <label for="password" class="ops-field-label !mb-0">{{ __('รหัสผ่าน') }}</label>
 
                     @if (Route::has('password.request'))
                         <a class="auth-link" href="{{ route('password.request') }}" wire:navigate>
-                            {{ __('Forgot your password?') }}
+                            {{ __('ลืมรหัสผ่านใช่หรือไม่') }}
                         </a>
                     @endif
                 </div>
@@ -52,7 +52,7 @@
                     type="password"
                     required
                     autocomplete="current-password"
-                    placeholder="{{ __('Password') }}"
+                    placeholder="{{ __('รหัสผ่าน') }}"
                     class="ops-control"
                 >
                 @error('password') <span class="ops-field-error">{{ $message }}</span> @enderror
@@ -60,12 +60,12 @@
 
             <label class="auth-checkbox">
                 <input type="checkbox" name="remember" value="1" @checked(old('remember')) class="auth-checkbox__input">
-                <span class="auth-checkbox__label">{{ __('Remember me') }}</span>
+                <span class="auth-checkbox__label">{{ __('จดจำการเข้าสู่ระบบ') }}</span>
             </label>
 
             <div class="flex items-center justify-end">
                 <button type="submit" class="ops-button ops-button--primary w-full" data-test="login-button">
-                    {{ __('Log in') }}
+                    {{ __('เข้าสู่ระบบ') }}
                 </button>
             </div>
         </form>

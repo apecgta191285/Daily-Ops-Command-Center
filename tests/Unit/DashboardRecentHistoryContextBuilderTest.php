@@ -33,7 +33,7 @@ test('dashboard recent history context builder derives unstable and calm states 
     );
 
     expect($unstable['state'])->toBe('unstable');
-    expect($unstable['headline'])->toBe('Recent operating record still shows carryover');
+    expect($unstable['headline'])->toBe('ประวัติล่าสุดยังมีงานค้างต่อเนื่อง');
     expect($unstable['archive']['warning_lanes'])->toBe(1);
     expect($unstable['incidents']['still_active_count'])->toBe(1);
 
@@ -57,5 +57,5 @@ test('dashboard recent history context builder derives unstable and calm states 
     );
 
     expect($calm['state'])->toBe('calm');
-    expect($calm['headline'])->toBe('Recent operating record looks settled');
+    expect($calm['headline'])->toBe('ประวัติล่าสุดอยู่ในสภาพค่อนข้างนิ่ง');
 });

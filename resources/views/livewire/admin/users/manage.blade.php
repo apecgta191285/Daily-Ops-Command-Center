@@ -42,14 +42,14 @@
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>
-                    <p class="ops-hero__eyebrow">Account setup</p>
+                    <p class="ops-hero__eyebrow">การตั้งค่าบัญชีผู้ใช้</p>
                     <h3 class="ops-hero__title">{{ __($this->pageTitle) }}</h3>
                     <p class="ops-hero__lead">
-                        Keep lab team access clear: one role lane, one active access switch, and one controlled password path managed directly inside the product.
+                        ทำให้การเข้าถึงของทีมแล็บชัดเจน: หนึ่งบทบาท หนึ่งสวิตช์เปิดปิดการใช้งาน และหนึ่งเส้นทางจัดการรหัสผ่านที่ดูแลได้จากในระบบ
                     </p>
 
                     <div class="ops-hero__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">{{ $user ? __('Editing existing account') : __('Creating internal account') }}</span>
+                        <span class="ops-shell-chip ops-shell-chip--accent">{{ $user ? 'กำลังแก้ไขบัญชีเดิม' : 'กำลังสร้างบัญชีภายในระบบ' }}</span>
                         <span class="ops-shell-chip">{{ __('Role-aware routing') }}</span>
                         <span class="ops-shell-chip">{{ __('Active gate enforced') }}</span>
                     </div>
@@ -57,10 +57,10 @@
 
                 <aside class="ops-hero__aside">
                     <div>
-                        <p class="ops-hero__aside-title">Selected role</p>
-                        <p class="ops-hero__aside-value">{{ \Illuminate\Support\Str::headline($role ?: 'staff') }}</p>
+                            <p class="ops-hero__aside-title">บทบาทที่เลือก</p>
+                        <p class="ops-hero__aside-value">{{ __($role ?: 'staff') }}</p>
                         <p class="ops-hero__aside-copy">
-                            {{ $is_active ? __('This account will be able to authenticate after save.') : __('This account will remain blocked from authentication after save.') }}
+                            {{ $is_active ? 'บัญชีนี้จะสามารถเข้าสู่ระบบได้หลังบันทึก' : 'บัญชีนี้จะยังถูกบล็อกจากการเข้าสู่ระบบหลังบันทึก' }}
                         </p>
                     </div>
 
@@ -71,7 +71,7 @@
                         </div>
                         <div class="ops-authoring-metric">
                             <p class="ops-authoring-metric__label">{{ __('Mode') }}</p>
-                            <p class="ops-authoring-metric__value">{{ $user ? __('Edit') : __('New') }}</p>
+                            <p class="ops-authoring-metric__value">{{ $user ? 'แก้ไข' : 'ใหม่' }}</p>
                         </div>
                         <div class="ops-authoring-metric">
                             <p class="ops-authoring-metric__label">{{ __('Accounts') }}</p>
@@ -88,9 +88,9 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Lifecycle rhythm</p>
-                                <h3 class="ops-section-heading__title">Provision or revise access in three passes</h3>
-                                <p class="ops-section-heading__body">Set identity first, choose the role lane second, then decide whether the account should be active right now.</p>
+                                <p class="ops-section-heading__eyebrow">ลำดับการจัดการบัญชี</p>
+                                <h3 class="ops-section-heading__title">กำหนดหรือแก้สิทธิ์ใน 3 ขั้นตอน</h3>
+                                <p class="ops-section-heading__body">กำหนดข้อมูลผู้ใช้ก่อน เลือกบทบาทถัดมา แล้วค่อยตัดสินใจว่าบัญชีนี้ควรเปิดใช้งานทันทีหรือไม่</p>
                             </div>
                         </div>
 
@@ -99,24 +99,24 @@
                                 <div class="ops-authoring-rhythm__step">
                                     <span class="ops-step-index">1</span>
                                     <div>
-                                        <p class="ops-authoring-rhythm__title">{{ __('Frame the account') }}</p>
-                                        <p class="ops-authoring-rhythm__body">{{ __('Use a real name and durable email so the roster stays believable and useful as a real operating tool.') }}</p>
+                                        <p class="ops-authoring-rhythm__title">ตั้งข้อมูลบัญชี</p>
+                                        <p class="ops-authoring-rhythm__body">ใช้ชื่อจริงและอีเมลที่ใช้งานจริง เพื่อให้รายชื่อผู้ใช้เชื่อถือได้และใช้เป็นเครื่องมือปฏิบัติงานได้จริง</p>
                                     </div>
                                 </div>
 
                                 <div class="ops-authoring-rhythm__step">
                                     <span class="ops-step-index">2</span>
                                     <div>
-                                        <p class="ops-authoring-rhythm__title">{{ __('Assign the role lane') }}</p>
-                                        <p class="ops-authoring-rhythm__body">{{ __('Pick the smallest role that matches the person’s real responsibility in the product.') }}</p>
+                                        <p class="ops-authoring-rhythm__title">กำหนดบทบาท</p>
+                                        <p class="ops-authoring-rhythm__body">เลือกบทบาทที่เล็กที่สุดแต่ตรงกับความรับผิดชอบจริงของบุคคลนั้นในระบบ</p>
                                     </div>
                                 </div>
 
                                 <div class="ops-authoring-rhythm__step">
                                     <span class="ops-step-index">3</span>
                                     <div>
-                                        <p class="ops-authoring-rhythm__title">{{ __('Confirm access state') }}</p>
-                                        <p class="ops-authoring-rhythm__body">{{ __('Active accounts can sign in immediately. Inactive accounts remain intentionally blocked until re-enabled.') }}</p>
+                                        <p class="ops-authoring-rhythm__title">ยืนยันสถานะการใช้งาน</p>
+                                        <p class="ops-authoring-rhythm__body">บัญชีที่เปิดใช้งานจะเข้าสู่ระบบได้ทันที ส่วนบัญชีที่ปิดใช้งานจะถูกบล็อกไว้จนกว่าจะเปิดใหม่</p>
                                     </div>
                                 </div>
                             </div>
@@ -126,21 +126,21 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="80">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Identity</p>
-                                <h3 class="ops-section-heading__title">Core account details</h3>
-                                <p class="ops-section-heading__body">Keep the roster trustworthy by maintaining the same name and email people will actually use to access the product.</p>
+                                <p class="ops-section-heading__eyebrow">ข้อมูลตัวตน</p>
+                                <h3 class="ops-section-heading__title">ข้อมูลหลักของบัญชี</h3>
+                                <p class="ops-section-heading__body">ทำให้รายชื่อผู้ใช้น่าเชื่อถือด้วยชื่อและอีเมลชุดเดียวกับที่ผู้ใช้จะใช้เข้าสู่ระบบจริง</p>
                             </div>
                         </div>
 
                         <div class="ops-card__body space-y-6">
                             <div>
-                                <label for="name" class="ops-field-label">Name <span class="ops-required-mark">*</span></label>
+                                <label for="name" class="ops-field-label">ชื่อ <span class="ops-required-mark">*</span></label>
                                 <input id="name" type="text" wire:model="name" class="ops-control" placeholder="เช่น Somchai Ops Lead">
                                 @error('name') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
 
                             <div>
-                                <label for="email" class="ops-field-label">Email <span class="ops-required-mark">*</span></label>
+                                <label for="email" class="ops-field-label">อีเมล <span class="ops-required-mark">*</span></label>
                                 <input id="email" type="email" wire:model="email" class="ops-control" placeholder="name@example.com">
                                 @error('email') <span class="ops-field-error">{{ $message }}</span> @enderror
                             </div>
@@ -150,18 +150,18 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="120">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Access policy</p>
-                                <h3 class="ops-section-heading__title">Role and access state</h3>
-                                <p class="ops-section-heading__body">Role determines what lane the user can operate in. Active state determines whether authentication is allowed at all.</p>
+                                <p class="ops-section-heading__eyebrow">นโยบายการเข้าถึง</p>
+                                <h3 class="ops-section-heading__title">บทบาทและสถานะการใช้งาน</h3>
+                                <p class="ops-section-heading__body">บทบาทจะกำหนดว่าผู้ใช้นี้ทำงานในส่วนใดได้ ส่วนสถานะการใช้งานจะกำหนดว่าเข้าสู่ระบบได้หรือไม่</p>
                             </div>
                         </div>
 
                         <div class="ops-card__body space-y-6">
                             <div>
-                                <label for="role" class="ops-field-label">Role <span class="ops-required-mark">*</span></label>
+                                <label for="role" class="ops-field-label">บทบาท <span class="ops-required-mark">*</span></label>
                                 <select id="role" wire:model.live="role" class="ops-control" @disabled($this->blocksSelfAdminRoleChange)>
                                     @foreach ($roles as $roleOption)
-                                        <option value="{{ $roleOption }}">{{ \Illuminate\Support\Str::headline($roleOption) }}</option>
+                                        <option value="{{ $roleOption }}">{{ __($roleOption) }}</option>
                                     @endforeach
                                 </select>
                                 @if ($this->blocksSelfAdminRoleChange)
@@ -195,7 +195,7 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="160">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Password control</p>
+                                <p class="ops-section-heading__eyebrow">การจัดการรหัสผ่าน</p>
                                 <h3 class="ops-section-heading__title">{{ $user ? __('Optional password reset') : __('Initial password') }}</h3>
                                 <p class="ops-section-heading__body">
                                     {{ __($this->passwordHandoffNote) }}
@@ -228,9 +228,9 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Account check</p>
-                                <h3 class="ops-section-heading__title">Checkpoint summary</h3>
-                                <p class="ops-section-heading__body">Use these signals to confirm whether the account state you are about to save matches the operational intent.</p>
+                                <p class="ops-section-heading__eyebrow">ตรวจสอบบัญชี</p>
+                                <h3 class="ops-section-heading__title">สรุปก่อนบันทึก</h3>
+                                <p class="ops-section-heading__body">ใช้สัญญาณเหล่านี้ตรวจทานว่าบัญชีที่กำลังจะบันทึกตรงกับความตั้งใจในการใช้งานจริงของทีมหรือไม่</p>
                             </div>
                         </div>
 
@@ -246,9 +246,9 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Role governance</p>
-                                <h3 class="ops-section-heading__title">Where this account will sit</h3>
-                                <p class="ops-section-heading__body">Keep the roster balanced by seeing the selected role against the rest of the current operating lanes.</p>
+                                <p class="ops-section-heading__eyebrow">การกำกับตามบทบาท</p>
+                                <h3 class="ops-section-heading__title">ตำแหน่งของบัญชีนี้ในระบบ</h3>
+                                <p class="ops-section-heading__body">ดูบทบาทที่เลือกเทียบกับโครงสร้างบทบาทที่ใช้อยู่ เพื่อให้รายชื่อผู้ใช้สมดุลและไม่หลุดจากงานจริง</p>
                             </div>
                         </div>
 
@@ -293,14 +293,14 @@
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="170">
                         <div class="ops-section-heading">
                             <div>
-                                <p class="ops-section-heading__eyebrow">Save intent</p>
-                                <h3 class="ops-section-heading__title">What happens after save</h3>
-                                <p class="ops-section-heading__body">This flow is intentionally small and internal. It updates real lifecycle state immediately inside the product.</p>
+                                <p class="ops-section-heading__eyebrow">ผลหลังบันทึก</p>
+                                <h3 class="ops-section-heading__title">สิ่งที่จะเกิดขึ้นหลังบันทึก</h3>
+                                <p class="ops-section-heading__body">flow นี้ตั้งใจให้เล็กและเป็นงานภายใน เมื่อบันทึกแล้วสถานะวงจรชีวิตของบัญชีจะเปลี่ยนจริงในระบบทันที</p>
                             </div>
                         </div>
 
                         <div class="ops-card__body">
-                            <x-ops.callout title="No invitation email flow here" tone="neutral">
+                            <x-ops.callout title="ไม่มีขั้นตอนส่งอีเมลเชิญในหน้านี้" tone="neutral">
                                 {{ __('This screen does not introduce invitation emails, approval chains, or external identity sync. Saving here applies the account change directly against the app-owned lifecycle contract.') }}
                             </x-ops.callout>
 

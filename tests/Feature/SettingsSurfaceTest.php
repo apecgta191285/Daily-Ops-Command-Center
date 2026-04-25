@@ -13,10 +13,10 @@ test('authenticated users can view the profile settings surface with the cleaned
     $response = $this->actingAs($user)->get(route('profile.edit'));
 
     $response->assertOk();
-    $response->assertSee('Settings');
-    $response->assertSee('Account settings');
-    $response->assertSee('Profile details');
-    $response->assertSee('What this account controls');
+    $response->assertSee('การตั้งค่า');
+    $response->assertSee('การตั้งค่าบัญชี');
+    $response->assertSee('รายละเอียดโปรไฟล์');
+    $response->assertSee('บัญชีนี้มีผลต่ออะไรบ้าง');
 });
 
 test('authenticated users can view the security settings surface with password and two-factor sections', function () {
@@ -31,7 +31,7 @@ test('authenticated users can view the security settings surface with password a
         ->get(route('security.edit'));
 
     $response->assertOk();
-    $response->assertSee('Password hygiene');
-    $response->assertSee('Two-factor authentication');
-    $response->assertSee('Verification layer');
+    $response->assertSee('ความเหมาะสมของรหัสผ่าน');
+    $response->assertSee('การยืนยันตัวตนแบบสองชั้น');
+    $response->assertSee('ชั้นการยืนยันเพิ่มเติม');
 });

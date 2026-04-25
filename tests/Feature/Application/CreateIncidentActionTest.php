@@ -39,7 +39,7 @@ test('create incident action persists incident attachment and activity log', fun
     Storage::disk('local')->assertExists($incident->attachment_path);
 
     $activity = $incident->activities()->first();
-    expect($activity->summary)->toBe('Incident reported');
+    expect($activity->summary)->toBe('แจ้งรายงานปัญหา');
     expect($activity->actor_id)->toBe($this->operator->id);
 });
 

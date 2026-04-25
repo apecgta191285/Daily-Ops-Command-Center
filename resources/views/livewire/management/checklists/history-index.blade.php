@@ -5,7 +5,7 @@
                 <p class="ops-page-intro__eyebrow">{{ __('Operational history') }}</p>
                 <h2 class="ops-page__title">{{ __('Checklist Run Archive') }}</h2>
                 <p class="ops-page-intro__body">
-                    Review submitted checklist runs by date, room, scope, and operator so the team can revisit what actually happened in each lab room without relying on memory.
+                    ทบทวนรอบการตรวจเช็กที่ส่งแล้วตามวันที่ ห้อง รอบเวลา และผู้ตรวจ เพื่อย้อนดูสิ่งที่เกิดขึ้นจริงในแต่ละห้องโดยไม่ต้องพึ่งความจำ
                 </p>
                 <div class="ops-page-intro__meta">
                     <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Archive review') }}</span>
@@ -29,9 +29,9 @@
                     <div class="ops-section-heading">
                         <div>
                             <p class="ops-section-heading__eyebrow">{{ __('Archive day context') }}</p>
-                            <h3 class="ops-section-heading__title">{{ \Carbon\Carbon::parse($archiveContext['focus_date'])->format('M d, Y') }}</h3>
+                            <h3 class="ops-section-heading__title">{{ \Carbon\Carbon::parse($archiveContext['focus_date'])->format('d/m/Y') }}</h3>
                             <p class="ops-section-heading__body">
-                                Review the visible submitted room coverage for this date before drilling into one run. This keeps the archive useful as an operational recap instead of a flat list only.
+                                ทบทวนภาพรวมของรอบตรวจที่ส่งแล้วในวันที่นี้ก่อนเข้าไปดูแต่ละรอบ เพื่อให้หน้าประวัติใช้งานได้จริงในฐานะสรุปย้อนหลัง ไม่ใช่เพียงรายการแบน ๆ
                             </p>
                         </div>
                     </div>
@@ -141,8 +141,8 @@
             <div class="ops-card__body">
                 @if ($runs->count() === 0)
                     <x-ops.empty-state
-                        title="No archived checklist runs match the current filters."
-                        body="Try another date, scope lane, or operator. This archive only shows runs that were actually submitted."
+                        title="ไม่พบรอบการตรวจเช็กที่ตรงกับตัวกรองที่เลือก"
+                        body="ลองเปลี่ยนวันที่ รอบเวลา หรือผู้ตรวจ หน้านี้จะแสดงเฉพาะรอบที่ถูกส่งแล้วเท่านั้น"
                     />
                 @else
                     <div class="ops-table-wrap">
@@ -163,7 +163,7 @@
                                 @foreach ($runs as $index => $run)
                                     <tr class="ops-table__row" data-motion="scale-soft" data-motion-delay="{{ 120 + ($index * 12) }}">
                                         <td data-label="Run date" class="ops-text-heading px-4 py-4 text-sm font-medium">
-                                            {{ $run->run_date->format('M d, Y') }}
+                                            {{ $run->run_date->format('d/m/Y') }}
                                         </td>
                                         <td data-label="Template" class="ops-text-muted px-4 py-4 text-sm">
                                             {{ $run->template?->title ?? __('Unknown template') }}
@@ -183,7 +183,7 @@
                                             </div>
                                         </td>
                                         <td data-label="Submitted" class="ops-text-muted px-4 py-4 text-sm">
-                                            {{ $run->submitted_at?->format('M d, Y H:i') ?? __('Unknown') }}
+                                            {{ $run->submitted_at?->format('d/m/Y H:i') ?? __('Unknown') }}
                                         </td>
                                         <td data-label="Signals" class="px-4 py-4 text-sm">
                                             <div class="flex flex-wrap items-center gap-2">

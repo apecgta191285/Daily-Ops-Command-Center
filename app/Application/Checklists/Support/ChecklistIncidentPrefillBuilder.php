@@ -26,17 +26,17 @@ class ChecklistIncidentPrefillBuilder
             ->values();
 
         $description = collect([
-            'Follow-up from the daily checklist.',
-            'Template: '.($template?->title ?? '-'),
-            'Run date: '.optional($run->run_date)->format('Y-m-d'),
-            $run->room?->name ? 'Room: '.$run->room->name : null,
-            $notDoneTitles->isNotEmpty() ? 'Items marked Not Done: '.$notDoneTitles->join(', ') : null,
+            'ติดตามต่อจากรายการตรวจเช็กประจำวัน',
+            'แม่แบบ: '.($template?->title ?? '-'),
+            'วันที่ตรวจ: '.optional($run->run_date)->format('d/m/Y'),
+            $run->room?->name ? 'ห้อง: '.$run->room->name : null,
+            $notDoneTitles->isNotEmpty() ? 'รายการที่ไม่เรียบร้อย: '.$notDoneTitles->join(', ') : null,
         ])
             ->filter()
             ->implode("\n");
 
         return new ChecklistIncidentPrefill(
-            title: 'Checklist follow-up issue',
+            title: 'รายงานติดตามจากรายการตรวจเช็ก',
             category: IncidentCategory::Other->value,
             severity: $notDoneTitles->isNotEmpty()
                 ? IncidentSeverity::Medium->value

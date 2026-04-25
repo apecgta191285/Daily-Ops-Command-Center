@@ -309,7 +309,7 @@
         @apply flex items-center;
         background:
             linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 30%),
-            color-mix(in srgb, var(--app-content-bg) 95%, white);
+            color-mix(in srgb, var(--app-surface-elevated) 96%, white);
     }
 
     .welcome-stage__aside-card {
@@ -324,18 +324,18 @@
 
     .welcome-stage__aside-eyebrow {
         @apply text-[0.72rem] font-bold uppercase tracking-[0.2em];
-        color: #52525b;
+        color: var(--app-text-muted-strong);
     }
 
     .welcome-stage__aside-title {
         @apply text-2xl font-semibold tracking-tight;
         font-family: var(--font-display);
-        color: #09090b;
+        color: var(--app-heading);
     }
 
     .welcome-stage__aside-copy {
         @apply text-sm leading-6;
-        color: #3f3f46;
+        color: var(--app-text-muted-strong);
     }
 
     .welcome-stage__steps {
@@ -344,19 +344,19 @@
 
     .welcome-stage__step {
         @apply flex gap-3 rounded-2xl border px-4 py-4;
-        border-color: var(--app-border);
-        background-color: color-mix(in srgb, var(--app-surface) 72%, white);
+        border-color: color-mix(in srgb, var(--app-border) 94%, white);
+        background-color: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);
     }
 
     .welcome-stage__step-title {
         @apply text-sm font-semibold;
-        color: #18181b;
+        color: var(--app-heading);
     }
 
     .welcome-stage__step-copy {
         @apply mt-1 text-sm leading-6;
-        color: #3f3f46;
+        color: var(--app-text-muted-strong);
     }
 
     .welcome-stage__aside-footer {
@@ -364,20 +364,20 @@
     }
 
     .welcome-stage__aside .ops-button--primary {
-        background-color: #1d4ed8;
-        border-color: #1d4ed8;
+        background-color: var(--app-info-text);
+        border-color: var(--app-info-text);
         color: #ffffff;
     }
 
     .welcome-stage__aside .ops-button--primary:hover {
-        background-color: #1e40af;
-        border-color: #1e40af;
+        background-color: color-mix(in srgb, var(--app-info-text) 88%, black);
+        border-color: color-mix(in srgb, var(--app-info-text) 88%, black);
     }
 
     .welcome-stage__aside .ops-inline-note {
-        border-color: #d4d4d8;
-        background-color: #f4f4f5;
-        color: #18181b;
+        border-color: color-mix(in srgb, var(--app-border) 92%, white);
+        background-color: var(--app-surface-subtle);
+        color: var(--app-heading);
     }
 
     @media (max-width: 1023px) {

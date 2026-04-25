@@ -98,7 +98,7 @@ class Create extends Component
     public function submit(): void
     {
         if (count($this->rooms) === 0) {
-            $this->addError('roomId', 'No active room is available right now.');
+            $this->addError('roomId', 'ยังไม่มีห้องที่เปิดใช้งานอยู่ในขณะนี้');
 
             return;
         }
@@ -126,10 +126,10 @@ class Create extends Component
             'title' => $incident->title,
             'category' => $incident->category->value,
             'severity' => $incident->severity->value,
-            'room_name' => $incident->room?->name ?? 'Unknown room',
+            'room_name' => $incident->room?->name ?? 'ไม่พบข้อมูลห้อง',
             'equipment_reference' => $incident->equipment_reference,
             'status' => $incident->status->value,
-            'created_at' => $incident->created_at?->format('M d, Y H:i') ?? now()->format('M d, Y H:i'),
+            'created_at' => $incident->created_at?->format('d/m/Y H:i') ?? now()->format('d/m/Y H:i'),
             'has_attachment' => $incident->attachment_path !== null,
             'from_checklist' => $this->prefilledFromChecklist,
         ];

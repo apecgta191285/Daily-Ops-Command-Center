@@ -28,7 +28,7 @@ class SubmitDailyRun
 
         if ($persistedItems->count() !== count($runItems)) {
             throw ValidationException::withMessages([
-                'runItems' => ['Checklist submission payload does not match the persisted run items.'],
+                'runItems' => ['ข้อมูลที่ส่งมาไม่ตรงกับรายการตรวจเช็กที่บันทึกไว้ในระบบ'],
             ]);
         }
 
@@ -37,7 +37,7 @@ class SubmitDailyRun
 
         if ($invalidIds->isNotEmpty()) {
             throw ValidationException::withMessages([
-                'runItems' => ['Checklist submission payload contains unknown run items.'],
+                'runItems' => ['ข้อมูลที่ส่งมามีรายการตรวจเช็กที่ระบบไม่รู้จัก'],
             ]);
         }
 
@@ -47,7 +47,7 @@ class SubmitDailyRun
             foreach ($runItems as $id => $data) {
                 if (! in_array($data['result'], $allowedResults, true)) {
                     throw ValidationException::withMessages([
-                        "runItems.{$id}.result" => ['Please answer Done or Not Done.'],
+                        "runItems.{$id}.result" => ['กรุณาเลือกผลตรวจว่าเรียบร้อยหรือไม่เรียบร้อย'],
                     ]);
                 }
 

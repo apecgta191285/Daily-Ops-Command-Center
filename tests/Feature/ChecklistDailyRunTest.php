@@ -58,10 +58,10 @@ test('daily checklist shows a runtime board when multiple scope templates are li
         ->withQueryParams(['room' => $this->room->id])
         ->test(DailyRun::class)
         ->assertSet('errorState', 'scope_required')
-        ->assertSee('Choose the checklist lane for this room')
-        ->assertSee('Opening')
-        ->assertSee('Closing')
-        ->assertSee('Enter lane');
+        ->assertSee('เลือกรอบตรวจที่ถูกต้อง')
+        ->assertSee('เปิดห้อง')
+        ->assertSee('ปิดห้อง')
+        ->assertSee('เข้ารอบตรวจ');
 });
 
 test('auto-create and no-duplicate proof', function () {
@@ -165,9 +165,9 @@ test('daily checklist shows recent submission context for the current operator',
 
     Livewire::actingAs($this->operatorB)
         ->test(DailyRun::class)
-        ->assertSee('Recent Submission Context')
-        ->assertSee('1 not done')
-        ->assertSee('2 note(s)');
+        ->assertSee('บริบทจากการส่งล่าสุด')
+        ->assertSee('ไม่เรียบร้อย 1 รายการ')
+        ->assertSee('มีบันทึก 2 รายการ');
 });
 
 test('daily checklist runtime board stays anchored to today instead of older runs', function () {
@@ -212,8 +212,8 @@ test('daily checklist shows lightweight anomaly memory for items with recent not
 
     Livewire::actingAs($this->operatorB)
         ->test(DailyRun::class)
-        ->assertSee('Recent issue memory:')
-        ->assertSee('marked Not Done 1 time(s)')
+        ->assertSee('ประวัติปัญหาล่าสุด:')
+        ->assertSee('ถูกทำเครื่องหมายว่าไม่เรียบร้อย 1 ครั้ง')
         ->assertSee('Door jammed');
 });
 
@@ -239,8 +239,8 @@ test('D-016 configuration error proof', function () {
     Livewire::actingAs($this->operatorB)
         ->test(DailyRun::class)
         ->assertSet('errorState', 'zero')
-        ->assertSee('Configuration Error')
-        ->assertSee('No active checklist template exists');
+        ->assertSee('ยังไม่มีแม่แบบรายการตรวจที่เปิดใช้งาน')
+        ->assertSee('ยังไม่มีแม่แบบรายการตรวจที่เปิดใช้งาน');
 });
 
 test('daily checklist blocks room-tied execution when no active room exists', function () {
@@ -249,8 +249,8 @@ test('daily checklist blocks room-tied execution when no active room exists', fu
     Livewire::actingAs($this->operatorB)
         ->test(DailyRun::class)
         ->assertSet('errorState', 'room_missing')
-        ->assertSee('Room setup required')
-        ->assertSee('There are no active rooms available yet');
+        ->assertSee('ต้องตั้งค่าห้องก่อน')
+        ->assertSee('ยังไม่มีห้องที่เปิดใช้งานอยู่ ผู้ตรวจจึงยังเริ่มรอบการตรวจที่ผูกกับห้องไม่ได้');
 
     expect(ChecklistRun::query()
         ->where('created_by', $this->operatorB->id)
@@ -270,7 +270,8 @@ test('submission success feedback reflects not-done answers', function () {
 
     $component->call('submit')
         ->assertHasNoErrors()
-        ->assertSee('Checklist submitted successfully. 1 item(s) were marked Not Done.');
+        ->assertSee('สรุปการส่งรอบตรวจ')
+        ->assertSee('ไม่เรียบร้อย 1 รายการ');
 });
 
 test('submitted checklist recap offers a follow-up incident shortcut when items are not done', function () {
@@ -293,13 +294,13 @@ test('submitted checklist recap offers a follow-up incident shortcut when items 
     $prefillUrl = $component->get('incidentPrefillUrl');
 
     expect($prefillUrl)->toContain('/incidents/new');
-    expect(urldecode($prefillUrl))->toContain('Checklist follow-up issue');
+    expect(urldecode($prefillUrl))->toContain('รายงานติดตามจากรายการตรวจเช็ก');
     expect(urldecode($prefillUrl))->toContain('Unlock main door');
     expect($prefillUrl)->toContain('checklist_scope=opening');
 
     $component
-        ->assertSee('Submission Recap')
-        ->assertSee('Report follow-up incident');
+        ->assertSee('สรุปการส่งรอบตรวจ')
+        ->assertSee('แจ้งรายงานปัญหาเพื่อติดตามต่อ');
 });
 
 test('submission recap highlights repeated not-done items when history exists', function () {
@@ -325,6 +326,6 @@ test('submission recap highlights repeated not-done items when history exists', 
 
     $component->call('submit')
         ->assertHasNoErrors()
-        ->assertSee('Repeated issue memory:')
+        ->assertSee('ประวัติปัญหาที่เกิดซ้ำ')
         ->assertSee('Unlock main door');
 });

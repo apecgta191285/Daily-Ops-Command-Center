@@ -33,33 +33,33 @@ test('admin can access user roster inside the main application shell', function 
     $response = $this->actingAs($this->admin)->get(route('users.index'));
 
     $response->assertOk();
-    $response->assertSee('Team Access Roster');
-    $response->assertSee('Create user');
-    $response->assertSee('Coverage by role lane');
+    $response->assertSee('บัญชีผู้ใช้งานในระบบ');
+    $response->assertSee('สร้างผู้ใช้งาน');
+    $response->assertSee('ความครอบคลุมของแต่ละบทบาท');
     $response->assertSee('Dormant Operator');
-    $response->assertSee('Inactive');
-    $response->assertSee('Users');
+    $response->assertSee('ปิดการใช้งาน');
+    $response->assertSee('ผู้ใช้งาน');
 });
 
 test('create user page shows lifecycle and role governance context', function () {
     $response = $this->actingAs($this->admin)->get(route('users.create'));
 
     $response->assertOk();
-    $response->assertSee('Create User Account');
-    $response->assertSee('Provision or revise access in three passes');
-    $response->assertSee('Where this account will sit');
-    $response->assertSee('No invitation email flow here');
+    $response->assertSee('สร้างบัญชีผู้ใช้');
+    $response->assertSee('กำหนดหรือแก้สิทธิ์ใน 3 ขั้นตอน');
+    $response->assertSee('ตำแหน่งของบัญชีนี้ในระบบ');
+    $response->assertSee('ไม่มีขั้นตอนส่งอีเมลเชิญในหน้านี้');
 });
 
 test('edit user page shows existing lifecycle state and self-edit note when applicable', function () {
     $response = $this->actingAs($this->admin)->get(route('users.edit', $this->admin));
 
     $response->assertOk();
-    $response->assertSee('Edit User Account');
-    $response->assertSee('You are editing your own account');
-    $response->assertSee('Your own administrator role cannot be changed from this screen.');
-    $response->assertSee('Your own administrator access cannot be deactivated from this screen.');
-    $response->assertSee('Save account changes');
+    $response->assertSee('แก้ไขบัญชีผู้ใช้');
+    $response->assertSee('คุณกำลังแก้ไขบัญชีของตนเอง');
+    $response->assertSee('ไม่สามารถเปลี่ยนบทบาทผู้ดูแลระบบของบัญชีตัวเองจากหน้านี้ได้');
+    $response->assertSee('ไม่สามารถปิดการใช้งานสิทธิ์ผู้ดูแลระบบของบัญชีตัวเองจากหน้านี้ได้');
+    $response->assertSee('บันทึกการเปลี่ยนแปลงบัญชี');
 });
 
 test('non admin users cannot access user administration routes', function () {

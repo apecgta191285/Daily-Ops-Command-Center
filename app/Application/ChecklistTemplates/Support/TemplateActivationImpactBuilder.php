@@ -23,35 +23,35 @@ class TemplateActivationImpactBuilder
     ): array {
         if (! $isActive) {
             return [
-                'title' => 'Draft mode',
-                'description' => "This template will stay inactive after saving. Use this when you want to prepare a {$scopeLabel} revision without changing the live runtime yet.",
+                'title' => 'โหมดฉบับร่าง',
+                'description' => "แม่แบบนี้จะยังไม่เปิดใช้งานหลังบันทึก ใช้กรณีที่ต้องการเตรียมฉบับแก้ไขของรอบ {$scopeLabel} โดยยังไม่เปลี่ยนรายการตรวจเช็กที่ใช้งานจริง",
                 'tone' => 'info',
             ];
         }
 
         if ($editingTemplate?->exists && $editingTemplate->is_active) {
             return [
-                'title' => 'Live scope template stays in place',
-                'description' => "This template is already the live {$scopeLabel} checklist. Saving keeps it active and updates the current production version for that scope directly.",
+                'title' => 'แม่แบบที่ใช้งานจริงของรอบเวลานี้ยังคงเดิม',
+                'description' => "แม่แบบนี้เป็นรายการตรวจเช็กที่ใช้งานจริงของรอบ {$scopeLabel} อยู่แล้ว การบันทึกจะคงสถานะใช้งานและอัปเดตเวอร์ชันที่ใช้จริงของรอบนี้โดยตรง",
                 'tone' => 'info',
             ];
         }
 
         if ($currentLiveTemplate) {
             $historyNote = $currentLiveTemplate->runs_count > 0
-                ? " The current live template already has {$currentLiveTemplate->runs_count} recorded run(s)."
+                ? " แม่แบบที่ใช้งานจริงปัจจุบันมีประวัติรอบการตรวจเช็กอยู่แล้ว {$currentLiveTemplate->runs_count} รอบ"
                 : '';
 
             return [
-                'title' => 'Activation will retire the current live template for this scope',
-                'description' => "Saving this template as active will retire \"{$currentLiveTemplate->title}\" from live {$scopeLabel} use and replace that scope immediately.{$historyNote}",
+                'title' => 'การเปิดใช้งานจะยกเลิกแม่แบบที่ใช้งานจริงเดิมของรอบเวลานี้',
+                'description' => "หากบันทึกแม่แบบนี้เป็นแบบใช้งานจริง จะยกเลิก \"{$currentLiveTemplate->title}\" จากการใช้งานจริงของรอบ {$scopeLabel} และแทนที่ทันที{$historyNote}",
                 'tone' => 'warning',
             ];
         }
 
         return [
-            'title' => 'This becomes the first live template for this scope',
-            'description' => "No other active {$scopeLabel} template exists right now, so saving this template as active will make it the live checklist for that scope.",
+            'title' => 'นี่จะเป็นแม่แบบใช้งานจริงชุดแรกของรอบเวลานี้',
+            'description' => "ขณะนี้ยังไม่มีแม่แบบ {$scopeLabel} ที่เปิดใช้งานอยู่ ดังนั้นเมื่อบันทึกแม่แบบนี้เป็นแบบใช้งานจริง ระบบจะใช้แม่แบบนี้เป็นรายการตรวจเช็กหลักของรอบนี้",
             'tone' => 'info',
         ];
     }

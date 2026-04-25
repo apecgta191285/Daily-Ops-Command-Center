@@ -95,22 +95,22 @@ class Manage extends Component
         $template = $saveChecklistTemplate($this->template, $validated);
 
         session()->flash('message', $this->template
-            ? 'Checklist template updated successfully.'
-            : 'Checklist template created successfully.');
+            ? 'อัปเดตแม่แบบรายการตรวจเรียบร้อยแล้ว'
+            : 'สร้างแม่แบบรายการตรวจเรียบร้อยแล้ว');
 
         $this->redirectRoute('templates.edit', $template, navigate: true);
     }
 
     public function getPageTitleProperty(): string
     {
-        return $this->template ? 'Edit Checklist Template' : 'Create Checklist Template';
+        return $this->template ? 'แก้ไขแม่แบบรายการตรวจ' : 'สร้างแม่แบบรายการตรวจ';
     }
 
     public function getPageDescriptionProperty(): string
     {
         return $this->template
-            ? 'Refine the checklist that staff already use in this lab routine. Duplicate historically used templates before making larger structural changes.'
-            : 'Create the checklist template that duty staff will use during the daily lab routine.';
+            ? 'ปรับปรุงแม่แบบรายการตรวจที่ผู้ตรวจห้องใช้อยู่แล้วในงานประจำวัน และควรทำสำเนาแม่แบบที่มีประวัติการใช้งานก่อนแก้โครงสร้างใหญ่'
+            : 'สร้างแม่แบบรายการตรวจที่ผู้ตรวจห้องจะใช้ในงานประจำวันของห้องคอม';
     }
 
     /**
@@ -176,48 +176,48 @@ class Manage extends Component
         if ($summary['item_count'] < 3) {
             $signals[] = [
                 'tone' => 'info',
-                'title' => 'Early draft shape',
-                'body' => 'Add a few more items before activation so the checklist reads like a complete opening, during-day, or closing routine instead of one isolated check.',
+                'title' => 'ฉบับร่างยังมีรายการน้อยเกินไป',
+                'body' => 'ควรเพิ่มรายการตรวจอีกเล็กน้อยก่อนเปิดใช้งาน เพื่อให้แม่แบบอ่านเป็นงานเปิดห้อง ระหว่างวัน หรือปิดห้องที่ครบถ้วนจริง',
             ];
         }
 
         if ($summary['item_count'] >= 6 && $summary['grouped_section_count'] === 0) {
             $signals[] = [
                 'tone' => 'warning',
-                'title' => 'Grouping will improve scan speed',
-                'body' => 'This draft is long enough to benefit from group labels. Use lightweight sections so duty staff can scan the checklist in clear phases instead of one uninterrupted list.',
+                'title' => 'ควรจัดกลุ่มเพื่อให้อ่านง่ายขึ้น',
+                'body' => 'แม่แบบนี้ยาวพอที่จะได้ประโยชน์จากการแบ่งกลุ่มรายการ ใช้ชื่อกลุ่มสั้น ๆ เพื่อให้ผู้ตรวจห้องไล่อ่านเป็นช่วงได้ชัดเจน',
             ];
         }
 
         if ($summary['blank_description_count'] > 0) {
             $signals[] = [
                 'tone' => 'info',
-                'title' => 'Add context where ambiguity matters',
-                'body' => "{$summary['blank_description_count']} item(s) still rely on title alone. Short descriptions help staff interpret unusual checks without overloading every row.",
+                'title' => 'ควรเติมคำอธิบายในจุดที่อาจตีความไม่ตรงกัน',
+                'body' => "ยังมี {$summary['blank_description_count']} รายการที่มีเพียงชื่อรายการ คำอธิบายสั้น ๆ จะช่วยให้ผู้ตรวจห้องเข้าใจรายการที่ไม่คุ้นเคยได้ตรงกันมากขึ้น",
             ];
         }
 
         if ($this->hasRunHistory) {
             $signals[] = [
                 'tone' => 'warning',
-                'title' => 'Revision safety matters here',
-                'body' => "This template already has {$this->runCount} recorded run(s). Duplicate it before major restructuring when you want the historical meaning of past runs to stay obvious.",
+                'title' => 'ควรระวังผลกระทบต่อประวัติเดิม',
+                'body' => "แม่แบบนี้มีประวัติรอบการตรวจเช็กแล้ว {$this->runCount} รอบ หากต้องแก้โครงสร้างใหญ่ควรทำสำเนาก่อน เพื่อให้ความหมายของประวัติเดิมยังอ่านได้ชัดเจน",
             ];
         }
 
         if ($this->is_active) {
             $signals[] = [
                 'tone' => 'success',
-                'title' => 'This draft is pointed at live use',
-                'body' => 'Review ordering, section labels, and required flags carefully. Saving active changes the live checklist duty staff will use next for this scope.',
+                'title' => 'แม่แบบนี้ถูกเตรียมไว้สำหรับใช้งานจริง',
+                'body' => 'ควรตรวจลำดับ ชื่อกลุ่ม และสถานะรายการบังคับให้เรียบร้อยก่อนบันทึก เพราะการบันทึกแบบใช้งานจริงจะมีผลกับรายการตรวจของรอบเวลานี้ทันที',
             ];
         }
 
         if ($signals === []) {
             $signals[] = [
                 'tone' => 'success',
-                'title' => 'Authoring baseline looks healthy',
-                'body' => 'This draft already has enough structure to review calmly. Use the live preview and activation lane to confirm the staff-facing reading order before save.',
+                'title' => 'โครงสร้างของฉบับร่างอยู่ในสภาพที่ดี',
+                'body' => 'แม่แบบนี้มีโครงสร้างพอสำหรับตรวจทานอย่างเป็นระบบแล้ว ใช้ตัวอย่างการแสดงผลและส่วนผลกระทบจากการเปิดใช้งานเพื่อตรวจลำดับการอ่านก่อนบันทึก',
             ];
         }
 
@@ -238,8 +238,8 @@ class Manage extends Component
         return $this->itemsCollection()
             ->map(function (array $item): array {
                 return [
-                    'label' => trim((string) ($item['group_label'] ?? '')) ?: 'Unlabelled sequence',
-                    'title' => trim((string) ($item['title'] ?? '')) ?: 'Untitled checklist item',
+                    'label' => trim((string) ($item['group_label'] ?? '')) ?: 'ลำดับรายการที่ยังไม่ระบุกลุ่ม',
+                    'title' => trim((string) ($item['title'] ?? '')) ?: 'รายการตรวจที่ยังไม่ตั้งชื่อ',
                     'is_required' => (bool) ($item['is_required'] ?? false),
                     'sort_order' => (int) ($item['sort_order'] ?? 0),
                 ];

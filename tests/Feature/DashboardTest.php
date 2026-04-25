@@ -36,22 +36,22 @@ test('management users can visit the dashboard', function () {
     $response = $this->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('Checklist Completion Today');
+    $response->assertSee('ความสำเร็จของรายการตรวจเช็กวันนี้');
     $response->assertSee("{$completionRate}%");
-    $response->assertSee("{$submittedTodayRuns} of {$todayRuns} checklist runs submitted");
+    $response->assertSee("{$submittedTodayRuns} จาก {$todayRuns} รอบตรวจที่ส่งแล้ว");
     $response->assertSee('ops-arc', false);
     $response->assertSee('ops-sparkline', false);
-    $response->assertSee('Workboard Framing');
-    $response->assertSee('Today-first workboard');
-    $response->assertSee('Review today archive');
-    $response->assertSee('Open Incidents');
+    $response->assertSee('ภาพรวมการทำงาน');
+    $response->assertSee('กระดานงานประจำวันนี้');
+    $response->assertSee('ดูประวัติของวันนั้น');
+    $response->assertSee('รายงานปัญหาเปิดใหม่');
     $response->assertSee((string) $openCount);
-    $response->assertSee('In Progress');
+    $response->assertSee('กำลังดำเนินการ');
     $response->assertSee((string) $inProgressCount);
-    $response->assertSee('Resolved');
+    $response->assertSee('แก้ไขแล้ว');
     $response->assertSee((string) $resolvedCount);
-    $response->assertSee('Checklist by Scope');
-    $response->assertSee('Recent Incidents');
+    $response->assertSee('รายการตรวจเช็กแยกตามรอบเวลา');
+    $response->assertSee('รายงานปัญหาล่าสุด');
 });
 
 test('supervisor can visit the dashboard', function () {
@@ -61,7 +61,7 @@ test('supervisor can visit the dashboard', function () {
     $response = $this->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('Checklist Completion Today');
+    $response->assertSee('ความสำเร็จของรายการตรวจเช็กวันนี้');
 });
 
 test('staff users cannot visit the dashboard', function () {
@@ -79,15 +79,15 @@ test('dashboard handles empty data without crashing', function () {
     $response = $this->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('Checklist Completion Today');
+    $response->assertSee('ความสำเร็จของรายการตรวจเช็กวันนี้');
     $response->assertSee('0%');
-    $response->assertSee('0 of 0 checklist runs submitted');
-    $response->assertSee('Today still has open operating lanes');
-    $response->assertSee('Review today archive');
-    $response->assertSee('Checklist by Scope');
-    $response->assertSee('Missing live template');
-    $response->assertSee('No incidents available yet.');
-    $response->assertSee('Once staff report an issue, the latest incidents will appear here');
+    $response->assertSee('0 จาก 0 รอบตรวจที่ส่งแล้ว');
+    $response->assertSee('วันนี้ยังมีช่วงตรวจที่ยังเปิดค้างอยู่');
+    $response->assertSee('ดูประวัติของวันนั้น');
+    $response->assertSee('รายการตรวจเช็กแยกตามรอบเวลา');
+    $response->assertSee('ไม่มีแม่แบบใช้งานจริง');
+    $response->assertSee('ยังไม่มีรายงานปัญหาในตอนนี้');
+    $response->assertSee('เมื่อมีการแจ้งปัญหาจากผู้ตรวจห้อง');
 });
 
 test('recent incidents are newest first limited to five and linked to details', function () {
@@ -144,7 +144,7 @@ test('recent incidents are newest first limited to five and linked to details', 
         $expectedRecentIncidents[1]->title,
     ]);
     $response->assertSee(route('incidents.show', $newestIncident), false);
-    expect(substr_count($content, 'View details'))->toBe(5);
+    expect(substr_count($content, 'ดูรายละเอียด'))->toBe(5);
 });
 
 test('dashboard attention panel highlights unresolved high severity and stale incidents', function () {
@@ -173,19 +173,18 @@ test('dashboard attention panel highlights unresolved high severity and stale in
     $response = $this->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('Needs Attention Today');
-    $response->assertSee('Active lab follow-up load');
-    $response->assertSee('Today still has open operating lanes');
-    $response->assertSee('Ownership and Work Buckets');
-    $response->assertSee('History-Aware Command Layer');
-    $response->assertSee('Review incidents you own');
-    $response->assertSee('High severity incidents need attention');
-    $response->assertSee('Review high severity incidents');
-    $response->assertSee('Review today archive');
+    $response->assertSee('สิ่งที่ต้องดูวันนี้');
+    $response->assertSee('ภาระติดตามของห้องแล็บยังมีอยู่');
+    $response->assertSee('วันนี้ยังมีช่วงตรวจที่ยังเปิดค้างอยู่');
+    $response->assertSee('กลุ่มงานและความรับผิดชอบ');
+    $response->assertSee('ชั้นสรุปจากประวัติ');
+    $response->assertSee('ดูประวัติของวันนั้น');
+    $response->assertSee('มีรายงานปัญหาความรุนแรงสูงที่ต้องรีบดู');
+    $response->assertSee('ดูปัญหาความรุนแรงสูง');
     $response->assertSee(route('incidents.index'), false);
     $response->assertSee('unresolved=1', false);
     $response->assertSee('severity=High', false);
-    $response->assertSee('Unresolved incidents are going stale');
+    $response->assertSee('มีรายงานปัญหาที่ยังค้างนานเกินควร');
     $response->assertSee('stale=1', false);
 });
 
@@ -223,20 +222,19 @@ test('dashboard shows ownership pressure signals and drill-down actions', functi
     $response = $this->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('Unowned incidents need accountability');
-    $response->assertSee('Follow-up targets have already passed');
-    $response->assertSee('Ownership and Work Buckets');
-    $response->assertSee('Active accountability state');
-    $response->assertSee('Follow-up has started slipping past target');
-    $response->assertSee('History-Aware Command Layer');
-    $response->assertSee('Recent carryover detected');
-    $response->assertSee('Recent operating record still shows carryover');
-    $response->assertSee('Overdue follow-up');
-    $response->assertSee('Unowned incidents');
-    $response->assertSee('Owned by you');
-    $response->assertSee('Review unowned incidents');
-    $response->assertSee('Review overdue follow-up');
-    $response->assertSee('Review incidents you own');
+    $response->assertSee('มีรายงานปัญหาที่ไม่มีผู้รับผิดชอบ');
+    $response->assertSee('มีรายงานปัญหาที่เลยกำหนดติดตามแล้ว');
+    $response->assertSee('กลุ่มงานและความรับผิดชอบ');
+    $response->assertSee('ภาระความรับผิดชอบยังต้องติดตาม');
+    $response->assertSee('ประวัติล่าสุดยังมีงานค้างต่อเนื่อง');
+    $response->assertSee('ชั้นสรุปจากประวัติ');
+    $response->assertSee('พบงานค้างต่อเนื่องจากประวัติล่าสุด');
+    $response->assertSee('ติดตามเกินกำหนด');
+    $response->assertSee('ปัญหาที่ไม่มีผู้รับผิดชอบ');
+    $response->assertSee('งานติดตามเริ่มเลยเป้าหมายที่ตั้งไว้');
+    $response->assertSee('ดูกลุ่มปัญหาที่ไม่มีผู้รับผิดชอบ');
+    $response->assertSee('ดูกลุ่มที่เลยกำหนดติดตาม');
+    $response->assertSee('ดูปัญหาที่คุณรับผิดชอบ');
     $response->assertSee('unowned=1', false);
     $response->assertSee('overdue=1', false);
     $response->assertSee('mine=1', false);
@@ -281,16 +279,14 @@ test('dashboard shows calm attention state when there are no active alerts', fun
     $response = $this->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('No urgent room issues right now.');
-    $response->assertSee('Calm lab state');
-    $response->assertSee('Today is covered and currently calm');
-    $response->assertSee('No pending checklist lanes remain today.');
-    $response->assertSee('Calm accountability state');
-    $response->assertSee('Ownership pressure is currently under control');
-    $response->assertSee('Stable recent record');
-    $response->assertSee('Recent operating record looks settled');
-    $response->assertDontSee('Review high severity incidents');
-    $response->assertDontSee('Review stale incidents');
+    $response->assertSee('ขณะนี้ยังไม่มีปัญหาเร่งด่วนของห้อง');
+    $response->assertSee('สถานะห้องแล็บอยู่ในภาวะปกติ');
+    $response->assertSee('วันนี้ครอบคลุมครบและอยู่ในสภาพค่อนข้างนิ่ง');
+    $response->assertSee('วันนี้ไม่มีรอบตรวจที่ค้างอยู่แล้ว');
+    $response->assertSee('ภาระความรับผิดชอบอยู่ในระดับปกติ');
+    $response->assertSee('ประวัติล่าสุดอยู่ในสภาพค่อนข้างนิ่ง');
+    $response->assertDontSee('ดูปัญหาความรุนแรงสูง');
+    $response->assertDontSee('ดูปัญหาที่ค้างนาน');
 });
 
 test('dashboard shows checklist and intake trends plus hotspot categories', function () {
@@ -355,20 +351,20 @@ test('dashboard shows checklist and intake trends plus hotspot categories', func
     $response = $this->get(route('dashboard'));
 
     $response->assertOk();
-    $response->assertSee('Checklist by Scope');
-    $response->assertSee(ChecklistScope::OPENING->value);
-    $response->assertSee('Missing live template');
-    $response->assertSee('Checklist Trend');
-    $response->assertSee('Yesterday: 100%');
-    $response->assertSee('Down 50 points from yesterday');
+    $response->assertSee('รายการตรวจเช็กแยกตามรอบเวลา');
+    $response->assertSee('เปิดห้อง');
+    $response->assertSee('ไม่มีแม่แบบใช้งานจริง');
+    $response->assertSee('แนวโน้มรายการตรวจเช็ก');
+    $response->assertSee('เมื่อวาน: 100%');
+    $response->assertSee('ต่ำกว่าเมื่อวาน 50 จุด');
     $response->assertSee('ops-sparkline', false);
-    $response->assertSee('Incident Intake Trend');
-    $response->assertSee('Yesterday: 1 reported');
-    $response->assertSee('Up 1 incidents from yesterday');
-    $response->assertSee('Operational Hotspots');
+    $response->assertSee('แนวโน้มการรับรายงานปัญหา');
+    $response->assertSee('เมื่อวาน: มีรายงาน 1 รายการ');
+    $response->assertSee('มากกว่าเมื่อวาน 1 รายการ');
+    $response->assertSee('หมวดปัญหาที่มีภาระสูง');
     $response->assertSee('เครือข่าย');
-    $response->assertSee('2 unresolved');
-    $response->assertSee('1 stale');
+    $response->assertSee('2 รายการที่ยังไม่ปิด');
+    $response->assertSee('1 รายการค้างนาน');
     $response->assertSee('data-hotspot-rank="1"', false);
     $response->assertSee('data-meter-target', false);
     $response->assertSee('category='.urlencode('เครือข่าย'), false);
