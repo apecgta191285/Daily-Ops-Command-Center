@@ -1,4 +1,4 @@
-<div>
+<div class="ops-screen ops-screen--checklist-run">
     @php
         $activeScopeCount = collect($scopeBoard)->where('state', '!=', 'unavailable')->count();
     @endphp

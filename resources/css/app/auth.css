@@ -363,6 +363,30 @@
         @apply flex flex-col gap-3;
     }
 
+    .auth-stage--welcome-polish .welcome-stage__title {
+        max-width: 14ch;
+        line-height: 0.98;
+        text-wrap: balance;
+    }
+
+    .auth-stage--welcome-polish .welcome-stage__lead {
+        max-width: 60ch;
+    }
+
+    .auth-stage--welcome-polish .auth-signal-card,
+    .auth-stage--welcome-polish .welcome-stage__step,
+    .auth-stage--welcome-polish .welcome-stage__aside-card {
+        box-shadow: var(--app-card-hover-shadow);
+    }
+
+    .auth-stage--welcome-polish .welcome-stage__aside-card {
+        gap: 1.45rem;
+    }
+
+    .auth-stage--welcome-polish .welcome-stage__step {
+        align-items: flex-start;
+    }
+
     .welcome-stage__aside .ops-button--primary {
         background-color: var(--app-info-text);
         border-color: var(--app-info-text);

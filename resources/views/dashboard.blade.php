@@ -65,7 +65,7 @@
         </div>
     </x-slot>
 
-    <div class="flex h-full w-full flex-1 flex-col gap-6">
+    <div class="ops-screen ops-screen--dashboard flex h-full w-full flex-1 flex-col gap-6">
         <section class="ops-hero" data-motion="glance-rise">
             <div class="ops-hero__inner">
                 <div>

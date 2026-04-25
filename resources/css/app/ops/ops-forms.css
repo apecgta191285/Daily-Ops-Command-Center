@@ -305,4 +305,30 @@
         color: var(--app-text-muted-strong);
         opacity: 1;
     }
+
+    .ops-screen--incident-queue .ops-control,
+    .ops-screen--incident-detail .ops-control,
+    .ops-screen--checklist-run .ops-control {
+        min-height: 2.85rem;
+    }
+
+    .ops-screen--incident-queue .ops-choice,
+    .ops-screen--checklist-run .ops-choice {
+        gap: 0.7rem;
+        border-radius: calc(var(--app-radius-lg) - 0.1rem);
+        padding-inline: 0.9rem;
+        padding-block: 0.7rem;
+    }
+
+    .ops-screen--incident-queue .ops-choice:hover,
+    .ops-screen--checklist-run .ops-choice:hover {
+        border-color: color-mix(in srgb, var(--app-border) 72%, var(--app-action-primary) 18%);
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-screen--incident-detail .ops-field-help,
+    .ops-screen--incident-queue .ops-field-help,
+    .ops-screen--checklist-run .ops-field-help {
+        line-height: 1.45;
+    }
 }

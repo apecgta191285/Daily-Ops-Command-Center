@@ -102,6 +102,29 @@
         font-feature-settings: 'tnum';
     }
 
+    .ops-screen--dashboard .ops-workboard {
+        padding: 1.45rem;
+    }
+
+    .ops-screen--dashboard .ops-workboard__summary {
+        gap: 1.15rem;
+        padding-bottom: 1.15rem;
+    }
+
+    .ops-screen--dashboard .ops-workboard__title {
+        line-height: 1.1;
+        text-wrap: balance;
+    }
+
+    .ops-screen--dashboard .ops-workboard__metrics {
+        align-items: stretch;
+    }
+
+    .ops-screen--dashboard .ops-workboard__metric {
+        min-height: 100%;
+        padding-block: 1rem;
+    }
+
     .ops-workboard__lane-grid {
         @apply mt-5 grid gap-4 xl:grid-cols-3;
     }
@@ -440,6 +463,26 @@
 
     .ops-signal-card__footer {
         @apply mt-5;
+    }
+
+    .ops-screen--dashboard .ops-signal-card,
+    .ops-screen--checklist-run .ops-signal-card {
+        padding: 1.2rem;
+    }
+
+    .ops-screen--dashboard .ops-signal-card__title,
+    .ops-screen--checklist-run .ops-signal-card__title {
+        line-height: 1.35;
+    }
+
+    .ops-screen--dashboard .ops-signal-card__body,
+    .ops-screen--checklist-run .ops-signal-card__body {
+        max-width: 54ch;
+    }
+
+    .ops-screen--dashboard .ops-signal-card__count,
+    .ops-screen--checklist-run .ops-signal-card__count {
+        letter-spacing: -0.05em;
     }
 
     .ops-stat-grid {

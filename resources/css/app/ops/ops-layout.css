@@ -76,6 +76,26 @@
         @apply relative z-10 flex flex-wrap items-center gap-3;
     }
 
+    .ops-screen .ops-page-intro__copy {
+        max-width: 52rem;
+    }
+
+    .ops-screen .ops-page__title {
+        text-wrap: balance;
+    }
+
+    .ops-screen .ops-page-intro__body,
+    .ops-screen .ops-section-heading__body {
+        max-width: 64ch;
+    }
+
+    .ops-screen--dashboard .ops-page-intro,
+    .ops-screen--checklist-run .ops-page-intro,
+    .ops-screen--incident-queue .ops-page-intro,
+    .ops-screen--incident-detail .ops-page-intro {
+        gap: 1.1rem;
+    }
+
     .ops-card {
         @apply border;
         border-radius: var(--app-radius-xl);
@@ -92,6 +112,13 @@
 
     .ops-card__body {
         @apply px-6 py-5;
+    }
+
+    .ops-screen--dashboard .ops-card__body,
+    .ops-screen--checklist-run .ops-card__body,
+    .ops-screen--incident-queue .ops-card__body,
+    .ops-screen--incident-detail .ops-card__body {
+        padding-block: 1.4rem;
     }
 
     .ops-hero {
@@ -156,6 +183,24 @@
 
     .ops-hero__meta {
         @apply mt-5 flex flex-wrap gap-2;
+    }
+
+    .ops-screen--dashboard .ops-hero__inner,
+    .ops-screen--checklist-run .ops-hero__inner,
+    .ops-screen--incident-detail .ops-hero__inner {
+        gap: 1.9rem;
+    }
+
+    .ops-screen--dashboard .ops-hero__title,
+    .ops-screen--checklist-run .ops-hero__title,
+    .ops-screen--incident-detail .ops-hero__title {
+        text-wrap: balance;
+    }
+
+    .ops-screen--dashboard .ops-hero__lead,
+    .ops-screen--checklist-run .ops-hero__lead,
+    .ops-screen--incident-detail .ops-hero__lead {
+        max-width: 58ch;
     }
 
     .ops-hero__aside {
@@ -235,6 +280,28 @@
     .ops-section-heading__body {
         @apply mt-2 max-w-3xl text-sm leading-6;
         color: var(--app-text-muted-soft);
+    }
+
+    .ops-screen--dashboard .ops-section-heading,
+    .ops-screen--checklist-run .ops-section-heading,
+    .ops-screen--incident-queue .ops-section-heading,
+    .ops-screen--incident-detail .ops-section-heading {
+        gap: 0.8rem;
+        padding-block: 1.1rem;
+    }
+
+    .ops-screen--dashboard .ops-section-heading__title,
+    .ops-screen--checklist-run .ops-section-heading__title,
+    .ops-screen--incident-queue .ops-section-heading__title,
+    .ops-screen--incident-detail .ops-section-heading__title {
+        line-height: 1.15;
+        text-wrap: balance;
+    }
+
+    .ops-screen--dashboard .ops-stack,
+    .ops-screen--checklist-run .ops-stack,
+    .ops-screen--incident-detail .ops-stack {
+        gap: 1.65rem;
     }
 
     .ops-item-stack {

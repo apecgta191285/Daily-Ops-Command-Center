@@ -4,10 +4,10 @@
         @include('partials.head')
         <title>{{ config('app.name', 'Daily Ops Command Center') }}</title>
     </head>
-    <body class="auth-shell antialiased" data-no-progress-bar>
+    <body class="auth-shell auth-shell--welcome-polish antialiased" data-no-progress-bar>
         <a href="#main-content" class="ops-skip-link">{{ __('ข้ามไปยังเนื้อหาหลัก') }}</a>
 
-        <main id="main-content" class="auth-stage auth-stage--welcome">
+        <main id="main-content" class="auth-stage auth-stage--welcome auth-stage--welcome-polish">
             <section class="auth-stage__frame auth-stage__frame--welcome">
                 <div class="auth-stage__scene auth-stage__scene--welcome" data-motion="fade-right">
                     <div class="auth-stage__scene-inner">

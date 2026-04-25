@@ -38,6 +38,21 @@
         background-color: color-mix(in srgb, var(--app-surface-subtle) 88%, white);
     }
 
+    .ops-screen--dashboard .ops-table th,
+    .ops-screen--incident-queue .ops-table th {
+        padding-block: 0.9rem;
+    }
+
+    .ops-screen--dashboard .ops-table__row,
+    .ops-screen--incident-queue .ops-table__row {
+        box-shadow: inset 0 0 0 1px transparent;
+    }
+
+    .ops-screen--dashboard .ops-table__row:hover,
+    .ops-screen--incident-queue .ops-table__row:hover {
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-border) 72%, var(--app-action-primary) 18%);
+    }
+
     .ops-table__row[data-template-active='true'] {
         background:
             linear-gradient(
