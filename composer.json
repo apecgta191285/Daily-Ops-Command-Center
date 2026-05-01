@@ -65,6 +65,10 @@
             "@php artisan config:clear --ansi",
             "./vendor/bin/pest tests/Browser"
         ],
+        "test:browser:desktop": [
+            "@php artisan config:clear --ansi",
+            "./vendor/bin/pest tests/Browser/DesktopSmokeTest.php"
+        ],
         "test": [
             "@php artisan config:clear --ansi",
             "@lint:check",

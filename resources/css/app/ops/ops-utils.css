@@ -30,6 +30,12 @@
 
     .ops-metric-value {
         @apply mt-1;
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 3vw, 3rem);
+        font-weight: 700;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
         color: var(--app-heading);
     }
 
@@ -57,7 +63,8 @@
     }
 
     .ops-inline-note {
-        @apply inline-flex items-center rounded-xl border px-4 py-2.5 text-sm;
+        @apply inline-flex items-center border px-4 py-2.5 text-sm;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: var(--app-border);
         background-color: var(--app-surface-subtle);
         color: var(--app-heading-soft);
@@ -69,7 +76,7 @@
 
     .ops-recap-panel {
         @apply border px-5 py-4;
-        border-radius: calc(var(--app-radius-xl) - 0.1rem);
+        border-radius: calc(var(--app-radius-lg) - 0.1rem);
         border-color: var(--app-border);
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
@@ -127,9 +134,12 @@
 
     .ops-history-summary-card {
         @apply border px-4 py-4;
-        border-radius: calc(var(--app-radius-xl) - 0.45rem);
-        border-color: color-mix(in srgb, var(--app-glass-border) 88%, white 12%);
-        background-color: color-mix(in srgb, white 5%, transparent);
+        border-radius: calc(var(--app-radius-lg) - 0.15rem);
+        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 88%, white), var(--app-surface-elevated)),
+            var(--app-surface-elevated);
+        box-shadow: var(--app-shadow-sm);
     }
 
     .ops-history-answer-grid {
@@ -138,7 +148,7 @@
 
     .ops-history-answer-card {
         @apply border px-4 py-4;
-        border-radius: calc(var(--app-radius-xl) - 0.45rem);
+        border-radius: calc(var(--app-radius-lg) - 0.15rem);
         border-color: var(--app-border);
         background-color: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);

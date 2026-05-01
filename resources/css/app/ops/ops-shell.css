@@ -18,12 +18,18 @@
 
     .ops-shell-body {
         @apply min-h-screen;
-        background-color: var(--app-shell-bg);
+        background:
+            radial-gradient(circle at top left, rgba(31, 94, 255, 0.16), transparent 22rem),
+            linear-gradient(180deg, #05070c, #030407);
     }
 
     .ops-shell-sidebar {
-        border-inline-end: 1px solid var(--app-shell-border);
-        background-color: var(--app-shell-bg);
+        border-inline-end: 1px solid color-mix(in srgb, var(--app-shell-border) 88%, white 4%);
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 18rem),
+            radial-gradient(circle at 40% 0%, rgba(31, 94, 255, 0.18), transparent 16rem),
+            var(--app-shell-bg);
+        box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04);
     }
 
     .ops-shell-header {
@@ -33,7 +39,10 @@
 
     .ops-content-main {
         @apply min-w-0;
-        background-color: var(--app-content-bg);
+        background:
+            radial-gradient(circle at 2rem 0, rgba(31, 94, 255, 0.08), transparent 24rem),
+            radial-gradient(circle at 90% 8rem, rgba(16, 185, 129, 0.055), transparent 28rem),
+            var(--app-content-bg);
     }
 
     .app-brand-mark {
@@ -62,17 +71,32 @@
     [data-flux-sidebar-item],
     [data-flux-sidebar-profile] {
         border: 1px solid transparent;
+        border-radius: 0.85rem;
+        min-height: 2.35rem;
+        transition:
+            background-color var(--app-duration-fast) var(--app-ease-in-out),
+            border-color var(--app-duration-fast) var(--app-ease-in-out),
+            color var(--app-duration-fast) var(--app-ease-in-out),
+            transform var(--app-duration-fast) var(--app-ease-out);
     }
 
     [data-flux-sidebar-item]:hover,
     [data-flux-sidebar-profile]:hover,
     [data-flux-sidebar-item][data-current] {
-        background-color: color-mix(in srgb, white 8%, transparent);
+        background-color: color-mix(in srgb, white 9%, transparent);
         color: var(--app-shell-text);
+        transform: translateX(2px);
     }
 
     [data-flux-sidebar-item][data-current] {
-        border-color: var(--app-shell-border);
+        border-color: color-mix(in srgb, var(--app-action-primary) 54%, var(--app-shell-border));
+        background:
+            linear-gradient(90deg, color-mix(in srgb, var(--app-action-primary) 38%, transparent), color-mix(in srgb, white 8%, transparent)) !important;
+        color: var(--app-shell-text) !important;
+        box-shadow:
+            inset 4px 0 0 #7dd3fc,
+            0 12px 24px rgba(0, 0, 0, 0.22),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     [data-flux-sidebar-item] svg,
@@ -104,6 +128,9 @@
     }
 
     .ops-shell-sidebar [data-flux-sidebar-item][data-current] [data-content],
+    .ops-shell-sidebar [data-flux-sidebar-item][data-current] span,
+    .ops-shell-sidebar [data-flux-sidebar-item][aria-current='page'] [data-content],
+    .ops-shell-sidebar [data-flux-sidebar-item][aria-current='page'] span,
     .ops-shell-sidebar [data-flux-sidebar-item]:hover [data-content],
     .ops-shell-sidebar [data-flux-sidebar-profile]:hover span,
     .ops-shell-sidebar [data-flux-sidebar-brand]:hover [class] {

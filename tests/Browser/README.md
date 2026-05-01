@@ -2,12 +2,12 @@
 
 This folder is the browser-level quality gate for the repo's core surfaces.
 
-Current baseline:
+Current desktop baseline:
 
 - smoke checks for guest, staff, management, and admin flows
 - axe-backed accessibility assertions through Pest Browser's `assertNoAccessibilityIssues()` on deterministic guest and admin-governance surfaces
 - accessibility-backed smoke checks on selected management heavy screens where render state is stable enough for repeatable audits
-- screenshot baselines for stable entry surfaces plus selected authenticated dashboard and checklist runtime screens
+- screenshot baselines for stable desktop entry surfaces plus selected authenticated dashboard and checklist runtime screens
 - authenticated authoring and incident-detail screens currently stay under smoke coverage only until their render state is deterministic enough for stable screenshot gating
 
 Coverage shorthand:
@@ -29,7 +29,8 @@ Heavy-screen coverage stance right now:
 Snapshot update rule:
 
 - update snapshots only when the UI change is intentional
-- review both desktop and mobile variants before accepting new baselines
+- review desktop variants before accepting new baselines
+- mobile coverage is intentionally outside the current graduation-project QA gate
 - do not refresh snapshots to hide layout regressions, copy drift, or accessibility breakage
 
 Practical workflow:
@@ -37,6 +38,7 @@ Practical workflow:
 ```bash
 ./vendor/bin/pest tests/Browser --update-snapshots
 composer test:browser
+npm run test:browser:desktop
 ```
 
 If a snapshot changes, verify the diff first and only keep it when the new render is the desired product truth.

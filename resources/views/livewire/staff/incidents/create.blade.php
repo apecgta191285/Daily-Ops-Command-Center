@@ -1,4 +1,4 @@
-<div>
+<div class="ops-screen ops-screen--staff-incident">
     <x-slot name="header">
         <div class="ops-page-intro">
             <div class="ops-page-intro__copy">

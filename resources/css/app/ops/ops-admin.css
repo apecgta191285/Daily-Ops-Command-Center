@@ -1,11 +1,11 @@
 @layer components {
     .ops-admin-item {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
-        border-color: var(--app-border);
+        @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border p-5;
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
         background:
-            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 94%, white), var(--app-surface-elevated)),
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 72%, white), var(--app-surface-elevated)),
             var(--app-surface-elevated);
-        box-shadow: var(--app-shadow-sm);
+        box-shadow: var(--app-shadow-md);
     }
 
     .ops-admin-item--authoring {
@@ -74,12 +74,12 @@
     }
 
     .ops-authoring-rhythm__step {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-4;
-        border-color: var(--app-border);
+        @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border p-4;
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 97%, white), var(--app-surface)),
             var(--app-surface);
-        box-shadow: var(--app-shadow-sm);
+        box-shadow: var(--app-shadow-md);
     }
 
     .ops-authoring-rhythm__title {
@@ -97,7 +97,7 @@
     }
 
     .ops-authoring-preview__group {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-4;
+        @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border p-4;
         border-color: var(--app-border);
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 88%, white), var(--app-surface-elevated)),
@@ -115,7 +115,8 @@
     }
 
     .ops-authoring-preview__item {
-        @apply flex items-start justify-between gap-3 rounded-2xl border px-3 py-3;
+        @apply flex items-start justify-between gap-3 border px-3 py-3;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: color-mix(in srgb, var(--app-border) 86%, white);
         background-color: var(--app-surface);
     }
@@ -134,12 +135,12 @@
     }
 
     .ops-governance-card {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-4;
-        border-color: var(--app-border);
+        @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border p-4;
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 88%, white), var(--app-surface-elevated)),
             var(--app-surface-elevated);
-        box-shadow: var(--app-shadow-sm);
+        box-shadow: var(--app-shadow-md);
         transition:
             border-color var(--app-duration-fast) var(--app-ease-in-out),
             box-shadow var(--app-duration-fast) var(--app-ease-out),
@@ -188,12 +189,37 @@
     }
 
     .ops-user-avatar {
-        @apply inline-flex h-11 w-11 items-center justify-center rounded-2xl border text-sm font-bold uppercase tracking-[0.12em];
+        @apply inline-flex h-11 w-11 items-center justify-center border text-sm font-bold uppercase tracking-[0.12em];
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         font-family: var(--font-display);
         border-color: color-mix(in srgb, var(--app-action-primary) 18%, var(--app-border));
         background:
             linear-gradient(145deg, color-mix(in srgb, var(--app-action-primary) 12%, var(--app-surface-elevated)), var(--app-surface));
         color: var(--app-action-primary);
         box-shadow: var(--app-shadow-sm);
+    }
+
+    .ops-screen--template-index .ops-governance-grid,
+    .ops-screen--user-index .ops-governance-grid,
+    .ops-screen--checklist-history .ops-governance-grid {
+        gap: 0.9rem;
+    }
+
+    .ops-screen--template-authoring .ops-authoring-rhythm,
+    .ops-screen--user-manage .ops-authoring-rhythm {
+        gap: 0.9rem;
+    }
+
+    .ops-screen--template-authoring .ops-authoring-metric,
+    .ops-screen--user-index .ops-authoring-metric,
+    .ops-screen--user-manage .ops-authoring-metric {
+        min-height: 5.75rem;
+    }
+
+    .ops-screen--template-authoring .ops-governance-card,
+    .ops-screen--user-manage .ops-governance-card {
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 94%, white), var(--app-surface)),
+            var(--app-surface);
     }
 }

@@ -20,7 +20,7 @@
     }
 
     .ops-incident-panel {
-        @apply rounded-[calc(var(--app-radius-xl)-0.15rem)] border p-5;
+        @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border p-5;
         border-color: var(--app-border);
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
@@ -207,7 +207,7 @@
 
 .ops-incident-history-day {
     border: 1px solid var(--app-border);
-    border-radius: calc(var(--app-radius-xl) - 0.2rem);
+    border-radius: calc(var(--app-radius-lg) - 0.1rem);
     background: linear-gradient(
             180deg,
             color-mix(in srgb, var(--app-surface-elevated) 98%, white),
@@ -282,7 +282,8 @@
 }
 
     .ops-timeline__card {
-        @apply rounded-2xl border px-4 py-3;
+        @apply border px-4 py-3;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: var(--app-border);
         background-color: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);

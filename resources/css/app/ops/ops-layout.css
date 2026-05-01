@@ -1,37 +1,48 @@
 @layer components {
     .ops-page {
-        @apply min-h-full px-4 py-6 sm:px-6 lg:px-8;
+        @apply min-h-full px-4 py-6 sm:px-7 lg:px-10;
     }
 
     .ops-page__header {
-        @apply mx-auto mb-6 max-w-7xl;
+        @apply mx-auto mb-6 max-w-[92rem];
     }
 
     .ops-page__header-inner {
         @apply relative overflow-hidden border px-5 py-4 sm:px-6;
         border-radius: var(--app-radius-xl);
         background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--app-action-primary) 14%, transparent), transparent 34%),
-            linear-gradient(145deg, color-mix(in oklab, var(--app-shell-bg) 95%, black), color-mix(in oklab, var(--app-shell-bg-elevated) 88%, black));
-        border-color: var(--app-shell-border);
-        color: var(--app-shell-text);
+            linear-gradient(90deg, color-mix(in srgb, var(--app-action-primary) 7%, white), transparent 42%),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82));
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
+        color: var(--app-heading);
         box-shadow: var(--app-shadow-md);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+
+    .ops-page__header-inner::after {
+        content: '';
+        position: absolute;
+        left: 1.25rem;
+        right: 1.25rem;
+        bottom: 0;
+        height: 3px;
+        border-radius: 9999px 9999px 0 0;
+        background: linear-gradient(90deg, #1f5eff, #14b8a6 48%, #f59e0b);
+        opacity: 0.9;
     }
 
     .ops-page__header-inner::before {
         content: '';
         position: absolute;
         inset: 0;
-        background:
-            linear-gradient(90deg, color-mix(in srgb, var(--app-shell-border) 22%, transparent) 1px, transparent 1px),
-            linear-gradient(color-mix(in srgb, var(--app-shell-border) 15%, transparent) 1px, transparent 1px);
-        background-size: 24px 24px;
-        opacity: 0.18;
+        background: linear-gradient(120deg, transparent, rgba(31, 94, 255, 0.08), transparent);
+        opacity: 0.8;
         pointer-events: none;
     }
 
     .ops-page__body {
-        @apply mx-auto max-w-7xl;
+        @apply mx-auto max-w-[92rem];
     }
 
     .ops-page__title,
@@ -40,18 +51,18 @@
     .ops-page__header h3 {
         @apply text-2xl font-semibold tracking-tight;
         font-family: var(--font-display);
-        color: var(--app-shell-text);
+        color: var(--app-heading);
     }
 
     .ops-page__header p,
     .ops-page__header .text-gray-500,
     .ops-page__header .text-gray-600,
     .ops-page__header .text-zinc-500 {
-        color: var(--app-shell-muted) !important;
+        color: var(--app-text-muted-strong) !important;
     }
 
     .ops-page-intro {
-        @apply relative z-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between;
+        @apply relative z-10 flex flex-col gap-3 md:flex-row md:items-center md:justify-between;
     }
 
     .ops-page-intro__copy {
@@ -60,20 +71,33 @@
 
     .ops-page-intro__eyebrow {
         @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
-        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+        color: var(--app-action-primary);
     }
 
     .ops-page-intro__body {
-        @apply mt-2 text-sm leading-6;
-        color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
+        @apply mt-1.5 text-sm leading-6;
+        color: var(--app-text-muted-soft);
     }
 
     .ops-page-intro__meta {
-        @apply mt-4 flex flex-wrap gap-2;
+        @apply mt-3 flex flex-wrap gap-2;
     }
 
     .ops-page-intro__actions {
         @apply relative z-10 flex flex-wrap items-center gap-3;
+    }
+
+    .ops-page__header .ops-shell-chip {
+        border-color: color-mix(in srgb, var(--app-border) 76%, var(--app-action-primary) 18%);
+        background-color: rgba(255, 255, 255, 0.72);
+        color: var(--app-text-muted-soft);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .ops-page__header .ops-shell-chip--accent {
+        border-color: color-mix(in srgb, var(--app-action-primary) 42%, var(--app-border));
+        background-color: color-mix(in srgb, var(--app-action-primary) 9%, white);
+        color: var(--app-action-primary);
     }
 
     .ops-screen .ops-page-intro__copy {
@@ -92,46 +116,78 @@
     .ops-screen--dashboard .ops-page-intro,
     .ops-screen--checklist-run .ops-page-intro,
     .ops-screen--incident-queue .ops-page-intro,
-    .ops-screen--incident-detail .ops-page-intro {
+    .ops-screen--incident-detail .ops-page-intro,
+    .ops-screen--staff-incident .ops-page-intro,
+    .ops-screen--checklist-history .ops-page-intro,
+    .ops-screen--checklist-history-detail .ops-page-intro,
+    .ops-screen--incident-history .ops-page-intro,
+    .ops-screen--template-index .ops-page-intro,
+    .ops-screen--template-authoring .ops-page-intro,
+    .ops-screen--user-index .ops-page-intro,
+    .ops-screen--user-manage .ops-page-intro {
         gap: 1.1rem;
     }
 
     .ops-card {
-        @apply border;
+        @apply relative overflow-hidden border;
         border-radius: var(--app-radius-xl);
-        background-color: var(--app-surface);
-        border-color: var(--app-border);
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92)),
+            var(--app-surface);
+        border-color: color-mix(in srgb, var(--app-border) 84%, white);
         color: var(--app-text);
-        box-shadow: var(--app-shadow-sm);
+        box-shadow: var(--app-shadow-md);
+    }
+
+    .ops-card::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(31, 94, 255, 0.28), transparent);
+        opacity: 0.75;
+        pointer-events: none;
     }
 
     .ops-card__header {
-        @apply border-b px-6 py-4;
-        border-color: var(--app-border);
+        @apply border-b px-5 py-4;
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
+        background-color: color-mix(in srgb, var(--app-surface-subtle) 72%, white);
     }
 
     .ops-card__body {
-        @apply px-6 py-5;
+        @apply relative px-5 py-5;
     }
 
     .ops-screen--dashboard .ops-card__body,
     .ops-screen--checklist-run .ops-card__body,
     .ops-screen--incident-queue .ops-card__body,
-    .ops-screen--incident-detail .ops-card__body {
+    .ops-screen--incident-detail .ops-card__body,
+    .ops-screen--staff-incident .ops-card__body,
+    .ops-screen--checklist-history .ops-card__body,
+    .ops-screen--checklist-history-detail .ops-card__body,
+    .ops-screen--incident-history .ops-card__body,
+    .ops-screen--template-index .ops-card__body,
+    .ops-screen--template-authoring .ops-card__body,
+    .ops-screen--user-index .ops-card__body,
+    .ops-screen--user-manage .ops-card__body {
         padding-block: 1.4rem;
     }
 
     .ops-hero {
         @apply relative overflow-hidden border;
-        border-radius: var(--app-radius-xl);
+        border-radius: calc(var(--app-radius-xl) + 0.25rem);
         border-color: var(--app-shell-border);
         background:
-            url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='opsNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23opsNoise)' opacity='0.04'/%3E%3C/svg%3E"),
-            radial-gradient(ellipse 62% 55% at 84% 18%, color-mix(in srgb, var(--app-action-primary) var(--app-hero-glow-strength), transparent), transparent 68%),
-            radial-gradient(ellipse 42% 55% at 12% 86%, color-mix(in srgb, var(--app-info-border) 16%, transparent), transparent 58%),
-            linear-gradient(145deg, color-mix(in oklab, var(--app-shell-bg) 94%, black), color-mix(in oklab, var(--app-shell-bg-elevated) 88%, black));
+            linear-gradient(120deg, rgba(125, 211, 252, 0.12), transparent 22%),
+            radial-gradient(ellipse 52% 58% at 88% 12%, color-mix(in srgb, var(--app-action-primary) var(--app-hero-glow-strength), transparent), transparent 66%),
+            radial-gradient(ellipse 50% 56% at 8% 92%, rgba(20, 184, 166, 0.18), transparent 58%),
+            linear-gradient(135deg, #070a10 0%, #101827 48%, #07111f 100%);
         color: var(--app-shell-text);
-        box-shadow: var(--app-shadow-lg);
+        box-shadow:
+            0 28px 70px rgba(15, 23, 42, 0.22),
+            0 10px 26px rgba(15, 23, 42, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .ops-hero::before {
@@ -141,7 +197,7 @@
         background:
             linear-gradient(90deg, color-mix(in srgb, var(--app-shell-border) 24%, transparent) 1px, transparent 1px),
             linear-gradient(color-mix(in srgb, var(--app-shell-border) 16%, transparent) 1px, transparent 1px);
-        background-size: 24px 24px;
+        background-size: 28px 28px;
         opacity: var(--app-hero-grid-opacity);
         pointer-events: none;
     }
@@ -162,7 +218,7 @@
     }
 
     .ops-hero__inner {
-        @apply relative z-10 grid gap-6 px-6 py-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.95fr)] lg:px-8 lg:py-8;
+        @apply relative z-10 grid gap-6 px-6 py-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(19rem,0.75fr)] lg:px-8 lg:py-7;
     }
 
     .ops-hero__eyebrow {
@@ -171,45 +227,57 @@
     }
 
     .ops-hero__title {
-        @apply mt-3 text-4xl font-bold tracking-tighter sm:text-5xl;
+        @apply mt-3 text-4xl font-bold tracking-tight sm:text-5xl;
         font-family: var(--font-display);
         color: var(--app-shell-text);
     }
 
     .ops-hero__lead {
-        @apply mt-4 max-w-2xl text-sm leading-7 sm:text-base;
+        @apply mt-4 max-w-2xl text-sm leading-7;
         color: color-mix(in srgb, var(--app-shell-muted) 92%, white);
     }
 
     .ops-hero__meta {
-        @apply mt-5 flex flex-wrap gap-2;
+        @apply mt-4 flex flex-wrap gap-2;
     }
 
     .ops-screen--dashboard .ops-hero__inner,
     .ops-screen--checklist-run .ops-hero__inner,
-    .ops-screen--incident-detail .ops-hero__inner {
+    .ops-screen--incident-detail .ops-hero__inner,
+    .ops-screen--checklist-history-detail .ops-hero__inner,
+    .ops-screen--template-authoring .ops-hero__inner,
+    .ops-screen--user-index .ops-hero__inner,
+    .ops-screen--user-manage .ops-hero__inner {
         gap: 1.9rem;
     }
 
     .ops-screen--dashboard .ops-hero__title,
     .ops-screen--checklist-run .ops-hero__title,
-    .ops-screen--incident-detail .ops-hero__title {
+    .ops-screen--incident-detail .ops-hero__title,
+    .ops-screen--checklist-history-detail .ops-hero__title,
+    .ops-screen--template-authoring .ops-hero__title,
+    .ops-screen--user-index .ops-hero__title,
+    .ops-screen--user-manage .ops-hero__title {
         text-wrap: balance;
     }
 
     .ops-screen--dashboard .ops-hero__lead,
     .ops-screen--checklist-run .ops-hero__lead,
-    .ops-screen--incident-detail .ops-hero__lead {
+    .ops-screen--incident-detail .ops-hero__lead,
+    .ops-screen--checklist-history-detail .ops-hero__lead,
+    .ops-screen--template-authoring .ops-hero__lead,
+    .ops-screen--user-index .ops-hero__lead,
+    .ops-screen--user-manage .ops-hero__lead {
         max-width: 58ch;
     }
 
     .ops-hero__aside {
-        @apply space-y-4 border px-5 py-5;
-        border-radius: calc(var(--app-radius-xl) - 0.5rem);
+        @apply space-y-3 border px-5 py-5;
+        border-radius: var(--app-radius-xl);
         border-color: color-mix(in srgb, var(--app-shell-border) 82%, white);
         background:
             linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 55%),
-            color-mix(in srgb, white 8%, transparent);
+            color-mix(in srgb, white 10%, transparent);
         box-shadow:
             inset 0 1px 0 rgba(255, 255, 255, 0.08),
             0 10px 24px rgba(0, 0, 0, 0.16);
@@ -224,8 +292,8 @@
 
     .ops-hero__aside-value {
         @apply mt-2 font-bold;
-        font-size: var(--app-text-hero-value);
-        letter-spacing: -0.04em;
+        font-size: clamp(2.35rem, 4vw, 3.8rem);
+        letter-spacing: 0;
         line-height: 1;
         color: var(--app-shell-text);
         font-variant-numeric: tabular-nums;
@@ -242,7 +310,7 @@
     }
 
     .ops-command-grid {
-        @apply grid gap-6;
+        @apply grid gap-5;
     }
 
     .ops-command-grid--dashboard {
@@ -258,17 +326,20 @@
     }
 
     .ops-stack {
-        @apply space-y-6;
+        @apply space-y-5;
     }
 
     .ops-section-heading {
-        @apply flex flex-col gap-2 border-b px-6 py-4 sm:flex-row sm:items-end sm:justify-between;
-        border-color: var(--app-border);
+        @apply flex flex-col gap-2 border-b px-5 py-4 sm:flex-row sm:items-end sm:justify-between;
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
+        background:
+            linear-gradient(90deg, color-mix(in srgb, var(--app-surface-subtle) 78%, white), transparent),
+            var(--app-surface);
     }
 
     .ops-section-heading__eyebrow {
         @apply text-[0.72rem] font-bold uppercase tracking-[0.22em];
-        color: var(--app-text-muted-strong);
+        color: var(--app-action-primary);
     }
 
     .ops-section-heading__title {
@@ -279,13 +350,21 @@
 
     .ops-section-heading__body {
         @apply mt-2 max-w-3xl text-sm leading-6;
-        color: var(--app-text-muted-soft);
+        color: var(--app-text-muted-strong);
     }
 
     .ops-screen--dashboard .ops-section-heading,
     .ops-screen--checklist-run .ops-section-heading,
     .ops-screen--incident-queue .ops-section-heading,
-    .ops-screen--incident-detail .ops-section-heading {
+    .ops-screen--incident-detail .ops-section-heading,
+    .ops-screen--staff-incident .ops-section-heading,
+    .ops-screen--checklist-history .ops-section-heading,
+    .ops-screen--checklist-history-detail .ops-section-heading,
+    .ops-screen--incident-history .ops-section-heading,
+    .ops-screen--template-index .ops-section-heading,
+    .ops-screen--template-authoring .ops-section-heading,
+    .ops-screen--user-index .ops-section-heading,
+    .ops-screen--user-manage .ops-section-heading {
         gap: 0.8rem;
         padding-block: 1.1rem;
     }
@@ -293,42 +372,114 @@
     .ops-screen--dashboard .ops-section-heading__title,
     .ops-screen--checklist-run .ops-section-heading__title,
     .ops-screen--incident-queue .ops-section-heading__title,
-    .ops-screen--incident-detail .ops-section-heading__title {
+    .ops-screen--incident-detail .ops-section-heading__title,
+    .ops-screen--staff-incident .ops-section-heading__title,
+    .ops-screen--checklist-history .ops-section-heading__title,
+    .ops-screen--checklist-history-detail .ops-section-heading__title,
+    .ops-screen--incident-history .ops-section-heading__title,
+    .ops-screen--template-index .ops-section-heading__title,
+    .ops-screen--template-authoring .ops-section-heading__title,
+    .ops-screen--user-index .ops-section-heading__title,
+    .ops-screen--user-manage .ops-section-heading__title {
         line-height: 1.15;
         text-wrap: balance;
     }
 
     .ops-screen--dashboard .ops-stack,
     .ops-screen--checklist-run .ops-stack,
-    .ops-screen--incident-detail .ops-stack {
+    .ops-screen--incident-detail .ops-stack,
+    .ops-screen--template-authoring .ops-stack,
+    .ops-screen--user-manage .ops-stack {
         gap: 1.65rem;
     }
 
+    .ops-screen--dashboard > .space-y-6,
+    .ops-screen--checklist-run > .space-y-6,
+    .ops-screen--incident-queue > .space-y-6,
+    .ops-screen--incident-detail > .space-y-6,
+    .ops-screen--staff-incident > .space-y-6,
+    .ops-screen--checklist-history > .space-y-6,
+    .ops-screen--checklist-history-detail > .space-y-6,
+    .ops-screen--incident-history > .space-y-6,
+    .ops-screen--template-index > .space-y-6,
+    .ops-screen--template-authoring > .space-y-6,
+    .ops-screen--user-index > .space-y-6,
+    .ops-screen--user-manage > .space-y-6,
+    .ops-screen--staff-incident > .mx-auto,
+    .ops-screen--template-authoring > .mx-auto,
+    .ops-screen--user-manage > .mx-auto {
+        display: grid;
+        gap: 1.25rem;
+    }
+
+    .ops-screen--staff-incident > .mx-auto {
+        width: 100%;
+        max-width: 58rem;
+    }
+
+    .ops-screen--template-authoring > .mx-auto,
+    .ops-screen--user-manage > .mx-auto {
+        width: 100%;
+        max-width: 72rem;
+    }
+
+    .ops-screen--template-authoring,
+    .ops-screen--user-manage,
+    .ops-screen--user-index,
+    .ops-screen--checklist-history-detail {
+        --app-hero-grid-opacity: 0.16;
+        --app-hero-glow-strength: 16%;
+    }
+
+    .ops-screen--template-authoring .ops-hero__inner,
+    .ops-screen--user-manage .ops-hero__inner,
+    .ops-screen--user-index .ops-hero__inner,
+    .ops-screen--checklist-history-detail .ops-hero__inner {
+        padding-block: 1.2rem;
+    }
+
+    .ops-screen--template-authoring .ops-hero__title,
+    .ops-screen--user-manage .ops-hero__title,
+    .ops-screen--user-index .ops-hero__title,
+    .ops-screen--checklist-history-detail .ops-hero__title {
+        font-size: clamp(1.9rem, 2.7vw, 3rem);
+        line-height: 1.08;
+    }
+
+    .ops-screen--staff-incident .ops-card,
+    .ops-screen--incident-queue .ops-card,
+    .ops-screen--checklist-history .ops-card,
+    .ops-screen--incident-history .ops-card,
+    .ops-screen--template-index .ops-card,
+    .ops-screen--user-index .ops-card {
+        overflow: clip;
+    }
+
     .ops-item-stack {
-        @apply space-y-5;
+        @apply space-y-4;
     }
 
     .ops-item-group {
-        @apply border-t pt-5 first:border-t-0 first:pt-0;
+        @apply border-t pt-4 first:border-t-0 first:pt-0;
         border-color: var(--app-border);
     }
 
     .ops-item-group__label {
-        @apply mb-4 rounded-2xl border px-4 py-3 text-sm font-semibold uppercase tracking-[0.1em];
+        @apply mb-3 rounded-xl border px-3 py-2 text-sm font-semibold;
         border-color: var(--app-border);
         background-color: var(--app-surface-subtle);
         color: var(--app-heading);
     }
 
     .ops-item-card {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border px-4 py-5;
+        @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border px-4 py-4;
         border-color: var(--app-border);
         background-color: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);
     }
 
     .ops-item-card__content {
-        @apply grid gap-4 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start lg:gap-6;
+        @apply grid gap-4 lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-start lg:gap-5;
     }
 
     .ops-item-card__title {
@@ -339,5 +490,199 @@
     .ops-item-card__description {
         @apply mt-2 text-sm leading-6;
         color: var(--app-text-muted);
+    }
+
+    .ops-screen--checklist-run {
+        --app-hero-grid-opacity: 0.18;
+        --app-hero-glow-strength: 18%;
+    }
+
+    .ops-screen--checklist-run > .space-y-6 {
+        display: grid;
+        gap: 1.25rem;
+    }
+
+    .ops-screen--checklist-run .ops-hero__inner {
+        min-height: 0;
+        padding-block: 1.15rem;
+    }
+
+    .ops-screen--checklist-run .ops-hero__title {
+        font-size: clamp(1.8rem, 2.8vw, 2.7rem);
+        line-height: 1.1;
+    }
+
+    .ops-screen--checklist-run .ops-hero__lead {
+        max-width: 66ch;
+        line-height: 1.55;
+    }
+
+    .ops-screen--checklist-run .ops-hero__aside {
+        padding: 1rem;
+    }
+
+    .ops-screen--checklist-run .ops-hero__aside-value {
+        font-size: clamp(2rem, 3.4vw, 3.2rem);
+    }
+
+    .ops-screen--checklist-run .ops-command-grid--checklist {
+        align-items: start;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (min-width: 1280px) {
+        .ops-screen--checklist-run .ops-command-grid--checklist {
+            grid-template-columns: minmax(0, 1.72fr) minmax(20rem, 0.78fr);
+        }
+    }
+
+    .ops-screen--checklist-run .ops-progress-panel {
+        padding: 1rem;
+    }
+
+    .ops-screen--checklist-run .ops-item-card {
+        transition:
+            border-color var(--app-duration-fast) var(--app-ease-in-out),
+            box-shadow var(--app-duration-fast) var(--app-ease-out),
+            transform var(--app-duration-fast) var(--app-ease-out);
+    }
+
+    .ops-screen--checklist-run .ops-item-card:focus-within {
+        border-color: color-mix(in srgb, var(--app-action-primary) 32%, var(--app-border));
+        box-shadow:
+            var(--app-shadow-md),
+            0 0 0 3px color-mix(in srgb, var(--app-focus-ring) 18%, transparent);
+    }
+
+    .ops-screen--checklist-run .ops-item-card__title {
+        font-size: 0.98rem;
+        line-height: 1.45;
+    }
+
+    .ops-screen--checklist-run .ops-item-card__content > .flex {
+        border-radius: calc(var(--app-radius-lg) - 0.2rem);
+        background-color: color-mix(in srgb, var(--app-surface-subtle) 72%, white);
+        padding: 0.8rem;
+    }
+
+    .ops-screen--checklist-run .ops-choice {
+        min-height: 2.75rem;
+        flex: 1 1 9rem;
+        justify-content: center;
+    }
+
+    .ops-screen--checklist-run .ops-control {
+        background-color: var(--app-surface-elevated);
+    }
+
+    .ops-screen--checklist-run .ops-divider-top {
+        position: sticky;
+        bottom: 0;
+        z-index: 20;
+        margin-inline: -1.25rem;
+        margin-bottom: -1rem;
+        padding: 1rem 1.25rem;
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface) 82%, transparent), var(--app-surface) 38%),
+            var(--app-surface);
+        box-shadow: 0 -10px 24px rgba(9, 9, 11, 0.08);
+    }
+
+    .ops-screen--checklist-run .ops-detail-list__item {
+        padding: 0.9rem 1rem;
+    }
+
+    .ops-screen--dashboard .ops-hero,
+    .ops-screen--checklist-run .ops-hero,
+    .ops-screen--template-authoring .ops-hero,
+    .ops-screen--user-index .ops-hero,
+    .ops-screen--user-manage .ops-hero {
+        min-height: 0;
+    }
+
+    .ops-screen--dashboard .ops-hero__inner {
+        grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.62fr);
+        padding-block: 1.7rem;
+    }
+
+    .ops-screen--dashboard .ops-hero__title {
+        max-width: 15ch;
+        font-size: clamp(2.35rem, 4vw, 4.25rem);
+        line-height: 0.98;
+    }
+
+    .ops-screen--dashboard .ops-hero__aside {
+        align-self: stretch;
+    }
+
+    .ops-screen--dashboard .ops-glance-grid--hero {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ops-screen--dashboard .ops-command-grid--dashboard {
+        align-items: start;
+        grid-template-columns: minmax(0, 1.36fr) minmax(22rem, 0.64fr);
+        gap: 1.25rem;
+    }
+
+    .ops-screen--dashboard .ops-command-grid--dashboard > .ops-stack {
+        min-width: 0;
+    }
+
+    .ops-screen--dashboard .ops-command-grid--dashboard > .ops-stack:last-child {
+        position: sticky;
+        top: 1rem;
+    }
+
+    .ops-dashboard-kpi-strip {
+        margin-top: -0.2rem;
+    }
+
+    .ops-screen--dashboard .ops-section-heading {
+        padding-block: 0.95rem;
+    }
+
+    .ops-screen--dashboard .ops-section-heading__title {
+        font-size: clamp(1.15rem, 1.5vw, 1.55rem);
+    }
+
+    .ops-screen--dashboard .ops-section-heading__body {
+        margin-top: 0.35rem;
+        line-height: 1.55;
+    }
+
+    .ops-screen--dashboard .ops-card__body {
+        padding: 1rem;
+    }
+
+    .ops-screen--dashboard .ops-card .ops-card {
+        box-shadow: var(--app-shadow-sm);
+    }
+
+    @media (max-width: 1279px) {
+        .ops-screen--dashboard .ops-command-grid--dashboard > .ops-stack:last-child {
+            position: static;
+        }
+    }
+
+    .ops-screen--incident-queue .ops-card:first-of-type .ops-card__body,
+    .ops-screen--checklist-history .ops-card:last-of-type .ops-card__body,
+    .ops-screen--incident-history .ops-card:first-of-type .ops-card__body {
+        padding: 1.2rem;
+    }
+
+    .ops-screen--incident-queue .ops-card:first-of-type {
+        border-color: color-mix(in srgb, var(--app-action-primary) 18%, var(--app-border));
+        background:
+            linear-gradient(90deg, color-mix(in srgb, var(--app-info-bg) 45%, white), transparent 54%),
+            var(--app-surface);
+    }
+
+    .ops-screen--template-index .ops-governance-card,
+    .ops-screen--user-index .ops-governance-card,
+    .ops-screen--checklist-history .ops-governance-card,
+    .ops-screen--template-authoring .ops-governance-card,
+    .ops-screen--user-manage .ops-governance-card {
+        min-height: 100%;
     }
 }

@@ -122,6 +122,64 @@
             </div>
         </section>
 
+        <div class="ops-stat-grid ops-dashboard-kpi-strip" data-motion-group data-stagger-base="70" data-stagger-unit="40" data-stagger-max="220">
+            <x-ops.stat-card
+                kicker="ความสำเร็จของรายการตรวจเช็กวันนี้"
+                :value="$completionRate.'%'"
+                :meta="$submittedTodayRuns.' จาก '.$todayRuns.' รอบตรวจที่ส่งแล้ว'"
+                data-motion="scale-soft"
+            >
+                <x-slot:visual>
+                    <div class="ops-arc-wrapper">
+                        <x-ops.arc :value="$completionRate" :size="58" />
+                        <span class="ops-arc-wrapper__label">{{ $completionRate }}%</span>
+                    </div>
+                </x-slot:visual>
+            </x-ops.stat-card>
+
+            <x-ops.stat-card
+                kicker="รายงานปัญหาเปิดใหม่"
+                :value="$incidentCounts['Open']"
+                meta="รายงานปัญหาที่ยังรอการดำเนินการ"
+                data-motion="scale-soft"
+            >
+                <x-slot:visual>
+                    <div class="ops-arc-wrapper">
+                        <x-ops.arc :value="$openIncidentShare" :size="58" tone="danger" />
+                        <span class="ops-arc-wrapper__label">{{ $openIncidentShare }}%</span>
+                    </div>
+                </x-slot:visual>
+            </x-ops.stat-card>
+
+            <x-ops.stat-card
+                kicker="กำลังดำเนินการ"
+                :value="$incidentCounts['In Progress']"
+                meta="รายงานปัญหาที่กำลังดำเนินการอยู่"
+                data-motion="scale-soft"
+            >
+                <x-slot:visual>
+                    <div class="ops-arc-wrapper">
+                        <x-ops.arc :value="$inProgressIncidentShare" :size="58" tone="warning" />
+                        <span class="ops-arc-wrapper__label">{{ $inProgressIncidentShare }}%</span>
+                    </div>
+                </x-slot:visual>
+            </x-ops.stat-card>
+
+            <x-ops.stat-card
+                kicker="แก้ไขแล้ว"
+                :value="$incidentCounts['Resolved']"
+                meta="รายงานปัญหาที่ปิดแล้วในข้อมูลปัจจุบัน"
+                data-motion="scale-soft"
+            >
+                <x-slot:visual>
+                    <div class="ops-arc-wrapper">
+                        <x-ops.arc :value="$resolvedIncidentShare" :size="58" tone="success" />
+                        <span class="ops-arc-wrapper__label">{{ $resolvedIncidentShare }}%</span>
+                    </div>
+                </x-slot:visual>
+            </x-ops.stat-card>
+        </div>
+
         <div class="ops-command-grid ops-command-grid--dashboard">
             <div class="ops-stack">
                 <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="20">
@@ -335,64 +393,6 @@
                         </div>
                     </div>
                 </section>
-
-                <div class="ops-stat-grid" data-motion-group data-stagger-base="70" data-stagger-unit="40" data-stagger-max="220">
-                    <x-ops.stat-card
-                        kicker="ความสำเร็จของรายการตรวจเช็กวันนี้"
-                        :value="$completionRate.'%'"
-                        :meta="$submittedTodayRuns.' จาก '.$todayRuns.' รอบตรวจที่ส่งแล้ว'"
-                        data-motion="scale-soft"
-                    >
-                        <x-slot:visual>
-                            <div class="ops-arc-wrapper">
-                                <x-ops.arc :value="$completionRate" :size="58" />
-                                <span class="ops-arc-wrapper__label">{{ $completionRate }}%</span>
-                            </div>
-                        </x-slot:visual>
-                    </x-ops.stat-card>
-
-                    <x-ops.stat-card
-                        kicker="รายงานปัญหาเปิดใหม่"
-                        :value="$incidentCounts['Open']"
-                        meta="รายงานปัญหาที่ยังรอการดำเนินการ"
-                        data-motion="scale-soft"
-                    >
-                        <x-slot:visual>
-                            <div class="ops-arc-wrapper">
-                                <x-ops.arc :value="$openIncidentShare" :size="58" tone="danger" />
-                                <span class="ops-arc-wrapper__label">{{ $openIncidentShare }}%</span>
-                            </div>
-                        </x-slot:visual>
-                    </x-ops.stat-card>
-
-                    <x-ops.stat-card
-                        kicker="กำลังดำเนินการ"
-                        :value="$incidentCounts['In Progress']"
-                        meta="รายงานปัญหาที่กำลังดำเนินการอยู่"
-                        data-motion="scale-soft"
-                    >
-                        <x-slot:visual>
-                            <div class="ops-arc-wrapper">
-                                <x-ops.arc :value="$inProgressIncidentShare" :size="58" tone="warning" />
-                                <span class="ops-arc-wrapper__label">{{ $inProgressIncidentShare }}%</span>
-                            </div>
-                        </x-slot:visual>
-                    </x-ops.stat-card>
-
-                    <x-ops.stat-card
-                        kicker="แก้ไขแล้ว"
-                        :value="$incidentCounts['Resolved']"
-                        meta="รายงานปัญหาที่ปิดแล้วในข้อมูลปัจจุบัน"
-                        data-motion="scale-soft"
-                    >
-                        <x-slot:visual>
-                            <div class="ops-arc-wrapper">
-                                <x-ops.arc :value="$resolvedIncidentShare" :size="58" tone="success" />
-                                <span class="ops-arc-wrapper__label">{{ $resolvedIncidentShare }}%</span>
-                            </div>
-                        </x-slot:visual>
-                    </x-ops.stat-card>
-                </div>
 
                 <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="120">
                     <div class="ops-section-heading">

@@ -2,9 +2,9 @@
     .auth-shell {
         @apply min-h-svh px-5 py-6 sm:px-6 md:px-10 md:py-10;
         background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--app-action-primary) 18%, transparent), transparent 28%),
-            radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--app-info-border) 12%, transparent), transparent 30%),
-            linear-gradient(145deg, color-mix(in oklab, var(--app-shell-bg) 95%, black), color-mix(in oklab, var(--app-shell-bg-elevated) 88%, black));
+            radial-gradient(circle at top right, rgba(31, 94, 255, 0.26), transparent 30%),
+            radial-gradient(circle at 0% 100%, rgba(20, 184, 166, 0.16), transparent 34%),
+            linear-gradient(145deg, #030407, #0d111a 54%, #05070c);
         color: var(--app-shell-text);
     }
 
@@ -14,14 +14,14 @@
 
     .auth-stage__frame {
         @apply grid w-full items-stretch overflow-hidden border shadow-2xl;
-        border-radius: clamp(1.75rem, 3vw, 2.5rem);
-        border-color: color-mix(in srgb, var(--app-shell-border) 82%, white);
+        border-radius: clamp(2rem, 3vw, 3rem);
+        border-color: color-mix(in srgb, var(--app-shell-border) 70%, white);
         background:
             linear-gradient(180deg, color-mix(in srgb, white 2%, transparent), transparent 35%),
             color-mix(in srgb, black 8%, transparent);
         box-shadow:
-            0 32px 80px rgba(2, 6, 23, 0.34),
-            0 8px 22px rgba(2, 6, 23, 0.18);
+            0 42px 100px rgba(2, 6, 23, 0.42),
+            0 14px 34px rgba(2, 6, 23, 0.22);
     }
 
     .auth-stage__frame--welcome {
@@ -36,9 +36,9 @@
         @apply relative overflow-hidden;
         background:
             url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='opsNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23opsNoise)' opacity='0.045'/%3E%3C/svg%3E"),
-            radial-gradient(ellipse 64% 58% at 82% 18%, color-mix(in srgb, var(--app-action-primary) 28%, transparent), transparent 66%),
-            radial-gradient(ellipse 46% 62% at 8% 86%, color-mix(in srgb, var(--app-info-border) 14%, transparent), transparent 62%),
-            linear-gradient(145deg, color-mix(in oklab, var(--app-shell-bg) 95%, black), color-mix(in oklab, var(--app-shell-bg-elevated) 90%, black));
+            radial-gradient(ellipse 64% 58% at 82% 18%, rgba(31, 94, 255, 0.36), transparent 66%),
+            radial-gradient(ellipse 46% 62% at 8% 86%, rgba(20, 184, 166, 0.18), transparent 62%),
+            linear-gradient(145deg, #05070c, #111827 52%, #07111f);
         color: var(--app-shell-text);
     }
 
@@ -117,7 +117,8 @@
     }
 
     .auth-signal-card {
-        @apply rounded-[1.5rem] border px-5 py-5;
+        @apply border px-5 py-5;
+        border-radius: calc(var(--app-radius-xl) - 0.2rem);
         border-color: color-mix(in srgb, var(--app-shell-border) 76%, white);
         background:
             linear-gradient(180deg, color-mix(in srgb, white 8%, transparent), transparent 46%),
@@ -176,14 +177,14 @@
     .auth-panel {
         @apply w-full border p-7 sm:p-8;
         max-width: 30rem;
-        border-radius: clamp(1.5rem, 2vw, 2rem);
+        border-radius: clamp(1.75rem, 2vw, 2.35rem);
         background:
             linear-gradient(180deg, color-mix(in srgb, white 94%, var(--app-surface-elevated)), var(--app-surface));
         border-color: var(--app-border);
         color: var(--app-text);
         box-shadow:
-            0 24px 44px rgba(15, 23, 42, 0.1),
-            0 8px 18px rgba(15, 23, 42, 0.06);
+            0 30px 70px rgba(15, 23, 42, 0.14),
+            0 10px 24px rgba(15, 23, 42, 0.08);
         animation: ops-fade-up var(--app-duration-slow) var(--app-ease-out) both;
     }
 
@@ -312,6 +313,12 @@
             color-mix(in srgb, var(--app-surface-elevated) 96%, white);
     }
 
+    .welcome-stage__aside[data-motion] {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+
     .welcome-stage__aside-card {
         @apply flex h-full w-full flex-col gap-6 px-6 py-7 sm:px-8 sm:py-8;
         color: var(--app-text);
@@ -351,12 +358,12 @@
 
     .welcome-stage__step-title {
         @apply text-sm font-semibold;
-        color: var(--app-heading);
+        color: #020617;
     }
 
     .welcome-stage__step-copy {
         @apply mt-1 text-sm leading-6;
-        color: var(--app-text-muted-strong);
+        color: #1f2937;
     }
 
     .welcome-stage__aside-footer {
@@ -401,7 +408,7 @@
     .welcome-stage__aside .ops-inline-note {
         border-color: color-mix(in srgb, var(--app-border) 92%, white);
         background-color: var(--app-surface-subtle);
-        color: var(--app-heading);
+        color: #111827;
     }
 
     @media (max-width: 1023px) {

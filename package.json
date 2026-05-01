@@ -4,7 +4,11 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "test:browser:desktop": "php ./vendor/bin/pest tests/Browser/DesktopSmokeTest.php"
+    },
+    "engines": {
+        "node": ">=20.19 || >=22.12"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.1.11",

@@ -27,37 +27,37 @@
           physical instruments and authoritative command surfaces. 
         */
 
-        --app-shell-bg: #09090b; /* Stark OLED Black */
-        --app-shell-bg-elevated: #161619;
-        --app-shell-border: #27272a;
+        --app-shell-bg: #05070c;
+        --app-shell-bg-elevated: #0d111a;
+        --app-shell-border: #1d2636;
         --app-shell-text: #ffffff;
-        --app-shell-muted: #a1a1aa;
+        --app-shell-muted: #aab4c5;
 
-        /* Canvas: Extremely subtle cold grey / paper */
-        --app-content-bg: #f5f6f8;
+        /* Canvas: desk-grade off white with a cool laboratory cast */
+        --app-content-bg: #eef2f6;
         
         /* Surfaces: Pure stark white for maximum contrast */
-        --app-surface: #ffffff;
+        --app-surface: #fffffd;
         --app-surface-elevated: #ffffff;
-        --app-surface-subtle: #f9fafb;
+        --app-surface-subtle: #f6f8fb;
         
         /* Borders: Razor thin, barely visible architectural lines */
-        --app-border: #e4e4e7;
+        --app-border: #dce3eb;
         
         /* Text: Absolute hierarchy. Pitch black for primary, stark slate for muted */
-        --app-text: #27272a;
-        --app-text-muted: #71717a;
-        --app-text-muted-strong: #52525b;
-        --app-text-muted-soft: #3f3f46;
-        --app-heading: #09090b;
-        --app-heading-soft: #18181b;
+        --app-text: #1f2933;
+        --app-text-muted: #667085;
+        --app-text-muted-strong: #475467;
+        --app-text-muted-soft: #344054;
+        --app-heading: #0b1220;
+        --app-heading-soft: #111827;
 
         /* Actions: Replacing generic blue with an intense Electric Ultramarine */
-        --app-action-primary: #0036ee; 
-        --app-action-primary-hover: #002ac0;
+        --app-action-primary: #1f5eff;
+        --app-action-primary-hover: #174bd0;
         --app-action-primary-text: #ffffff;
         --app-action-primary-contrast: #1d4ed8;
-        --app-action-primary-contrast-hover: #1e40af;
+        --app-action-primary-contrast-hover: #1e3a8a;
         --app-action-secondary: #ffffff;
         --app-action-secondary-hover: #f4f4f5;
         --app-action-secondary-text: #09090b;
@@ -91,10 +91,10 @@
         --app-brand-text: #1d4ed8;
 
         /* Shape Geometry: Slightly tighter corners for a more formal 'software' feel */
-        --app-radius-sm: 0.5rem;
-        --app-radius-md: 0.75rem;
-        --app-radius-lg: 1rem;
-        --app-radius-xl: 1.25rem;
+        --app-radius-sm: 0.55rem;
+        --app-radius-md: 0.85rem;
+        --app-radius-lg: 1.15rem;
+        --app-radius-xl: 1.65rem;
 
         /* 
           Architectural Shadows: 
@@ -102,15 +102,15 @@
           that simulate physical light sources hitting hard material.
         */
         --app-shadow-sm: 
-            0 1px 2px rgba(9, 9, 11, 0.05),
-            0 1px 0 rgba(9, 9, 11, 0.02);
+            0 1px 2px rgba(15, 23, 42, 0.06),
+            0 1px 0 rgba(255, 255, 255, 0.85);
         --app-shadow-md: 
-            0 4px 12px rgba(9, 9, 11, 0.04),
-            0 2px 4px rgba(9, 9, 11, 0.03);
+            0 12px 28px rgba(15, 23, 42, 0.08),
+            0 3px 8px rgba(15, 23, 42, 0.05);
         --app-shadow-lg: 
-            0 12px 32px rgba(9, 9, 11, 0.05),
-            0 4px 12px rgba(9, 9, 11, 0.03),
-            0 0 0 1px rgba(9, 9, 11, 0.02);
+            0 24px 60px rgba(15, 23, 42, 0.14),
+            0 10px 24px rgba(15, 23, 42, 0.08),
+            0 0 0 1px rgba(15, 23, 42, 0.04);
 
         --app-glow-primary-sm: 0 0 18px color-mix(in srgb, var(--app-action-primary) 24%, transparent);
         --app-glow-primary: 0 0 28px color-mix(in srgb, var(--app-action-primary) 34%, transparent);
@@ -127,8 +127,8 @@
         --app-text-stat-value: clamp(2.1rem, 3.2vw, 3.4rem);
         --app-text-flagship-value: clamp(2.6rem, 4vw, 3.8rem);
 
-        --app-hero-grid-opacity: 0.34;
-        --app-hero-glow-strength: 28%;
+        --app-hero-grid-opacity: 0.22;
+        --app-hero-glow-strength: 34%;
         --app-glass-blur: 14px;
 
         --app-ease-out: cubic-bezier(0.16, 1, 0.3, 1);

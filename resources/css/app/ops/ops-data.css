@@ -4,10 +4,13 @@
     }
 
     .ops-glance-card {
-        @apply rounded-[calc(var(--app-radius-lg)-0.2rem)] border px-4 py-4;
-        border-color: color-mix(in srgb, var(--app-shell-border) 82%, white);
-        background-color: color-mix(in srgb, white 7%, transparent);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border px-4 py-4;
+        border-color: color-mix(in srgb, var(--app-shell-border) 70%, white);
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.06));
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            0 12px 24px rgba(0, 0, 0, 0.12);
     }
 
     .ops-glance-card__label {
@@ -33,12 +36,12 @@
     }
 
     .ops-workboard {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
-        border-color: var(--app-border);
+        @apply rounded-[calc(var(--app-radius-xl)-0.15rem)] border p-5;
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
         background:
-            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
+            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 98%, white), color-mix(in srgb, var(--app-surface-subtle) 55%, white)),
             var(--app-surface);
-        box-shadow: var(--app-shadow-sm);
+        box-shadow: var(--app-shadow-md);
     }
 
     .ops-workboard--attention {
@@ -83,7 +86,8 @@
     }
 
     .ops-workboard__metric {
-        @apply rounded-2xl border px-4 py-4;
+        @apply border px-4 py-4;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: color-mix(in srgb, var(--app-border) 84%, white);
         background-color: color-mix(in srgb, white 56%, var(--app-surface-subtle));
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
@@ -103,12 +107,12 @@
     }
 
     .ops-screen--dashboard .ops-workboard {
-        padding: 1.45rem;
+        padding: 1.15rem;
     }
 
     .ops-screen--dashboard .ops-workboard__summary {
         gap: 1.15rem;
-        padding-bottom: 1.15rem;
+        padding-bottom: 1rem;
     }
 
     .ops-screen--dashboard .ops-workboard__title {
@@ -118,11 +122,34 @@
 
     .ops-screen--dashboard .ops-workboard__metrics {
         align-items: stretch;
+        min-width: min(21rem, 100%);
     }
 
     .ops-screen--dashboard .ops-workboard__metric {
         min-height: 100%;
-        padding-block: 1rem;
+        padding-block: 0.85rem;
+    }
+
+    .ops-screen--dashboard .ops-workboard__metric-value {
+        font-size: 2rem;
+    }
+
+    .ops-screen--dashboard .ops-workboard__lane-grid {
+        gap: 0.85rem;
+        margin-top: 1rem;
+    }
+
+    .ops-screen--dashboard .ops-workboard__lane {
+        padding: 0.95rem;
+    }
+
+    .ops-screen--dashboard .ops-workboard__lane-copy {
+        margin-top: 0.65rem;
+        line-height: 1.55;
+    }
+
+    .ops-screen--dashboard .ops-workboard__lane-meta {
+        margin-top: 0.8rem;
     }
 
     .ops-workboard__lane-grid {
@@ -130,7 +157,8 @@
     }
 
     .ops-workboard__lane {
-        @apply rounded-2xl border px-4 py-4;
+        @apply border px-4 py-4;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: var(--app-border);
         background-color: color-mix(in srgb, var(--app-surface-elevated) 95%, white);
         box-shadow: var(--app-shadow-sm);
@@ -171,7 +199,8 @@
     }
 
     .ops-workboard__calm {
-        @apply mt-5 rounded-2xl border px-5 py-5;
+        @apply mt-5 border px-5 py-5;
+        border-radius: calc(var(--app-radius-lg) - 0.15rem);
         border-color: color-mix(in srgb, var(--app-success-border) 58%, var(--app-border));
         background-color: color-mix(in srgb, var(--app-success-bg) 74%, white);
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
@@ -192,12 +221,12 @@
     }
 
     .ops-bucket-board {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
-        border-color: var(--app-border);
+        @apply rounded-[calc(var(--app-radius-xl)-0.15rem)] border p-5;
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
             var(--app-surface);
-        box-shadow: var(--app-shadow-sm);
+        box-shadow: var(--app-shadow-md);
     }
 
     .ops-bucket-board--active {
@@ -242,7 +271,8 @@
     }
 
     .ops-bucket-card {
-        @apply rounded-2xl border px-4 py-4;
+        @apply border px-4 py-4;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: var(--app-border);
         background-color: color-mix(in srgb, var(--app-surface-elevated) 95%, white);
         box-shadow: var(--app-shadow-sm);
@@ -294,12 +324,12 @@
     }
 
     .ops-context-board {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
-        border-color: var(--app-border);
+        @apply rounded-[calc(var(--app-radius-xl)-0.15rem)] border p-5;
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
             var(--app-surface);
-        box-shadow: var(--app-shadow-sm);
+        box-shadow: var(--app-shadow-md);
     }
 
     .ops-context-board--calm {
@@ -352,7 +382,8 @@
     }
 
     .ops-context-card {
-        @apply rounded-2xl border px-4 py-4;
+        @apply border px-4 py-4;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: color-mix(in srgb, var(--app-border) 84%, white);
         background-color: color-mix(in srgb, var(--app-surface-elevated) 95%, white);
         box-shadow: var(--app-shadow-sm);
@@ -396,8 +427,8 @@
 
     .ops-signal-card {
         @apply relative overflow-hidden border px-5 py-5;
-        border-radius: calc(var(--app-radius-xl) - 0.4rem);
-        box-shadow: var(--app-shadow-sm);
+        border-radius: calc(var(--app-radius-xl) - 0.2rem);
+        box-shadow: var(--app-shadow-md);
         transition:
             transform var(--app-duration-fast) var(--app-ease-out),
             box-shadow var(--app-duration-fast) var(--app-ease-out),
@@ -467,7 +498,7 @@
 
     .ops-screen--dashboard .ops-signal-card,
     .ops-screen--checklist-run .ops-signal-card {
-        padding: 1.2rem;
+        padding: 1rem;
     }
 
     .ops-screen--dashboard .ops-signal-card__title,
@@ -478,15 +509,45 @@
     .ops-screen--dashboard .ops-signal-card__body,
     .ops-screen--checklist-run .ops-signal-card__body {
         max-width: 54ch;
+        margin-top: 0.6rem;
     }
 
     .ops-screen--dashboard .ops-signal-card__count,
     .ops-screen--checklist-run .ops-signal-card__count {
         letter-spacing: -0.05em;
+        font-size: 2.35rem;
     }
 
     .ops-stat-grid {
         @apply grid gap-4 md:grid-cols-2 xl:grid-cols-4;
+    }
+
+    .ops-dashboard-kpi-strip {
+        gap: 0.85rem;
+    }
+
+    .ops-screen--dashboard .ops-dashboard-kpi-strip .ops-stat {
+        border-radius: calc(var(--app-radius-xl) - 0.25rem);
+        box-shadow: var(--app-shadow-md);
+    }
+
+    .ops-screen--dashboard .ops-dashboard-kpi-strip .ops-stat__body {
+        padding: 1rem;
+    }
+
+    .ops-screen--dashboard .ops-dashboard-kpi-strip .ops-stat__value {
+        margin-top: 0.65rem;
+        font-size: clamp(1.8rem, 2.4vw, 2.65rem);
+    }
+
+    .ops-screen--dashboard .ops-dashboard-kpi-strip .ops-stat__meta {
+        font-size: 0.78rem;
+        line-height: 1.45;
+    }
+
+    .ops-screen--dashboard .ops-dashboard-kpi-strip .ops-arc-wrapper {
+        transform: scale(0.86);
+        transform-origin: top right;
     }
 
     .ops-glance-grid {
@@ -498,7 +559,8 @@
     }
 
     .ops-detail-list__item {
-        @apply rounded-2xl border px-4 py-4;
+        @apply border px-4 py-4;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: var(--app-border);
         background-color: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);
@@ -515,16 +577,16 @@
     }
 
     .ops-progress-panel {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
-        border-color: var(--app-border);
+        @apply rounded-[calc(var(--app-radius-xl)-0.25rem)] border p-5;
+        border-color: color-mix(in srgb, var(--app-border) 82%, white);
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 94%, white), var(--app-surface-elevated)),
             var(--app-surface-elevated);
-        box-shadow: var(--app-shadow-sm);
+        box-shadow: var(--app-shadow-md);
     }
 
     .ops-trend-card {
-        @apply rounded-[calc(var(--app-radius-xl)-0.3rem)] border p-5;
+        @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border p-5;
         border-color: var(--app-border);
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
@@ -555,7 +617,8 @@
     }
 
     .ops-trend-card__visual {
-        @apply shrink-0 rounded-2xl border px-3 py-2;
+        @apply shrink-0 border px-3 py-2;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: color-mix(in srgb, var(--app-border) 86%, white);
         background-color: color-mix(in srgb, var(--app-surface-subtle) 74%, white);
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -598,7 +661,8 @@
     }
 
     .ops-compare-list__item {
-        @apply flex items-center justify-between gap-3 rounded-2xl border px-3 py-3 text-sm;
+        @apply flex items-center justify-between gap-3 border px-3 py-3 text-sm;
+        border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: var(--app-border);
         background-color: var(--app-surface-elevated);
     }

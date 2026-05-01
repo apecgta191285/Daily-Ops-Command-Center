@@ -26,3 +26,5 @@ yarn-error.log
 /.recovery_backups
 /.vscode
 /.zed
+NUL
+*:Zone.Identifier
