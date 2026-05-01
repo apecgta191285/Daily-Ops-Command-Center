@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1200" viewBox="0 0 1800 1200">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#111111"/></marker>
+    <style>
+      text { font-family: Arial, "Noto Sans Thai", sans-serif; fill: #111111; }
+      .entity { font-size: 26px; font-weight: 700; }
+      .process { font-size: 19px; font-weight: 700; }
+      .store { font-size: 18px; }
+      .flow { font-size: 15px; }
+      .box { fill: #ffffff; stroke: #111111; stroke-width: 2; }
+      .store-line { stroke: #111111; stroke-width: 2; }
+      .line { fill: none; stroke: #111111; stroke-width: 2; marker-end: url(#arrow); }
+      .label { fill: #ffffff; stroke: none; }
+    </style>
+  </defs>
+  <rect width="1800" height="1200" fill="#ffffff"/>
+
+  <rect class="box" x="50" y="500" width="150" height="170"/>
+  <text class="entity" x="125" y="595" text-anchor="middle">Staff</text>
+
+  <rect class="box" x="360" y="220" width="260" height="105" rx="14"/>
+  <text class="process" x="490" y="260" text-anchor="middle">3.1</text>
+  <text class="process" x="490" y="292" text-anchor="middle">ตรวจสอบผู้ปฏิบัติงาน</text>
+  <rect class="box" x="360" y="500" width="260" height="105" rx="14"/>
+  <text class="process" x="490" y="540" text-anchor="middle">3.2</text>
+  <text class="process" x="490" y="572" text-anchor="middle">รับข้อมูลห้องและช่วงงาน</text>
+  <rect class="box" x="820" y="220" width="280" height="115" rx="14"/>
+  <text class="process" x="960" y="256" text-anchor="middle">3.3</text>
+  <text class="process" x="960" y="288" text-anchor="middle">ค้นหาแม่แบบรายการตรวจ</text>
+  <text class="process" x="960" y="318" text-anchor="middle">ที่พร้อมใช้งาน</text>
+  <rect class="box" x="820" y="500" width="280" height="115" rx="14"/>
+  <text class="process" x="960" y="536" text-anchor="middle">3.4</text>
+  <text class="process" x="960" y="568" text-anchor="middle">ตรวจสอบหรือสร้างรอบ</text>
+  <text class="process" x="960" y="598" text-anchor="middle">การตรวจประจำวัน</text>
+  <rect class="box" x="830" y="900" width="260" height="105" rx="14"/>
+  <text class="process" x="960" y="940" text-anchor="middle">3.5</text>
+  <text class="process" x="960" y="972" text-anchor="middle">บันทึกผลการตรวจเช็ก</text>
+  <rect class="box" x="1320" y="545" width="300" height="125" rx="14"/>
+  <text class="process" x="1470" y="585" text-anchor="middle">3.6</text>
+  <text class="process" x="1470" y="617" text-anchor="middle">ส่งรายการตรวจเช็กและ</text>
+  <text class="process" x="1470" y="647" text-anchor="middle">ผลการบันทึกกลับผู้ปฏิบัติงาน</text>
+
+  <g class="store">
+    <path class="store-line" d="M360 90 H620 M360 155 H620"/>
+    <text x="490" y="131" text-anchor="middle">D1 ข้อมูลผู้ใช้</text>
+    <path class="store-line" d="M360 710 H620 M360 775 H620"/>
+    <text x="490" y="751" text-anchor="middle">D2 ข้อมูลห้อง</text>
+    <path class="store-line" d="M820 90 H1100 M820 155 H1100"/>
+    <text x="960" y="131" text-anchor="middle">D3 ข้อมูลแม่แบบรายการตรวจ</text>
+    <path class="store-line" d="M805 710 H1115 M805 775 H1115"/>
+    <text x="960" y="751" text-anchor="middle">D4 ข้อมูลการตรวจเช็กประจำวัน</text>
+  </g>
+
+  <path class="line" d="M125 500 V270 H360"/>
+  <rect class="label" x="150" y="238" width="130" height="22"/><text class="flow" x="215" y="255" text-anchor="middle">ข้อมูลเข้าสู่ระบบ</text>
+  <path class="line" d="M490 155 V220"/>
+  <rect class="label" x="505" y="175" width="160" height="22"/><text class="flow" x="585" y="192">ข้อมูลผู้ใช้และสิทธิ์</text>
+  <path class="line" d="M490 325 V500"/>
+  <rect class="label" x="505" y="385" width="215" height="40"/><text class="flow" x="612" y="402" text-anchor="middle">ข้อมูลผู้ปฏิบัติงาน</text><text class="flow" x="612" y="421" text-anchor="middle">ที่ผ่านการตรวจสอบ</text>
+  <path class="line" d="M200 560 H360"/>
+  <rect class="label" x="210" y="528" width="155" height="22"/><text class="flow" x="288" y="545" text-anchor="middle">ข้อมูลห้องและช่วงงาน</text>
+  <path class="line" d="M490 710 V605"/>
+  <rect class="label" x="505" y="650" width="70" height="22"/><text class="flow" x="540" y="667">ข้อมูลห้อง</text>
+  <path class="line" d="M620 535 H690 V300 H820"/>
+  <rect class="label" x="635" y="478" width="185" height="22"/><text class="flow" x="728" y="495" text-anchor="middle">ข้อมูลห้องและช่วงงานที่เลือก</text>
+
+  <path class="line" d="M960 155 V220"/>
+  <rect class="label" x="975" y="172" width="180" height="40"/><text class="flow" x="1065" y="189" text-anchor="middle">ข้อมูลแม่แบบ</text><text class="flow" x="1065" y="208" text-anchor="middle">รายการตรวจ</text>
+  <path class="line" d="M960 335 V500"/>
+  <rect class="label" x="975" y="390" width="180" height="40"/><text class="flow" x="1065" y="407" text-anchor="middle">ข้อมูลแม่แบบ</text><text class="flow" x="1065" y="426" text-anchor="middle">ที่พร้อมใช้งาน</text>
+  <path class="line" d="M930 710 V615"/>
+  <rect class="label" x="745" y="645" width="175" height="22"/><text class="flow" x="832" y="662">สถานะ checklist ของวัน</text>
+  <path class="line" d="M990 615 V710"/>
+  <rect class="label" x="1005" y="645" width="135" height="22"/><text class="flow" x="1072" y="662">ข้อมูล checklist run</text>
+  <path class="line" d="M960 615 V900"/>
+  <rect class="label" x="975" y="805" width="155" height="22"/><text class="flow" x="1052" y="822">รายการตรวจเช็กของวัน</text>
+  <path class="line" d="M1100 560 H1220 V600 H1320"/>
+  <rect class="label" x="1140" y="520" width="215" height="40"/><text class="flow" x="1248" y="537" text-anchor="middle">รายการตรวจเช็กและ</text><text class="flow" x="1248" y="556" text-anchor="middle">สถานะของวัน</text>
+
+  <path class="line" d="M125 670 V950 H830"/>
+  <rect class="label" x="295" y="915" width="145" height="22"/><text class="flow" x="368" y="932" text-anchor="middle">ข้อมูลผลการตรวจเช็ก</text>
+  <path class="line" d="M900 900 V775"/>
+  <rect class="label" x="690" y="835" width="205" height="40"/><text class="flow" x="792" y="852" text-anchor="middle">ข้อมูลผลการตรวจเช็ก</text><text class="flow" x="792" y="871" text-anchor="middle">ประจำวัน</text>
+  <path class="line" d="M1090 950 H1470 V670"/>
+  <rect class="label" x="1195" y="915" width="135" height="22"/><text class="flow" x="1262" y="932" text-anchor="middle">ผลการบันทึกข้อมูล</text>
+  <path class="line" d="M1470 670 V1110 H125 V670"/>
+  <rect class="label" x="520" y="1080" width="220" height="22"/><text class="flow" x="630" y="1097" text-anchor="middle">รายการตรวจเช็กและผลการบันทึก</text>
+</svg>

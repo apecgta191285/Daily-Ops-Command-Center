@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2800" height="1900" viewBox="0 0 2800 1900">
+<rect x="0" y="0" width="2800" height="1900" fill="#fff"/>
+<path d="M1880 210 L2200 210" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M1690 320 L1690 600 L1120 600 L1120 690" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M1060 320 L1060 690" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M450 770 L920 770" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M450 880 L920 880" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M1310 835 L1640 835" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M2390 400 L2390 875 L2030 875" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M290 670 L290 520 L1570 520 L1570 780 L1640 780" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M900 255 L760 255 L760 1315 L920 1315" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M450 1345 L920 1345" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M450 1460 L920 1460" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M1340 1390 L1660 1390" fill="none" stroke="#111" stroke-width="2"/>
+<path d="M290 1030 L290 1810 L1850 1810 L1850 1540" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="130" y="670" width="320" height="360" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="130" y1="710" x2="450" y2="710" stroke="#111" stroke-width="1.5"/>
+<text x="290" y="697" font-family="Arial, Tahoma, sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111">users</text>
+<text x="148" y="740" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">PK  id</text>
+<text x="148" y="764" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">name</text>
+<text x="148" y="788" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">email</text>
+<text x="148" y="812" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">password</text>
+<text x="148" y="836" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">role</text>
+<text x="148" y="860" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">is_active</text>
+<text x="148" y="884" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">created_at</text>
+<text x="148" y="908" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">updated_at</text>
+<rect x="900" y="100" width="320" height="220" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="900" y1="140" x2="1220" y2="140" stroke="#111" stroke-width="1.5"/>
+<text x="1060" y="127" font-family="Arial, Tahoma, sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111">rooms</text>
+<text x="918" y="170" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">PK  id</text>
+<text x="918" y="194" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">name</text>
+<text x="918" y="218" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">code</text>
+<text x="918" y="242" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">description</text>
+<text x="918" y="266" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">is_active</text>
+<text x="918" y="290" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">created_at</text>
+<text x="918" y="314" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">updated_at</text>
+<rect x="1500" y="100" width="380" height="220" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="1500" y1="140" x2="1880" y2="140" stroke="#111" stroke-width="1.5"/>
+<text x="1690" y="127" font-family="Arial, Tahoma, sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111">checklist_templates</text>
+<text x="1518" y="170" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">PK  id</text>
+<text x="1518" y="194" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">title</text>
+<text x="1518" y="218" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">description</text>
+<text x="1518" y="242" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">scope</text>
+<text x="1518" y="266" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">is_active</text>
+<text x="1518" y="290" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">created_at</text>
+<text x="1518" y="314" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">updated_at</text>
+<rect x="2200" y="100" width="380" height="300" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="2200" y1="140" x2="2580" y2="140" stroke="#111" stroke-width="1.5"/>
+<text x="2390" y="127" font-family="Arial, Tahoma, sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111">checklist_items</text>
+<text x="2218" y="170" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">PK  id</text>
+<text x="2218" y="194" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  checklist_template_id</text>
+<text x="2218" y="218" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">title</text>
+<text x="2218" y="242" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">description</text>
+<text x="2218" y="266" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">group_label</text>
+<text x="2218" y="290" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">sort_order</text>
+<text x="2218" y="314" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">is_required</text>
+<text x="2218" y="338" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">created_at</text>
+<text x="2218" y="362" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">updated_at</text>
+<rect x="920" y="690" width="390" height="360" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="920" y1="730" x2="1310" y2="730" stroke="#111" stroke-width="1.5"/>
+<text x="1115" y="717" font-family="Arial, Tahoma, sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111">checklist_runs</text>
+<text x="938" y="760" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">PK  id</text>
+<text x="938" y="784" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  checklist_template_id</text>
+<text x="938" y="808" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  room_id</text>
+<text x="938" y="832" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  created_by</text>
+<text x="938" y="856" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  submitted_by</text>
+<text x="938" y="880" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">run_date</text>
+<text x="938" y="904" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">assigned_team_or_scope</text>
+<text x="938" y="928" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">submitted_at</text>
+<text x="938" y="952" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">created_at</text>
+<text x="938" y="976" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">updated_at</text>
+<rect x="1640" y="720" width="390" height="300" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="1640" y1="760" x2="2030" y2="760" stroke="#111" stroke-width="1.5"/>
+<text x="1835" y="747" font-family="Arial, Tahoma, sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111">checklist_run_items</text>
+<text x="1658" y="790" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">PK  id</text>
+<text x="1658" y="814" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  checklist_run_id</text>
+<text x="1658" y="838" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  checklist_item_id</text>
+<text x="1658" y="862" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  checked_by</text>
+<text x="1658" y="886" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">result</text>
+<text x="1658" y="910" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">note</text>
+<text x="1658" y="934" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">checked_at</text>
+<text x="1658" y="958" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">created_at</text>
+<text x="1658" y="982" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">updated_at</text>
+<rect x="920" y="1260" width="420" height="420" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="920" y1="1300" x2="1340" y2="1300" stroke="#111" stroke-width="1.5"/>
+<text x="1130" y="1287" font-family="Arial, Tahoma, sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111">incidents</text>
+<text x="938" y="1330" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">PK  id</text>
+<text x="938" y="1354" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  room_id</text>
+<text x="938" y="1378" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  created_by</text>
+<text x="938" y="1402" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  owner_id</text>
+<text x="938" y="1426" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">title</text>
+<text x="938" y="1450" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">category</text>
+<text x="938" y="1474" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">severity</text>
+<text x="938" y="1498" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">status</text>
+<text x="938" y="1522" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">description</text>
+<text x="938" y="1546" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">equipment_reference</text>
+<text x="938" y="1570" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">attachment_path</text>
+<text x="938" y="1594" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">follow_up_due_at</text>
+<text x="938" y="1618" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">resolved_at</text>
+<text x="938" y="1642" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">created_at</text>
+<text x="938" y="1666" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">updated_at</text>
+<rect x="1660" y="1300" width="380" height="240" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="1660" y1="1340" x2="2040" y2="1340" stroke="#111" stroke-width="1.5"/>
+<text x="1850" y="1327" font-family="Arial, Tahoma, sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111">incident_activities</text>
+<text x="1678" y="1370" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">PK  id</text>
+<text x="1678" y="1394" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  incident_id</text>
+<text x="1678" y="1418" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">FK  actor_id</text>
+<text x="1678" y="1442" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">action_type</text>
+<text x="1678" y="1466" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">summary</text>
+<text x="1678" y="1490" font-family="Arial, Tahoma, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111">created_at</text>
+<rect x="1842" y="109" width="316" height="54" fill="#fff"/>
+<text x="2000" y="132" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">แม่แบบรายการตรวจมี</text>
+<text x="2000" y="153" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">รายการตรวจหลายรายการ</text>
+<text x="1900" y="195" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">1</text>
+<text x="2180" y="195" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="1282" y="527" width="346" height="54" fill="#fff"/>
+<text x="1455" y="550" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">แม่แบบรายการตรวจถูกใช้</text>
+<text x="1455" y="571" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">สร้างรอบการตรวจ</text>
+<text x="1670" y="340" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">1</text>
+<text x="1140" y="670" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="1077" y="457" width="296" height="54" fill="#fff"/>
+<text x="1225" y="480" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">ห้องมีรอบการตรวจหลายรอบ</text>
+<text x="1040" y="340" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">1</text>
+<text x="1080" y="670" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="567" y="707" width="286" height="54" fill="#fff"/>
+<text x="710" y="730" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">ผู้ใช้สร้างรอบการตรวจ</text>
+<text x="475" y="752" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">1</text>
+<text x="900" y="752" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="567" y="817" width="286" height="54" fill="#fff"/>
+<text x="710" y="840" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">ผู้ใช้ส่งรอบการตรวจ</text>
+<text x="485" y="862" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">0..1</text>
+<text x="900" y="862" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="1327" y="757" width="316" height="54" fill="#fff"/>
+<text x="1485" y="780" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">รอบการตรวจมีผลตรวจ</text>
+<text x="1485" y="801" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">หลายรายการ</text>
+<text x="1330" y="817" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">1</text>
+<text x="1620" y="817" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="2062" y="887" width="326" height="54" fill="#fff"/>
+<text x="2225" y="910" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">รายการตรวจถูกบันทึกผล</text>
+<text x="2225" y="931" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">ในรอบการตรวจ</text>
+<text x="2410" y="420" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">1</text>
+<text x="2050" y="858" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="917" y="459" width="266" height="54" fill="#fff"/>
+<text x="1050" y="482" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">ผู้ใช้ตรวจรายการ</text>
+<text x="310" y="652" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">0..1</text>
+<text x="1620" y="762" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="692" y="1117" width="316" height="54" fill="#fff"/>
+<text x="850" y="1140" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">ห้องมีเหตุผิดปกติหลายรายการ</text>
+<text x="880" y="273" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">1</text>
+<text x="900" y="1298" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="572" y="1282" width="286" height="54" fill="#fff"/>
+<text x="715" y="1305" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">ผู้ใช้แจ้งเหตุผิดปกติ</text>
+<text x="475" y="1328" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">1</text>
+<text x="900" y="1328" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="552" y="1397" width="336" height="54" fill="#fff"/>
+<text x="720" y="1420" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">ผู้ใช้รับผิดชอบเหตุผิดปกติ</text>
+<text x="485" y="1442" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">0..1</text>
+<text x="900" y="1442" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="1317" y="1225" width="336" height="54" fill="#fff"/>
+<text x="1485" y="1248" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">เหตุผิดปกติมีกิจกรรมหลายรายการ</text>
+<text x="1360" y="1372" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">1</text>
+<text x="1640" y="1372" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+<rect x="952" y="1745" width="356" height="54" fill="#fff"/>
+<text x="1130" y="1768" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="#111">ผู้ใช้บันทึกกิจกรรมเหตุผิดปกติ</text>
+<text x="310" y="1012" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">0..1</text>
+<text x="1870" y="1522" font-family="Arial, Tahoma, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#111">N</text>
+</svg>

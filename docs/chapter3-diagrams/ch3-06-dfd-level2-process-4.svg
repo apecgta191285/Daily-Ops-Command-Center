@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1500" viewBox="0 0 2200 1500">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#111111"/></marker>
+    <style>
+      text { font-family: Arial, "Noto Sans Thai", sans-serif; fill: #111111; }
+      .entity { font-size: 25px; font-weight: 700; }
+      .process { font-size: 18px; font-weight: 700; }
+      .store { font-size: 18px; }
+      .flow { font-size: 15px; }
+      .box { fill:#fff; stroke:#111; stroke-width:2; }
+      .line { fill:none; stroke:#111; stroke-width:2; marker-end:url(#arrow); }
+      .store-line { stroke:#111; stroke-width:2; }
+      .label { fill:#fff; stroke:none; }
+    </style>
+  </defs>
+  <rect width="2200" height="1500" fill="#ffffff"/>
+  <rect class="box" x="60" y="655" width="150" height="170"/><text class="entity" x="135" y="750" text-anchor="middle">Staff</text>
+  <rect class="box" x="1960" y="300" width="170" height="120"/><text class="entity" x="2045" y="372" text-anchor="middle">Supervisor</text>
+  <rect class="box" x="1960" y="560" width="170" height="120"/><text class="entity" x="2045" y="632" text-anchor="middle">Admin</text>
+
+  <rect class="box" x="360" y="130" width="300" height="115" rx="14"/><text class="process" x="510" y="168" text-anchor="middle">4.1</text><text class="process" x="510" y="198" text-anchor="middle">รับข้อมูลเหตุผิดปกติ</text><text class="process" x="510" y="226" text-anchor="middle">จากผู้ปฏิบัติงาน</text>
+  <rect class="box" x="360" y="430" width="300" height="125" rx="14"/><text class="process" x="510" y="468" text-anchor="middle">4.2</text><text class="process" x="510" y="498" text-anchor="middle">ตรวจสอบข้อมูลห้องและ</text><text class="process" x="510" y="526" text-anchor="middle">รายละเอียดเหตุผิดปกติ</text>
+  <rect class="box" x="830" y="430" width="280" height="105" rx="14"/><text class="process" x="970" y="470" text-anchor="middle">4.3</text><text class="process" x="970" y="502" text-anchor="middle">บันทึกรายงานเหตุผิดปกติ</text>
+  <rect class="box" x="680" y="820" width="290" height="115" rx="14"/><text class="process" x="825" y="858" text-anchor="middle">4.4</text><text class="process" x="825" y="888" text-anchor="middle">บันทึกกิจกรรม</text><text class="process" x="825" y="916" text-anchor="middle">การแจ้งเหตุผิดปกติ</text>
+  <rect class="box" x="1360" y="215" width="300" height="115" rx="14"/><text class="process" x="1510" y="253" text-anchor="middle">4.5</text><text class="process" x="1510" y="283" text-anchor="middle">รับข้อมูลอัปเดตสถานะ</text><text class="process" x="1510" y="311" text-anchor="middle">จากผู้ดูแล</text>
+  <rect class="box" x="1360" y="560" width="300" height="115" rx="14"/><text class="process" x="1510" y="598" text-anchor="middle">4.6</text><text class="process" x="1510" y="628" text-anchor="middle">ปรับปรุงสถานะและ</text><text class="process" x="1510" y="656" text-anchor="middle">ข้อมูลการติดตาม</text>
+  <rect class="box" x="1360" y="860" width="300" height="115" rx="14"/><text class="process" x="1510" y="898" text-anchor="middle">4.7</text><text class="process" x="1510" y="928" text-anchor="middle">บันทึกกิจกรรม</text><text class="process" x="1510" y="956" text-anchor="middle">การเปลี่ยนแปลง</text>
+  <rect class="box" x="1010" y="1180" width="330" height="120" rx="14"/><text class="process" x="1175" y="1220" text-anchor="middle">4.8</text><text class="process" x="1175" y="1252" text-anchor="middle">ส่งผลการบันทึกและ</text><text class="process" x="1175" y="1282" text-anchor="middle">ผลการอัปเดตกลับผู้เกี่ยวข้อง</text>
+
+  <g class="store">
+    <path class="store-line" d="M320 300 H620 M320 365 H620"/><text x="470" y="341" text-anchor="middle">D2 ข้อมูลห้อง</text>
+    <path class="store-line" d="M905 650 H1225 M905 715 H1225"/><text x="1065" y="691" text-anchor="middle">D5 ข้อมูลเหตุผิดปกติ</text>
+    <path class="store-line" d="M935 1015 H1295 M935 1080 H1295"/><text x="1115" y="1056" text-anchor="middle">D6 ข้อมูลกิจกรรมเหตุผิดปกติ</text>
+  </g>
+
+  <path class="line" d="M135 655 V185 H360"/><rect class="label" x="150" y="145" width="130" height="22"/><text class="flow" x="215" y="162" text-anchor="middle">ข้อมูลเหตุผิดปกติ</text>
+  <path class="line" d="M510 245 V430"/><rect class="label" x="535" y="305" width="220" height="40"/><text class="flow" x="645" y="322" text-anchor="middle">รายละเอียดเหตุผิดปกติ</text><text class="flow" x="645" y="341" text-anchor="middle">ที่รับเข้าระบบ</text>
+  <path class="line" d="M470 365 V430"/><rect class="label" x="385" y="390" width="70" height="22"/><text class="flow" x="420" y="407">ข้อมูลห้อง</text>
+  <path class="line" d="M660 492 H830"/><rect class="label" x="675" y="460" width="220" height="22"/><text class="flow" x="785" y="477" text-anchor="middle">ข้อมูลเหตุผิดปกติที่ผ่านการตรวจสอบ</text>
+  <path class="line" d="M970 535 V650"/><rect class="label" x="985" y="575" width="130" height="22"/><text class="flow" x="1050" y="592">ข้อมูลเหตุผิดปกติ</text>
+  <path class="line" d="M900 535 H825 V820"/><rect class="label" x="725" y="610" width="175" height="22"/><text class="flow" x="812" y="627">ข้อมูลการสร้างเหตุผิดปกติ</text>
+  <path class="line" d="M825 935 V1048 H1010"/><rect class="label" x="720" y="975" width="175" height="40"/><text class="flow" x="808" y="992" text-anchor="middle">ข้อมูลกิจกรรม</text><text class="flow" x="808" y="1011" text-anchor="middle">เหตุผิดปกติ</text>
+  <path class="line" d="M970 900 H1080 V1180"/><rect class="label" x="990" y="940" width="175" height="40"/><text class="flow" x="1078" y="957" text-anchor="middle">ผลการบันทึก</text><text class="flow" x="1078" y="976" text-anchor="middle">เหตุผิดปกติ</text>
+
+  <path class="line" d="M1960 345 H1810 V255 H1660"/><rect class="label" x="1715" y="300" width="220" height="40"/><text class="flow" x="1825" y="317" text-anchor="middle">ข้อมูลอัปเดตสถานะ</text><text class="flow" x="1825" y="336" text-anchor="middle">เหตุผิดปกติ</text>
+  <path class="line" d="M1960 600 H1840 V300 H1660"/><rect class="label" x="1715" y="420" width="220" height="40"/><text class="flow" x="1825" y="437" text-anchor="middle">ข้อมูลอัปเดตสถานะ</text><text class="flow" x="1825" y="456" text-anchor="middle">เหตุผิดปกติ</text>
+  <path class="line" d="M1225 685 H1510 V330"/><rect class="label" x="1255" y="375" width="130" height="22"/><text class="flow" x="1320" y="392">ข้อมูลเหตุผิดปกติ</text>
+  <path class="line" d="M1510 330 V560"/><rect class="label" x="1530" y="410" width="250" height="40"/><text class="flow" x="1655" y="427" text-anchor="middle">ข้อมูลการเปลี่ยนแปลงสถานะ</text><text class="flow" x="1655" y="446" text-anchor="middle">และการติดตาม</text>
+  <path class="line" d="M1360 620 H1290 V685 H1225"/><rect class="label" x="1320" y="675" width="250" height="40"/><text class="flow" x="1445" y="692" text-anchor="middle">ข้อมูลสถานะเหตุผิดปกติ</text><text class="flow" x="1445" y="711" text-anchor="middle">และข้อมูลการติดตาม</text>
+  <path class="line" d="M1510 675 V860"/><rect class="label" x="1530" y="745" width="190" height="22"/><text class="flow" x="1625" y="762">ข้อมูลกิจกรรมการเปลี่ยนแปลง</text>
+  <path class="line" d="M1510 975 V1048 H1295"/><rect class="label" x="1325" y="990" width="175" height="40"/><text class="flow" x="1412" y="1007" text-anchor="middle">ข้อมูลกิจกรรม</text><text class="flow" x="1412" y="1026" text-anchor="middle">เหตุผิดปกติ</text>
+  <path class="line" d="M1360 935 H1270 V1180"/><rect class="label" x="1278" y="950" width="145" height="22"/><text class="flow" x="1350" y="967">ผลการอัปเดตสถานะ</text>
+
+  <path class="line" d="M1010 1230 H135 V825"/><rect class="label" x="390" y="1200" width="175" height="22"/><text class="flow" x="478" y="1217" text-anchor="middle">ผลการบันทึกเหตุผิดปกติ</text>
+  <path class="line" d="M1340 1215 H1875 V420 H2045"/><rect class="label" x="1600" y="1185" width="145" height="22"/><text class="flow" x="1672" y="1202" text-anchor="middle">ผลการอัปเดตสถานะ</text>
+  <path class="line" d="M1340 1265 H1905 V680 H2045"/><rect class="label" x="1600" y="1275" width="145" height="22"/><text class="flow" x="1672" y="1292" text-anchor="middle">ผลการอัปเดตสถานะ</text>
+</svg>

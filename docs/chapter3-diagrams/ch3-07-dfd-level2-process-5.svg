@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1250" viewBox="0 0 2000 1250">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#111111"/></marker>
+    <style>
+      text { font-family: Arial, "Noto Sans Thai", sans-serif; fill:#111111; }
+      .entity { font-size:24px; font-weight:700; }
+      .process { font-size:18px; font-weight:700; }
+      .store { font-size:18px; }
+      .flow { font-size:15px; }
+      .box { fill:#fff; stroke:#111; stroke-width:2; }
+      .line { fill:none; stroke:#111; stroke-width:2; marker-end:url(#arrow); }
+      .store-line { stroke:#111; stroke-width:2; }
+      .label { fill:#fff; stroke:none; }
+    </style>
+  </defs>
+  <rect width="2000" height="1250" fill="#ffffff"/>
+  <rect class="box" x="60" y="260" width="170" height="110"/><text class="entity" x="145" y="327" text-anchor="middle">Supervisor</text>
+  <rect class="box" x="60" y="670" width="170" height="110"/><text class="entity" x="145" y="737" text-anchor="middle">Admin</text>
+
+  <rect class="box" x="330" y="455" width="250" height="115" rx="14"/><text class="process" x="455" y="493" text-anchor="middle">5.1</text><text class="process" x="455" y="523" text-anchor="middle">รับคำขอดูภาพรวม</text><text class="process" x="455" y="551" text-anchor="middle">และสถานะงาน</text>
+  <rect class="box" x="720" y="145" width="250" height="115" rx="14"/><text class="process" x="845" y="183" text-anchor="middle">5.2</text><text class="process" x="845" y="213" text-anchor="middle">อ่านข้อมูลการตรวจเช็ก</text><text class="process" x="845" y="241" text-anchor="middle">ประจำวัน</text>
+  <rect class="box" x="720" y="455" width="250" height="105" rx="14"/><text class="process" x="845" y="495" text-anchor="middle">5.3</text><text class="process" x="845" y="527" text-anchor="middle">อ่านข้อมูลเหตุผิดปกติ</text>
+  <rect class="box" x="720" y="765" width="250" height="115" rx="14"/><text class="process" x="845" y="803" text-anchor="middle">5.4</text><text class="process" x="845" y="833" text-anchor="middle">อ่านข้อมูลกิจกรรม</text><text class="process" x="845" y="861" text-anchor="middle">เหตุผิดปกติ</text>
+  <rect class="box" x="1280" y="330" width="250" height="115" rx="14"/><text class="process" x="1405" y="368" text-anchor="middle">5.5</text><text class="process" x="1405" y="398" text-anchor="middle">ประมวลผลภาพรวม</text><text class="process" x="1405" y="426" text-anchor="middle">แดชบอร์ด</text>
+  <rect class="box" x="1280" y="705" width="250" height="115" rx="14"/><text class="process" x="1405" y="743" text-anchor="middle">5.6</text><text class="process" x="1405" y="773" text-anchor="middle">จัดเตรียมประวัติ</text><text class="process" x="1405" y="801" text-anchor="middle">และเอกสารสรุป</text>
+  <rect class="box" x="1660" y="520" width="270" height="120" rx="14"/><text class="process" x="1795" y="560" text-anchor="middle">5.7</text><text class="process" x="1795" y="592" text-anchor="middle">ส่งข้อมูลภาพรวมและ</text><text class="process" x="1795" y="622" text-anchor="middle">เอกสารสรุปกลับผู้ดูแล</text>
+
+  <g class="store">
+    <path class="store-line" d="M1020 150 H1350 M1020 215 H1350"/><text x="1185" y="191" text-anchor="middle">D4 ข้อมูลการตรวจเช็กประจำวัน</text>
+    <path class="store-line" d="M1020 470 H1350 M1020 535 H1350"/><text x="1185" y="511" text-anchor="middle">D5 ข้อมูลเหตุผิดปกติ</text>
+    <path class="store-line" d="M1020 790 H1350 M1020 855 H1350"/><text x="1185" y="831" text-anchor="middle">D6 ข้อมูลกิจกรรมเหตุผิดปกติ</text>
+  </g>
+
+  <path class="line" d="M230 315 H280 V485 H330"/><rect class="label" x="185" y="385" width="165" height="22"/><text class="flow" x="267" y="402" text-anchor="middle">คำขอติดตามสถานะงาน</text>
+  <path class="line" d="M230 725 H280 V535 H330"/><rect class="label" x="190" y="610" width="145" height="22"/><text class="flow" x="262" y="627" text-anchor="middle">คำขอดูภาพรวมระบบ</text>
+  <path class="line" d="M580 480 H640 V205 H720"/><rect class="label" x="465" y="360" width="210" height="40"/><text class="flow" x="570" y="377" text-anchor="middle">เงื่อนไขการดูข้อมูล</text><text class="flow" x="570" y="396" text-anchor="middle">การตรวจเช็ก</text>
+  <path class="line" d="M1020 185 H970"/><rect class="label" x="980" y="156" width="130" height="22"/><text class="flow" x="1045" y="173">ข้อมูลการตรวจเช็ก</text>
+  <path class="line" d="M970 230 H1210 V365 H1280"/><rect class="label" x="1060" y="250" width="165" height="22"/><text class="flow" x="1142" y="267">ข้อมูลสรุปการตรวจเช็ก</text>
+
+  <path class="line" d="M580 512 H720"/><rect class="label" x="545" y="480" width="210" height="22"/><text class="flow" x="650" y="497" text-anchor="middle">เงื่อนไขการดูข้อมูลเหตุผิดปกติ</text>
+  <path class="line" d="M1020 505 H970"/><rect class="label" x="980" y="476" width="130" height="22"/><text class="flow" x="1045" y="493">ข้อมูลเหตุผิดปกติ</text>
+  <path class="line" d="M970 485 H1210 V410 H1280"/><rect class="label" x="1065" y="420" width="155" height="22"/><text class="flow" x="1142" y="437">ข้อมูลสรุปเหตุผิดปกติ</text>
+
+  <path class="line" d="M580 545 H640 V820 H720"/><rect class="label" x="440" y="690" width="200" height="22"/><text class="flow" x="540" y="707">เงื่อนไขการดูประวัติกิจกรรม</text>
+  <path class="line" d="M1020 825 H970"/><rect class="label" x="980" y="796" width="180" height="22"/><text class="flow" x="1070" y="813">ข้อมูลกิจกรรมเหตุผิดปกติ</text>
+  <path class="line" d="M970 800 H1280 V765"/><rect class="label" x="1040" y="770" width="145" height="22"/><text class="flow" x="1112" y="787">ข้อมูลประวัติกิจกรรม</text>
+
+  <path class="line" d="M1405 445 V705"/><rect class="label" x="1420" y="565" width="195" height="22"/><text class="flow" x="1518" y="582">ข้อมูลภาพรวมสำหรับจัดทำสรุป</text>
+  <path class="line" d="M1530 390 H1600 V555 H1660"/><rect class="label" x="1545" y="435" width="245" height="22"/><text class="flow" x="1668" y="452" text-anchor="middle">ข้อมูลแดชบอร์ดและรายการเหตุผิดปกติ</text>
+  <path class="line" d="M1530 760 H1600 V610 H1660"/><rect class="label" x="1545" y="735" width="145" height="22"/><text class="flow" x="1618" y="752">ประวัติและเอกสารสรุป</text>
+  <path class="line" d="M1795 520 V95 H145 V260"/>
+  <rect class="label" x="930" y="55" width="330" height="44"/>
+  <text class="flow" x="1095" y="73" text-anchor="middle">ข้อมูลแดชบอร์ด/รายการเหตุผิดปกติ/</text>
+  <text class="flow" x="1095" y="93" text-anchor="middle">ประวัติและเอกสารสรุป</text>
+  <path class="line" d="M1795 640 V1065 H145 V780"/>
+  <rect class="label" x="1040" y="1035" width="135" height="22"/>
+  <text class="flow" x="1108" y="1052" text-anchor="middle">ข้อมูลภาพรวมระบบ</text>
+</svg>

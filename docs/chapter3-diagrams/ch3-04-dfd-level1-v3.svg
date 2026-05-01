@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1600" viewBox="0 0 2400 1600">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#111111"/>
+    </marker>
+    <marker id="arrowStart" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M10 0 L0 5 L10 10 Z" fill="#111111"/>
+    </marker>
+    <style>
+      text { font-family: Arial, "Noto Sans Thai", sans-serif; fill: #111111; }
+      .entity { font-size: 26px; font-weight: 700; }
+      .process { font-size: 20px; font-weight: 700; }
+      .store { font-size: 18px; }
+      .flow { font-size: 15px; }
+      .box { fill: #ffffff; stroke: #111111; stroke-width: 2; }
+      .flowbox { fill: #ffffff; stroke: none; }
+      .line { fill: none; stroke: #111111; stroke-width: 2; marker-end: url(#arrow); }
+      .bidir { fill: none; stroke: #111111; stroke-width: 2; marker-start: url(#arrowStart); marker-end: url(#arrow); }
+      .store-line { stroke: #111111; stroke-width: 2; }
+    </style>
+  </defs>
+  <rect width="2400" height="1600" fill="#ffffff"/>
+
+  <rect class="box" x="60" y="735" width="220" height="120"/>
+  <text class="entity" x="170" y="807" text-anchor="middle">Staff</text>
+  <rect class="box" x="1090" y="60" width="220" height="105"/>
+  <text class="entity" x="1200" y="124" text-anchor="middle">Admin</text>
+  <rect class="box" x="2120" y="735" width="220" height="120"/>
+  <text class="entity" x="2230" y="807" text-anchor="middle">Supervisor</text>
+
+  <rect class="box" x="360" y="270" width="310" height="105" rx="14"/>
+  <text class="process" x="515" y="312" text-anchor="middle">1.0</text>
+  <text class="process" x="515" y="348" text-anchor="middle">จัดการผู้ใช้และสิทธิ์</text>
+  <rect class="box" x="1730" y="270" width="310" height="105" rx="14"/>
+  <text class="process" x="1885" y="312" text-anchor="middle">2.0</text>
+  <text class="process" x="1885" y="348" text-anchor="middle">จัดการแม่แบบรายการตรวจ</text>
+  <rect class="box" x="560" y="735" width="310" height="115" rx="14"/>
+  <text class="process" x="715" y="778" text-anchor="middle">3.0</text>
+  <text class="process" x="715" y="812" text-anchor="middle">ดำเนินการตรวจเช็กประจำวัน</text>
+  <rect class="box" x="1430" y="735" width="310" height="115" rx="14"/>
+  <text class="process" x="1585" y="778" text-anchor="middle">4.0</text>
+  <text class="process" x="1585" y="812" text-anchor="middle">จัดการเหตุผิดปกติ</text>
+  <rect class="box" x="1045" y="1260" width="310" height="120" rx="14"/>
+  <text class="process" x="1200" y="1303" text-anchor="middle">5.0</text>
+  <text class="process" x="1200" y="1336" text-anchor="middle">ติดตามภาพรวมและ</text>
+  <text class="process" x="1200" y="1366" text-anchor="middle">ทบทวนประวัติ</text>
+
+  <g class="store">
+    <path class="store-line" d="M360 475 H670 M360 540 H670"/>
+    <text x="515" y="516" text-anchor="middle">D1 ข้อมูลผู้ใช้</text>
+    <path class="store-line" d="M900 420 H1210 M900 485 H1210"/>
+    <text x="1055" y="461" text-anchor="middle">D2 ข้อมูลห้อง</text>
+    <path class="store-line" d="M1730 475 H2040 M1730 540 H2040"/>
+    <text x="1885" y="516" text-anchor="middle">D3 ข้อมูลแม่แบบรายการตรวจ</text>
+    <path class="store-line" d="M560 1010 H870 M560 1075 H870"/>
+    <text x="715" y="1051" text-anchor="middle">D4 ข้อมูลการตรวจเช็กประจำวัน</text>
+    <path class="store-line" d="M1430 1010 H1740 M1430 1075 H1740"/>
+    <text x="1585" y="1051" text-anchor="middle">D5 ข้อมูลเหตุผิดปกติ</text>
+    <path class="store-line" d="M1430 1145 H1740 M1430 1210 H1740"/>
+    <text x="1585" y="1186" text-anchor="middle">D6 ข้อมูลกิจกรรมเหตุผิดปกติ</text>
+  </g>
+
+  <path class="line" d="M1090 100 H515 V270"/>
+  <rect class="flowbox" x="610" y="80" width="155" height="22"/><text class="flow" x="688" y="97" text-anchor="middle">ข้อมูลจัดการผู้ใช้</text>
+  <path class="line" d="M670 300 H1080 V130 H1090"/>
+  <rect class="flowbox" x="720" y="275" width="155" height="22"/><text class="flow" x="798" y="292" text-anchor="middle">ผลการจัดการผู้ใช้</text>
+  <path class="bidir" d="M515 375 V475"/>
+  <rect class="flowbox" x="345" y="410" width="170" height="22"/><text class="flow" x="430" y="427" text-anchor="middle">ข้อมูลผู้ใช้และสิทธิ์</text>
+
+  <path class="line" d="M1310 100 H1885 V270"/>
+  <rect class="flowbox" x="1590" y="80" width="190" height="22"/><text class="flow" x="1685" y="97" text-anchor="middle">ข้อมูลแม่แบบรายการตรวจ</text>
+  <path class="line" d="M1730 300 H1320 V130 H1310"/>
+  <rect class="flowbox" x="1500" y="275" width="155" height="22"/><text class="flow" x="1578" y="292" text-anchor="middle">ผลการจัดการแม่แบบ</text>
+  <path class="bidir" d="M1885 375 V475"/>
+  <rect class="flowbox" x="1940" y="410" width="190" height="22"/><text class="flow" x="2035" y="427" text-anchor="middle">ข้อมูลแม่แบบรายการตรวจ</text>
+
+  <path class="line" d="M280 775 H560"/>
+  <rect class="flowbox" x="315" y="730" width="250" height="36"/><text class="flow" x="440" y="747" text-anchor="middle">ข้อมูลห้อง/ช่วงงานและ</text><text class="flow" x="440" y="766" text-anchor="middle">ข้อมูลการตรวจเช็ก</text>
+  <path class="line" d="M515 540 V705 H650 V735"/>
+  <rect class="flowbox" x="545" y="665" width="165" height="22"/><text class="flow" x="628" y="682" text-anchor="middle">ข้อมูลผู้ใช้และสิทธิ์</text>
+  <path class="line" d="M1055 485 V705 H720 V735"/>
+  <rect class="flowbox" x="840" y="685" width="70" height="22"/><text class="flow" x="875" y="702" text-anchor="middle">ข้อมูลห้อง</text>
+  <path class="line" d="M1730 515 H930 V792 H870"/>
+  <rect class="flowbox" x="1000" y="495" width="190" height="22"/><text class="flow" x="1095" y="512" text-anchor="middle">ข้อมูลแม่แบบรายการตรวจ</text>
+  <path class="bidir" d="M715 850 V1010"/>
+  <rect class="flowbox" x="735" y="920" width="190" height="42"/><text class="flow" x="830" y="937" text-anchor="middle">ข้อมูลการตรวจเช็ก</text><text class="flow" x="830" y="956" text-anchor="middle">ประจำวัน</text>
+  <path class="line" d="M560 820 H280"/>
+  <rect class="flowbox" x="300" y="835" width="225" height="36"/><text class="flow" x="412" y="852" text-anchor="middle">รายการตรวจเช็กและ</text><text class="flow" x="412" y="871" text-anchor="middle">ผลการบันทึก</text>
+
+  <path class="line" d="M280 850 V930 H1430 V820"/>
+  <rect class="flowbox" x="820" y="905" width="135" height="22"/><text class="flow" x="888" y="922" text-anchor="middle">ข้อมูลเหตุผิดปกติ</text>
+  <path class="line" d="M1210 460 H1410 V765 H1430"/>
+  <rect class="flowbox" x="1240" y="735" width="70" height="22"/><text class="flow" x="1275" y="752" text-anchor="middle">ข้อมูลห้อง</text>
+  <path class="bidir" d="M1585 850 V1010"/>
+  <rect class="flowbox" x="1610" y="915" width="135" height="22"/><text class="flow" x="1678" y="932" text-anchor="middle">ข้อมูลเหตุผิดปกติ</text>
+  <path class="line" d="M1630 850 V1145"/>
+  <rect class="flowbox" x="1645" y="1110" width="180" height="22"/><text class="flow" x="1735" y="1127" text-anchor="middle">ข้อมูลกิจกรรมเหตุผิดปกติ</text>
+  <path class="line" d="M1430 842 H320 V855 H280"/>
+  <rect class="flowbox" x="420" y="860" width="180" height="36"/><text class="flow" x="510" y="877" text-anchor="middle">ผลการบันทึก</text><text class="flow" x="510" y="896" text-anchor="middle">เหตุผิดปกติ</text>
+
+  <path class="line" d="M2120 775 H1740"/>
+  <rect class="flowbox" x="1765" y="730" width="235" height="36"/><text class="flow" x="1882" y="747" text-anchor="middle">ข้อมูลอัปเดตสถานะ</text><text class="flow" x="1882" y="766" text-anchor="middle">เหตุผิดปกติ</text>
+  <path class="line" d="M1235 165 V610 H1490 V735"/>
+  <rect class="flowbox" x="1260" y="520" width="180" height="36"/><text class="flow" x="1350" y="537" text-anchor="middle">ข้อมูลอัปเดตสถานะ</text><text class="flow" x="1350" y="556" text-anchor="middle">เหตุผิดปกติ</text>
+  <path class="line" d="M1740 815 H2120"/>
+  <rect class="flowbox" x="1810" y="832" width="150" height="22"/><text class="flow" x="1885" y="849" text-anchor="middle">ผลการอัปเดตสถานะ</text>
+  <path class="line" d="M1505 735 V630 H1280 V165"/>
+  <rect class="flowbox" x="1300" y="640" width="150" height="22"/><text class="flow" x="1375" y="657" text-anchor="middle">ผลการอัปเดตสถานะ</text>
+
+  <path class="line" d="M2120 850 V1320 H1355"/>
+  <rect class="flowbox" x="1800" y="1290" width="165" height="22"/><text class="flow" x="1882" y="1307" text-anchor="middle">คำขอติดตามสถานะงาน</text>
+  <path class="line" d="M1200 165 V1260"/>
+  <rect class="flowbox" x="1215" y="1200" width="145" height="22"/><text class="flow" x="1288" y="1217">คำขอดูภาพรวมระบบ</text>
+  <path class="line" d="M870 1048 H1045 V1290"/>
+  <rect class="flowbox" x="900" y="1020" width="135" height="22"/><text class="flow" x="968" y="1037" text-anchor="middle">ข้อมูลการตรวจเช็ก</text>
+  <path class="line" d="M1430 1048 H1355 V1290"/>
+  <rect class="flowbox" x="1340" y="1020" width="135" height="22"/><text class="flow" x="1408" y="1037" text-anchor="middle">ข้อมูลเหตุผิดปกติ</text>
+  <path class="line" d="M1430 1180 H1325 V1260"/>
+  <rect class="flowbox" x="1255" y="1148" width="180" height="22"/><text class="flow" x="1345" y="1165" text-anchor="middle">ข้อมูลกิจกรรมเหตุผิดปกติ</text>
+  <path class="line" d="M1355 1340 H2070 V855 H2120"/>
+  <rect class="flowbox" x="1565" y="1360" width="330" height="22"/><text class="flow" x="1730" y="1377" text-anchor="middle">ข้อมูลแดชบอร์ด/รายการเหตุผิดปกติ/ประวัติและเอกสารสรุป</text>
+  <path class="line" d="M1045 1320 H990 V165 H1165"/>
+  <rect class="flowbox" x="910" y="1230" width="135" height="22"/><text class="flow" x="978" y="1247" text-anchor="middle">ข้อมูลภาพรวมระบบ</text>
+</svg>

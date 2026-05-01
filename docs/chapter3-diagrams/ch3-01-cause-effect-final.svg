@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1500" viewBox="0 0 2200 1500">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111111"/>
+    </marker>
+    <style>
+      text { font-family: Arial, "Noto Sans Thai", sans-serif; fill: #111111; }
+      .head { font-size: 24px; font-weight: 700; }
+      .body { font-size: 22px; }
+      .effect { font-size: 24px; font-weight: 700; }
+    </style>
+  </defs>
+  <rect width="2200" height="1500" fill="#ffffff"/>
+  <line x1="25" y1="750" x2="1735" y2="750" stroke="#111111" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="1785" y="660" width="270" height="180" rx="8" fill="#ffffff" stroke="#7a1111" stroke-width="2"/>
+  <text class="effect" x="1920" y="717" text-anchor="middle">ข้อมูลตกหล่น</text>
+  <text class="effect" x="1920" y="763" text-anchor="middle">ติดตามย้อนหลังได้ยาก</text>
+  <text class="effect" x="1920" y="809" text-anchor="middle">การตัดสินใจล่าช้า</text>
+
+  <line x1="455" y1="235" x2="600" y2="750" stroke="#111111" stroke-width="3"/>
+  <rect x="185" y="145" width="380" height="90" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text class="head" x="375" y="200" text-anchor="middle">วิธีทำงานเดิม</text>
+  <rect x="45" y="300" width="430" height="120" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="260" y="369" text-anchor="middle">เช็กลิสต์อยู่บนกระดาษหรือไฟล์แยก</text>
+  <rect x="45" y="445" width="470" height="150" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="280" y="493" text-anchor="middle">ขั้นตอนเปิดห้อง ระหว่างวัน และ</text>
+  <text class="body" x="280" y="532" text-anchor="middle">ปิดห้อง ไม่ถูกรวมอยู่ในกระบวนการ</text>
+  <text class="body" x="280" y="571" text-anchor="middle">ทำงานเดียวกัน</text>
+  <line x1="475" y1="360" x2="495" y2="360" stroke="#111111" stroke-width="2"/>
+  <line x1="515" y1="520" x2="535" y2="520" stroke="#111111" stroke-width="2"/>
+
+  <line x1="1000" y1="235" x2="1145" y2="750" stroke="#111111" stroke-width="3"/>
+  <rect x="730" y="145" width="380" height="90" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text class="head" x="920" y="200" text-anchor="middle">เครื่องมือและข้อมูล</text>
+  <rect x="635" y="305" width="430" height="125" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="850" y="352" text-anchor="middle">ข้อมูลกระจายอยู่ในแชต</text>
+  <text class="body" x="850" y="391" text-anchor="middle">กระดาษ และความจำของแต่ละคน</text>
+  <rect x="635" y="460" width="450" height="125" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="860" y="507" text-anchor="middle">ไม่มีแหล่งข้อมูลกลางสำหรับ</text>
+  <text class="body" x="860" y="546" text-anchor="middle">สถานะงานและประวัติเหตุผิดปกติ</text>
+  <line x1="1065" y1="365" x2="1085" y2="365" stroke="#111111" stroke-width="2"/>
+  <line x1="1085" y1="525" x2="1105" y2="525" stroke="#111111" stroke-width="2"/>
+
+  <line x1="1545" y1="235" x2="1690" y2="750" stroke="#111111" stroke-width="3"/>
+  <rect x="1275" y="145" width="380" height="90" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text class="head" x="1465" y="200" text-anchor="middle">ห้องและบริบทหน้างาน</text>
+  <rect x="1195" y="305" width="430" height="125" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="1410" y="352" text-anchor="middle">มองไม่ชัดว่าปัญหาเกิดที่ห้องใด</text>
+  <text class="body" x="1410" y="391" text-anchor="middle">และเวลาใด</text>
+  <rect x="1185" y="455" width="500" height="150" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="1435" y="503" text-anchor="middle">ข้อมูลอุปกรณ์ถูกอ้างถึงแบบ</text>
+  <text class="body" x="1435" y="542" text-anchor="middle">ข้อความหรือคำบอกเล่า ไม่ผูกกับ</text>
+  <text class="body" x="1435" y="581" text-anchor="middle">ข้อมูลห้องและอุปกรณ์อย่างเป็นระบบ</text>
+  <line x1="1625" y1="365" x2="1645" y2="365" stroke="#111111" stroke-width="2"/>
+  <line x1="1685" y1="530" x2="1705" y2="530" stroke="#111111" stroke-width="2"/>
+
+  <line x1="750" y1="750" x2="610" y2="1200" stroke="#111111" stroke-width="3"/>
+  <rect x="230" y="885" width="430" height="110" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="445" y="925" text-anchor="middle">งานส่งต่อด้วยการบอกต่อ</text>
+  <text class="body" x="445" y="964" text-anchor="middle">ทำให้ความรับผิดชอบไม่ชัด</text>
+  <rect x="175" y="1040" width="520" height="110" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="435" y="1080" text-anchor="middle">ผู้รับผิดชอบระบบ ผู้ดูแลห้อง</text>
+  <text class="body" x="435" y="1119" text-anchor="middle">และผู้ปฏิบัติงานเห็นข้อมูลไม่ตรงกัน</text>
+  <rect x="265" y="1200" width="430" height="90" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text class="head" x="480" y="1255" text-anchor="middle">คนและบทบาท</text>
+  <line x1="660" y1="940" x2="680" y2="940" stroke="#111111" stroke-width="2"/>
+  <line x1="695" y1="1095" x2="715" y2="1095" stroke="#111111" stroke-width="2"/>
+
+  <line x1="1330" y1="750" x2="1190" y2="1200" stroke="#111111" stroke-width="3"/>
+  <rect x="870" y="885" width="520" height="110" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="1130" y="925" text-anchor="middle">ไม่มีหลักฐานหรือเอกสารสรุปที่</text>
+  <text class="body" x="1130" y="964" text-anchor="middle">เพียงพอสำหรับการทบทวนย้อนหลัง</text>
+  <rect x="840" y="1040" width="500" height="110" rx="7" fill="#ffffff" stroke="#444444" stroke-width="2"/>
+  <text class="body" x="1090" y="1080" text-anchor="middle">ผู้ดูแลต้องไล่ดูหลายแหล่งก่อน</text>
+  <text class="body" x="1090" y="1119" text-anchor="middle">เห็นภาพรวมของวัน</text>
+  <rect x="880" y="1200" width="440" height="90" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text class="head" x="1100" y="1255" text-anchor="middle">การติดตามและตัดสินใจ</text>
+  <line x1="1390" y1="940" x2="1410" y2="940" stroke="#111111" stroke-width="2"/>
+  <line x1="1340" y1="1095" x2="1360" y2="1095" stroke="#111111" stroke-width="2"/>
+</svg>

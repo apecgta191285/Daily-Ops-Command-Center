@@ -28,3 +28,22 @@ yarn-error.log
 /.zed
 NUL
 *:Zone.Identifier
+/.agents
+/.claude
+/skills-lock.json
+/docs/Screen Capture/
+/docs/Production Grade Frontend Design Audit*
+/docs/codebase_audit_report.md
+/docs/codex_*_2026-04-22.md
+/docs/daily_ops_*_2026-04-20.md
+/docs/execution_*_2026-04-23.md
+/docs/final_closure_review_checklist_option_a_2026-04-22.md
+/docs/frontend_deep_analysis.md
+/docs/frontend_re_audit_v*.md
+/docs/implementation_plan.md.resolved
+/docs/implementation_scope_lock_option_a_2026-04-22.md
+/docs/long_term_high_standard_roadmap_after_option_a_freeze_2026-04-22.md
+/docs/master_execution_plan_after_option_a_2026-04-23.md
+/docs/post_codex_audit_memo_2026-04-20.md
+/docs/production_*_2026-04-23.md
+/docs/โปรเจ็คเว็บทีมเล็ก (1).docx

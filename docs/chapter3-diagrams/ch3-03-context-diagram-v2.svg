@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1250" viewBox="0 0 1800 1250">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111111"/>
+    </marker>
+    <style>
+      text { font-family: Arial, "Noto Sans Thai", sans-serif; fill: #111111; }
+      .entity { font-size: 30px; font-weight: 700; }
+      .system { font-size: 28px; font-weight: 700; }
+      .flow { font-size: 20px; }
+    </style>
+  </defs>
+  <rect width="1800" height="1250" fill="#ffffff"/>
+
+  <ellipse cx="900" cy="625" rx="260" ry="125" fill="#ffffff" stroke="#111111" stroke-width="3"/>
+  <text class="system" x="900" y="602" text-anchor="middle">0</text>
+  <text class="system" x="900" y="645" text-anchor="middle">A-lite Daily Ops Command Center</text>
+
+  <rect x="110" y="525" width="240" height="120" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text class="entity" x="230" y="596" text-anchor="middle">Staff</text>
+
+  <rect x="1450" y="525" width="240" height="120" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text class="entity" x="1570" y="596" text-anchor="middle">Supervisor</text>
+
+  <rect x="780" y="80" width="240" height="120" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text class="entity" x="900" y="151" text-anchor="middle">Admin</text>
+
+  <rect x="385" y="365" width="340" height="145" rx="7" fill="#ffffff" stroke="#666666"/>
+  <text class="flow" x="555" y="398" text-anchor="middle">ข้อมูลเข้าสู่ระบบ</text>
+  <text class="flow" x="555" y="432" text-anchor="middle">ข้อมูลการเลือกห้องและช่วงงาน</text>
+  <text class="flow" x="555" y="466" text-anchor="middle">ข้อมูลการตรวจเช็ก</text>
+  <text class="flow" x="555" y="500" text-anchor="middle">ข้อมูลเหตุผิดปกติ</text>
+
+  <rect x="385" y="760" width="340" height="125" rx="7" fill="#ffffff" stroke="#666666"/>
+  <text class="flow" x="555" y="796" text-anchor="middle">รายการตรวจเช็กที่เกี่ยวข้อง</text>
+  <text class="flow" x="555" y="832" text-anchor="middle">สถานะ checklist ของวัน</text>
+  <text class="flow" x="555" y="868" text-anchor="middle">ผลการบันทึกข้อมูล</text>
+
+  <rect x="1075" y="375" width="340" height="110" rx="7" fill="#ffffff" stroke="#666666"/>
+  <text class="flow" x="1245" y="418" text-anchor="middle">คำขอติดตามสถานะงาน</text>
+  <text class="flow" x="1245" y="454" text-anchor="middle">การอัปเดตสถานะ incident</text>
+
+  <rect x="1075" y="760" width="340" height="125" rx="7" fill="#ffffff" stroke="#666666"/>
+  <text class="flow" x="1245" y="796" text-anchor="middle">ข้อมูลแดชบอร์ด</text>
+  <text class="flow" x="1245" y="832" text-anchor="middle">รายการเหตุผิดปกติ</text>
+  <text class="flow" x="1245" y="868" text-anchor="middle">ประวัติและเอกสารสรุป</text>
+
+  <rect x="500" y="260" width="340" height="100" rx="7" fill="#ffffff" stroke="#666666"/>
+  <text class="flow" x="670" y="299" text-anchor="middle">ข้อมูลจัดการผู้ใช้</text>
+  <text class="flow" x="670" y="335" text-anchor="middle">ข้อมูลจัดการแม่แบบ checklist</text>
+
+  <rect x="960" y="265" width="340" height="90" rx="7" fill="#ffffff" stroke="#666666"/>
+  <text class="flow" x="1130" y="319" text-anchor="middle">ผลการบันทึก/ปรับปรุงข้อมูลดูแลระบบ</text>
+
+  <g fill="none" stroke="#111111" stroke-width="2" marker-end="url(#arrow)">
+    <line x1="350" y1="555" x2="642" y2="590"/>
+    <line x1="642" y1="665" x2="350" y2="615"/>
+    <line x1="1450" y1="555" x2="1158" y2="590"/>
+    <line x1="1158" y1="665" x2="1450" y2="615"/>
+    <line x1="875" y1="200" x2="875" y2="500"/>
+    <line x1="925" y1="500" x2="925" y2="200"/>
+  </g>
+</svg>
