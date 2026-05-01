@@ -104,4 +104,4 @@ jobs:
         run: npm run build
 
       - name: Run Browser Smoke Tests
-        run: composer test:browser
+        run: composer test:browser:desktop

@@ -24,6 +24,25 @@ test('guest entry surfaces describe the product as a university computer lab ope
     $login->assertSee('อาจารย์ผู้รับผิดชอบหรือผู้ได้รับมอบหมายที่ดูแลแม่แบบ ผู้ใช้งาน แดชบอร์ดภาพรวม และการติดตามงาน');
 });
 
+test('production login surface never exposes local demo credentials', function () {
+    $originalEnvironment = app()->environment();
+
+    try {
+        app()->detectEnvironment(fn () => 'production');
+
+        $login = $this->get(route('login'));
+
+        $login->assertOk();
+        $login->assertDontSee('บัญชีเดโมสำหรับเครื่อง local');
+        $login->assertDontSee('admin@example.com');
+        $login->assertDontSee('supervisor@example.com');
+        $login->assertDontSee('operatora@example.com');
+        $login->assertDontSee('operatorb@example.com');
+    } finally {
+        app()->detectEnvironment(fn () => $originalEnvironment);
+    }
+});
+
 test('staff checklist surface uses lab-team wording for live checklist work', function () {
     $staff = $this->createUserForRole(UserRole::Staff);
     $room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);

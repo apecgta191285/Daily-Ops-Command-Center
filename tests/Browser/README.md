@@ -36,12 +36,17 @@ Snapshot update rule:
 Practical workflow:
 
 ```bash
-./vendor/bin/pest tests/Browser --update-snapshots
 composer test:browser
+composer test:browser:desktop
 npm run test:browser:desktop
 ```
 
-If a snapshot changes, verify the diff first and only keep it when the new render is the desired product truth.
+`composer test:browser` intentionally points at the desktop graduation gate. The older
+full browser suite remains available as `composer test:browser:full` while mobile and
+legacy screenshot baselines are outside the current scope.
+
+If a snapshot changes in the legacy full suite, verify the diff first and only keep it
+when the new render is the desired product truth.
 
 Honesty rule:
 

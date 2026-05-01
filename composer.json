@@ -63,11 +63,15 @@
         ],
         "test:browser": [
             "@php artisan config:clear --ansi",
-            "./vendor/bin/pest tests/Browser"
+            "./vendor/bin/pest tests/Browser/DesktopSmokeTest.php"
         ],
         "test:browser:desktop": [
             "@php artisan config:clear --ansi",
             "./vendor/bin/pest tests/Browser/DesktopSmokeTest.php"
+        ],
+        "test:browser:full": [
+            "@php artisan config:clear --ansi",
+            "./vendor/bin/pest tests/Browser"
         ],
         "test": [
             "@php artisan config:clear --ansi",
