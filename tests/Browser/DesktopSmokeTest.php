@@ -152,6 +152,18 @@ test('desktop workflow surfaces keep forms queues and runtime boards reachable',
         ->assertPresent('textarea#description')
         ->assertPresent('.ops-command-grid--template');
 
+    stabilizeDesktopVisualState(visit('/rooms')->on()->desktop())
+        ->assertNoSmoke()
+        ->assertPresent('.ops-screen--room-index')
+        ->assertPresent('.ops-table');
+
+    stabilizeDesktopVisualState(visit('/rooms/create')->on()->desktop())
+        ->assertNoSmoke()
+        ->assertPresent('.ops-screen--room-manage')
+        ->assertPresent('input#name')
+        ->assertPresent('input#code')
+        ->assertPresent('textarea#description');
+
     stabilizeDesktopVisualState(visit('/users')->on()->desktop())
         ->assertNoSmoke()
         ->assertPresent('.ops-screen--user-index')

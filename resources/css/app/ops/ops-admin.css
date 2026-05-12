@@ -200,23 +200,28 @@
     }
 
     .ops-screen--template-index .ops-governance-grid,
+    .ops-screen--room-index .ops-governance-grid,
     .ops-screen--user-index .ops-governance-grid,
     .ops-screen--checklist-history .ops-governance-grid {
         gap: 0.9rem;
     }
 
     .ops-screen--template-authoring .ops-authoring-rhythm,
+    .ops-screen--room-manage .ops-authoring-rhythm,
     .ops-screen--user-manage .ops-authoring-rhythm {
         gap: 0.9rem;
     }
 
     .ops-screen--template-authoring .ops-authoring-metric,
+    .ops-screen--room-index .ops-authoring-metric,
+    .ops-screen--room-manage .ops-authoring-metric,
     .ops-screen--user-index .ops-authoring-metric,
     .ops-screen--user-manage .ops-authoring-metric {
         min-height: 5.75rem;
     }
 
     .ops-screen--template-authoring .ops-governance-card,
+    .ops-screen--room-manage .ops-governance-card,
     .ops-screen--user-manage .ops-governance-card {
         background:
             linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 94%, white), var(--app-surface)),

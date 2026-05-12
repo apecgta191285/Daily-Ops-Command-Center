@@ -10,6 +10,8 @@ use App\Http\Controllers\Management\PrintChecklistRunRecapController;
 use App\Http\Controllers\Management\PrintIncidentSummaryController;
 use App\Livewire\Admin\ChecklistTemplates\Index as TemplateIndex;
 use App\Livewire\Admin\ChecklistTemplates\Manage as TemplateManage;
+use App\Livewire\Admin\Rooms\Index as RoomIndex;
+use App\Livewire\Admin\Rooms\Manage as RoomManage;
 use App\Livewire\Admin\Users\Index as UserIndex;
 use App\Livewire\Admin\Users\Manage as UserManage;
 use App\Livewire\Management\Checklists\HistoryIndex as ChecklistHistoryIndex;
@@ -83,6 +85,15 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::get('templates/{template}/edit', TemplateManage::class)
             ->name('templates.edit');
+
+        Route::get('rooms', RoomIndex::class)
+            ->name('rooms.index');
+
+        Route::get('rooms/create', RoomManage::class)
+            ->name('rooms.create');
+
+        Route::get('rooms/{room}/edit', RoomManage::class)
+            ->name('rooms.edit');
 
         Route::get('users', UserIndex::class)
             ->name('users.index');

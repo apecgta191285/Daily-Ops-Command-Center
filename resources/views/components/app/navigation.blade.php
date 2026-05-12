@@ -16,6 +16,9 @@
             <flux:sidebar.item icon="rectangle-stack" :href="route('templates.index')" :current="request()->routeIs('templates.index') || request()->routeIs('templates.create') || request()->routeIs('templates.edit')" wire:navigate>
                 {{ __('แม่แบบรายการตรวจ') }}
             </flux:sidebar.item>
+            <flux:sidebar.item icon="building-office-2" :href="route('rooms.index')" :current="request()->routeIs('rooms.index') || request()->routeIs('rooms.create') || request()->routeIs('rooms.edit')" wire:navigate>
+                {{ __('ห้อง') }}
+            </flux:sidebar.item>
             <flux:sidebar.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.index') || request()->routeIs('users.create') || request()->routeIs('users.edit')" wire:navigate>
                 {{ __('ผู้ใช้งาน') }}
             </flux:sidebar.item>
