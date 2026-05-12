@@ -4,6 +4,7 @@ use App\Application\Checklists\Support\ChecklistIncidentPrefillBuilder;
 use App\Domain\Checklists\Enums\ChecklistResult;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
+use App\Domain\Incidents\Enums\IncidentSubcategory;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistRunItem;
 use App\Models\ChecklistTemplate;
@@ -39,6 +40,7 @@ test('checklist incident prefill builder creates follow-up context from a daily 
 
     expect($prefill->title)->toBe('รายงานติดตามจากรายการตรวจเช็ก')
         ->and($prefill->category)->toBe(IncidentCategory::Other->value)
+        ->and($prefill->subcategory)->toBe(IncidentSubcategory::OtherRequest->value)
         ->and($prefill->severity)->toBe(IncidentSeverity::Medium->value)
         ->and($prefill->description)->toContain('ติดตามต่อจากรายการตรวจเช็กประจำวัน')
         ->and($prefill->description)->toContain('แม่แบบ: Opening Duties')

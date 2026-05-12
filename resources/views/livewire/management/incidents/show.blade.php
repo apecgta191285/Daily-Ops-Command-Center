@@ -83,7 +83,7 @@
                         <p class="ops-hero__aside-title">สถานะปัจจุบัน</p>
                         <p class="ops-hero__aside-value">{{ __($incident->category->value) }}</p>
                         <p class="ops-hero__aside-copy">
-                            {{ $incident->resolved_at ? 'แก้ไขแล้วเมื่อ '.$incident->resolved_at->format('d/m/Y H:i') : 'ยังอยู่ในคิวของทีม' }}
+                            {{ $incident->subcategory ? 'หมวดหมู่ย่อย: '.__($incident->subcategory) : ($incident->resolved_at ? 'แก้ไขแล้วเมื่อ '.$incident->resolved_at->format('d/m/Y H:i') : 'ยังอยู่ในคิวของทีม') }}
                         </p>
                     </div>
 
@@ -354,6 +354,7 @@
 
                         <div class="ops-stat-grid">
                             <x-ops.stat-card kicker="หมวดหมู่" :value="__($incident->category->value)" />
+                            <x-ops.stat-card kicker="หมวดหมู่ย่อย" :value="$incident->subcategory ? __($incident->subcategory) : 'ยังไม่ระบุ'" />
                             <x-ops.stat-card kicker="ห้อง" :value="$incident->room?->name ?? 'ยังไม่กำหนด'" />
                             <x-ops.stat-card kicker="อุปกรณ์/เครื่องที่เกี่ยวข้อง" :value="$incident->equipment_reference ?? 'ไม่ได้ระบุ'" />
                             <x-ops.stat-card kicker="ผู้รับผิดชอบ" :value="$incident->owner?->name ?? 'ยังไม่มีผู้รับผิดชอบ'" />

@@ -203,6 +203,7 @@ test('staff desktop checklist runtime remains task first', function () {
         ->assertNoSmoke()
         ->assertPresent('.ops-screen--staff-incident')
         ->assertPresent('input#title')
+        ->assertPresent('select#subcategory')
         ->assertPresent('textarea#description')
         ->assertPresent('button[type="submit"]');
 });

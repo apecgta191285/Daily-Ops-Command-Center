@@ -8,6 +8,7 @@ use App\Application\Checklists\Data\ChecklistIncidentPrefill;
 use App\Domain\Checklists\Enums\ChecklistResult;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
+use App\Domain\Incidents\Enums\IncidentSubcategory;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistTemplate;
 use Illuminate\Support\Collection;
@@ -38,6 +39,7 @@ class ChecklistIncidentPrefillBuilder
         return new ChecklistIncidentPrefill(
             title: 'รายงานติดตามจากรายการตรวจเช็ก',
             category: IncidentCategory::Other->value,
+            subcategory: IncidentSubcategory::OtherRequest->value,
             severity: $notDoneTitles->isNotEmpty()
                 ? IncidentSeverity::Medium->value
                 : IncidentSeverity::Low->value,

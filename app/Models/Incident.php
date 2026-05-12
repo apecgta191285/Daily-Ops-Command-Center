@@ -23,6 +23,7 @@ class Incident extends Model
     protected $fillable = [
         'title',
         'category',
+        'subcategory',
         'severity',
         'room_id',
         'status',

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
+use App\Domain\Incidents\Enums\IncidentSubcategory;
 use App\Models\Incident;
 use App\Models\Room;
 use App\Models\User;
@@ -19,9 +20,12 @@ class IncidentFactory extends Factory
 
     public function definition(): array
     {
+        $category = fake()->randomElement(IncidentCategory::values());
+
         return [
             'title' => fake()->unique()->sentence(4),
-            'category' => fake()->randomElement(IncidentCategory::values()),
+            'category' => $category,
+            'subcategory' => fake()->randomElement(IncidentSubcategory::valuesForCategory($category)),
             'severity' => fake()->randomElement(IncidentSeverity::values()),
             'room_id' => Room::factory(),
             'status' => IncidentStatus::Open->value,

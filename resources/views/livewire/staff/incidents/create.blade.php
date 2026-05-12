@@ -47,6 +47,10 @@
                                         <dd class="ops-detail-stack__value">{{ $submissionRecap['category'] }}</dd>
                                     </div>
                                     <div>
+                                        <dt class="ops-detail-stack__label">หมวดหมู่ย่อย</dt>
+                                        <dd class="ops-detail-stack__value">{{ $submissionRecap['subcategory'] }}</dd>
+                                    </div>
+                                    <div>
                                         <dt class="ops-detail-stack__label">ความรุนแรง</dt>
                                         <dd class="ops-detail-stack__value">{{ $submissionRecap['severity'] }}</dd>
                                     </div>
@@ -126,13 +130,25 @@
                             <div class="grid gap-6 md:grid-cols-2">
                                 <div>
                                     <label for="category" class="ops-field-label">หมวดหมู่ <span class="ops-required-mark">*</span></label>
-                                    <select id="category" wire:model="category" class="ops-control">
+                                    <select id="category" wire:model.live="category" class="ops-control">
                                         <option value="">-- เลือกหมวดหมู่ --</option>
                                         @foreach($categories as $cat)
                                             <option value="{{ $cat }}">{{ __($cat) }}</option>
                                         @endforeach
                                     </select>
                                     @error('category') <span class="ops-field-error">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div>
+                                    <label for="subcategory" class="ops-field-label">หมวดหมู่ย่อย <span class="ops-required-mark">*</span></label>
+                                    <select id="subcategory" wire:model="subcategory" class="ops-control" @disabled($category === '')>
+                                        <option value="">{{ $category === '' ? '-- เลือกหมวดหมู่หลักก่อน --' : '-- เลือกหมวดหมู่ย่อย --' }}</option>
+                                        @foreach($subcategories as $subcategoryOption)
+                                            <option value="{{ $subcategoryOption }}">{{ __($subcategoryOption) }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('subcategory') <span class="ops-field-error">{{ $message }}</span> @enderror
+                                    <p class="ops-field-help">ใช้หมวดหมู่ย่อยเพื่อให้รายงานสรุปแยกต้นตอปัญหาได้ชัดเจน เช่น LAN/Wi-Fi, เครื่องพิมพ์ หรือแสงสว่าง</p>
                                 </div>
 
                                 <div>

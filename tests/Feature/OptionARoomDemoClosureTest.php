@@ -80,6 +80,7 @@ test('option A demo flow keeps room context from checklist through management fo
         ->withQueryParams([
             'title' => 'Lab 1 opening issue follow-up',
             'category' => 'อุปกรณ์คอมพิวเตอร์',
+            'subcategory' => 'คอมพิวเตอร์ตั้งโต๊ะ',
             'severity' => 'Medium',
             'description' => 'PC-12 did not power on during opening check.',
             'room' => (string) $this->roomA->id,
@@ -91,6 +92,7 @@ test('option A demo flow keeps room context from checklist through management fo
     $incidentCreate
         ->set('title', 'Lab 1 workstation power issue')
         ->set('category', 'อุปกรณ์คอมพิวเตอร์')
+        ->set('subcategory', 'คอมพิวเตอร์ตั้งโต๊ะ')
         ->set('severity', 'High')
         ->set('equipmentReference', 'PC-12')
         ->set('description', 'PC-12 failed to power on during the opening room check.')
@@ -105,6 +107,7 @@ test('option A demo flow keeps room context from checklist through management fo
         ->firstOrFail();
 
     expect($incident->room_id)->toBe($this->roomA->id);
+    expect($incident->subcategory)->toBe('คอมพิวเตอร์ตั้งโต๊ะ');
     expect($incident->equipment_reference)->toBe('PC-12');
 
     $this->actingAs($this->supervisor)

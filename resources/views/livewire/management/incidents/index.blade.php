@@ -25,7 +25,7 @@
     <div class="space-y-6">
         <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
             <div class="ops-card__body">
-                <div class="grid gap-4 md:grid-cols-3">
+                <div class="grid gap-4 md:grid-cols-4">
                     <div>
                         <label for="status" class="ops-field-label">สถานะ</label>
                         <select id="status" wire:model.live="status" class="ops-control">
@@ -42,6 +42,16 @@
                             <option value="">ทุกหมวดหมู่</option>
                             @foreach($categories as $categoryOption)
                                 <option value="{{ $categoryOption }}">{{ __($categoryOption) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="subcategory" class="ops-field-label">หมวดหมู่ย่อย</label>
+                        <select id="subcategory" wire:model.live="subcategory" class="ops-control">
+                            <option value="">ทุกหมวดหมู่ย่อย</option>
+                            @foreach($subcategories as $subcategoryOption)
+                                <option value="{{ $subcategoryOption }}">{{ __($subcategoryOption) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -83,7 +93,7 @@
                         <span>เฉพาะรายการติดตามเกินกำหนด</span>
                     </label>
 
-                    @if ($status !== '' || $category !== '' || $severity !== '' || $unresolved || $stale || $unowned || $mine || $overdue)
+                    @if ($status !== '' || $category !== '' || $subcategory !== '' || $severity !== '' || $unresolved || $stale || $unowned || $mine || $overdue)
                         <button type="button" wire:click="clearFilters" class="ops-button ops-button--secondary">
                             ล้างตัวกรอง
                         </button>
@@ -151,7 +161,14 @@
                                                 @endif
                                             </div>
                                         </td>
-                                        <td data-label="หมวดหมู่" class="ops-text-muted px-4 py-4 text-sm">{{ __($incident->category->value) }}</td>
+                                        <td data-label="หมวดหมู่" class="ops-text-muted px-4 py-4 text-sm">
+                                            <div class="space-y-1">
+                                                <span>{{ __($incident->category->value) }}</span>
+                                                @if ($incident->subcategory)
+                                                    <p class="ops-inline-note">{{ __($incident->subcategory) }}</p>
+                                                @endif
+                                            </div>
+                                        </td>
                                         <td data-label="ความรุนแรง" class="px-4 py-4 text-sm">
                                             <x-incidents.severity-badge :severity="$incident->severity" />
                                         </td>

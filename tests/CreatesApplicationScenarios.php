@@ -7,6 +7,7 @@ use App\Domain\Checklists\Enums\ChecklistResult;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
+use App\Domain\Incidents\Enums\IncidentSubcategory;
 use App\Models\ChecklistItem;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistRunItem;
@@ -113,11 +114,13 @@ trait CreatesApplicationScenarios
         ?Room $room = null,
     ): Incident {
         $room ??= Room::query()->where('is_active', true)->orderBy('id')->first() ?? $this->createRoom();
+        $category = (string) ($attributes['category'] ?? IncidentCategory::ComputerEquipment->value);
 
         $incident = Incident::factory()->create(array_merge([
             'created_by' => $creator->id,
             'room_id' => $room->id,
-            'category' => IncidentCategory::ComputerEquipment->value,
+            'category' => $category,
+            'subcategory' => IncidentSubcategory::valuesForCategory($category)[0],
             'severity' => IncidentSeverity::Medium->value,
             'status' => IncidentStatus::Open->value,
         ], $attributes));

@@ -25,6 +25,7 @@ test('create incident action persists incident attachment and activity log', fun
     $incident = app(CreateIncident::class)([
         'title' => 'Action-created incident',
         'category' => 'เครือข่าย',
+        'subcategory' => 'LAN/Wi-Fi',
         'severity' => 'High',
         'description' => 'Created through application action.',
         'room_id' => $room->id,
@@ -32,6 +33,7 @@ test('create incident action persists incident attachment and activity log', fun
     ], $this->operator->id, UploadedFile::fake()->create('proof.pdf', 100, 'application/pdf'));
 
     expect($incident->status)->toBe(IncidentStatus::Open);
+    expect($incident->subcategory)->toBe('LAN/Wi-Fi');
     expect($incident->created_by)->toBe($this->operator->id);
     expect($incident->room_id)->toBe($room->id);
     expect($incident->equipment_reference)->toBe('PC-12');
@@ -47,6 +49,7 @@ test('create incident action rejects missing room context', function () {
     expect(fn () => app(CreateIncident::class)([
         'title' => 'Missing room incident',
         'category' => 'เครือข่าย',
+        'subcategory' => 'อินเทอร์เน็ต',
         'severity' => 'High',
         'description' => 'Created through application action.',
     ], $this->operator->id))->toThrow(ValidationException::class);
@@ -59,8 +62,22 @@ test('create incident action rejects inactive rooms', function () {
     expect(fn () => app(CreateIncident::class)([
         'title' => 'Inactive room incident',
         'category' => 'เครือข่าย',
+        'subcategory' => 'อินเทอร์เน็ต',
         'severity' => 'High',
         'description' => 'Created through application action.',
+        'room_id' => $room->id,
+    ], $this->operator->id))->toThrow(ValidationException::class);
+});
+
+test('create incident action rejects subcategories outside the selected category', function () {
+    $room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
+
+    expect(fn () => app(CreateIncident::class)([
+        'title' => 'Mismatched taxonomy incident',
+        'category' => 'เครือข่าย',
+        'subcategory' => 'เครื่องพิมพ์',
+        'severity' => 'High',
+        'description' => 'Subcategory must belong to the selected category.',
         'room_id' => $room->id,
     ], $this->operator->id))->toThrow(ValidationException::class);
 });

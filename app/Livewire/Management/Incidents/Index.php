@@ -10,6 +10,7 @@ use App\Application\Incidents\Support\IncidentStalePolicy;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
+use App\Domain\Incidents\Enums\IncidentSubcategory;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -24,6 +25,9 @@ class Index extends Component
 
     #[Url(except: '')]
     public string $category = '';
+
+    #[Url(except: '')]
+    public string $subcategory = '';
 
     #[Url(except: '')]
     public string $severity = '';
@@ -47,6 +51,8 @@ class Index extends Component
 
     public array $categories = [];
 
+    public array $subcategories = [];
+
     public array $severities = [];
 
     protected string $paginationTheme = 'tailwind';
@@ -55,6 +61,7 @@ class Index extends Component
     {
         $this->statuses = IncidentStatus::values();
         $this->categories = IncidentCategory::values();
+        $this->subcategories = IncidentSubcategory::valuesForCategory($this->category !== '' ? $this->category : null);
         $this->severities = IncidentSeverity::values();
 
         if (! in_array($this->status, $this->statuses, true)) {
@@ -63,6 +70,10 @@ class Index extends Component
 
         if (! in_array($this->category, $this->categories, true)) {
             $this->category = '';
+        }
+
+        if (! in_array($this->subcategory, $this->subcategories, true)) {
+            $this->subcategory = '';
         }
 
         if (! in_array($this->severity, $this->severities, true)) {
@@ -74,6 +85,8 @@ class Index extends Component
     {
         $this->status = '';
         $this->category = '';
+        $this->subcategory = '';
+        $this->subcategories = IncidentSubcategory::valuesForCategory(null);
         $this->severity = '';
         $this->unresolved = false;
         $this->stale = false;
@@ -98,9 +111,18 @@ class Index extends Component
 
     public function updated(string $property): void
     {
+        if ($property === 'category') {
+            $this->subcategories = IncidentSubcategory::valuesForCategory($this->category !== '' ? $this->category : null);
+
+            if ($this->subcategory !== '' && ! in_array($this->subcategory, $this->subcategories, true)) {
+                $this->subcategory = '';
+            }
+        }
+
         if (in_array($property, [
             'status',
             'category',
+            'subcategory',
             'severity',
             'unresolved',
             'stale',
@@ -123,6 +145,7 @@ class Index extends Component
         $incidents = app(ListIncidents::class)->paginate(new IncidentListFilters(
             status: $this->status,
             category: $this->category,
+            subcategory: $this->subcategory,
             severity: $this->severity,
             unresolved: $this->unresolved,
             stale: $this->stale,

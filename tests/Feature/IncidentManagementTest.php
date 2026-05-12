@@ -54,6 +54,21 @@ test('management users can filter the incident list', function () {
         ->assertSee($networkIncident->title)
         ->assertDontSee($cleanlinessIncident->title);
 
+    $networkSubcategoryIncident = Incident::query()
+        ->where('category', 'เครือข่าย')
+        ->whereNotNull('subcategory')
+        ->firstOrFail();
+    $otherSubcategoryIncident = Incident::query()
+        ->where('subcategory', '!=', $networkSubcategoryIncident->subcategory)
+        ->firstOrFail();
+
+    Livewire::actingAs($this->admin)
+        ->test(Index::class)
+        ->set('category', 'เครือข่าย')
+        ->set('subcategory', $networkSubcategoryIncident->subcategory)
+        ->assertSee($networkSubcategoryIncident->title)
+        ->assertDontSee($otherSubcategoryIncident->title);
+
     $highSeverityIncident = Incident::where('severity', 'High')->firstOrFail();
     $lowSeverityIncident = Incident::where('severity', 'Low')->firstOrFail();
 

@@ -9,6 +9,7 @@ use App\Application\Incidents\Actions\CreateIncident;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
+use App\Domain\Incidents\Enums\IncidentSubcategory;
 use App\Models\Room;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -21,6 +22,8 @@ class Create extends Component
     public $title = '';
 
     public $category = '';
+
+    public string $subcategory = '';
 
     public $severity = '';
 
@@ -38,6 +41,8 @@ class Create extends Component
 
     public array $categories = [];
 
+    public array $subcategories = [];
+
     public array $severities = [];
 
     public array $rooms = [];
@@ -49,6 +54,7 @@ class Create extends Component
     public function mount(): void
     {
         $this->categories = IncidentCategory::values();
+        $this->subcategories = IncidentSubcategory::valuesForCategory(null);
         $this->severities = IncidentSeverity::values();
         $this->rooms = Room::query()
             ->where('is_active', true)
@@ -71,6 +77,10 @@ class Create extends Component
             $this->prefilledFromChecklist = true;
             $this->title = $prefill->title;
             $this->category = $prefill->category ?? '';
+            $this->refreshSubcategoryOptions();
+            $this->subcategory = ($prefill->subcategory !== null && in_array($prefill->subcategory, $this->subcategories, true))
+                ? $prefill->subcategory
+                : '';
             $this->severity = $prefill->severity ?? '';
             $this->description = $prefill->description;
             $this->roomId = $prefill->roomId !== null ? (string) $prefill->roomId : '';
@@ -106,6 +116,7 @@ class Create extends Component
         $this->validate([
             'title' => 'required|string|max:120',
             'category' => 'required|string|in:'.implode(',', $this->categories),
+            'subcategory' => 'required|string|in:'.implode(',', IncidentSubcategory::valuesForCategory($this->category)),
             'severity' => 'required|string|in:'.implode(',', $this->severities),
             'roomId' => 'required|integer|exists:rooms,id',
             'description' => 'required|string',
@@ -116,6 +127,7 @@ class Create extends Component
         $incident = app(CreateIncident::class)([
             'title' => $this->title,
             'category' => $this->category,
+            'subcategory' => $this->subcategory,
             'severity' => $this->severity,
             'room_id' => (int) $this->roomId,
             'description' => $this->description,
@@ -125,6 +137,7 @@ class Create extends Component
         $this->submissionRecap = [
             'title' => $incident->title,
             'category' => $incident->category->value,
+            'subcategory' => $incident->subcategory,
             'severity' => $incident->severity->value,
             'room_name' => $incident->room?->name ?? 'ไม่พบข้อมูลห้อง',
             'equipment_reference' => $incident->equipment_reference,
@@ -134,7 +147,8 @@ class Create extends Component
             'from_checklist' => $this->prefilledFromChecklist,
         ];
 
-        $this->reset(['title', 'category', 'severity', 'description', 'equipmentReference', 'attachment']);
+        $this->reset(['title', 'category', 'subcategory', 'severity', 'description', 'equipmentReference', 'attachment']);
+        $this->subcategories = IncidentSubcategory::valuesForCategory(null);
     }
 
     public function startAnother(): void
@@ -155,6 +169,20 @@ class Create extends Component
             'scope' => $this->checklistReturnScope,
             'room' => $this->roomId !== '' ? $this->roomId : $this->checklistReturnRoom,
         ], static fn (?string $value) => $value !== null && $value !== '');
+    }
+
+    public function updatedCategory(): void
+    {
+        $this->refreshSubcategoryOptions();
+    }
+
+    private function refreshSubcategoryOptions(): void
+    {
+        $this->subcategories = IncidentSubcategory::valuesForCategory($this->category !== '' ? $this->category : null);
+
+        if ($this->subcategory !== '' && ! in_array($this->subcategory, $this->subcategories, true)) {
+            $this->subcategory = '';
+        }
     }
 
     #[Layout('layouts.app')]

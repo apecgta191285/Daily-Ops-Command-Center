@@ -6,6 +6,7 @@ use App\Domain\Access\Enums\UserRole;
 use App\Domain\Checklists\Enums\ChecklistResult;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Domain\Incidents\Enums\IncidentStatus;
+use App\Domain\Incidents\Enums\IncidentSubcategory;
 use App\Models\ChecklistItem;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistRunItem;
@@ -202,21 +203,22 @@ class DatabaseSeeder extends Seeder
 
         // 6. Incidents (10 records)
         $incidentsData = [
-            ['title' => 'เครื่อง PC-03 เปิดไม่ติด', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => IncidentStatus::Open->value, 'days_ago' => 0, 'room_id' => $lab1->id, 'equipment_reference' => 'PC-03'],
-            ['title' => 'อินเทอร์เน็ตใช้งานไม่ได้ทั้งห้อง', 'category' => 'เครือข่าย', 'severity' => 'High', 'status' => IncidentStatus::InProgress->value, 'days_ago' => 3, 'room_id' => $lab2->id, 'equipment_reference' => 'Core Switch Lab 2'],
-            ['title' => 'โปรเจกเตอร์ภาพเบลอ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Medium', 'status' => IncidentStatus::Resolved->value, 'days_ago' => 4, 'room_id' => $lab3->id, 'equipment_reference' => 'Projector Front'],
-            ['title' => 'โต๊ะด้านหลังมีฝุ่นมาก', 'category' => 'ความสะอาด', 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value, 'days_ago' => 2, 'room_id' => $lab1->id, 'equipment_reference' => null],
-            ['title' => 'สายไฟใต้โต๊ะวางระเกะระกะ', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => IncidentStatus::Open->value, 'days_ago' => 5, 'room_id' => $lab4->id, 'equipment_reference' => 'Plug A3'],
-            ['title' => 'แอร์ห้องไม่เย็น', 'category' => 'สภาพแวดล้อม', 'severity' => 'Medium', 'status' => IncidentStatus::InProgress->value, 'days_ago' => 1, 'room_id' => $lab5->id, 'equipment_reference' => 'Air Conditioner'],
-            ['title' => 'เมาส์เครื่อง PC-07 ขัดข้อง', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value, 'days_ago' => 6, 'room_id' => $lab2->id, 'equipment_reference' => 'PC-07 Mouse'],
-            ['title' => 'ปลั๊กพ่วงใกล้หน้าห้องมีรอยไหม้', 'category' => 'ความปลอดภัย', 'severity' => 'High', 'status' => IncidentStatus::Open->value, 'days_ago' => 4, 'room_id' => $lab3->id, 'equipment_reference' => 'Front Power Strip'],
-            ['title' => 'พื้นทางเดินมีขยะและสาย LAN พาด', 'category' => 'ความสะอาด', 'severity' => 'Medium', 'status' => IncidentStatus::Open->value, 'days_ago' => 2, 'room_id' => $lab4->id, 'equipment_reference' => null],
-            ['title' => 'เสียงพัดลมเครื่อง PC-02 ดังผิดปกติ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'severity' => 'Low', 'status' => IncidentStatus::InProgress->value, 'days_ago' => 1, 'room_id' => $lab5->id, 'equipment_reference' => 'PC-02'],
+            ['title' => 'เครื่อง PC-03 เปิดไม่ติด', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'subcategory' => IncidentSubcategory::ComputerDesktop->value, 'severity' => 'Medium', 'status' => IncidentStatus::Open->value, 'days_ago' => 0, 'room_id' => $lab1->id, 'equipment_reference' => 'PC-03'],
+            ['title' => 'อินเทอร์เน็ตใช้งานไม่ได้ทั้งห้อง', 'category' => 'เครือข่าย', 'subcategory' => IncidentSubcategory::NetworkInternet->value, 'severity' => 'High', 'status' => IncidentStatus::InProgress->value, 'days_ago' => 3, 'room_id' => $lab2->id, 'equipment_reference' => 'Core Switch Lab 2'],
+            ['title' => 'โปรเจกเตอร์ภาพเบลอ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'subcategory' => IncidentSubcategory::ComputerProjectorDisplay->value, 'severity' => 'Medium', 'status' => IncidentStatus::Resolved->value, 'days_ago' => 4, 'room_id' => $lab3->id, 'equipment_reference' => 'Projector Front'],
+            ['title' => 'โต๊ะด้านหลังมีฝุ่นมาก', 'category' => 'ความสะอาด', 'subcategory' => IncidentSubcategory::CleanlinessDust->value, 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value, 'days_ago' => 2, 'room_id' => $lab1->id, 'equipment_reference' => null],
+            ['title' => 'สายไฟใต้โต๊ะวางระเกะระกะ', 'category' => 'ความปลอดภัย', 'subcategory' => IncidentSubcategory::SafetyObstruction->value, 'severity' => 'High', 'status' => IncidentStatus::Open->value, 'days_ago' => 5, 'room_id' => $lab4->id, 'equipment_reference' => 'Plug A3'],
+            ['title' => 'แอร์ห้องไม่เย็น', 'category' => 'สภาพแวดล้อม', 'subcategory' => IncidentSubcategory::EnvironmentAirConditioning->value, 'severity' => 'Medium', 'status' => IncidentStatus::InProgress->value, 'days_ago' => 1, 'room_id' => $lab5->id, 'equipment_reference' => 'Air Conditioner'],
+            ['title' => 'เมาส์เครื่อง PC-07 ขัดข้อง', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'subcategory' => IncidentSubcategory::ComputerPeripheral->value, 'severity' => 'Low', 'status' => IncidentStatus::Resolved->value, 'days_ago' => 6, 'room_id' => $lab2->id, 'equipment_reference' => 'PC-07 Mouse'],
+            ['title' => 'ปลั๊กพ่วงใกล้หน้าห้องมีรอยไหม้', 'category' => 'ความปลอดภัย', 'subcategory' => IncidentSubcategory::SafetyElectrical->value, 'severity' => 'High', 'status' => IncidentStatus::Open->value, 'days_ago' => 4, 'room_id' => $lab3->id, 'equipment_reference' => 'Front Power Strip'],
+            ['title' => 'พื้นทางเดินมีขยะและสาย LAN พาด', 'category' => 'ความสะอาด', 'subcategory' => IncidentSubcategory::CleanlinessTrash->value, 'severity' => 'Medium', 'status' => IncidentStatus::Open->value, 'days_ago' => 2, 'room_id' => $lab4->id, 'equipment_reference' => null],
+            ['title' => 'เสียงพัดลมเครื่อง PC-02 ดังผิดปกติ', 'category' => 'อุปกรณ์คอมพิวเตอร์', 'subcategory' => IncidentSubcategory::ComputerDesktop->value, 'severity' => 'Low', 'status' => IncidentStatus::InProgress->value, 'days_ago' => 1, 'room_id' => $lab5->id, 'equipment_reference' => 'PC-02'],
         ];
 
         foreach ($incidentsData as $data) {
             $incident = Incident::updateOrCreate(['title' => $data['title']], [
                 'category' => $data['category'],
+                'subcategory' => $data['subcategory'],
                 'severity' => $data['severity'],
                 'room_id' => $data['room_id'],
                 'status' => $data['status'],

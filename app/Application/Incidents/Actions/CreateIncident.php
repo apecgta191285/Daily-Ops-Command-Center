@@ -7,6 +7,7 @@ namespace App\Application\Incidents\Actions;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
+use App\Domain\Incidents\Enums\IncidentSubcategory;
 use App\Models\Incident;
 use App\Models\Room;
 use Illuminate\Http\UploadedFile;
@@ -16,13 +17,27 @@ use Illuminate\Validation\ValidationException;
 class CreateIncident
 {
     /**
-     * @param  array{title: string, category: string, severity: string, description: string, room_id?: int|null, equipment_reference?: string|null}  $payload
+     * @param  array{title: string, category: string, subcategory?: string|null, severity: string, description: string, room_id?: int|null, equipment_reference?: string|null}  $payload
      */
     public function __invoke(array $payload, int $actorId, ?UploadedFile $attachment = null): Incident
     {
         if (! in_array($payload['category'], IncidentCategory::values(), true)) {
             throw ValidationException::withMessages([
                 'category' => ['หมวดหมู่รายงานปัญหาไม่ถูกต้อง'],
+            ]);
+        }
+
+        $subcategory = trim((string) ($payload['subcategory'] ?? ''));
+
+        if ($subcategory === '') {
+            throw ValidationException::withMessages([
+                'subcategory' => ['กรุณาเลือกหมวดหมู่ย่อยของรายงานปัญหา'],
+            ]);
+        }
+
+        if (! IncidentSubcategory::isValidForCategory($subcategory, $payload['category'])) {
+            throw ValidationException::withMessages([
+                'subcategory' => ['หมวดหมู่ย่อยไม่สัมพันธ์กับหมวดหมู่หลักที่เลือก'],
             ]);
         }
 
@@ -60,12 +75,13 @@ class CreateIncident
             ]);
         }
 
-        return DB::transaction(function () use ($payload, $actorId, $attachment, $roomId, $equipmentReference): Incident {
+        return DB::transaction(function () use ($payload, $actorId, $attachment, $roomId, $equipmentReference, $subcategory): Incident {
             $attachmentPath = $attachment?->store('incidents', 'local');
 
             $incident = Incident::create([
                 'title' => $payload['title'],
                 'category' => $payload['category'],
+                'subcategory' => $subcategory,
                 'severity' => $payload['severity'],
                 'room_id' => $roomId,
                 'status' => IncidentStatus::Open->value,

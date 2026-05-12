@@ -113,3 +113,37 @@ test('list incidents query applies unowned mine and overdue accountability filte
     expect($overdueResults->pluck('title')->all())->not->toContain($resolved->title);
     expect($overdueResults->firstWhere('title', $overdue->title)?->is_overdue_follow_up)->toBeTrue();
 });
+
+test('list incidents query filters by category and subcategory for report-ready slices', function () {
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    $internet = Incident::factory()->create([
+        'title' => 'Internet outage',
+        'category' => 'เครือข่าย',
+        'subcategory' => 'อินเทอร์เน็ต',
+        'created_by' => $admin->id,
+    ]);
+
+    $wifi = Incident::factory()->create([
+        'title' => 'Wi-Fi unstable',
+        'category' => 'เครือข่าย',
+        'subcategory' => 'LAN/Wi-Fi',
+        'created_by' => $admin->id,
+    ]);
+
+    $printer = Incident::factory()->create([
+        'title' => 'Printer jam',
+        'category' => 'อุปกรณ์คอมพิวเตอร์',
+        'subcategory' => 'เครื่องพิมพ์',
+        'created_by' => $admin->id,
+    ]);
+
+    $results = app(ListIncidents::class)(new IncidentListFilters(
+        category: 'เครือข่าย',
+        subcategory: 'อินเทอร์เน็ต',
+    ));
+
+    expect($results->pluck('title')->all())->toContain($internet->title);
+    expect($results->pluck('title')->all())->not->toContain($wifi->title);
+    expect($results->pluck('title')->all())->not->toContain($printer->title);
+});

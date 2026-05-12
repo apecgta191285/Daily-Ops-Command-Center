@@ -46,6 +46,7 @@ test('incident creation with all required fields persists correctly', function (
         ->test(Create::class)
         ->set('title', 'Test PC broken')
         ->set('category', 'อุปกรณ์คอมพิวเตอร์')
+        ->set('subcategory', 'คอมพิวเตอร์ตั้งโต๊ะ')
         ->set('severity', 'Medium')
         ->set('roomId', (string) $this->room->id)
         ->set('equipmentReference', 'PC-99')
@@ -66,6 +67,7 @@ test('incident creation with all required fields persists correctly', function (
     $incident = Incident::latest('id')->first();
     expect($incident->title)->toBe('Test PC broken');
     expect($incident->category)->toBe(IncidentCategory::ComputerEquipment);
+    expect($incident->subcategory)->toBe('คอมพิวเตอร์ตั้งโต๊ะ');
     expect($incident->severity)->toBe(IncidentSeverity::Medium);
     expect($incident->status)->toBe(IncidentStatus::Open);
     expect($incident->description)->toBe('PC-99 will not boot at all.');
@@ -88,7 +90,7 @@ test('incident creation validation blocks missing required fields', function () 
     Livewire::actingAs($this->operatorA)
         ->test(Create::class)
         ->call('submit')
-        ->assertHasErrors(['title', 'category', 'severity', 'roomId', 'description']);
+        ->assertHasErrors(['title', 'category', 'subcategory', 'severity', 'roomId', 'description']);
 });
 
 test('incident create page pauses reporting when no active room is available', function () {
@@ -123,11 +125,36 @@ test('incident creation validation blocks invalid severity', function () {
         ->test(Create::class)
         ->set('title', 'Test')
         ->set('category', 'เครือข่าย')
+        ->set('subcategory', 'อินเทอร์เน็ต')
         ->set('severity', 'Critical')
         ->set('roomId', (string) $this->room->id)
         ->set('description', 'desc')
         ->call('submit')
         ->assertHasErrors(['severity']);
+});
+
+test('incident creation validation blocks subcategory mismatches', function () {
+    Livewire::actingAs($this->operatorA)
+        ->test(Create::class)
+        ->set('title', 'Test')
+        ->set('category', 'เครือข่าย')
+        ->set('subcategory', 'เครื่องพิมพ์')
+        ->set('severity', 'Low')
+        ->set('roomId', (string) $this->room->id)
+        ->set('description', 'desc')
+        ->call('submit')
+        ->assertHasErrors(['subcategory']);
+});
+
+test('incident creation refreshes subcategory choices when category changes', function () {
+    Livewire::actingAs($this->operatorA)
+        ->test(Create::class)
+        ->set('category', 'เครือข่าย')
+        ->assertSet('subcategories', ['อินเทอร์เน็ต', 'LAN/Wi-Fi', 'สวิตช์/เราเตอร์', 'ระบบเครือข่าย/บริการกลาง'])
+        ->set('subcategory', 'LAN/Wi-Fi')
+        ->set('category', 'อุปกรณ์คอมพิวเตอร์')
+        ->assertSet('subcategory', '')
+        ->assertSet('subcategories', ['คอมพิวเตอร์ตั้งโต๊ะ', 'อุปกรณ์ต่อพ่วง', 'เครื่องพิมพ์', 'โปรเจกเตอร์/จอแสดงผล', 'จุดไฟ/ปลั๊ก/รางปลั๊ก']);
 });
 
 test('incident creation with optional attachment persists file path', function () {
@@ -139,6 +166,7 @@ test('incident creation with optional attachment persists file path', function (
         ->test(Create::class)
         ->set('title', 'Broken monitor with photo')
         ->set('category', 'อุปกรณ์คอมพิวเตอร์')
+        ->set('subcategory', 'โปรเจกเตอร์/จอแสดงผล')
         ->set('severity', 'High')
         ->set('roomId', (string) $this->room->id)
         ->set('equipmentReference', 'Monitor-02')
@@ -165,6 +193,7 @@ test('incident creation validation blocks unsupported attachment types', functio
         ->test(Create::class)
         ->set('title', 'Unsupported attachment type')
         ->set('category', 'อุปกรณ์คอมพิวเตอร์')
+        ->set('subcategory', 'คอมพิวเตอร์ตั้งโต๊ะ')
         ->set('severity', 'High')
         ->set('roomId', (string) $this->room->id)
         ->set('description', 'This should not allow executable uploads.')
@@ -178,6 +207,7 @@ test('incident creation without attachment still succeeds', function () {
         ->test(Create::class)
         ->set('title', 'No photo incident')
         ->set('category', 'ความสะอาด')
+        ->set('subcategory', 'ฝุ่น/คราบสกปรก')
         ->set('severity', 'Low')
         ->set('roomId', (string) $this->room->id)
         ->set('description', 'Minor dust.')
@@ -196,6 +226,7 @@ test('incident create page can prefill checklist follow-up context from query st
         'checklist_scope' => 'opening',
         'title' => 'รายงานติดตามจากรายการตรวจเช็ก',
         'category' => 'อื่น ๆ',
+        'subcategory' => 'คำขอ/ประสานงานเพิ่มเติม',
         'severity' => 'Medium',
         'description' => "ติดตามต่อจากรายการตรวจเช็กประจำวัน\nรายการที่ไม่เรียบร้อย: Printer",
         'room' => (string) $this->room->id,
@@ -206,6 +237,7 @@ test('incident create page can prefill checklist follow-up context from query st
         ->assertSet('roomId', (string) $this->room->id)
         ->assertSet('title', 'รายงานติดตามจากรายการตรวจเช็ก')
         ->assertSet('category', 'อื่น ๆ')
+        ->assertSet('subcategory', 'คำขอ/ประสานงานเพิ่มเติม')
         ->assertSet('severity', 'Medium')
         ->assertSet('description', "ติดตามต่อจากรายการตรวจเช็กประจำวัน\nรายการที่ไม่เรียบร้อย: Printer");
 });
@@ -215,6 +247,7 @@ test('incident creation outcome screen can reset back to a fresh form', function
         ->test(Create::class)
         ->set('title', 'Reset flow incident')
         ->set('category', 'อื่น ๆ')
+        ->set('subcategory', 'อื่น ๆ ที่ยังไม่เข้าหมวด')
         ->set('severity', 'Low')
         ->set('roomId', (string) $this->room->id)
         ->set('description', 'Need another quick report afterwards.')
@@ -234,6 +267,7 @@ test('incident creation outcome screen keeps checklist return path when prefille
         'checklist_scope' => 'opening',
         'title' => 'รายงานติดตามจากรายการตรวจเช็ก',
         'category' => 'อื่น ๆ',
+        'subcategory' => 'คำขอ/ประสานงานเพิ่มเติม',
         'severity' => 'Medium',
         'description' => "ติดตามต่อจากรายการตรวจเช็กประจำวัน\nรายการที่ไม่เรียบร้อย: Printer",
         'room' => (string) $this->room->id,
@@ -242,6 +276,7 @@ test('incident creation outcome screen keeps checklist return path when prefille
         ->test(Create::class)
         ->set('title', 'รายงานติดตามจากรายการตรวจเช็ก')
         ->set('category', 'อื่น ๆ')
+        ->set('subcategory', 'คำขอ/ประสานงานเพิ่มเติม')
         ->set('severity', 'Medium')
         ->set('roomId', (string) $this->room->id)
         ->set('description', "ติดตามต่อจากรายการตรวจเช็กประจำวัน\nรายการที่ไม่เรียบร้อย: Printer")
