@@ -26,7 +26,7 @@ class BuildIncidentReport
      */
     public function __invoke(IncidentReportFilters $filters): array
     {
-        $query = $this->baseQuery($filters);
+        $query = $this->query($filters);
 
         return [
             'filters' => [
@@ -48,7 +48,7 @@ class BuildIncidentReport
         ];
     }
 
-    protected function baseQuery(IncidentReportFilters $filters): Builder
+    public function query(IncidentReportFilters $filters): Builder
     {
         $category = $filters->categoryEnum();
         $status = $filters->statusEnum();

@@ -15,6 +15,9 @@
             </div>
 
             <div class="ops-page-intro__actions">
+                <a href="{{ $this->exportUrl }}" class="ops-button ops-button--primary">
+                    {{ __('Export CSV') }}
+                </a>
                 <a href="{{ route('dashboard') }}" class="ops-button ops-button--secondary" wire:navigate>
                     {{ __('Back to dashboard') }}
                 </a>

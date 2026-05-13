@@ -6,6 +6,7 @@ namespace App\Livewire\Management\Reports;
 
 use App\Application\Reports\Data\IncidentReportFilters;
 use App\Application\Reports\Queries\BuildIncidentReport;
+use App\Application\Reports\Support\IncidentReportFilterNormalizer;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
@@ -70,8 +71,6 @@ class IncidentReport extends Component
             ])
             ->all();
 
-        $this->startDate = $this->normalizeDate($this->startDate, CarbonImmutable::today()->subDays(29)->toDateString());
-        $this->endDate = $this->normalizeDate($this->endDate, CarbonImmutable::today()->toDateString());
         $this->sanitizeFilters();
     }
 
@@ -95,6 +94,11 @@ class IncidentReport extends Component
         $this->status = '';
         $this->severity = '';
         $this->subcategories = IncidentSubcategory::valuesForCategory(null);
+    }
+
+    public function getExportUrlProperty(): string
+    {
+        return route('reports.incidents.export', $this->filterInput());
     }
 
     public function updated(string $property): void
@@ -125,43 +129,21 @@ class IncidentReport extends Component
 
     protected function filters(): IncidentReportFilters
     {
-        return new IncidentReportFilters(
-            startDate: CarbonImmutable::parse($this->startDate)->startOfDay(),
-            endDate: CarbonImmutable::parse($this->endDate)->endOfDay(),
-            roomId: $this->roomId !== '' ? (int) $this->roomId : null,
-            category: $this->category,
-            subcategory: $this->subcategory,
-            status: $this->status,
-            severity: $this->severity,
-        );
+        return app(IncidentReportFilterNormalizer::class)->filters($this->filterInput());
     }
 
     protected function sanitizeFilters(): void
     {
-        $this->startDate = $this->normalizeDate($this->startDate, CarbonImmutable::today()->subDays(29)->toDateString());
-        $this->endDate = $this->normalizeDate($this->endDate, CarbonImmutable::today()->toDateString());
+        $normalized = app(IncidentReportFilterNormalizer::class)->normalize($this->filterInput());
 
-        if (CarbonImmutable::parse($this->startDate)->greaterThan(CarbonImmutable::parse($this->endDate))) {
-            $this->endDate = $this->startDate;
-        }
-
-        if ($this->roomId !== '' && ! collect($this->rooms)->pluck('id')->contains($this->roomId)) {
-            $this->roomId = '';
-        }
-
-        if (! in_array($this->category, $this->categories, true)) {
-            $this->category = '';
-        }
-
+        $this->startDate = $normalized['start_date'];
+        $this->endDate = $normalized['end_date'];
+        $this->roomId = $normalized['room_id'];
+        $this->category = $normalized['category'];
+        $this->subcategory = $normalized['subcategory'];
+        $this->status = $normalized['status'];
+        $this->severity = $normalized['severity'];
         $this->refreshSubcategoryOptions();
-
-        if (! in_array($this->status, $this->statuses, true)) {
-            $this->status = '';
-        }
-
-        if (! in_array($this->severity, $this->severities, true)) {
-            $this->severity = '';
-        }
     }
 
     protected function refreshSubcategoryOptions(): void
@@ -173,16 +155,19 @@ class IncidentReport extends Component
         }
     }
 
-    protected function normalizeDate(string $value, string $fallback): string
+    /**
+     * @return array{start_date:string,end_date:string,room_id:string,category:string,subcategory:string,status:string,severity:string}
+     */
+    protected function filterInput(): array
     {
-        if (trim($value) === '') {
-            return $fallback;
-        }
-
-        try {
-            return CarbonImmutable::parse($value)->toDateString();
-        } catch (\Throwable) {
-            return $fallback;
-        }
+        return [
+            'start_date' => $this->startDate,
+            'end_date' => $this->endDate,
+            'room_id' => $this->roomId,
+            'category' => $this->category,
+            'subcategory' => $this->subcategory,
+            'status' => $this->status,
+            'severity' => $this->severity,
+        ];
     }
 }

@@ -44,10 +44,54 @@ test('incident report page renders filters aggregates and recent incidents', fun
 
     $response->assertOk();
     $response->assertSee('Incident Report');
+    $response->assertSee('Export CSV');
     $response->assertSee('เลือกช่วงเวลาและมุมมองข้อมูล');
     $response->assertSee('ต้นตอปัญหาที่เกิดบ่อย');
     $response->assertSee('Report surface internet issue');
     $response->assertSee('อินเทอร์เน็ต');
+});
+
+test('management users can export filtered incident report csv and staff cannot', function () {
+    $otherRoom = $this->createRoom(['name' => 'Report Surface Other Lab', 'code' => 'RPT-O']);
+
+    Incident::factory()->create([
+        'title' => 'Report surface printer issue',
+        'category' => 'อุปกรณ์คอมพิวเตอร์',
+        'subcategory' => 'เครื่องพิมพ์',
+        'severity' => 'Low',
+        'status' => 'Open',
+        'room_id' => $otherRoom->id,
+        'created_by' => $this->staff->id,
+        'created_at' => '2026-05-12 09:00:00',
+    ]);
+
+    $query = [
+        'start_date' => '2026-05-01',
+        'end_date' => '2026-05-13',
+        'room_id' => (string) $this->room->id,
+        'category' => 'เครือข่าย',
+        'subcategory' => 'อินเทอร์เน็ต',
+    ];
+
+    $this->actingAs($this->staff)
+        ->get(route('reports.incidents.export', $query))
+        ->assertForbidden();
+
+    $response = $this->actingAs($this->supervisor)
+        ->get(route('reports.incidents.export', $query));
+
+    $response->assertOk();
+    $response->assertHeader('content-type', 'text/csv; charset=UTF-8');
+    $response->assertDownload('incident-report-2026-05-01-to-2026-05-13.csv');
+
+    $csv = $response->streamedContent();
+
+    expect($csv)
+        ->toContain('Incident ID')
+        ->toContain('Report surface internet issue')
+        ->toContain('Report Surface Lab')
+        ->toContain('อินเทอร์เน็ต')
+        ->not->toContain('Report surface printer issue');
 });
 
 test('incident report livewire filters by room category and subcategory', function () {

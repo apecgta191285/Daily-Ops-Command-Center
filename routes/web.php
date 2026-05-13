@@ -6,6 +6,7 @@ use App\Domain\Access\Enums\UserRole;
 use App\Http\Controllers\Admin\DuplicateChecklistTemplateController;
 use App\Http\Controllers\Management\DashboardController;
 use App\Http\Controllers\Management\DownloadIncidentAttachmentController;
+use App\Http\Controllers\Management\ExportIncidentReportController;
 use App\Http\Controllers\Management\PrintChecklistRunRecapController;
 use App\Http\Controllers\Management\PrintIncidentSummaryController;
 use App\Livewire\Admin\ChecklistTemplates\Index as TemplateIndex;
@@ -65,6 +66,9 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::get('reports/incidents', IncidentReport::class)
             ->name('reports.incidents');
+
+        Route::get('reports/incidents/export', ExportIncidentReportController::class)
+            ->name('reports.incidents.export');
 
         Route::get('incidents/{incident}/attachment', DownloadIncidentAttachmentController::class)
             ->name('incidents.attachment');
