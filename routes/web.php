@@ -19,6 +19,7 @@ use App\Livewire\Management\Checklists\HistoryShow as ChecklistHistoryShow;
 use App\Livewire\Management\Incidents\HistoryIndex as IncidentHistoryIndex;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
+use App\Livewire\Management\Reports\IncidentReport;
 use App\Livewire\Staff\Checklists\DailyRun;
 use App\Livewire\Staff\Incidents\Create;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,9 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::get('incidents/history', IncidentHistoryIndex::class)
             ->name('incidents.history.index');
+
+        Route::get('reports/incidents', IncidentReport::class)
+            ->name('reports.incidents');
 
         Route::get('incidents/{incident}/attachment', DownloadIncidentAttachmentController::class)
             ->name('incidents.attachment');

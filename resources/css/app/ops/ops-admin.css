@@ -200,6 +200,7 @@
     }
 
     .ops-screen--template-index .ops-governance-grid,
+    .ops-screen--incident-report .ops-governance-grid,
     .ops-screen--room-index .ops-governance-grid,
     .ops-screen--user-index .ops-governance-grid,
     .ops-screen--checklist-history .ops-governance-grid {

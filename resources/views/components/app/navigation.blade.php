@@ -12,6 +12,9 @@
         <flux:sidebar.item icon="archive-box" :href="route('checklists.history.index')" :current="request()->routeIs('checklists.history.index') || request()->routeIs('checklists.history.show')" wire:navigate>
             {{ __('ประวัติรอบการตรวจเช็ก') }}
         </flux:sidebar.item>
+        <flux:sidebar.item icon="chart-bar" :href="route('reports.incidents')" :current="request()->routeIs('reports.incidents')" wire:navigate>
+            {{ __('รายงาน') }}
+        </flux:sidebar.item>
         @if (auth()->user()->isAdmin())
             <flux:sidebar.item icon="rectangle-stack" :href="route('templates.index')" :current="request()->routeIs('templates.index') || request()->routeIs('templates.create') || request()->routeIs('templates.edit')" wire:navigate>
                 {{ __('แม่แบบรายการตรวจ') }}

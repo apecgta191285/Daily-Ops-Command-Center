@@ -41,6 +41,7 @@ test('admin sees management navigation links for dashboard incidents incident hi
     $response->assertSee('คิวปัญหา');
     $response->assertSee('ประวัติรายงานปัญหา');
     $response->assertSee('ประวัติรอบการตรวจเช็ก');
+    $response->assertSee('รายงาน');
     $response->assertSee('แม่แบบรายการตรวจ');
     $response->assertSee('ห้อง');
     $response->assertSee('ผู้ใช้งาน');
@@ -56,6 +57,7 @@ test('supervisor sees dashboard incidents incident history and run history navig
     $response->assertSee('คิวปัญหา');
     $response->assertSee('ประวัติรายงานปัญหา');
     $response->assertSee('ประวัติรอบการตรวจเช็ก');
+    $response->assertSee('รายงาน');
     $response->assertDontSee('แม่แบบรายการตรวจ');
     $response->assertDontSee('ผู้ใช้งาน');
     $response->assertDontSee(route('checklists.runs.today'), false);
@@ -70,6 +72,7 @@ test('staff sees checklist and incident creation navigation instead of forbidden
     $response->assertDontSee('แดชบอร์ดภาพรวม');
     $response->assertDontSee('ประวัติรายงานปัญหา');
     $response->assertDontSee('ประวัติรอบการตรวจเช็ก');
+    $response->assertDontSee(route('reports.incidents'), false);
     $response->assertDontSee('แม่แบบรายการตรวจ');
     $response->assertDontSee(route('rooms.index'), false);
     $response->assertDontSee('ผู้ใช้งาน');

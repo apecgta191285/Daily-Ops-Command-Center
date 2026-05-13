@@ -134,6 +134,12 @@ test('desktop workflow surfaces keep forms queues and runtime boards reachable',
         ->assertPresent('.ops-screen--incident-history')
         ->assertPresent('.ops-history-summary-grid');
 
+    stabilizeDesktopVisualState(visit('/reports/incidents')->on()->desktop())
+        ->assertNoSmoke()
+        ->assertPresent('.ops-screen--incident-report')
+        ->assertPresent('input#start_date')
+        ->assertPresent('select#subcategory');
+
     stabilizeDesktopVisualState(visit('/checklists/history')->on()->desktop())
         ->assertNoSmoke()
         ->assertPresent('.ops-screen--checklist-history')
