@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    'line' => [
+        'notifications' => [
+            'enabled' => env('LINE_NOTIFICATIONS_ENABLED', false),
+            'channel_access_token' => env('LINE_CHANNEL_ACCESS_TOKEN'),
+            'to' => env('LINE_NOTIFICATION_TO'),
+            'timeout' => env('LINE_NOTIFICATION_TIMEOUT', 5),
+        ],
+    ],
+
 ];

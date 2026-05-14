@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Incidents\Actions;
 
 use App\Application\Incidents\Data\IncidentAccountabilityUpdateResult;
+use App\Application\Incidents\Support\ExternalIncidentNotifier;
 use App\Domain\Access\Enums\UserRole;
 use App\Models\Incident;
 use App\Models\User;
@@ -60,8 +61,12 @@ class UpdateIncidentAccountability
             }
         });
 
+        $freshIncident = $incident->fresh(['creator', 'owner', 'room', 'activities.actor']);
+
+        app(ExternalIncidentNotifier::class)->accountabilityChanged($freshIncident);
+
         return new IncidentAccountabilityUpdateResult(
-            incident: $incident->fresh(['creator', 'owner', 'activities.actor']),
+            incident: $freshIncident,
             changed: true,
         );
     }

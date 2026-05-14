@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Incidents\Actions;
 
+use App\Application\Incidents\Support\ExternalIncidentNotifier;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
@@ -75,7 +76,7 @@ class CreateIncident
             ]);
         }
 
-        return DB::transaction(function () use ($payload, $actorId, $attachment, $roomId, $equipmentReference, $subcategory): Incident {
+        $incident = DB::transaction(function () use ($payload, $actorId, $attachment, $roomId, $equipmentReference, $subcategory): Incident {
             $attachmentPath = $attachment?->store('incidents', 'local');
 
             $incident = Incident::create([
@@ -99,5 +100,9 @@ class CreateIncident
 
             return $incident->load(['creator', 'room', 'activities.actor']);
         });
+
+        app(ExternalIncidentNotifier::class)->incidentCreated($incident);
+
+        return $incident;
     }
 }
