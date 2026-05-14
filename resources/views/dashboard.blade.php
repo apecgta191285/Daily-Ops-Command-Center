@@ -174,9 +174,8 @@
             </x-ops.stat-card>
         </div>
 
-        <div class="ops-command-grid ops-command-grid--dashboard">
-            <div class="ops-stack">
-                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="20">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+                <section class="ops-card overflow-hidden xl:col-span-8" data-motion="fade-up" data-motion-delay="20">
                     <x-ops.section-heading
                         eyebrow="กระดานงานของห้องวันนี้"
                         title="ภาพรวมการทำงาน"
@@ -266,7 +265,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
+                <section class="ops-card overflow-hidden xl:col-span-4 h-full" data-motion="fade-up" data-motion-delay="40">
                     <x-ops.section-heading
                         eyebrow="ลำดับงานสำคัญ"
                         title="สิ่งที่ต้องดูวันนี้"
@@ -314,7 +313,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="80">
+                <section class="ops-card overflow-hidden xl:col-span-5" data-motion="fade-up" data-motion-delay="80">
                     <x-ops.section-heading
                         eyebrow="ความครอบคลุมของการทำงาน"
                         title="รายการตรวจเช็กแยกตามรอบเวลา"
@@ -374,7 +373,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="120">
+                <section class="ops-card overflow-hidden xl:col-span-7" data-motion="fade-up" data-motion-delay="120">
                     <x-ops.section-heading
                         eyebrow="คิวปัจจุบัน"
                         title="รายงานปัญหาล่าสุด"
@@ -430,10 +429,8 @@
                         @endif
                     </div>
                 </section>
-            </div>
 
-            <div class="ops-stack">
-                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="55">
+                <section class="ops-card overflow-hidden xl:col-span-6" data-motion="fade-left" data-motion-delay="55">
                     <x-ops.section-heading
                         eyebrow="บริบทล่าสุด"
                         title="ชั้นสรุปจากประวัติ"
@@ -511,7 +508,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
+                <section class="ops-card overflow-hidden xl:col-span-4" data-motion="fade-left" data-motion-delay="70">
                     <x-ops.section-heading
                         eyebrow="แนวโน้ม"
                         title="แนวโน้มรายการตรวจเช็ก"
@@ -560,7 +557,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
+                <section class="ops-card overflow-hidden xl:col-span-4" data-motion="fade-left" data-motion-delay="120">
                     <x-ops.section-heading
                         eyebrow="ภาระงานติดตามต่อ"
                         title="กลุ่มงานและความรับผิดชอบ"
@@ -615,7 +612,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="145">
+                <section class="ops-card overflow-hidden xl:col-span-4" data-motion="fade-left" data-motion-delay="145">
                     <x-ops.section-heading
                         eyebrow="แรงกดดันจากการรับปัญหา"
                         title="แนวโน้มการรับรายงานปัญหา"
@@ -669,7 +666,7 @@
                     </div>
                 </section>
 
-                <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="170">
+                <section class="ops-card overflow-hidden xl:col-span-6" data-motion="fade-left" data-motion-delay="170">
                     <x-ops.section-heading
                         eyebrow="จุดที่ต้องจับตา"
                         title="หมวดปัญหาที่มีภาระสูง"
@@ -719,7 +716,6 @@
                         @endif
                     </div>
                 </section>
-            </div>
         </div>
     </div>
 </x-layouts::app>

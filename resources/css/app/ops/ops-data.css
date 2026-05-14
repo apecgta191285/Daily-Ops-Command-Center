@@ -5,12 +5,13 @@
 
     .ops-glance-card {
         @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border px-4 py-4;
-        border-color: color-mix(in srgb, var(--app-shell-border) 70%, white);
+        border-color: var(--app-border);
         background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.06));
+            linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
         box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.08),
-            0 12px 24px rgba(0, 0, 0, 0.12);
+            inset 0 1px 0 rgba(255, 255, 255, 0.05),
+            0 12px 24px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(12px);
     }
 
     .ops-glance-card__label {
@@ -37,27 +38,24 @@
 
     .ops-workboard {
         @apply rounded-[calc(var(--app-radius-xl)-0.15rem)] border p-5;
-        border-color: color-mix(in srgb, var(--app-border) 82%, white);
-        background:
-            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 98%, white), color-mix(in srgb, var(--app-surface-subtle) 55%, white)),
-            var(--app-surface);
+        border-color: var(--app-border);
+        background: var(--app-surface);
         box-shadow: var(--app-shadow-md);
+        backdrop-filter: blur(16px);
     }
 
     .ops-workboard--attention {
-        border-color: color-mix(in srgb, var(--app-warning-border) 72%, var(--app-border));
+        border-color: var(--app-warning-border);
         background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--app-warning-text) 10%, transparent), transparent 34%),
-            linear-gradient(180deg, color-mix(in srgb, var(--app-warning-bg) 66%, white), var(--app-surface)),
-            var(--app-surface);
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-warning-text) 15%, transparent), transparent 34%),
+            var(--app-warning-bg);
     }
 
     .ops-workboard--calm {
-        border-color: color-mix(in srgb, var(--app-success-border) 58%, var(--app-border));
+        border-color: var(--app-success-border);
         background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--app-success-text) 10%, transparent), transparent 34%),
-            linear-gradient(180deg, color-mix(in srgb, var(--app-success-bg) 58%, white), var(--app-surface)),
-            var(--app-surface);
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-success-text) 15%, transparent), transparent 34%),
+            var(--app-success-bg);
     }
 
     .ops-workboard__summary {
@@ -88,9 +86,9 @@
     .ops-workboard__metric {
         @apply border px-4 py-4;
         border-radius: calc(var(--app-radius-lg) - 0.25rem);
-        border-color: color-mix(in srgb, var(--app-border) 84%, white);
-        background-color: color-mix(in srgb, white 56%, var(--app-surface-subtle));
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
     }
 
     .ops-workboard__metric-label {
@@ -160,18 +158,19 @@
         @apply border px-4 py-4;
         border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: var(--app-border);
-        background-color: color-mix(in srgb, var(--app-surface-elevated) 95%, white);
+        background-color: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);
+        backdrop-filter: blur(8px);
     }
 
     .ops-workboard__lane--warning {
         border-color: var(--app-warning-border);
-        background-color: color-mix(in srgb, var(--app-warning-bg) 75%, white);
+        background-color: var(--app-warning-bg);
     }
 
     .ops-workboard__lane--danger {
         border-color: var(--app-danger-border);
-        background-color: color-mix(in srgb, var(--app-danger-bg) 74%, white);
+        background-color: var(--app-danger-bg);
     }
 
     .ops-workboard__lane-header {
@@ -201,9 +200,10 @@
     .ops-workboard__calm {
         @apply mt-5 border px-5 py-5;
         border-radius: calc(var(--app-radius-lg) - 0.15rem);
-        border-color: color-mix(in srgb, var(--app-success-border) 58%, var(--app-border));
-        background-color: color-mix(in srgb, var(--app-success-bg) 74%, white);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        border-color: var(--app-success-border);
+        background-color: var(--app-success-bg);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
     }
 
     .ops-workboard__calm-title {
@@ -222,27 +222,24 @@
 
     .ops-bucket-board {
         @apply rounded-[calc(var(--app-radius-xl)-0.15rem)] border p-5;
-        border-color: color-mix(in srgb, var(--app-border) 82%, white);
-        background:
-            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
-            var(--app-surface);
+        border-color: var(--app-border);
+        background: var(--app-surface);
         box-shadow: var(--app-shadow-md);
+        backdrop-filter: blur(16px);
     }
 
     .ops-bucket-board--active {
-        border-color: color-mix(in srgb, var(--app-action-primary) 24%, var(--app-border));
+        border-color: color-mix(in srgb, var(--app-action-primary) 50%, var(--app-border));
         background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--app-action-primary) 9%, transparent), transparent 34%),
-            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-action-primary) 15%, transparent), transparent 34%),
             var(--app-surface);
     }
 
     .ops-bucket-board--calm {
-        border-color: color-mix(in srgb, var(--app-success-border) 52%, var(--app-border));
+        border-color: var(--app-success-border);
         background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--app-success-text) 9%, transparent), transparent 34%),
-            linear-gradient(180deg, color-mix(in srgb, var(--app-success-bg) 52%, white), var(--app-surface)),
-            var(--app-surface);
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-success-text) 15%, transparent), transparent 34%),
+            var(--app-success-bg);
     }
 
     .ops-bucket-board__summary {
@@ -274,23 +271,24 @@
         @apply border px-4 py-4;
         border-radius: calc(var(--app-radius-lg) - 0.25rem);
         border-color: var(--app-border);
-        background-color: color-mix(in srgb, var(--app-surface-elevated) 95%, white);
+        background-color: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);
+        backdrop-filter: blur(12px);
     }
 
     .ops-bucket-card--danger {
         border-color: var(--app-danger-border);
-        background-color: color-mix(in srgb, var(--app-danger-bg) 72%, white);
+        background-color: var(--app-danger-bg);
     }
 
     .ops-bucket-card--warning {
         border-color: var(--app-warning-border);
-        background-color: color-mix(in srgb, var(--app-warning-bg) 72%, white);
+        background-color: var(--app-warning-bg);
     }
 
     .ops-bucket-card--info {
-        border-color: color-mix(in srgb, var(--app-info-border) 64%, var(--app-border));
-        background-color: color-mix(in srgb, var(--app-info-bg) 74%, white);
+        border-color: var(--app-info-border);
+        background-color: var(--app-info-bg);
     }
 
     .ops-bucket-card__header {
@@ -325,35 +323,31 @@
 
     .ops-context-board {
         @apply rounded-[calc(var(--app-radius-xl)-0.15rem)] border p-5;
-        border-color: color-mix(in srgb, var(--app-border) 82%, white);
-        background:
-            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
-            var(--app-surface);
+        border-color: var(--app-border);
+        background: var(--app-surface);
         box-shadow: var(--app-shadow-md);
+        backdrop-filter: blur(16px);
     }
 
     .ops-context-board--calm {
-        border-color: color-mix(in srgb, var(--app-success-border) 56%, var(--app-border));
+        border-color: var(--app-success-border);
         background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--app-success-text) 10%, transparent), transparent 34%),
-            linear-gradient(180deg, color-mix(in srgb, var(--app-success-bg) 55%, white), var(--app-surface)),
-            var(--app-surface);
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-success-text) 15%, transparent), transparent 34%),
+            var(--app-success-bg);
     }
 
     .ops-context-board--watch {
-        border-color: color-mix(in srgb, var(--app-info-border) 52%, var(--app-border));
+        border-color: var(--app-info-border);
         background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--app-info-border) 10%, transparent), transparent 34%),
-            linear-gradient(180deg, color-mix(in srgb, var(--app-info-bg) 52%, white), var(--app-surface)),
-            var(--app-surface);
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-info-text) 15%, transparent), transparent 34%),
+            var(--app-info-bg);
     }
 
     .ops-context-board--unstable {
-        border-color: color-mix(in srgb, var(--app-warning-border) 70%, var(--app-border));
+        border-color: var(--app-warning-border);
         background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--app-warning-text) 10%, transparent), transparent 34%),
-            linear-gradient(180deg, color-mix(in srgb, var(--app-warning-bg) 64%, white), var(--app-surface)),
-            var(--app-surface);
+            radial-gradient(circle at top right, color-mix(in srgb, var(--app-warning-text) 15%, transparent), transparent 34%),
+            var(--app-warning-bg);
     }
 
     .ops-context-board__summary {
@@ -384,9 +378,10 @@
     .ops-context-card {
         @apply border px-4 py-4;
         border-radius: calc(var(--app-radius-lg) - 0.25rem);
-        border-color: color-mix(in srgb, var(--app-border) 84%, white);
-        background-color: color-mix(in srgb, var(--app-surface-elevated) 95%, white);
+        border-color: var(--app-border);
+        background-color: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);
+        backdrop-filter: blur(12px);
     }
 
     .ops-context-card__header {
@@ -429,10 +424,16 @@
         @apply relative overflow-hidden border px-5 py-5;
         border-radius: calc(var(--app-radius-xl) - 0.2rem);
         box-shadow: var(--app-shadow-md);
+        backdrop-filter: blur(16px);
         transition:
             transform var(--app-duration-fast) var(--app-ease-out),
             box-shadow var(--app-duration-fast) var(--app-ease-out),
             border-color var(--app-duration-fast) var(--app-ease-in-out);
+    }
+
+    .ops-signal-card:hover {
+        transform: translateY(var(--app-card-hover-translate));
+        box-shadow: var(--app-card-hover-shadow);
     }
 
     .ops-signal-card::after {
@@ -449,7 +450,7 @@
     }
 
     .ops-signal-card--neutral::after {
-        background: linear-gradient(90deg, var(--app-border), color-mix(in srgb, var(--app-shell-border) 48%, white));
+        background: linear-gradient(90deg, var(--app-border), color-mix(in srgb, var(--app-border) 48%, transparent));
     }
 
     .ops-signal-card--warning {
@@ -458,7 +459,8 @@
     }
 
     .ops-signal-card--warning::after {
-        background: linear-gradient(90deg, color-mix(in srgb, var(--app-warning-text) 60%, white), var(--app-warning-border));
+        background: linear-gradient(90deg, var(--app-warning-text), var(--app-warning-border));
+        box-shadow: 0 0 12px var(--app-warning-text);
     }
 
     .ops-signal-card--danger {
@@ -467,7 +469,8 @@
     }
 
     .ops-signal-card--danger::after {
-        background: linear-gradient(90deg, color-mix(in srgb, var(--app-danger-text) 60%, white), var(--app-danger-border));
+        background: linear-gradient(90deg, var(--app-danger-text), var(--app-danger-border));
+        box-shadow: 0 0 12px var(--app-danger-text);
     }
 
     .ops-signal-card__header {
@@ -564,6 +567,7 @@
         border-color: var(--app-border);
         background-color: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);
+        backdrop-filter: blur(12px);
     }
 
     .ops-detail-list__title {
@@ -578,20 +582,18 @@
 
     .ops-progress-panel {
         @apply rounded-[calc(var(--app-radius-xl)-0.25rem)] border p-5;
-        border-color: color-mix(in srgb, var(--app-border) 82%, white);
-        background:
-            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-subtle) 94%, white), var(--app-surface-elevated)),
-            var(--app-surface-elevated);
+        border-color: var(--app-border);
+        background: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-md);
+        backdrop-filter: blur(16px);
     }
 
     .ops-trend-card {
         @apply rounded-[calc(var(--app-radius-lg)-0.1rem)] border p-5;
         border-color: var(--app-border);
-        background:
-            linear-gradient(180deg, color-mix(in srgb, var(--app-surface-elevated) 96%, white), var(--app-surface)),
-            var(--app-surface);
+        background: var(--app-surface-elevated);
         box-shadow: var(--app-shadow-sm);
+        backdrop-filter: blur(12px);
         transition:
             transform var(--app-duration-fast) var(--app-ease-out),
             box-shadow var(--app-duration-fast) var(--app-ease-out),
@@ -619,9 +621,9 @@
     .ops-trend-card__visual {
         @apply shrink-0 border px-3 py-2;
         border-radius: calc(var(--app-radius-lg) - 0.25rem);
-        border-color: color-mix(in srgb, var(--app-border) 86%, white);
-        background-color: color-mix(in srgb, var(--app-surface-subtle) 74%, white);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        border-color: var(--app-border);
+        background-color: var(--app-surface-subtle);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
     }
 
     .ops-trend-card__meta {

@@ -194,8 +194,7 @@
                 </div>
             @endif
 
-            <div class="ops-command-grid">
-                <div class="ops-stack">
+            <div class="grid grid-cols-1 gap-6">
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
                         <x-ops.section-heading
                             eyebrow="รอบตรวจของวันนี้"
@@ -260,7 +259,6 @@
                             </div>
                         </div>
                     </section>
-                </div>
             </div>
         @else
             <x-ops.hero
@@ -301,9 +299,8 @@
                 </x-slot:aside>
             </x-ops.hero>
 
-            <div class="ops-command-grid ops-command-grid--checklist">
-                <div class="ops-stack">
-                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+                    <section class="ops-card overflow-hidden xl:col-span-8" data-motion="fade-up" data-motion-delay="40">
                         <x-ops.section-heading
                             eyebrow="สถานะรอบตรวจ"
                             title="ความคืบหน้าของวันนี้"
@@ -363,7 +360,7 @@
                         </div>
                     </section>
 
-                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="90">
+                    <section class="ops-card overflow-hidden xl:col-span-8" data-motion="fade-up" data-motion-delay="90">
                         <x-ops.section-heading
                             eyebrow="พื้นที่ตรวจเช็ก"
                             :title="$template->title"
@@ -507,10 +504,8 @@
                             </form>
                         </div>
                     </section>
-                </div>
 
-                <div class="ops-stack">
-                    <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
+                    <section class="ops-card overflow-hidden xl:col-span-4" data-motion="fade-left" data-motion-delay="70">
                             <x-ops.section-heading
                                 eyebrow="ข้อมูลอ้างอิงย้อนหลัง"
                                 title="บริบทจากการส่งล่าสุด"
@@ -549,7 +544,6 @@
                             @endif
                         </div>
                     </section>
-                </div>
             </div>
         @endif
     </div>

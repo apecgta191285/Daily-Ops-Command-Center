@@ -77,9 +77,8 @@
         </section>
 
         <form wire:submit="save" class="space-y-6">
-            <div class="ops-command-grid ops-command-grid--template">
-                <div class="ops-stack">
-                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+                    <section class="ops-card overflow-hidden xl:col-span-8" data-motion="fade-up" data-motion-delay="40">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">ข้อมูลห้อง</p>
@@ -119,7 +118,7 @@
                         </div>
                     </section>
 
-                    <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="90">
+                    <section class="ops-card overflow-hidden xl:col-span-8" data-motion="fade-up" data-motion-delay="90">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">ผลหลังบันทึก</p>
@@ -134,10 +133,8 @@
                             </button>
                         </div>
                     </section>
-                </div>
 
-                <div class="ops-stack">
-                    <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
+                    <section class="ops-card overflow-hidden xl:col-span-4" data-motion="fade-left" data-motion-delay="70">
                         <div class="ops-section-heading">
                             <div>
                                 <p class="ops-section-heading__eyebrow">ตรวจสอบวงจรชีวิต</p>
@@ -156,7 +153,7 @@
                     </section>
 
                     @if ($room)
-                        <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
+                        <section class="ops-card overflow-hidden xl:col-span-4" data-motion="fade-left" data-motion-delay="120">
                             <div class="ops-section-heading">
                                 <div>
                                     <p class="ops-section-heading__eyebrow">การลบข้อมูล</p>
@@ -186,7 +183,6 @@
                             </div>
                         </section>
                     @endif
-                </div>
             </div>
         </form>
     </div>

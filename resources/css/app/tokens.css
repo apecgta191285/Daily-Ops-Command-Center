@@ -22,9 +22,9 @@
 @layer theme {
     :root {
         /*
-          PRECISION OPERATIONS AESTHETIC 
-          A high-contrast, strict editorial palette designed to emulate 
-          physical instruments and authoritative command surfaces. 
+          MODERN DARK MODE & NEON ACCENTS AESTHETIC 
+          A high-contrast, premium dark mode designed to emulate 
+          SaaS and Developer Tools with Glassmorphism and Neon indicators.
         */
 
         --app-shell-bg: #05070c;
@@ -33,24 +33,25 @@
         --app-shell-text: #ffffff;
         --app-shell-muted: #aab4c5;
 
-        /* Canvas: desk-grade off white with a cool laboratory cast */
-        --app-content-bg: #eef2f6;
+        /* Canvas: Deep space black for Modern Dark Mode */
+        --app-content-bg: #030712;
         
-        /* Surfaces: Pure stark white for maximum contrast */
-        --app-surface: #fffffd;
-        --app-surface-elevated: #ffffff;
-        --app-surface-subtle: #f6f8fb;
+        /* Surfaces: Glassmorphism / Dark translucent panels */
+        --app-surface: rgba(17, 24, 39, 0.65);
+        --app-surface-elevated: rgba(31, 41, 55, 0.85);
+        --app-surface-subtle: rgba(17, 24, 39, 0.3);
         
-        /* Borders: Razor thin, barely visible architectural lines */
-        --app-border: #dce3eb;
+        /* Borders: Subtle glint of glass edges */
+        --app-border: rgba(255, 255, 255, 0.08);
+        --app-border-hover: rgba(255, 255, 255, 0.15);
         
-        /* Text: Absolute hierarchy. Pitch black for primary, stark slate for muted */
-        --app-text: #1f2933;
-        --app-text-muted: #667085;
-        --app-text-muted-strong: #475467;
-        --app-text-muted-soft: #344054;
-        --app-heading: #0b1220;
-        --app-heading-soft: #111827;
+        /* Text: High contrast for dark mode */
+        --app-text: #f9fafb;
+        --app-text-muted: #9ca3af;
+        --app-text-muted-strong: #d1d5db;
+        --app-text-muted-soft: #6b7280;
+        --app-heading: #ffffff;
+        --app-heading-soft: #f3f4f6;
 
         /* Actions: Replacing generic blue with an intense Electric Ultramarine */
         --app-action-primary: #1f5eff;
@@ -68,19 +69,22 @@
         --app-action-danger-text-strong: #be123c;
         --app-action-danger-border: #fecdd3;
 
-        /* Status Panels: Paper-tinted surfaces with hyper-saturated text ranges */
-        --app-success-bg: #f0fdf4;
-        --app-success-border: #bbf7d0;
-        --app-success-text: #166534;
-        --app-warning-bg: #fefce8;
-        --app-warning-border: #fef08a;
-        --app-warning-text: #854d0e;
-        --app-danger-bg: #fff1f2;
-        --app-danger-border: #fecdd3;
-        --app-danger-text: #9f1239;
-        --app-info-bg: #eff6ff;
-        --app-info-border: #bfdbfe;
-        --app-info-text: #1e40af;
+        /* Status Panels: Translucent surfaces with Neon indicators */
+        --app-success-bg: rgba(22, 101, 52, 0.15);
+        --app-success-border: rgba(57, 255, 20, 0.3);
+        --app-success-text: #39ff14; /* Cyber Green */
+        
+        --app-warning-bg: rgba(133, 77, 14, 0.15);
+        --app-warning-border: rgba(251, 191, 36, 0.3);
+        --app-warning-text: #fbbf24; /* Amber Glow */
+        
+        --app-danger-bg: rgba(159, 18, 57, 0.15);
+        --app-danger-border: rgba(255, 0, 60, 0.3);
+        --app-danger-text: #ff003c; /* Neon Crimson */
+        
+        --app-info-bg: rgba(30, 64, 175, 0.15);
+        --app-info-border: rgba(59, 130, 246, 0.3);
+        --app-info-text: #60a5fa; /* Electric Blue */
 
         --app-badge-neutral-bg: #f4f4f5;
         --app-badge-neutral-text: #52525b;
@@ -97,31 +101,31 @@
         --app-radius-xl: 1.65rem;
 
         /* 
-          Architectural Shadows: 
-          Moving away from "generic glow" to layered, sharp drops 
-          that simulate physical light sources hitting hard material.
+          Dark Architectural Shadows & Depth:
+          Simulate depth in dark mode using deeper, harsher drop shadows 
+          and subtle ambient glow.
         */
         --app-shadow-sm: 
-            0 1px 2px rgba(15, 23, 42, 0.06),
-            0 1px 0 rgba(255, 255, 255, 0.85);
+            0 1px 2px rgba(0, 0, 0, 0.5),
+            0 1px 0 rgba(255, 255, 255, 0.05) inset;
         --app-shadow-md: 
-            0 12px 28px rgba(15, 23, 42, 0.08),
-            0 3px 8px rgba(15, 23, 42, 0.05);
+            0 12px 28px rgba(0, 0, 0, 0.6),
+            0 3px 8px rgba(0, 0, 0, 0.4);
         --app-shadow-lg: 
-            0 24px 60px rgba(15, 23, 42, 0.14),
-            0 10px 24px rgba(15, 23, 42, 0.08),
-            0 0 0 1px rgba(15, 23, 42, 0.04);
+            0 24px 60px rgba(0, 0, 0, 0.8),
+            0 10px 24px rgba(0, 0, 0, 0.5),
+            0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 
         --app-glow-primary-sm: 0 0 18px color-mix(in srgb, var(--app-action-primary) 24%, transparent);
         --app-glow-primary: 0 0 28px color-mix(in srgb, var(--app-action-primary) 34%, transparent);
         --app-glow-danger-sm: 0 0 18px color-mix(in srgb, var(--app-danger-text) 20%, transparent);
         --app-glow-warning-sm: 0 0 18px color-mix(in srgb, var(--app-warning-text) 18%, transparent);
 
-        --app-card-hover-translate: -2px;
+        --app-card-hover-translate: -4px;
         --app-card-hover-shadow:
-            0 14px 34px rgba(9, 9, 11, 0.08),
-            0 6px 14px rgba(9, 9, 11, 0.05),
-            0 0 0 1px rgba(9, 9, 11, 0.03);
+            0 14px 34px rgba(0, 0, 0, 0.6),
+            0 6px 14px rgba(0, 0, 0, 0.4),
+            0 0 0 1px var(--app-border-hover);
 
         --app-text-hero-value: clamp(2.75rem, 6vw, 4.75rem);
         --app-text-stat-value: clamp(2.1rem, 3.2vw, 3.4rem);
