@@ -86,116 +86,106 @@
                 <span class="block sm:inline">ยังไม่มีห้องที่เปิดใช้งานอยู่ ผู้ตรวจจึงยังเริ่มรอบการตรวจที่ผูกกับห้องไม่ได้ กรุณาให้ผู้ดูแลระบบเปิดใช้งานห้องอย่างน้อยหนึ่งห้องก่อน</span>
             </div>
         @elseif ($errorState === 'room_required')
-            <section class="ops-hero" data-motion="glance-rise">
-                <div class="ops-hero__inner">
+            <x-ops.hero
+                eyebrow="เลือกห้อง"
+                title="เริ่มจากเลือกห้องที่จะตรวจวันนี้"
+                lead="ขั้นตอนนี้ยึดห้องเป็นศูนย์กลาง กรุณาเลือกห้องที่กำลังตรวจวันนี้ เพื่อให้รอบตรวจ การส่งต่อปัญหา และประวัติย้อนหลังอ้างอิงห้องเดียวกันทั้งหมด"
+            >
+                <x-slot:meta>
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room-centered checklist') }}</span>
+                    <span class="ops-shell-chip">{{ count($rooms) }} {{ __('active room(s)') }}</span>
+                    <span class="ops-shell-chip">{{ __('Today') }} {{ now()->format('d/m/Y') }}</span>
+                </x-slot:meta>
+
+                <x-slot:aside>
                     <div>
-                        <p class="ops-hero__eyebrow">เลือกห้อง</p>
-                        <h3 class="ops-hero__title">เริ่มจากเลือกห้องที่จะตรวจวันนี้</h3>
-                        <p class="ops-hero__lead">
-                            ขั้นตอนนี้ยึดห้องเป็นศูนย์กลาง กรุณาเลือกห้องที่กำลังตรวจวันนี้ เพื่อให้รอบตรวจ การส่งต่อปัญหา และประวัติย้อนหลังอ้างอิงห้องเดียวกันทั้งหมด
+                        <p class="ops-hero__aside-title">ห้องที่ใช้งานอยู่</p>
+                        <p class="ops-hero__aside-value">{{ count($rooms) }}</p>
+                        <p class="ops-hero__aside-copy">
+                            เลือกห้องจริงก่อน เพื่อให้บันทึกรอบตรวจนี้อ้างอิงห้องเดียวกันตลอด
                         </p>
-
-                        <div class="ops-hero__meta">
-                            <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room-centered checklist') }}</span>
-                            <span class="ops-shell-chip">{{ count($rooms) }} {{ __('active room(s)') }}</span>
-                            <span class="ops-shell-chip">{{ __('Today') }} {{ now()->format('d/m/Y') }}</span>
-                        </div>
                     </div>
-
-                    <aside class="ops-hero__aside">
-                        <div>
-                            <p class="ops-hero__aside-title">ห้องที่ใช้งานอยู่</p>
-                            <p class="ops-hero__aside-value">{{ count($rooms) }}</p>
-                            <p class="ops-hero__aside-copy">
-                                เลือกห้องจริงก่อน เพื่อให้บันทึกรอบตรวจนี้อ้างอิงห้องเดียวกันตลอด
-                            </p>
-                        </div>
-                    </aside>
-                </div>
-            </section>
+                </x-slot:aside>
+            </x-ops.hero>
 
             <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
                 <div class="ops-card__body">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">ห้องในระบบ</p>
-                            <h3 class="ops-section-heading__title">เลือกห้องที่คุณกำลังตรวจ</h3>
-                            <p class="ops-section-heading__body">เริ่มจากเลือกห้อง แล้วค่อยเข้าไปยังรอบตรวจเปิดห้อง ระหว่างวัน หรือปิดห้องของห้องนั้น</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="ห้องในระบบ"
+                        title="เลือกห้องที่คุณกำลังตรวจ"
+                        body="เริ่มจากเลือกห้อง แล้วค่อยเข้าไปยังรอบตรวจเปิดห้อง ระหว่างวัน หรือปิดห้องของห้องนั้น"
+                    />
 
                     <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" data-motion-group data-stagger-base="50" data-stagger-unit="35" data-stagger-max="180">
                         @foreach ($rooms as $roomOption)
-                            <article data-motion="scale-soft" class="ops-signal-card ops-signal-card--neutral">
-                                <div class="ops-signal-card__header">
-                                    <div>
-                                        <p class="ops-signal-card__title">{{ $roomOption['name'] }}</p>
-                                        <p class="ops-signal-card__body">{{ $roomOption['code'] }}</p>
-                                    </div>
-                                </div>
-
+                            <x-ops.signal-card
+                                data-motion="scale-soft"
+                                tone="neutral"
+                                :title="$roomOption['name']"
+                                :body="$roomOption['code']"
+                            >
                                 <div class="mt-4">
                                     <a href="{{ route('checklists.runs.today', ['room' => $roomOption['id']]) }}" class="ops-button ops-button--primary w-full">
                                         {{ __('เลือกห้องนี้') }}
                                     </a>
                                 </div>
-                            </article>
+                            </x-ops.signal-card>
                         @endforeach
                     </div>
                 </div>
             </section>
         @elseif ($errorState === 'scope_required' || $errorState === 'scope_missing')
-            <section class="ops-hero" data-motion="glance-rise">
-                <div class="ops-hero__inner">
-                    <div>
-                        <p class="ops-hero__eyebrow">กระดานรายการตรวจประจำวัน</p>
-                        <h3 class="ops-hero__title">
-                            @if ($errorState === 'scope_required')
-                                เลือกรอบตรวจของห้องนี้
-                            @else
-                                ยังไม่มีรอบตรวจ {{ $this->scopeLabel }} ที่ใช้งานอยู่
-                            @endif
-                        </h3>
-                        <p class="ops-hero__lead">
-                            @if ($errorState === 'scope_required')
-                                เลือกรอบตรวจเปิดห้อง ระหว่างวัน หรือปิดห้อง ที่ตรงกับสิ่งที่กำลังเกิดขึ้นใน{{ $this->selectedRoomLabel ?? 'ห้องนี้' }} เพื่อให้การตรวจและการส่งต่อปัญหาผูกกับห้องเดียวกัน
-                            @else
-                                ตอนนี้ยังไม่มีแม่แบบที่เปิดใช้งานสำหรับรอบ {{ $this->scopeLabel }} คุณสามารถเลือกรอบตรวจอื่นที่เปิดใช้งานอยู่ หรือให้ผู้ดูแลระบบเปิดใช้งานแม่แบบที่ถูกต้องก่อน
-                            @endif
-                        </p>
+            <x-ops.hero
+                eyebrow="กระดานรายการตรวจประจำวัน"
+            >
+                <x-slot:titleFallback>
+                    <h3 class="ops-hero__title">
+                        @if ($errorState === 'scope_required')
+                            เลือกรอบตรวจของห้องนี้
+                        @else
+                            ยังไม่มีรอบตรวจ {{ $this->scopeLabel }} ที่ใช้งานอยู่
+                        @endif
+                    </h3>
+                </x-slot:titleFallback>
 
-                        <div class="ops-hero__meta">
-                            <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room and lane selection') }}</span>
-                            @if ($this->selectedRoomLabel)
-                                <span class="ops-shell-chip">{{ $this->selectedRoomLabel }}</span>
-                            @endif
-                            <span class="ops-shell-chip">{{ $activeScopeCount }} {{ __('live lane(s)') }}</span>
-                            <span class="ops-shell-chip">{{ __('Today') }} {{ now()->format('d/m/Y') }}</span>
-                        </div>
+                <x-slot:lead>
+                    @if ($errorState === 'scope_required')
+                        เลือกรอบตรวจเปิดห้อง ระหว่างวัน หรือปิดห้อง ที่ตรงกับสิ่งที่กำลังเกิดขึ้นใน{{ $this->selectedRoomLabel ?? 'ห้องนี้' }} เพื่อให้การตรวจและการส่งต่อปัญหาผูกกับห้องเดียวกัน
+                    @else
+                        ตอนนี้ยังไม่มีแม่แบบที่เปิดใช้งานสำหรับรอบ {{ $this->scopeLabel }} คุณสามารถเลือกรอบตรวจอื่นที่เปิดใช้งานอยู่ หรือให้ผู้ดูแลระบบเปิดใช้งานแม่แบบที่ถูกต้องก่อน
+                    @endif
+                </x-slot:lead>
+
+                <x-slot:meta>
+                    <span class="ops-shell-chip ops-shell-chip--accent">{{ __('Room and lane selection') }}</span>
+                    @if ($this->selectedRoomLabel)
+                        <span class="ops-shell-chip">{{ $this->selectedRoomLabel }}</span>
+                    @endif
+                    <span class="ops-shell-chip">{{ $activeScopeCount }} {{ __('live lane(s)') }}</span>
+                    <span class="ops-shell-chip">{{ __('Today') }} {{ now()->format('d/m/Y') }}</span>
+                </x-slot:meta>
+
+                <x-slot:aside>
+                    <div>
+                        <p class="ops-hero__aside-title">จำนวนรอบตรวจ</p>
+                        <p class="ops-hero__aside-value">{{ $activeScopeCount }}</p>
+                        <p class="ops-hero__aside-copy">
+                            จำนวนรอบตรวจที่ใช้งานได้ของห้องที่เลือกในวันนี้
+                        </p>
                     </div>
 
-                    <aside class="ops-hero__aside">
-                        <div>
-                            <p class="ops-hero__aside-title">จำนวนรอบตรวจ</p>
-                            <p class="ops-hero__aside-value">{{ $activeScopeCount }}</p>
-                            <p class="ops-hero__aside-copy">
-                                จำนวนรอบตรวจที่ใช้งานได้ของห้องที่เลือกในวันนี้
-                            </p>
+                    <div class="ops-hero__aside-stack">
+                        <div class="ops-shell-chip">
+                            <span>ยังไม่เริ่ม</span>
+                            <strong class="font-semibold text-white">{{ collect($scopeBoard)->where('state', 'not_started')->count() }}</strong>
                         </div>
-
-                        <div class="ops-hero__aside-stack">
-                            <div class="ops-shell-chip">
-                                <span>ยังไม่เริ่ม</span>
-                                <strong class="font-semibold text-white">{{ collect($scopeBoard)->where('state', 'not_started')->count() }}</strong>
-                            </div>
-                            <div class="ops-shell-chip">
-                                <span>กำลังดำเนินการ</span>
-                                <strong class="font-semibold text-white">{{ collect($scopeBoard)->where('state', 'in_progress')->count() }}</strong>
-                            </div>
+                        <div class="ops-shell-chip">
+                            <span>กำลังดำเนินการ</span>
+                            <strong class="font-semibold text-white">{{ collect($scopeBoard)->where('state', 'in_progress')->count() }}</strong>
                         </div>
-                    </aside>
-                </div>
-            </section>
+                    </div>
+                </x-slot:aside>
+            </x-ops.hero>
 
             @if ($errorState === 'scope_missing')
                 <div data-motion="fade-up" class="ops-alert ops-alert--warning">
@@ -207,13 +197,11 @@
             <div class="ops-command-grid">
                 <div class="ops-stack">
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">รอบตรวจของวันนี้</p>
-                                <h3 class="ops-section-heading__title">เลือกรอบตรวจที่ถูกต้อง</h3>
-                                <p class="ops-section-heading__body">แต่ละรอบตรวจจะใช้รายการตรวจที่เหมาะกับห้องนี้ เพื่อให้การตรวจ การส่งต่อปัญหา และประวัติย้อนหลังสอดคล้องกัน</p>
-                            </div>
-                        </div>
+                        <x-ops.section-heading
+                            eyebrow="รอบตรวจของวันนี้"
+                            title="เลือกรอบตรวจที่ถูกต้อง"
+                            body="แต่ละรอบตรวจจะใช้รายการตรวจที่เหมาะกับห้องนี้ เพื่อให้การตรวจ การส่งต่อปัญหา และประวัติย้อนหลังสอดคล้องกัน"
+                        />
 
                         <div class="ops-card__body">
                             <div class="grid gap-4 lg:grid-cols-3" data-motion-group data-stagger-base="50" data-stagger-unit="35" data-stagger-max="160">
@@ -227,39 +215,34 @@
                                         $laneHref = route('checklists.runs.today', $this->checklistRouteParameters($lane['scope_key']));
                                     @endphp
 
-                                    <article data-motion="scale-soft" class="ops-signal-card {{ $laneTone === 'warning' ? 'ops-signal-card--warning' : 'ops-signal-card--neutral' }}">
-                                        <div class="ops-signal-card__header">
-                                            <div>
-                                                <p class="ops-signal-card__title">{{ $lane['scope'] }}</p>
-                                                <p class="ops-signal-card__body">
-                                                    {{ $lane['template_title'] ?? __('No active template') }}
-                                                </p>
-                                            </div>
-                                            <div class="ops-signal-card__count">
-                                                {{ $lane['completion_percentage'] }}%
-                                            </div>
-                                        </div>
+                                    <x-ops.signal-card
+                                        data-motion="scale-soft"
+                                        :tone="$laneTone === 'warning' ? 'warning' : 'neutral'"
+                                        :title="$lane['scope']"
+                                        :body="$lane['template_title'] ?? __('No active template')"
+                                    >
+                                        <x-slot:headerCount>
+                                            {{ $lane['completion_percentage'] }}%
+                                        </x-slot:headerCount>
 
-                                        <div class="ops-signal-card__body">
-                                            @if ($lane['state'] === 'unavailable')
-                                                ยังไม่มีแม่แบบที่เปิดใช้งานสำหรับรอบตรวจนี้
-                                            @elseif ($lane['state'] === 'submitted')
-                                                รอบตรวจของวันนี้สำหรับรอบนี้ถูกส่งแล้ว
-                                            @elseif ($lane['state'] === 'in_progress')
-                                                กลับไปทำรอบตรวจที่เริ่มไว้แล้วของวันนี้
-                                            @else
-                                                เริ่มรายการตรวจเช็กของรอบนี้
-                                            @endif
-                                        </div>
+                                        @if ($lane['state'] === 'unavailable')
+                                            ยังไม่มีแม่แบบที่เปิดใช้งานสำหรับรอบตรวจนี้
+                                        @elseif ($lane['state'] === 'submitted')
+                                            รอบตรวจของวันนี้สำหรับรอบนี้ถูกส่งแล้ว
+                                        @elseif ($lane['state'] === 'in_progress')
+                                            กลับไปทำรอบตรวจที่เริ่มไว้แล้วของวันนี้
+                                        @else
+                                            เริ่มรายการตรวจเช็กของรอบนี้
+                                        @endif
 
-                                        <div class="ops-signal-card__footer">
+                                        <x-slot:footer>
                                             <span class="ops-chip {{ $lane['state'] === 'submitted' ? 'ops-chip--success' : ($lane['state'] === 'in_progress' ? 'ops-chip--warning' : '') }}">
                                                 {{ match($lane['state']) { 'submitted' => 'ส่งแล้ว', 'in_progress' => 'กำลังดำเนินการ', 'not_started' => 'ยังไม่เริ่ม', 'unavailable' => 'ยังใช้ไม่ได้', default => $lane['state'] } }}
                                             </span>
-                                                <span class="ops-text-muted text-xs">
+                                            <span class="ops-text-muted text-xs">
                                                 {{ $lane['answered_items'] }}/{{ $lane['total_items'] }} {{ __('answered') }}
                                             </span>
-                                        </div>
+                                        </x-slot:footer>
 
                                         <div class="mt-4">
                                             @if ($lane['state'] === 'unavailable')
@@ -272,7 +255,7 @@
                                                 </a>
                                             @endif
                                         </div>
-                                    </article>
+                                    </x-ops.signal-card>
                                 @endforeach
                             </div>
                         </div>
@@ -280,60 +263,52 @@
                 </div>
             </div>
         @else
-            <section class="ops-hero" data-motion="glance-rise">
-                <div class="ops-hero__inner">
-                    <div>
-                        <p class="ops-hero__eyebrow">รายการตรวจเช็กประจำวัน</p>
-                        <h3 class="ops-hero__title">{{ $template->title }}</h3>
-                        <p class="ops-hero__lead">
-                            ดำเนินการตรวจของวันที่ {{ \Carbon\Carbon::parse($run->run_date)->format('d/m/Y') }} ให้ครบ บันทึกหมายเหตุให้ชัดเมื่อพบความผิดปกติ และส่งต่อปัญหาเข้าสู่คิวรายงานโดยไม่ทำให้บริบทหายไป
-                        </p>
+            <x-ops.hero
+                eyebrow="รายการตรวจเช็กประจำวัน"
+                :title="$template->title"
+                lead="ดำเนินการตรวจของวันที่ {{ \Carbon\Carbon::parse($run->run_date)->format('d/m/Y') }} ให้ครบ บันทึกหมายเหตุให้ชัดเมื่อพบความผิดปกติ และส่งต่อปัญหาเข้าสู่คิวรายงานโดยไม่ทำให้บริบทหายไป"
+            >
+                <x-slot:meta>
+                    @if ($this->selectedRoomLabel)
+                        <span class="ops-shell-chip ops-shell-chip--accent">ห้อง: {{ $this->selectedRoomLabel }}</span>
+                    @endif
+                    <span class="ops-shell-chip ops-shell-chip--accent">รอบเวลา: {{ $template->scope->value }}</span>
+                    <span class="ops-shell-chip">{{ $this->answeredItems }}/{{ $this->totalItems }} ตอบแล้ว</span>
+                    @if ($isSubmitted)
+                        <span class="ops-shell-chip">ส่งแล้ว</span>
+                    @else
+                        <span class="ops-shell-chip">รอดำเนินการ</span>
+                    @endif
+                </x-slot:meta>
 
-                        <div class="ops-hero__meta">
-                            @if ($this->selectedRoomLabel)
-                                <span class="ops-shell-chip ops-shell-chip--accent">ห้อง: {{ $this->selectedRoomLabel }}</span>
-                            @endif
-                            <span class="ops-shell-chip ops-shell-chip--accent">รอบเวลา: {{ $template->scope->value }}</span>
-                            <span class="ops-shell-chip">{{ $this->answeredItems }}/{{ $this->totalItems }} ตอบแล้ว</span>
-                            @if ($isSubmitted)
-                                <span class="ops-shell-chip">ส่งแล้ว</span>
-                            @else
-                                <span class="ops-shell-chip">รอดำเนินการ</span>
-                            @endif
-                        </div>
+                <x-slot:aside>
+                    <div>
+                        <p class="ops-hero__aside-title">ความคืบหน้า</p>
+                        <p class="ops-hero__aside-value">{{ $this->completionPercentage }}%</p>
+                        <p class="ops-hero__aside-copy">{{ $this->remainingItems }} รายการที่ยังเหลือก่อนจะถือว่าการตรวจเสร็จสมบูรณ์</p>
                     </div>
 
-                    <aside class="ops-hero__aside">
-                        <div>
-                            <p class="ops-hero__aside-title">ความคืบหน้า</p>
-                            <p class="ops-hero__aside-value">{{ $this->completionPercentage }}%</p>
-                            <p class="ops-hero__aside-copy">{{ $this->remainingItems }} รายการที่ยังเหลือก่อนจะถือว่าการตรวจเสร็จสมบูรณ์</p>
+                    <div class="ops-hero__aside-stack">
+                        <div class="ops-shell-chip">
+                            <span>ทำเครื่องหมายว่าไม่เรียบร้อย</span>
+                            <strong class="font-semibold text-white">{{ $this->notDoneItems }}</strong>
                         </div>
-
-                        <div class="ops-hero__aside-stack">
-                            <div class="ops-shell-chip">
-                                <span>ทำเครื่องหมายว่าไม่เรียบร้อย</span>
-                                <strong class="font-semibold text-white">{{ $this->notDoneItems }}</strong>
-                            </div>
-                            <div class="ops-shell-chip">
-                                <span>รอบตรวจอ้างอิงล่าสุด</span>
-                                <strong class="font-semibold text-white">{{ count($recentRuns) }}</strong>
-                            </div>
+                        <div class="ops-shell-chip">
+                            <span>รอบตรวจอ้างอิงล่าสุด</span>
+                            <strong class="font-semibold text-white">{{ count($recentRuns) }}</strong>
                         </div>
-                    </aside>
-                </div>
-            </section>
+                    </div>
+                </x-slot:aside>
+            </x-ops.hero>
 
             <div class="ops-command-grid ops-command-grid--checklist">
                 <div class="ops-stack">
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">สถานะรอบตรวจ</p>
-                                <h3 class="ops-section-heading__title">ความคืบหน้าของวันนี้</h3>
-                                <p class="ops-section-heading__body">ตรวจเช็กให้ครบก่อนส่งต่องานในรอบนี้</p>
-                            </div>
-                        </div>
+                        <x-ops.section-heading
+                            eyebrow="สถานะรอบตรวจ"
+                            title="ความคืบหน้าของวันนี้"
+                            body="ตรวจเช็กให้ครบก่อนส่งต่องานในรอบนี้"
+                        />
 
                         <div class="ops-card__body space-y-4">
                             <div class="grid gap-3 sm:grid-cols-3">
@@ -389,14 +364,12 @@
                     </section>
 
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="90">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">พื้นที่ตรวจเช็ก</p>
-                                <h3 class="ops-section-heading__title">{{ $template->title }}</h3>
-                                <p class="ops-section-heading__body">ทำรายการตรวจเช็กตามลำดับ เพิ่มบันทึกเมื่อจำเป็น และเตรียมข้อมูลไว้สำหรับส่งต่อเป็นรายงานปัญหาเมื่อพบจุดที่ไม่ผ่าน</p>
-                            </div>
-
-                            <div class="flex shrink-0 flex-wrap gap-3">
+                        <x-ops.section-heading
+                            eyebrow="พื้นที่ตรวจเช็ก"
+                            :title="$template->title"
+                            body="ทำรายการตรวจเช็กตามลำดับ เพิ่มบันทึกเมื่อจำเป็น และเตรียมข้อมูลไว้สำหรับส่งต่อเป็นรายงานปัญหาเมื่อพบจุดที่ไม่ผ่าน"
+                        >
+                            <x-slot:actions>
                                 @if ($activeScopeCount > 1)
                                     <a href="{{ route('checklists.runs.today', $this->checklistRouteParameters()) }}" class="ops-button ops-button--secondary">
                                         {{ __('กลับไปหน้ากระดานรายการตรวจเช็ก') }}
@@ -405,8 +378,8 @@
                                 <a href="{{ $this->incidentPrefillUrl }}" class="ops-button ops-button--danger">
                                     แจ้งรายงานปัญหา
                                 </a>
-                            </div>
-                        </div>
+                            </x-slot:actions>
+                        </x-ops.section-heading>
 
                         <div class="ops-card__body">
                             @if (session()->has('message'))
@@ -538,13 +511,11 @@
 
                 <div class="ops-stack">
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">ข้อมูลอ้างอิงย้อนหลัง</p>
-                                <h3 class="ops-section-heading__title">บริบทจากการส่งล่าสุด</h3>
-                                <p class="ops-section-heading__body">ใช้รอบตรวจล่าสุดเป็นข้อมูลอ้างอิงแบบเร็วก่อนส่งรายการตรวจเช็กของวันนี้</p>
-                            </div>
-                        </div>
+                            <x-ops.section-heading
+                                eyebrow="ข้อมูลอ้างอิงย้อนหลัง"
+                                title="บริบทจากการส่งล่าสุด"
+                                body="ใช้รอบตรวจล่าสุดเป็นข้อมูลอ้างอิงแบบเร็วก่อนส่งรายการตรวจเช็กของวันนี้"
+                            />
 
                         <div class="ops-card__body">
                             @if ($recentRuns !== [])

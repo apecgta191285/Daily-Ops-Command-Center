@@ -47,71 +47,63 @@
             </form>
         @endif
 
-        <section class="ops-hero" data-motion="glance-rise">
-            <div class="ops-hero__inner">
-                <div>
-                    <p class="ops-hero__eyebrow">การจัดทำแม่แบบรายการตรวจ</p>
-                    <h3 class="ops-hero__title">{{ __($this->pageTitle) }}</h3>
-                    <p class="ops-hero__lead">
-                        จัดทำรายการตรวจที่ผู้ตรวจห้องจะใช้งานจริง วางลำดับให้อ่านง่าย และทบทวนผลกระทบก่อนแทนที่แม่แบบที่ใช้อยู่
-                    </p>
+        <x-ops.hero
+            eyebrow="การจัดทำแม่แบบรายการตรวจ"
+            :title="__($this->pageTitle)"
+            lead="จัดทำรายการตรวจที่ผู้ตรวจห้องจะใช้งานจริง วางลำดับให้อ่านง่าย และทบทวนผลกระทบก่อนแทนที่แม่แบบที่ใช้อยู่"
+        >
+            <x-slot:meta>
+                <span class="ops-shell-chip ops-shell-chip--accent">{{ $template ? 'โหมดแก้ไขแม่แบบ' : 'แบบร่างแม่แบบใหม่' }}</span>
+                <span class="ops-shell-chip">หน้าสำหรับผู้ดูแลระบบ</span>
+                <span class="ops-shell-chip">หนึ่งแม่แบบใช้งานจริงต่อหนึ่งรอบเวลา</span>
+            </x-slot:meta>
 
-                    <div class="ops-hero__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">{{ $template ? 'โหมดแก้ไขแม่แบบ' : 'แบบร่างแม่แบบใหม่' }}</span>
-                        <span class="ops-shell-chip">หน้าสำหรับผู้ดูแลระบบ</span>
-                        <span class="ops-shell-chip">หนึ่งแม่แบบใช้งานจริงต่อหนึ่งรอบเวลา</span>
+            <x-slot:aside>
+                <div>
+                    <p class="ops-hero__aside-title">ภาพรวมแบบร่าง</p>
+                    <p class="ops-hero__aside-value">{{ $summary['item_count'] }}</p>
+                    <p class="ops-hero__aside-copy">
+                        จำนวนรายการตรวจที่กำหนดอยู่ในแบบร่างนี้
+                    </p>
+                </div>
+
+                <div class="ops-authoring-metric-grid">
+                    <div class="ops-authoring-metric">
+                        <p class="ops-authoring-metric__label">{{ __('Sections') }}</p>
+                        <p class="ops-authoring-metric__value">{{ max($summary['grouped_section_count'], 1) }}</p>
+                    </div>
+                    <div class="ops-authoring-metric">
+                        <p class="ops-authoring-metric__label">{{ __('Required') }}</p>
+                        <p class="ops-authoring-metric__value">{{ $summary['required_count'] }}</p>
+                    </div>
+                    <div class="ops-authoring-metric">
+                        <p class="ops-authoring-metric__label">{{ __('Optional') }}</p>
+                        <p class="ops-authoring-metric__value">{{ $summary['optional_count'] }}</p>
                     </div>
                 </div>
 
-                <aside class="ops-hero__aside">
-                    <div>
-                            <p class="ops-hero__aside-title">ภาพรวมแบบร่าง</p>
-                        <p class="ops-hero__aside-value">{{ $summary['item_count'] }}</p>
-                        <p class="ops-hero__aside-copy">
-                            จำนวนรายการตรวจที่กำหนดอยู่ในแบบร่างนี้
-                        </p>
+                <div class="ops-hero__aside-stack">
+                    <div class="ops-shell-chip">
+                        <span>{{ __('Scope') }}</span>
+                        <strong class="font-semibold text-white">{{ __($scope) }}</strong>
                     </div>
-
-                    <div class="ops-authoring-metric-grid">
-                        <div class="ops-authoring-metric">
-                            <p class="ops-authoring-metric__label">{{ __('Sections') }}</p>
-                            <p class="ops-authoring-metric__value">{{ max($summary['grouped_section_count'], 1) }}</p>
-                        </div>
-                        <div class="ops-authoring-metric">
-                            <p class="ops-authoring-metric__label">{{ __('Required') }}</p>
-                            <p class="ops-authoring-metric__value">{{ $summary['required_count'] }}</p>
-                        </div>
-                        <div class="ops-authoring-metric">
-                            <p class="ops-authoring-metric__label">{{ __('Optional') }}</p>
-                            <p class="ops-authoring-metric__value">{{ $summary['optional_count'] }}</p>
-                        </div>
+                    <div class="ops-shell-chip">
+                        <span>{{ __('State') }}</span>
+                        <strong class="font-semibold text-white">{{ $is_active ? __('Active') : __('Draft') }}</strong>
                     </div>
-
-                    <div class="ops-hero__aside-stack">
-                        <div class="ops-shell-chip">
-                            <span>{{ __('Scope') }}</span>
-                            <strong class="font-semibold text-white">{{ __($scope) }}</strong>
-                        </div>
-                        <div class="ops-shell-chip">
-                            <span>{{ __('State') }}</span>
-                            <strong class="font-semibold text-white">{{ $is_active ? __('Active') : __('Draft') }}</strong>
-                        </div>
-                    </div>
-                </aside>
-            </div>
-        </section>
+                </div>
+            </x-slot:aside>
+        </x-ops.hero>
 
         <form wire:submit="save" class="space-y-6">
             <div class="ops-command-grid ops-command-grid--template">
                 <div class="ops-stack">
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">ลำดับการจัดทำแม่แบบ</p>
-                                <h3 class="ops-section-heading__title">จัดทำแม่แบบที่ใช้งานจริงใน 3 ขั้นตอน</h3>
-                                <p class="ops-section-heading__body">กำหนดข้อมูลหลัก วางลำดับการใช้งานของผู้ตรวจห้อง แล้วค่อยทบทวนผลกระทบก่อนเปิดใช้งานแบบร่างนี้</p>
-                            </div>
-                        </div>
+                        <x-ops.section-heading
+                            eyebrow="ลำดับการจัดทำแม่แบบ"
+                            title="จัดทำแม่แบบที่ใช้งานจริงใน 3 ขั้นตอน"
+                            body="กำหนดข้อมูลหลัก วางลำดับการใช้งานของผู้ตรวจห้อง แล้วค่อยทบทวนผลกระทบก่อนเปิดใช้งานแบบร่างนี้"
+                        />
 
                         <div class="ops-card__body">
                             <div class="ops-authoring-rhythm">
@@ -143,13 +135,11 @@
                     </section>
 
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="80">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">ข้อมูลแม่แบบ</p>
-                                <h3 class="ops-section-heading__title">คำนิยามหลัก</h3>
-                                <p class="ops-section-heading__body">กำหนดชื่อและคำอธิบายที่บอกว่าแม่แบบนี้ควรใช้เมื่อใด</p>
-                            </div>
-                        </div>
+                        <x-ops.section-heading
+                            eyebrow="ข้อมูลแม่แบบ"
+                            title="คำนิยามหลัก"
+                            body="กำหนดชื่อและคำอธิบายที่บอกว่าแม่แบบนี้ควรใช้เมื่อใด"
+                        />
 
                         <div class="ops-card__body space-y-6">
                             <div>
@@ -167,17 +157,17 @@
                     </section>
 
                     <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="120">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">โครงสร้างรายการตรวจ</p>
-                                <h3 class="ops-section-heading__title">รายการตรวจเช็ก</h3>
-                                <p class="ops-section-heading__body">กำหนดขั้นตอนตามลำดับที่ผู้ตรวจห้องจะเห็นระหว่างการทำรายการตรวจเช็กประจำวัน</p>
-                            </div>
-
-                            <button type="button" wire:click="addItem" class="ops-button ops-button--secondary">
-                                {{ __('Add item') }}
-                            </button>
-                        </div>
+                        <x-ops.section-heading
+                            eyebrow="โครงสร้างรายการตรวจ"
+                            title="รายการตรวจเช็ก"
+                            body="กำหนดขั้นตอนตามลำดับที่ผู้ตรวจห้องจะเห็นระหว่างการทำรายการตรวจเช็กประจำวัน"
+                        >
+                            <x-slot:actions>
+                                <button type="button" wire:click="addItem" class="ops-button ops-button--secondary">
+                                    {{ __('Add item') }}
+                                </button>
+                            </x-slot:actions>
+                        </x-ops.section-heading>
 
                         <div class="ops-card__body space-y-4">
                             @error('items') <span class="ops-field-error">{{ $message }}</span> @enderror
@@ -268,13 +258,11 @@
 
                 <div class="ops-stack">
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">ตรวจแบบร่าง</p>
-                                <h3 class="ops-section-heading__title">สรุปก่อนบันทึก</h3>
-                                <p class="ops-section-heading__body">ทบทวนอย่างรวดเร็วว่าอะไรพร้อมแล้ว อะไรยังบางเกินไป และการตัดสินใจใดจะกระทบผู้ตรวจห้องมากที่สุดเมื่อแบบร่างนี้ถูกเปิดใช้งาน</p>
-                            </div>
-                        </div>
+                        <x-ops.section-heading
+                            eyebrow="ตรวจแบบร่าง"
+                            title="สรุปก่อนบันทึก"
+                            body="ทบทวนอย่างรวดเร็วว่าอะไรพร้อมแล้ว อะไรยังบางเกินไป และการตัดสินใจใดจะกระทบผู้ตรวจห้องมากที่สุดเมื่อแบบร่างนี้ถูกเปิดใช้งาน"
+                        />
 
                         <div class="ops-card__body space-y-4">
                             @foreach ($authoringSignals as $signal)
@@ -286,13 +274,11 @@
                     </section>
 
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">ตัวอย่างตอนใช้งานจริง</p>
-                                <h3 class="ops-section-heading__title">ผู้ตรวจห้องจะเห็นรายการนี้อย่างไร</h3>
-                                <p class="ops-section-heading__body">ตัวอย่างย่อนี้สะท้อนลักษณะการอ่านรายการตรวจเช็กตอนใช้งานจริงเมื่อแบบร่างนี้ถูกเปิดใช้งาน</p>
-                            </div>
-                        </div>
+                        <x-ops.section-heading
+                            eyebrow="ตัวอย่างตอนใช้งานจริง"
+                            title="ผู้ตรวจห้องจะเห็นรายการนี้อย่างไร"
+                            body="ตัวอย่างย่อนี้สะท้อนลักษณะการอ่านรายการตรวจเช็กตอนใช้งานจริงเมื่อแบบร่างนี้ถูกเปิดใช้งาน"
+                        />
 
                         <div class="ops-card__body">
                             <div class="ops-authoring-preview">
@@ -318,13 +304,11 @@
 
                     @if ($template)
                         <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="160">
-                            <div class="ops-section-heading">
-                                <div>
-                                    <p class="ops-section-heading__eyebrow">ความปลอดภัยของการแก้ไข</p>
-                                    <h3 class="ops-section-heading__title">เส้นทางที่ปลอดภัยกว่าสำหรับการปรับปรุง</h3>
-                                    <p class="ops-section-heading__body">ทำสำเนาก่อนแก้โครงสร้างใหญ่เมื่อคุณต้องการประวัติการปรับปรุงที่อ่านย้อนกลับได้ชัดเจนกว่าเดิม</p>
-                                </div>
-                            </div>
+                            <x-ops.section-heading
+                                eyebrow="ความปลอดภัยของการแก้ไข"
+                                title="เส้นทางที่ปลอดภัยกว่าสำหรับการปรับปรุง"
+                                body="ทำสำเนาก่อนแก้โครงสร้างใหญ่เมื่อคุณต้องการประวัติการปรับปรุงที่อ่านย้อนกลับได้ชัดเจนกว่าเดิม"
+                            />
 
                             <div class="ops-card__body">
                                 <x-ops.callout title="เส้นทางที่ปลอดภัยกว่าสำหรับการปรับปรุง" tone="neutral">
@@ -349,13 +333,11 @@
                     @endif
 
                     <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="210">
-                        <div class="ops-section-heading">
-                            <div>
-                                <p class="ops-section-heading__eyebrow">การกำกับการใช้งาน</p>
-                                <h3 class="ops-section-heading__title">ผลกระทบเมื่อเปิดใช้งาน</h3>
-                                <p class="ops-section-heading__body">แต่ละรอบเวลามีแม่แบบที่ใช้งานจริงของตัวเอง การเปิดใช้งานจะสลับเฉพาะแม่แบบตัวจริงของรอบเวลาที่เลือกเท่านั้น</p>
-                            </div>
-                        </div>
+                        <x-ops.section-heading
+                            eyebrow="การกำกับการใช้งาน"
+                            title="ผลกระทบเมื่อเปิดใช้งาน"
+                            body="แต่ละรอบเวลามีแม่แบบที่ใช้งานจริงของตัวเอง การเปิดใช้งานจะสลับเฉพาะแม่แบบตัวจริงของรอบเวลาที่เลือกเท่านั้น"
+                        />
 
                         <div class="ops-card__body space-y-6">
                             <div>

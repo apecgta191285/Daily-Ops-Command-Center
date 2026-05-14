@@ -66,61 +66,55 @@
     </x-slot>
 
     <div class="ops-screen ops-screen--dashboard flex h-full w-full flex-1 flex-col gap-6">
-        <section class="ops-hero" data-motion="glance-rise">
-            <div class="ops-hero__inner">
-                <div>
-                    <p class="ops-hero__eyebrow">งานปฏิบัติการแบบยึดห้องเป็นศูนย์กลาง</p>
-                    <h3 class="ops-hero__title">กระดานงานห้องแล็บของวันนี้</h3>
-                    <p class="ops-hero__lead">
-                        ใช้หน้านี้ดูว่าห้องใดยังต้องตรวจ ห้องใดยังมีปัญหาค้างอยู่ และทีมกำลังตามงานประจำวันของห้องแล็บต่าง ๆ ได้ทันหรือไม่
-                    </p>
+        <x-ops.hero
+            eyebrow="งานปฏิบัติการแบบยึดห้องเป็นศูนย์กลาง"
+            title="กระดานงานห้องแล็บของวันนี้"
+            lead="ใช้หน้านี้ดูว่าห้องใดยังต้องตรวจ ห้องใดยังมีปัญหาค้างอยู่ และทีมกำลังตามงานประจำวันของห้องแล็บต่าง ๆ ได้ทันหรือไม่"
+        >
+            <x-slot:meta>
+                <span class="ops-shell-chip ops-shell-chip--accent">กระดานงานประจำวันนี้</span>
+                <span class="ops-shell-chip">สถานะรอบตรวจ</span>
+                <span class="ops-shell-chip">ภาระติดตาม</span>
+                <span class="ops-shell-chip">แนวโน้มรายการตรวจเช็ก</span>
+                <span class="ops-shell-chip">จุดปัญหาของห้อง</span>
+            </x-slot:meta>
 
-                    <div class="ops-hero__meta">
-                        <span class="ops-shell-chip ops-shell-chip--accent">กระดานงานประจำวันนี้</span>
-                        <span class="ops-shell-chip">สถานะรอบตรวจ</span>
-                        <span class="ops-shell-chip">ภาระติดตาม</span>
-                        <span class="ops-shell-chip">แนวโน้มรายการตรวจเช็ก</span>
-                        <span class="ops-shell-chip">จุดปัญหาของห้อง</span>
-                    </div>
+            <x-slot:aside>
+                <div>
+                    <p class="ops-hero__aside-title">ภาพรวมวันนี้</p>
+                    <p class="ops-hero__aside-value">{{ $completionRate }}%</p>
+                    <p class="ops-hero__aside-copy">
+                        ความสำเร็จของรายการตรวจเช็กคำนวณจาก {{ $submittedTodayRuns }} รอบที่ส่งแล้ว จาก {{ $todayRuns }} รอบที่คาดว่าต้องมีในวันนี้
+                    </p>
                 </div>
 
-                <aside class="ops-hero__aside">
-                    <div>
-                        <p class="ops-hero__aside-title">ภาพรวมวันนี้</p>
-                        <p class="ops-hero__aside-value">{{ $completionRate }}%</p>
-                        <p class="ops-hero__aside-copy">
-                            ความสำเร็จของรายการตรวจเช็กคำนวณจาก {{ $submittedTodayRuns }} รอบที่ส่งแล้ว จาก {{ $todayRuns }} รอบที่คาดว่าต้องมีในวันนี้
-                        </p>
+                <div class="ops-glance-grid--hero">
+                    <div class="ops-glance-card">
+                        <p class="ops-glance-card__label">คิวปัญหาที่ยังไม่ปิด</p>
+                        <p class="ops-glance-card__value">{{ $unresolvedCount }}</p>
+                        <p class="ops-glance-card__meta">รายงานปัญหาที่เปิดใหม่หรือกำลังดำเนินการและยังรอการปิดงานจากผู้ดูแล</p>
                     </div>
 
-                    <div class="ops-glance-grid--hero">
-                        <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">คิวปัญหาที่ยังไม่ปิด</p>
-                            <p class="ops-glance-card__value">{{ $unresolvedCount }}</p>
-                            <p class="ops-glance-card__meta">รายงานปัญหาที่เปิดใหม่หรือกำลังดำเนินการและยังรอการปิดงานจากผู้ดูแล</p>
-                        </div>
-
-                        <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">รอบตรวจที่ยังไม่ครบ</p>
-                            <p class="ops-glance-card__value">{{ $scopeLaneIncompleteCount }}</p>
-                            <p class="ops-glance-card__meta">การตรวจเปิดห้อง ระหว่างวัน หรือปิดห้อง ที่ยังต้องดำเนินการในห้องอย่างน้อยหนึ่งห้องวันนี้</p>
-                        </div>
-
-                        <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">ปัญหาที่ไม่มีผู้รับผิดชอบ</p>
-                            <p class="ops-glance-card__value">{{ $ownershipPressure['unownedCount'] }}</p>
-                            <p class="ops-glance-card__meta">รายงานปัญหาที่ยังไม่ปิดและยังไม่มีผู้ดูแลรับผิดชอบ</p>
-                        </div>
-
-                        <div class="ops-glance-card">
-                            <p class="ops-glance-card__label">ติดตามเกินกำหนด</p>
-                            <p class="ops-glance-card__value">{{ $ownershipPressure['overdueCount'] }}</p>
-                            <p class="ops-glance-card__meta">รายงานปัญหาที่ยังไม่ปิดและเลยวันที่ควรทบทวนแล้ว</p>
-                        </div>
+                    <div class="ops-glance-card">
+                        <p class="ops-glance-card__label">รอบตรวจที่ยังไม่ครบ</p>
+                        <p class="ops-glance-card__value">{{ $scopeLaneIncompleteCount }}</p>
+                        <p class="ops-glance-card__meta">การตรวจเปิดห้อง ระหว่างวัน หรือปิดห้อง ที่ยังต้องดำเนินการในห้องอย่างน้อยหนึ่งห้องวันนี้</p>
                     </div>
-                </aside>
-            </div>
-        </section>
+
+                    <div class="ops-glance-card">
+                        <p class="ops-glance-card__label">ปัญหาที่ไม่มีผู้รับผิดชอบ</p>
+                        <p class="ops-glance-card__value">{{ $ownershipPressure['unownedCount'] }}</p>
+                        <p class="ops-glance-card__meta">รายงานปัญหาที่ยังไม่ปิดและยังไม่มีผู้ดูแลรับผิดชอบ</p>
+                    </div>
+
+                    <div class="ops-glance-card">
+                        <p class="ops-glance-card__label">ติดตามเกินกำหนด</p>
+                        <p class="ops-glance-card__value">{{ $ownershipPressure['overdueCount'] }}</p>
+                        <p class="ops-glance-card__meta">รายงานปัญหาที่ยังไม่ปิดและเลยวันที่ควรทบทวนแล้ว</p>
+                    </div>
+                </div>
+            </x-slot:aside>
+        </x-ops.hero>
 
         <div class="ops-stat-grid ops-dashboard-kpi-strip" data-motion-group data-stagger-base="70" data-stagger-unit="40" data-stagger-max="220">
             <x-ops.stat-card
@@ -183,13 +177,11 @@
         <div class="ops-command-grid ops-command-grid--dashboard">
             <div class="ops-stack">
                 <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="20">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">กระดานงานของห้องวันนี้</p>
-                            <h2 class="ops-section-heading__title">ภาพรวมการทำงาน</h2>
-                            <p class="ops-section-heading__body">สรุปอย่างย่อว่าวันนี้ยังมีงานที่ต้องจัดการ หรืออยู่ในสถานะที่ควบคุมได้แล้ว</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="กระดานงานของห้องวันนี้"
+                        title="ภาพรวมการทำงาน"
+                        body="สรุปอย่างย่อว่าวันนี้ยังมีงานที่ต้องจัดการ หรืออยู่ในสถานะที่ควบคุมได้แล้ว"
+                    />
 
                     <div class="ops-card__body">
                         <section class="ops-workboard {{ $workboardToneClass }}">
@@ -275,13 +267,11 @@
                 </section>
 
                 <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="40">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">ลำดับงานสำคัญ</p>
-                            <h2 class="ops-section-heading__title">สิ่งที่ต้องดูวันนี้</h2>
-                            <p class="ops-section-heading__body">สัญญาณรวดเร็วสำหรับสิ่งที่ผู้ดูแลควรตรวจดูก่อน</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="ลำดับงานสำคัญ"
+                        title="สิ่งที่ต้องดูวันนี้"
+                        body="สัญญาณรวดเร็วสำหรับสิ่งที่ผู้ดูแลควรตรวจดูก่อน"
+                    />
 
                     <div class="ops-card__body">
                         @if ($attentionItems === [])
@@ -300,27 +290,24 @@
                                         };
                                     @endphp
 
-                                    <article class="ops-signal-card {{ $toneClass }}">
-                                        <div class="ops-signal-card__header">
-                                            <div>
-                                                <h3 class="ops-signal-card__title">{{ $item['title'] }}</h3>
-                                                <p class="ops-signal-card__body">{{ $item['description'] }}</p>
-                                            </div>
-
-                                            <div class="text-right">
-                                                <p class="ops-signal-card__count">{{ $item['count'] }}</p>
-                                                <p class="ops-eyebrow-label">รายการ</p>
-                                            </div>
-                                        </div>
+                                    <x-ops.signal-card
+                                        :tone="$item['tone']"
+                                        :title="$item['title']"
+                                        :body="$item['description']"
+                                    >
+                                        <x-slot:headerRight>
+                                            <p class="ops-signal-card__count">{{ $item['count'] }}</p>
+                                            <p class="ops-eyebrow-label">รายการ</p>
+                                        </x-slot:headerRight>
 
                                         @if ($item['url'] && $item['actionLabel'])
-                                            <div class="ops-signal-card__footer">
+                                            <x-slot:footer>
                                                 <a href="{{ $item['url'] }}" class="ops-button ops-button--secondary">
                                                     {{ $item['actionLabel'] }}
                                                 </a>
-                                            </div>
+                                            </x-slot:footer>
                                         @endif
-                                    </article>
+                                    </x-ops.signal-card>
                                 @endforeach
                             </div>
                         @endif
@@ -328,13 +315,11 @@
                 </section>
 
                 <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="80">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">ความครอบคลุมของการทำงาน</p>
-                            <h2 class="ops-section-heading__title">รายการตรวจเช็กแยกตามรอบเวลา</h2>
-                            <p class="ops-section-heading__body">ตรวจดูว่ารอบเปิดห้อง ระหว่างวัน และปิดห้อง ถูกตั้งค่าและมีความคืบหน้าอยู่จริงในวันนี้หรือไม่</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="ความครอบคลุมของการทำงาน"
+                        title="รายการตรวจเช็กแยกตามรอบเวลา"
+                        body="ตรวจดูว่ารอบเปิดห้อง ระหว่างวัน และปิดห้อง ถูกตั้งค่าและมีความคืบหน้าอยู่จริงในวันนี้หรือไม่"
+                    />
 
                     <div class="ops-card__body">
                         <div class="ops-signal-grid">
@@ -353,55 +338,48 @@
                                     };
                                 @endphp
 
-                                <article class="ops-signal-card {{ $toneClass }}">
-                                    <div class="ops-signal-card__header">
-                                        <div>
-                                            <h3 class="ops-signal-card__title">{{ $lane['scope'] }}</h3>
-                                            <p class="ops-signal-card__body">
-                                                {{ $lane['template_title'] ?? __('No active template') }}
-                                            </p>
+                                <x-ops.signal-card
+                                    :tone="$lane['state'] === 'unavailable' ? 'danger' : (in_array($lane['state'], ['not_started', 'in_progress']) ? 'warning' : 'neutral')"
+                                    :title="$lane['scope']"
+                                    :body="$lane['template_title'] ?? __('No active template')"
+                                >
+                                    <x-slot:headerRight>
+                                        <p class="ops-signal-card__count">{{ $lane['completion_percentage'] }}%</p>
+                                        <p class="ops-eyebrow-label">ส่งแล้ว</p>
+                                    </x-slot:headerRight>
+
+                                    @if ($lane['state'] === 'unavailable')
+                                        ผู้ดูแลยังตรวจรอบเวลานี้ไม่ได้ เพราะยังไม่มีแม่แบบที่เปิดใช้งานอยู่สำหรับรอบนี้
+                                    @elseif ($lane['state'] === 'not_started')
+                                        มีแม่แบบที่ใช้งานจริงแล้ว แต่ผู้ตรวจห้องยังไม่ได้เริ่มรอบนี้ในวันนี้
+                                    @elseif ($lane['state'] === 'in_progress')
+                                        ผู้ตรวจห้องเริ่มรอบนี้แล้ว แต่ยังส่งผลไม่ครบทุกห้อง
+                                    @else
+                                        รอบตรวจทั้งหมดของรอบเวลานี้ในวันนี้ถูกส่งแล้ว
+                                    @endif
+
+                                    <x-slot:footer>
+                                        <div class="flex items-center justify-between gap-3 w-full">
+                                            <span class="ops-chip {{ $lane['state'] === 'submitted' ? 'ops-chip--success' : ($lane['state'] === 'unavailable' ? '' : 'ops-chip--warning') }}">
+                                                {{ $stateLabel }}
+                                            </span>
+                                            <span class="ops-text-muted text-xs">
+                                                {{ $lane['submitted_runs'] }}/{{ $lane['total_runs'] }} ส่งแล้ว
+                                            </span>
                                         </div>
-
-                                        <div class="text-right">
-                                            <p class="ops-signal-card__count">{{ $lane['completion_percentage'] }}%</p>
-                                            <p class="ops-eyebrow-label">ส่งแล้ว</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="ops-signal-card__body">
-                                        @if ($lane['state'] === 'unavailable')
-                                            ผู้ดูแลยังตรวจรอบเวลานี้ไม่ได้ เพราะยังไม่มีแม่แบบที่เปิดใช้งานอยู่สำหรับรอบนี้
-                                        @elseif ($lane['state'] === 'not_started')
-                                            มีแม่แบบที่ใช้งานจริงแล้ว แต่ผู้ตรวจห้องยังไม่ได้เริ่มรอบนี้ในวันนี้
-                                        @elseif ($lane['state'] === 'in_progress')
-                                            ผู้ตรวจห้องเริ่มรอบนี้แล้ว แต่ยังส่งผลไม่ครบทุกห้อง
-                                        @else
-                                            รอบตรวจทั้งหมดของรอบเวลานี้ในวันนี้ถูกส่งแล้ว
-                                        @endif
-                                    </div>
-
-                                    <div class="ops-signal-card__footer flex items-center justify-between gap-3">
-                                        <span class="ops-chip {{ $lane['state'] === 'submitted' ? 'ops-chip--success' : ($lane['state'] === 'unavailable' ? '' : 'ops-chip--warning') }}">
-                                            {{ $stateLabel }}
-                                        </span>
-                                        <span class="ops-text-muted text-xs">
-                                            {{ $lane['submitted_runs'] }}/{{ $lane['total_runs'] }} ส่งแล้ว
-                                        </span>
-                                    </div>
-                                </article>
+                                    </x-slot:footer>
+                                </x-ops.signal-card>
                             @endforeach
                         </div>
                     </div>
                 </section>
 
                 <section class="ops-card overflow-hidden" data-motion="fade-up" data-motion-delay="120">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">คิวปัจจุบัน</p>
-                            <h2 class="ops-section-heading__title">รายงานปัญหาล่าสุด</h2>
-                            <p class="ops-section-heading__body">รายงานปัญหาล่าสุด 5 รายการจากข้อมูลปัจจุบัน</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="คิวปัจจุบัน"
+                        title="รายงานปัญหาล่าสุด"
+                        body="รายงานปัญหาล่าสุด 5 รายการจากข้อมูลปัจจุบัน"
+                    />
 
                     <div class="ops-card__body">
                         @if ($recentIncidents->isEmpty())
@@ -456,13 +434,11 @@
 
             <div class="ops-stack">
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="55">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">บริบทล่าสุด</p>
-                            <h2 class="ops-section-heading__title">ชั้นสรุปจากประวัติ</h2>
-                            <p class="ops-section-heading__body">ใช้บริบทล่าสุดแบบย่อเพื่อตัดสินว่าวันนี้นิ่ง ค้างงาน หรือเพิ่งมีความไม่นิ่งต่อเนื่องจากวันก่อน</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="บริบทล่าสุด"
+                        title="ชั้นสรุปจากประวัติ"
+                        body="ใช้บริบทล่าสุดแบบย่อเพื่อตัดสินว่าวันนี้นิ่ง ค้างงาน หรือเพิ่งมีความไม่นิ่งต่อเนื่องจากวันก่อน"
+                    />
 
                     <div class="ops-card__body">
                         <section class="ops-context-board {{ $recentHistoryToneClass }}">
@@ -493,95 +469,71 @@
                             </div>
 
                             <div class="ops-context-board__grid">
-                                <article class="ops-context-card">
-                                    <div class="ops-context-card__header">
-                                        <div>
-                                            <p class="ops-context-card__eyebrow">ประวัติรายการตรวจเช็ก</p>
-                                            <h4 class="ops-context-card__title">
-                                                {{ $recentHistoryContext['archive']['focus_date'] ? \Carbon\Carbon::parse($recentHistoryContext['archive']['focus_date'])->format('d/m/Y') : __('No recent archived day') }}
-                                            </h4>
-                                        </div>
-
-                                        <strong class="ops-context-card__count">{{ $recentHistoryContext['archive']['total_runs'] }}</strong>
-                                    </div>
-
-                                    <p class="ops-context-card__copy">
-                                        ครบ {{ $recentHistoryContext['archive']['covered_lanes'] }} รอบตรวจ,
-                                        ขาด {{ $recentHistoryContext['archive']['warning_lanes'] }} รอบตรวจ,
-                                        พบ {{ $recentHistoryContext['archive']['total_not_done_items'] }} รายการที่ไม่เรียบร้อย
-                                    </p>
-
-                                    <div class="ops-context-card__meta">
+                                <x-ops.context-card
+                                    eyebrow="ประวัติรายการตรวจเช็ก"
+                                    :title="$recentHistoryContext['archive']['focus_date'] ? \Carbon\Carbon::parse($recentHistoryContext['archive']['focus_date'])->format('d/m/Y') : __('No recent archived day')"
+                                    :count="$recentHistoryContext['archive']['total_runs']"
+                                    copy="ครบ {{ $recentHistoryContext['archive']['covered_lanes'] }} รอบตรวจ, ขาด {{ $recentHistoryContext['archive']['warning_lanes'] }} รอบตรวจ, พบ {{ $recentHistoryContext['archive']['total_not_done_items'] }} รายการที่ไม่เรียบร้อย"
+                                >
+                                    <x-slot:meta>
                                         <span>{{ $recentHistoryContext['archive']['total_noted_items'] }} รายการที่มีบันทึก</span>
-                                    </div>
+                                    </x-slot:meta>
 
                                     @if ($recentHistoryContext['archive']['url'])
-                                        <div class="ops-context-card__footer">
+                                        <x-slot:footer>
                                             <a href="{{ $recentHistoryContext['archive']['url'] }}" class="ops-button ops-button--secondary">
                                                 ดูประวัติของวันนั้น
                                             </a>
-                                        </div>
+                                        </x-slot:footer>
                                     @endif
-                                </article>
+                                </x-ops.context-card>
 
-                                <article class="ops-context-card">
-                                    <div class="ops-context-card__header">
-                                        <div>
-                                            <p class="ops-context-card__eyebrow">ประวัติรายงานปัญหา</p>
-                                            <h4 class="ops-context-card__title">ย้อนหลัง {{ $recentHistoryContext['incidents']['days'] }} วัน</h4>
-                                        </div>
-
-                                        <strong class="ops-context-card__count">{{ $recentHistoryContext['incidents']['still_active_count'] }}</strong>
-                                    </div>
-
-                                    <p class="ops-context-card__copy">
-                                        เปิดใหม่ {{ $recentHistoryContext['incidents']['opened_count'] }} รายการ แก้ไขแล้ว {{ $recentHistoryContext['incidents']['resolved_count'] }} รายการ และยังไม่ปิด {{ $recentHistoryContext['incidents']['still_active_count'] }} รายการในช่วงล่าสุด
-                                    </p>
-
-                                    <div class="ops-context-card__meta">
+                                <x-ops.context-card
+                                    eyebrow="ประวัติรายงานปัญหา"
+                                    title="ย้อนหลัง {{ $recentHistoryContext['incidents']['days'] }} วัน"
+                                    :count="$recentHistoryContext['incidents']['still_active_count']"
+                                    copy="เปิดใหม่ {{ $recentHistoryContext['incidents']['opened_count'] }} รายการ แก้ไขแล้ว {{ $recentHistoryContext['incidents']['resolved_count'] }} รายการ และยังไม่ปิด {{ $recentHistoryContext['incidents']['still_active_count'] }} รายการในช่วงล่าสุด"
+                                >
+                                    <x-slot:meta>
                                         <span>งานปัญหาค้างจากประวัติล่าสุด</span>
-                                    </div>
+                                    </x-slot:meta>
 
                                     @if ($recentHistoryContext['incidents']['url'])
-                                        <div class="ops-context-card__footer">
+                                        <x-slot:footer>
                                             <a href="{{ $recentHistoryContext['incidents']['url'] }}" class="ops-button ops-button--secondary">
                                                 ดูประวัติรายงานปัญหา
                                             </a>
-                                        </div>
+                                        </x-slot:footer>
                                     @endif
-                                </article>
+                                </x-ops.context-card>
                             </div>
                         </section>
                     </div>
                 </section>
 
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="70">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">แนวโน้ม</p>
-                            <h2 class="ops-section-heading__title">แนวโน้มรายการตรวจเช็ก</h2>
-                            <p class="ops-section-heading__body">เปรียบเทียบความครบถ้วนของวันนี้กับฐานเมื่อวาน</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="แนวโน้ม"
+                        title="แนวโน้มรายการตรวจเช็ก"
+                        body="เปรียบเทียบความครบถ้วนของวันนี้กับฐานเมื่อวาน"
+                    />
 
                     <div class="ops-card__body">
-                        <div class="ops-trend-card">
-                            <div class="ops-trend-card__header">
-                                <div>
-                                    <p class="ops-trend-card__eyebrow">ความต่อเนื่องของการตรวจเช็ก</p>
-                                    <p class="ops-trend-card__value">{{ $checklistTrend['todayRate'] }}%</p>
-                                </div>
+                        <x-ops.trend-card
+                            eyebrow="ความต่อเนื่องของการตรวจเช็ก"
+                            :value="$checklistTrend['todayRate'] . '%'"
+                        >
+                            @if (($checklistTrend['series'] ?? []) !== [])
+                                <x-slot:visual>
+                                    <x-ops.sparkline :points="$checklistTrend['series']" :width="88" :height="30" />
+                                </x-slot:visual>
+                            @endif
 
-                                @if (($checklistTrend['series'] ?? []) !== [])
-                                    <div class="ops-trend-card__visual">
-                                        <x-ops.sparkline :points="$checklistTrend['series']" :width="88" :height="30" />
-                                    </div>
-                                @endif
-
+                            <x-slot:pill>
                                 <span class="ops-trend-pill {{ $checklistTrendTone }}">
                                     {{ $checklistTrendLabel }}
                                 </span>
-                            </div>
+                            </x-slot:pill>
 
                             <p class="ops-trend-card__meta">เมื่อวาน: {{ $checklistTrend['yesterdayRate'] }}%</p>
                             <p class="ops-trend-card__copy">
@@ -604,18 +556,16 @@
                                     <strong class="ops-compare-list__value">{{ $checklistTrend['yesterdayRate'] }}% เป็นฐานอ้างอิง</strong>
                                 </div>
                             </div>
-                        </div>
+                        </x-ops.trend-card>
                     </div>
                 </section>
 
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="120">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">ภาระงานติดตามต่อ</p>
-                            <h2 class="ops-section-heading__title">กลุ่มงานและความรับผิดชอบ</h2>
-                            <p class="ops-section-heading__body">จัดกลุ่มงานที่ยังไม่ปิดซึ่งยังต้องกำหนดผู้รับผิดชอบหรือกำหนดการขยับงานครั้งถัดไป</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="ภาระงานติดตามต่อ"
+                        title="กลุ่มงานและความรับผิดชอบ"
+                        body="จัดกลุ่มงานที่ยังไม่ปิดซึ่งยังต้องกำหนดผู้รับผิดชอบหรือกำหนดการขยับงานครั้งถัดไป"
+                    />
 
                     <div class="ops-card__body">
                         <section class="ops-bucket-board {{ $ownershipBucketToneClass }}">
@@ -635,24 +585,20 @@
 
                             <div class="ops-bucket-board__grid">
                                 @foreach (($ownershipBuckets['buckets'] ?? []) as $bucket)
-                                    <article class="ops-bucket-card ops-bucket-card--{{ $bucket['tone'] }}">
-                                        <div class="ops-bucket-card__header">
-                                            <div>
-                                                <p class="ops-bucket-card__title">{{ $bucket['title'] }}</p>
-                                                <p class="ops-bucket-card__copy">{{ $bucket['description'] }}</p>
-                                            </div>
-
-                                            <strong class="ops-bucket-card__count">{{ $bucket['count'] }}</strong>
-                                        </div>
-
-                                        <div class="ops-bucket-card__footer">
-                                            @if ($bucket['url'])
+                                    <x-ops.bucket-card
+                                        :tone="$bucket['tone']"
+                                        :title="$bucket['title']"
+                                        :copy="$bucket['description']"
+                                        :count="$bucket['count']"
+                                    >
+                                        @if ($bucket['url'])
+                                            <x-slot:footer>
                                                 <a href="{{ $bucket['url'] }}" class="ops-button ops-button--secondary">
                                                     {{ $bucket['action_label'] }}
                                                 </a>
-                                            @endif
-                                        </div>
-                                    </article>
+                                            </x-slot:footer>
+                                        @endif
+                                    </x-ops.bucket-card>
                                 @endforeach
                             </div>
 
@@ -670,37 +616,33 @@
                 </section>
 
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="145">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">แรงกดดันจากการรับปัญหา</p>
-                            <h2 class="ops-section-heading__title">แนวโน้มการรับรายงานปัญหา</h2>
-                            <p class="ops-section-heading__body">ติดตามว่ามีรายงานปัญหาเข้ามาวันนี้เทียบกับเมื่อวานกี่รายการ</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="แรงกดดันจากการรับปัญหา"
+                        title="แนวโน้มการรับรายงานปัญหา"
+                        body="ติดตามว่ามีรายงานปัญหาเข้ามาวันนี้เทียบกับเมื่อวานกี่รายการ"
+                    />
 
                     <div class="ops-card__body">
-                        <div class="ops-trend-card">
-                            <div class="ops-trend-card__header">
-                                <div>
-                                    <p class="ops-trend-card__eyebrow">จำนวนรับเข้าต่อวัน</p>
-                                    <p class="ops-trend-card__value">{{ $incidentIntakeTrend['todayCount'] }}</p>
-                                </div>
+                        <x-ops.trend-card
+                            eyebrow="จำนวนรับเข้าต่อวัน"
+                            :value="$incidentIntakeTrend['todayCount']"
+                        >
+                            @if (($incidentIntakeTrend['series'] ?? []) !== [])
+                                <x-slot:visual>
+                                    <x-ops.sparkline
+                                        :points="$incidentIntakeTrend['series']"
+                                        :width="88"
+                                        :height="30"
+                                        :tone="$incidentIntakeTrend['direction'] === 'up' ? 'warning' : ($incidentIntakeTrend['direction'] === 'down' ? 'success' : 'primary')"
+                                    />
+                                </x-slot:visual>
+                            @endif
 
-                                @if (($incidentIntakeTrend['series'] ?? []) !== [])
-                                    <div class="ops-trend-card__visual">
-                                        <x-ops.sparkline
-                                            :points="$incidentIntakeTrend['series']"
-                                            :width="88"
-                                            :height="30"
-                                            :tone="$incidentIntakeTrend['direction'] === 'up' ? 'warning' : ($incidentIntakeTrend['direction'] === 'down' ? 'success' : 'primary')"
-                                        />
-                                    </div>
-                                @endif
-
+                            <x-slot:pill>
                                 <span class="ops-trend-pill {{ $incidentTrendTone }}">
                                     {{ $incidentTrendLabel }}
                                 </span>
-                            </div>
+                            </x-slot:pill>
 
                             <p class="ops-trend-card__meta">เมื่อวาน: มีรายงาน {{ $incidentIntakeTrend['yesterdayCount'] }} รายการ</p>
                             <p class="ops-trend-card__copy">
@@ -723,18 +665,16 @@
                                     <strong class="ops-compare-list__value">{{ $incidentCounts['In Progress'] }} รายการที่กำลังทำอยู่</strong>
                                 </div>
                             </div>
-                        </div>
+                        </x-ops.trend-card>
                     </div>
                 </section>
 
                 <section class="ops-card overflow-hidden" data-motion="fade-left" data-motion-delay="170">
-                    <div class="ops-section-heading">
-                        <div>
-                            <p class="ops-section-heading__eyebrow">จุดที่ต้องจับตา</p>
-                            <h2 class="ops-section-heading__title">หมวดปัญหาที่มีภาระสูง</h2>
-                            <p class="ops-section-heading__body">หมวดปัญหาที่กำลังมีงานค้างที่ยังไม่ปิดมากที่สุดในตอนนี้</p>
-                        </div>
-                    </div>
+                    <x-ops.section-heading
+                        eyebrow="จุดที่ต้องจับตา"
+                        title="หมวดปัญหาที่มีภาระสูง"
+                        body="หมวดปัญหาที่กำลังมีงานค้างที่ยังไม่ปิดมากที่สุดในตอนนี้"
+                    />
 
                     <div class="ops-card__body">
                         @if ($hotspotCategories === [])
