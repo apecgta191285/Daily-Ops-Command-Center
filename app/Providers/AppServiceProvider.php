@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Application\Incidents\Listeners\SendExternalNotificationOnIncidentEvent;
+use App\Domain\Incidents\Events\IncidentAccountabilityChanged;
+use App\Domain\Incidents\Events\IncidentCreated;
+use App\Domain\Incidents\Events\IncidentStatusChanged;
 use App\Models\ChecklistRun;
 use App\Models\Incident;
 use App\Policies\ChecklistRunPolicy;
@@ -13,6 +17,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -34,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         $this->registerPolicies();
+        $this->registerIncidentEventListeners();
         $this->assertProductionEnvironmentContract();
     }
 
@@ -68,6 +74,19 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Incident::class, IncidentPolicy::class);
         Gate::policy(ChecklistRun::class, ChecklistRunPolicy::class);
+    }
+
+    /**
+     * Register incident lifecycle event listeners for external notification delivery.
+     *
+     * Uses explicit registration rather than directory-based auto-discovery because
+     * listeners in the Application layer follow a DDD layout outside of app/Listeners.
+     */
+    protected function registerIncidentEventListeners(): void
+    {
+        Event::listen(IncidentCreated::class, [SendExternalNotificationOnIncidentEvent::class, 'onCreated']);
+        Event::listen(IncidentStatusChanged::class, [SendExternalNotificationOnIncidentEvent::class, 'onStatusChanged']);
+        Event::listen(IncidentAccountabilityChanged::class, [SendExternalNotificationOnIncidentEvent::class, 'onAccountabilityChanged']);
     }
 
     /**

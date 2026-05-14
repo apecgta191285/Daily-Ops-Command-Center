@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Incidents\Actions;
 
 use App\Application\Incidents\Data\IncidentStatusTransitionResult;
-use App\Application\Incidents\Support\ExternalIncidentNotifier;
 use App\Domain\Incidents\Enums\IncidentStatus;
+use App\Domain\Incidents\Events\IncidentStatusChanged;
 use App\Models\Incident;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -66,7 +66,7 @@ class TransitionIncidentStatus
 
         $freshIncident = $incident->fresh(['creator', 'owner', 'room', 'activities.actor']);
 
-        app(ExternalIncidentNotifier::class)->statusChanged($freshIncident, $previousStatus);
+        IncidentStatusChanged::dispatch($freshIncident->id, $previousStatus);
 
         return new IncidentStatusTransitionResult(
             incident: $freshIncident,

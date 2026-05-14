@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\Incidents\Actions;
 
-use App\Application\Incidents\Support\ExternalIncidentNotifier;
 use App\Domain\Incidents\Enums\IncidentCategory;
 use App\Domain\Incidents\Enums\IncidentSeverity;
 use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Domain\Incidents\Enums\IncidentSubcategory;
+use App\Domain\Incidents\Events\IncidentCreated;
 use App\Models\Incident;
 use App\Models\Room;
 use Illuminate\Http\UploadedFile;
@@ -101,7 +101,7 @@ class CreateIncident
             return $incident->load(['creator', 'room', 'activities.actor']);
         });
 
-        app(ExternalIncidentNotifier::class)->incidentCreated($incident);
+        IncidentCreated::dispatch($incident->id);
 
         return $incident;
     }
