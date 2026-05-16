@@ -56,8 +56,20 @@ class ProductionEnvironmentContract
             $violations[] = 'SESSION_DRIVER must be database in production.';
         }
 
+        if ($this->read($config, 'session.encrypt') !== true) {
+            $violations[] = 'SESSION_ENCRYPT must be true in production.';
+        }
+
+        if ($this->read($config, 'session.expire_on_close') !== true) {
+            $violations[] = 'SESSION_EXPIRE_ON_CLOSE must be true in production for shared lab workstations.';
+        }
+
         if ($this->read($config, 'session.secure') !== true) {
             $violations[] = 'SESSION_SECURE_COOKIE must be true in production.';
+        }
+
+        if ((int) $this->read($config, 'auth.password_timeout', 10800) > 900) {
+            $violations[] = 'AUTH_PASSWORD_TIMEOUT must be 900 seconds or less in production.';
         }
 
         if ($this->read($config, 'mail.default') !== 'smtp') {

@@ -10,6 +10,8 @@ use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistRun;
 use App\Models\ChecklistTemplate;
 use App\Models\Room;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class InitializeDailyRun
 {
@@ -71,29 +73,7 @@ class InitializeDailyRun
         $today = today()->toDateString();
         $tomorrow = today()->addDay()->toDateString();
 
-        $run = ChecklistRun::query()
-            ->where('checklist_template_id', $template->id)
-            ->where('room_id', $roomId)
-            ->where('created_by', $userId)
-            ->where('run_date', '>=', $today)
-            ->where('run_date', '<', $tomorrow)
-            ->first();
-
-        if ($run === null) {
-            $run = ChecklistRun::query()->create([
-                'checklist_template_id' => $template->id,
-                'room_id' => $roomId,
-                'run_date' => $today,
-                'created_by' => $userId,
-                'assigned_team_or_scope' => $template->scope->value,
-            ]);
-
-            $run->items()->createMany(
-                $template->items->map(fn ($item) => [
-                    'checklist_item_id' => $item->id,
-                ])->all(),
-            );
-        }
+        $run = $this->resolveRun($template, $roomId, $userId, $today, $tomorrow);
 
         $run->load('items.checklistItem');
 
@@ -138,5 +118,69 @@ class InitializeDailyRun
             itemAnomalyMemory: $itemAnomalyMemory,
             isSubmitted: $run->submitted_at !== null,
         );
+    }
+
+    private function resolveRun(
+        ChecklistTemplate $template,
+        int $roomId,
+        int $userId,
+        string $today,
+        string $tomorrow,
+    ): ChecklistRun {
+        try {
+            return DB::transaction(function () use ($template, $roomId, $userId, $today, $tomorrow): ChecklistRun {
+                $run = $this->findRun($template, $roomId, $userId, $today, $tomorrow, lock: true);
+
+                if ($run !== null) {
+                    return $run;
+                }
+
+                $run = ChecklistRun::query()->create([
+                    'checklist_template_id' => $template->id,
+                    'room_id' => $roomId,
+                    'run_date' => $today,
+                    'created_by' => $userId,
+                    'assigned_team_or_scope' => $template->scope->value,
+                ]);
+
+                $run->items()->createMany(
+                    $template->items->map(fn ($item) => [
+                        'checklist_item_id' => $item->id,
+                    ])->all(),
+                );
+
+                return $run;
+            });
+        } catch (QueryException $exception) {
+            $run = $this->findRun($template, $roomId, $userId, $today, $tomorrow);
+
+            if ($run !== null) {
+                return $run;
+            }
+
+            throw $exception;
+        }
+    }
+
+    private function findRun(
+        ChecklistTemplate $template,
+        int $roomId,
+        int $userId,
+        string $today,
+        string $tomorrow,
+        bool $lock = false,
+    ): ?ChecklistRun {
+        $query = ChecklistRun::query()
+            ->where('checklist_template_id', $template->id)
+            ->where('room_id', $roomId)
+            ->where('created_by', $userId)
+            ->where('run_date', '>=', $today)
+            ->where('run_date', '<', $tomorrow);
+
+        if ($lock) {
+            $query->lockForUpdate();
+        }
+
+        return $query->first();
     }
 }

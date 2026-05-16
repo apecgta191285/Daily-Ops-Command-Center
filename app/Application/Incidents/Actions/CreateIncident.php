@@ -13,7 +13,9 @@ use App\Models\Incident;
 use App\Models\Room;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class CreateIncident
 {
@@ -76,30 +78,38 @@ class CreateIncident
             ]);
         }
 
-        $incident = DB::transaction(function () use ($payload, $actorId, $attachment, $roomId, $equipmentReference, $subcategory): Incident {
-            $attachmentPath = $attachment?->store('incidents', 'local');
+        $attachmentPath = $attachment?->store('incidents', 'local');
 
-            $incident = Incident::create([
-                'title' => $payload['title'],
-                'category' => $payload['category'],
-                'subcategory' => $subcategory,
-                'severity' => $payload['severity'],
-                'room_id' => $roomId,
-                'status' => IncidentStatus::Open->value,
-                'description' => $payload['description'],
-                'equipment_reference' => $equipmentReference,
-                'attachment_path' => $attachmentPath,
-                'created_by' => $actorId,
-            ]);
+        try {
+            $incident = DB::transaction(function () use ($payload, $actorId, $attachmentPath, $roomId, $equipmentReference, $subcategory): Incident {
+                $incident = Incident::create([
+                    'title' => $payload['title'],
+                    'category' => $payload['category'],
+                    'subcategory' => $subcategory,
+                    'severity' => $payload['severity'],
+                    'room_id' => $roomId,
+                    'status' => IncidentStatus::Open->value,
+                    'description' => $payload['description'],
+                    'equipment_reference' => $equipmentReference,
+                    'attachment_path' => $attachmentPath,
+                    'created_by' => $actorId,
+                ]);
 
-            $incident->activities()->create([
-                'action_type' => 'created',
-                'summary' => 'แจ้งรายงานปัญหา',
-                'actor_id' => $actorId,
-            ]);
+                $incident->activities()->create([
+                    'action_type' => 'created',
+                    'summary' => 'แจ้งรายงานปัญหา',
+                    'actor_id' => $actorId,
+                ]);
 
-            return $incident->load(['creator', 'room', 'activities.actor']);
-        });
+                return $incident->load(['creator', 'room', 'activities.actor']);
+            });
+        } catch (Throwable $exception) {
+            if ($attachmentPath !== null) {
+                Storage::disk('local')->delete($attachmentPath);
+            }
+
+            throw $exception;
+        }
 
         IncidentCreated::dispatch($incident->id);
 

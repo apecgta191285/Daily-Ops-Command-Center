@@ -74,6 +74,27 @@ test('non-admin users cannot access checklist template administration routes', f
     $this->actingAs($this->staff)->post(route('templates.duplicate', $this->activeTemplate))->assertForbidden();
 });
 
+test('non-admin livewire template save calls are rejected at the component boundary', function () {
+    Livewire::actingAs($this->supervisor)
+        ->test(Manage::class)
+        ->set('title', 'Unauthorized template')
+        ->set('description', 'Should not save')
+        ->set('scope', ChecklistScope::OPENING->value)
+        ->set('is_active', false)
+        ->set('items', [[
+            'id' => null,
+            'title' => 'Unauthorized item',
+            'description' => null,
+            'group_label' => null,
+            'sort_order' => 1,
+            'is_required' => true,
+        ]])
+        ->call('save')
+        ->assertForbidden();
+
+    expect(ChecklistTemplate::query()->where('title', 'Unauthorized template')->exists())->toBeFalse();
+});
+
 test('admin can create a checklist template and making it active retires only the live template in the same scope', function () {
     $existingActive = $this->activeTemplate;
     $otherScopeActive = $this->createTemplateWithItems([

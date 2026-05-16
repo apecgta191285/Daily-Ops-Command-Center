@@ -9,6 +9,7 @@ use App\Application\Rooms\Actions\DeleteRoom;
 use App\Application\Rooms\Actions\UpdateRoom;
 use App\Application\Rooms\Support\RoomLifecycleSummaryBuilder;
 use App\Models\Room;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -41,6 +42,8 @@ class Manage extends Component
 
     public function save(CreateRoom $createRoom, UpdateRoom $updateRoom): void
     {
+        Gate::authorize($this->room ? 'update' : 'create', $this->room ?? Room::class);
+
         $this->resetErrorBag();
 
         $payload = [
@@ -72,6 +75,8 @@ class Manage extends Component
         if (! $this->room) {
             return;
         }
+
+        Gate::authorize('delete', $this->room);
 
         $this->resetErrorBag();
 

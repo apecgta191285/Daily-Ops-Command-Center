@@ -93,3 +93,20 @@ test('database forbids room-less incidents now that room context is mandatory', 
         'created_by' => $this->operator->id,
     ]))->toThrow(QueryException::class);
 });
+
+test('create incident cleans up attachment when database persistence fails', function () {
+    Storage::fake('local');
+    $room = $this->createRoom(['name' => 'Lab 1', 'code' => 'LAB-01']);
+    $attachment = UploadedFile::fake()->create('rollback-proof.pdf', 100, 'application/pdf');
+
+    expect(fn () => app(CreateIncident::class)([
+        'title' => 'Rollback incident',
+        'category' => 'เครือข่าย',
+        'subcategory' => 'อินเทอร์เน็ต',
+        'severity' => 'High',
+        'description' => 'This should fail after storing the attachment.',
+        'room_id' => $room->id,
+    ], 999_999, $attachment))->toThrow(QueryException::class);
+
+    expect(Storage::disk('local')->allFiles('incidents'))->toBe([]);
+});

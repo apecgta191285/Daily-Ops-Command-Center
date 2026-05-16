@@ -27,7 +27,12 @@ test('production environment contract reports baseline violations clearly', func
         ],
         'session' => [
             'driver' => 'file',
+            'encrypt' => false,
+            'expire_on_close' => false,
             'secure' => false,
+        ],
+        'auth' => [
+            'password_timeout' => 10800,
         ],
         'mail' => [
             'default' => 'log',
@@ -46,7 +51,10 @@ test('production environment contract reports baseline violations clearly', func
         ->toContain('QUEUE_CONNECTION must be database in production.')
         ->toContain('CACHE_STORE must be database in production.')
         ->toContain('SESSION_DRIVER must be database in production.')
+        ->toContain('SESSION_ENCRYPT must be true in production.')
+        ->toContain('SESSION_EXPIRE_ON_CLOSE must be true in production for shared lab workstations.')
         ->toContain('SESSION_SECURE_COOKIE must be true in production.')
+        ->toContain('AUTH_PASSWORD_TIMEOUT must be 900 seconds or less in production.')
         ->toContain('MAIL_MAILER must be smtp in production.')
         ->toContain('Logging must use daily files in production (daily channel or a stack that includes daily).')
         ->toContain('LOG_LEVEL must be info or higher in production.')
@@ -86,7 +94,12 @@ function productionContractConfig(array $overrides = []): array
         ],
         'session' => [
             'driver' => 'database',
+            'encrypt' => true,
+            'expire_on_close' => true,
             'secure' => true,
+        ],
+        'auth' => [
+            'password_timeout' => 900,
         ],
         'mail' => [
             'default' => 'smtp',

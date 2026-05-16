@@ -25,9 +25,16 @@ class UpdateManagedUser
         $this->ensureAdmin($actor);
 
         $validated = $this->validator->validateUpdate($user, $attributes);
-        $this->guardRail->enforce($user, $validated, $actor);
 
-        DB::transaction(function () use ($user, $validated): void {
+        DB::transaction(function () use ($user, $validated, $actor): void {
+            /** @var User $lockedUser */
+            $lockedUser = User::query()
+                ->whereKey($user->getKey())
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            $this->guardRail->enforce($lockedUser, $validated, $actor);
+
             $payload = [
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -39,7 +46,7 @@ class UpdateManagedUser
                 $payload['password'] = $validated['password'];
             }
 
-            $user->update($payload);
+            $lockedUser->update($payload);
         });
 
         return $user->fresh();

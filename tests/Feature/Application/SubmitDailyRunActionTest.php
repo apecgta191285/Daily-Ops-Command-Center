@@ -50,3 +50,20 @@ test('submit daily run rejects invalid result values', function () {
     expect(fn () => app(SubmitDailyRun::class)($this->context->run, $payload, $this->operator->id))
         ->toThrow(ValidationException::class);
 });
+
+test('submit daily run is idempotent once already submitted', function () {
+    $payload = collect($this->context->runItems)
+        ->map(fn () => ['result' => 'Done', 'note' => 'Initial submit'])
+        ->all();
+
+    $submitted = app(SubmitDailyRun::class)($this->context->run, $payload, $this->operator->id);
+    $badRetryPayload = $payload;
+    $firstKey = array_key_first($badRetryPayload);
+    $badRetryPayload[$firstKey]['result'] = 'Broken retry value';
+
+    $retried = app(SubmitDailyRun::class)($submitted, $badRetryPayload, $this->operator->id);
+
+    expect($retried->id)->toBe($submitted->id)
+        ->and($retried->submitted_at)->not->toBeNull()
+        ->and($retried->items->first()?->result)->toBe('Done');
+});

@@ -12,6 +12,12 @@ class SaveChecklistTemplate
 {
     public function __invoke(?ChecklistTemplate $template, array $attributes): ChecklistTemplate
     {
+        if (empty($attributes['items']) || ! is_array($attributes['items'])) {
+            throw ValidationException::withMessages([
+                'items' => ['แม่แบบต้องมีรายการตรวจเช็กอย่างน้อย 1 รายการ'],
+            ]);
+        }
+
         return DB::transaction(function () use ($template, $attributes): ChecklistTemplate {
             $template ??= new ChecklistTemplate;
             $targetScope = $attributes['scope'];

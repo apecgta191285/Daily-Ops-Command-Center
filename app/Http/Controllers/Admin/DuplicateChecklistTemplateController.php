@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Application\ChecklistTemplates\Actions\DuplicateChecklistTemplate;
 use App\Models\ChecklistTemplate;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 
 class DuplicateChecklistTemplateController
 {
@@ -14,6 +15,8 @@ class DuplicateChecklistTemplateController
         ChecklistTemplate $template,
         DuplicateChecklistTemplate $duplicateChecklistTemplate,
     ): RedirectResponse {
+        Gate::authorize('duplicate', $template);
+
         $duplicate = $duplicateChecklistTemplate($template);
 
         return redirect()

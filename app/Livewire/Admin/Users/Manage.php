@@ -9,6 +9,7 @@ use App\Application\Users\Actions\UpdateManagedUser;
 use App\Application\Users\Support\UserRosterSummaryBuilder;
 use App\Domain\Access\Enums\UserRole;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -51,6 +52,8 @@ class Manage extends Component
 
     public function save(CreateManagedUser $createManagedUser, UpdateManagedUser $updateManagedUser): void
     {
+        Gate::authorize($this->user ? 'update' : 'create', $this->user ?? User::class);
+
         $this->resetErrorBag();
 
         $payload = [

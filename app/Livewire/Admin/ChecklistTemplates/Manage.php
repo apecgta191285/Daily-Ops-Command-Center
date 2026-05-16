@@ -11,6 +11,7 @@ use App\Application\ChecklistTemplates\Support\TemplateScopeGovernanceBuilder;
 use App\Domain\Checklists\Enums\ChecklistScope;
 use App\Models\ChecklistTemplate;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -74,6 +75,8 @@ class Manage extends Component
 
     public function save(SaveChecklistTemplate $saveChecklistTemplate): void
     {
+        Gate::authorize($this->template ? 'update' : 'create', $this->template ?? ChecklistTemplate::class);
+
         $validated = $this->validate([
             'title' => [
                 'required',

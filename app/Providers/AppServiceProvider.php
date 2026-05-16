@@ -9,9 +9,15 @@ use App\Domain\Incidents\Events\IncidentAccountabilityChanged;
 use App\Domain\Incidents\Events\IncidentCreated;
 use App\Domain\Incidents\Events\IncidentStatusChanged;
 use App\Models\ChecklistRun;
+use App\Models\ChecklistTemplate;
 use App\Models\Incident;
+use App\Models\Room;
+use App\Models\User;
 use App\Policies\ChecklistRunPolicy;
+use App\Policies\ChecklistTemplatePolicy;
 use App\Policies\IncidentPolicy;
+use App\Policies\RoomPolicy;
+use App\Policies\UserPolicy;
 use App\Support\ProductionEnvironmentContract;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
@@ -74,6 +80,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Incident::class, IncidentPolicy::class);
         Gate::policy(ChecklistRun::class, ChecklistRunPolicy::class);
+        Gate::policy(ChecklistTemplate::class, ChecklistTemplatePolicy::class);
+        Gate::policy(Room::class, RoomPolicy::class);
+        Gate::policy(User::class, UserPolicy::class);
     }
 
     /**
