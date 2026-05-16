@@ -18,7 +18,7 @@ Current product stance: internal provisioning only, 3 roles only (`admin`, `supe
 
 ```bash
 composer install
-npm install
+npm ci
 ```
 
 2. Create your environment file and app key:
@@ -47,6 +47,7 @@ composer dev
 ```bash
 composer lint
 php artisan test
+npm run build
 composer test:browser
 ```
 
@@ -77,6 +78,8 @@ Current repository capabilities:
 - admin template governance by scope
 - admin-owned user lifecycle inside the main app shell
 - dashboard workboard built from real checklist, incident, room, and history signals
+- incident report dashboard with filtered CSV export
+- event-driven LINE notification foundation for incident lifecycle changes
 - print-friendly checklist recap and incident summary for review/demo evidence with room context
 
 Current actor mapping for the case study:
@@ -97,13 +100,14 @@ Known limitations that still matter:
 - optional equipment reference is lightweight free text, not a machine registry
 - dashboard/workboard is room-aware, but it is not a deep room-machine intelligence board
 - authenticated browser coverage is meaningful but not a full visual envelope for every heavy screen
+- LINE notification support requires environment credentials and a running queue worker before it can deliver externally
 - the system is still not a production-grade platform claim
 
 Out of scope by design:
 
 - public registration
 - multi-tenant model
-- notification engine
+- full notification operations console, delivery log, and role/room-based recipient routing
 - approval workflow
 - analytics warehouse or report builder
 - enterprise asset platform
@@ -134,3 +138,15 @@ Without these secrets, dependency installation in CI will fail before lint or te
 - Public self-registration is intentionally unsupported. Accounts are provisioned internally.
 - `DatabaseSeeder` exists for local bootstrap/demo narrative. Automated tests should prefer factories and scenario helpers instead of depending on seeded demo records.
 - Vite build output under `public/build` is not tracked. Regenerate it with `npm run build`.
+
+## Production Readiness Notes
+
+Before a real deployment, prepare the runtime environment deliberately:
+
+- set `APP_ENV=production`, `APP_DEBUG=false`, an HTTPS `APP_URL`, MySQL database credentials, database-backed sessions/cache/queue, SMTP mail, and daily logging
+- run `php artisan migrate --force`, `php artisan storage:link`, `php artisan config:cache`, `php artisan route:cache`, and `npm run build`
+- run a persistent queue worker such as `php artisan queue:work --tries=3 --backoff=2`
+- configure `LINE_NOTIFICATIONS_ENABLED=true`, `LINE_CHANNEL_ACCESS_TOKEN`, and `LINE_NOTIFICATION_TO` only after a real LINE Messaging API channel and target recipient/group are ready
+- monitor `jobs` and `failed_jobs`; LINE failures must be treated as operations signals, not user-facing request failures
+
+See `docs/155_Final_Production_Readiness_Handoff_2026-05-16.md` for the final handoff checklist, demo flow, and known limitations.
