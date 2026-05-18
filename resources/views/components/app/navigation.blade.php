@@ -15,6 +15,9 @@
         <flux:sidebar.item icon="chart-bar" :href="route('reports.incidents')" :current="request()->routeIs('reports.incidents')" wire:navigate>
             {{ __('รายงาน') }}
         </flux:sidebar.item>
+        <flux:sidebar.item icon="bell-alert" :href="route('notifications.deliveries.index')" :current="request()->routeIs('notifications.deliveries.index')" wire:navigate>
+            {{ __('ประวัติแจ้งเตือน') }}
+        </flux:sidebar.item>
         @if (auth()->user()->isAdmin())
             <flux:sidebar.item icon="rectangle-stack" :href="route('templates.index')" :current="request()->routeIs('templates.index') || request()->routeIs('templates.create') || request()->routeIs('templates.edit')" wire:navigate>
                 {{ __('แม่แบบรายการตรวจ') }}

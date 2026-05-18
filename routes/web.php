@@ -20,6 +20,7 @@ use App\Livewire\Management\Checklists\HistoryShow as ChecklistHistoryShow;
 use App\Livewire\Management\Incidents\HistoryIndex as IncidentHistoryIndex;
 use App\Livewire\Management\Incidents\Index;
 use App\Livewire\Management\Incidents\Show;
+use App\Livewire\Management\Notifications\DeliveryIndex as NotificationDeliveryIndex;
 use App\Livewire\Management\Reports\IncidentReport;
 use App\Livewire\Staff\Checklists\DailyRun;
 use App\Livewire\Staff\Incidents\Create;
@@ -69,6 +70,9 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::get('reports/incidents/export', ExportIncidentReportController::class)
             ->name('reports.incidents.export');
+
+        Route::get('notifications/deliveries', NotificationDeliveryIndex::class)
+            ->name('notifications.deliveries.index');
 
         Route::get('incidents/{incident}/attachment', DownloadIncidentAttachmentController::class)
             ->name('incidents.attachment');
