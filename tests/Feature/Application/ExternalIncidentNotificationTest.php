@@ -11,6 +11,7 @@ use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Domain\Incidents\Events\IncidentAccountabilityChanged;
 use App\Domain\Incidents\Events\IncidentCreated;
 use App\Domain\Incidents\Events\IncidentStatusChanged;
+use App\Models\NotificationDelivery;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Event;
@@ -141,9 +142,24 @@ test('listener sends LINE push when notifications are enabled', function () {
             && str_contains($payload['messages'][0]['text'], $incident->title)
             && str_contains($payload['messages'][0]['text'], 'Notification Lab');
     });
+
+    $delivery = NotificationDelivery::query()->where('incident_id', $incident->id)->firstOrFail();
+
+    expect($delivery->channel)->toBe('line')
+        ->and($delivery->event_type)->toBe('incident_created')
+        ->and($delivery->status)->toBe('sent')
+        ->and($delivery->http_status)->toBe(200)
+        ->and($delivery->recipient_type)->toBe('group')
+        ->and($delivery->recipient_fingerprint)->toHaveLength(16);
 });
 
 test('listener does not send LINE push when notifications are disabled', function () {
+    config([
+        'services.line.notifications.enabled' => false,
+        'services.line.notifications.channel_access_token' => 'test-token',
+        'services.line.notifications.to' => 'C1234567890',
+    ]);
+
     Http::fake();
 
     $incident = app(CreateIncident::class)([
@@ -159,6 +175,14 @@ test('listener does not send LINE push when notifications are disabled', functio
     $listener->onCreated(new IncidentCreated($incident->id));
 
     Http::assertNothingSent();
+
+    $delivery = NotificationDelivery::query()->where('incident_id', $incident->id)->firstOrFail();
+
+    expect($delivery->channel)->toBe('line')
+        ->and($delivery->event_type)->toBe('incident_created')
+        ->and($delivery->status)->toBe('skipped_disabled')
+        ->and($delivery->http_status)->toBeNull()
+        ->and($delivery->recipient_fingerprint)->toBeNull();
 });
 
 test('listener tolerates LINE API failures without throwing', function () {
@@ -184,6 +208,14 @@ test('listener tolerates LINE API failures without throwing', function () {
     $listener->onStatusChanged(new IncidentStatusChanged($incident->id, IncidentStatus::Open->value));
 
     Http::assertSentCount(1);
+
+    $delivery = NotificationDelivery::query()->where('incident_id', $incident->id)->firstOrFail();
+
+    expect($delivery->channel)->toBe('line')
+        ->and($delivery->event_type)->toBe('incident_status_changed')
+        ->and($delivery->status)->toBe('failed')
+        ->and($delivery->http_status)->toBe(500)
+        ->and($delivery->message)->toContain('failed');
 });
 
 test('listener sends accountability change notifications', function () {
@@ -214,6 +246,11 @@ test('listener sends accountability change notifications', function () {
         return str_contains($payload['messages'][0]['text'], 'อัปเดตผู้รับผิดชอบ/กำหนดติดตาม')
             && str_contains($payload['messages'][0]['text'], $this->supervisor->name);
     });
+
+    $delivery = NotificationDelivery::query()->where('incident_id', $incident->id)->firstOrFail();
+
+    expect($delivery->event_type)->toBe('incident_accountability_changed')
+        ->and($delivery->status)->toBe('sent');
 });
 
 test('listener handles deleted incidents gracefully', function () {

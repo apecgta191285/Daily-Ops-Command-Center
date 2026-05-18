@@ -69,6 +69,11 @@ class Incident extends Model
         return $this->hasMany(IncidentActivity::class);
     }
 
+    public function notificationDeliveries(): HasMany
+    {
+        return $this->hasMany(NotificationDelivery::class);
+    }
+
     public function attachmentDisk(): ?string
     {
         if (! filled($this->attachment_path)) {
