@@ -6,6 +6,7 @@ use App\Domain\Incidents\Enums\IncidentStatus;
 use App\Models\Incident;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Validation\ValidationException;
 
 uses(RefreshDatabase::class);
 
@@ -66,4 +67,19 @@ test('transition incident status records a resolution summary when resolving an 
     expect($result->incident->activities()->where('action_type', 'resolution_note')->exists())->toBeTrue();
     expect($result->incident->activities()->where('action_type', 'resolution_note')->latest('id')->first()->summary)
         ->toBe('สรุปการแก้ไข: Replaced the faulty power strip and verified the workstation is back online.');
+});
+
+test('transition incident status rejects unsupported workflow jumps', function () {
+    $statusChangedCount = $this->resolvedIncident->activities()
+        ->where('action_type', 'status_changed')
+        ->count();
+
+    expect(fn () => app(TransitionIncidentStatus::class)(
+        $this->resolvedIncident,
+        IncidentStatus::InProgress->value,
+        $this->admin->id,
+    ))->toThrow(ValidationException::class);
+
+    expect($this->resolvedIncident->fresh()->status)->toBe(IncidentStatus::Resolved)
+        ->and($this->resolvedIncident->activities()->where('action_type', 'status_changed')->count())->toBe($statusChangedCount);
 });
