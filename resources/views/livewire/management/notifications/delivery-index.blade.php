@@ -124,6 +124,18 @@
             </div>
 
             <div class="ops-card__body">
+                @if (session('notification_delivery_status'))
+                    <x-ops.callout title="ส่งซ้ำสำเร็จ" tone="success" class="mb-4">
+                        {{ session('notification_delivery_status') }}
+                    </x-ops.callout>
+                @endif
+
+                @if (session('notification_delivery_error'))
+                    <x-ops.callout title="ส่งซ้ำไม่สำเร็จ" tone="warning" class="mb-4">
+                        {{ session('notification_delivery_error') }}
+                    </x-ops.callout>
+                @endif
+
                 <div class="ops-table-wrap">
                     <table class="ops-table ops-table--responsive min-w-full">
                         <thead>
@@ -135,6 +147,7 @@
                                 <th>ผลลัพธ์</th>
                                 <th>HTTP</th>
                                 <th>ข้อความระบบ</th>
+                                <th>การดำเนินการ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -173,10 +186,24 @@
                                     <td data-label="ข้อความระบบ" class="ops-text-muted px-4 py-4 text-sm">
                                         {{ $delivery->message ?? '-' }}
                                     </td>
+                                    <td data-label="การดำเนินการ" class="px-4 py-4 text-sm">
+                                        @if($delivery->status !== 'sent' && $delivery->incident && in_array($delivery->event_type, ['incident_created', 'incident_status_changed', 'incident_accountability_changed'], true))
+                                            <button
+                                                type="button"
+                                                wire:click="redeliver({{ $delivery->id }})"
+                                                wire:confirm="ส่ง LINE notification ซ้ำจากรายการนี้ใช่ไหม?"
+                                                class="ops-button ops-button--secondary"
+                                            >
+                                                ส่งซ้ำ
+                                            </button>
+                                        @else
+                                            <span class="ops-text-muted">-</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="px-4 py-8">
+                                    <td colspan="8" class="px-4 py-8">
                                         <x-ops.empty-state title="ยังไม่มี delivery log ในช่วงนี้" body="ลองขยายช่วงเวลา หรือทดสอบสร้าง incident ใหม่เพื่อให้ระบบส่ง LINE notification" />
                                     </td>
                                 </tr>

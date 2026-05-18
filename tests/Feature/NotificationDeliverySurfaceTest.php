@@ -6,6 +6,8 @@ use App\Models\Incident;
 use App\Models\NotificationDelivery;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Http;
 use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
@@ -68,6 +70,7 @@ test('notification delivery page renders audit rows without exposing recipient i
     $response->assertSee('รายงานปัญหาใหม่');
     $response->assertSee('ส่งสำเร็จ');
     $response->assertSee('fp: abcd1234fingerpr');
+    $response->assertDontSee('wire:click="redeliver', false);
     $response->assertDontSee('U1234567890abcdef', false);
 });
 
@@ -107,4 +110,73 @@ test('notification delivery livewire filters by status and event type', function
         ->set('status', 'sent')
         ->assertSee('LINE push accepted.')
         ->assertDontSee('LINE push failed with HTTP 401.');
+});
+
+test('management users can manually redeliver failed incident notifications', function () {
+    config([
+        'services.line.notifications.enabled' => true,
+        'services.line.notifications.channel_access_token' => 'test-token',
+        'services.line.notifications.to' => 'U1234567890abcdef',
+    ]);
+
+    Http::fake([
+        'https://api.line.me/v2/bot/message/push' => Http::response([], 200),
+    ]);
+
+    $delivery = NotificationDelivery::query()->create([
+        'incident_id' => $this->incident->id,
+        'channel' => 'line',
+        'event_type' => 'incident_created',
+        'recipient_type' => 'user',
+        'recipient_fingerprint' => 'failedfingerprin',
+        'status' => 'failed',
+        'http_status' => 401,
+        'message' => 'LINE push failed with HTTP 401.',
+        'attempted_at' => now(),
+    ]);
+
+    Livewire::actingAs($this->admin)
+        ->test(DeliveryIndex::class)
+        ->assertSee('ส่งซ้ำ')
+        ->call('redeliver', $delivery->id)
+        ->assertSee('ส่งซ้ำไปยัง LINE สำเร็จ');
+
+    Http::assertSent(function (Request $request): bool {
+        $payload = $request->data();
+
+        return $request->hasHeader('Authorization', 'Bearer test-token')
+            && $payload['to'] === 'U1234567890abcdef'
+            && str_contains($payload['messages'][0]['text'], 'ส่งซ้ำการแจ้งเตือน')
+            && str_contains($payload['messages'][0]['text'], 'LINE audit verification issue')
+            && str_contains($payload['messages'][0]['text'], 'เหตุการณ์เดิม: รายงานปัญหาใหม่');
+    });
+
+    $redelivery = NotificationDelivery::query()
+        ->where('event_type', 'manual_redelivery')
+        ->firstOrFail();
+
+    expect($redelivery->incident_id)->toBe($this->incident->id)
+        ->and($redelivery->status)->toBe('sent')
+        ->and($redelivery->http_status)->toBe(200)
+        ->and($redelivery->recipient_type)->toBe('user')
+        ->and($redelivery->recipient_fingerprint)->toHaveLength(16);
+});
+
+test('staff cannot manually redeliver notification deliveries through livewire', function () {
+    $delivery = NotificationDelivery::query()->create([
+        'incident_id' => $this->incident->id,
+        'channel' => 'line',
+        'event_type' => 'incident_created',
+        'recipient_type' => 'user',
+        'recipient_fingerprint' => 'failedfingerprin',
+        'status' => 'failed',
+        'http_status' => 401,
+        'message' => 'LINE push failed with HTTP 401.',
+        'attempted_at' => now(),
+    ]);
+
+    Livewire::actingAs($this->staff)
+        ->test(DeliveryIndex::class)
+        ->call('redeliver', $delivery->id)
+        ->assertForbidden();
 });

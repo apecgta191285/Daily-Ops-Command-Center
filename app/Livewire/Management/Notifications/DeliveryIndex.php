@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Livewire\Management\Notifications;
 
+use App\Application\Notifications\Support\LineNotificationRedelivery;
+use App\Domain\Access\Enums\UserRole;
 use App\Models\NotificationDelivery;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -41,6 +44,7 @@ class DeliveryIndex extends Component
     /** @var list<string> */
     public array $eventTypes = [
         'manual_test',
+        'manual_redelivery',
         'incident_created',
         'incident_status_changed',
         'incident_accountability_changed',
@@ -97,6 +101,36 @@ class DeliveryIndex extends Component
         }
     }
 
+    public function redeliver(int $deliveryId): void
+    {
+        abort_unless(
+            Auth::user() !== null && in_array(Auth::user()->role->value, UserRole::managementValues(), true),
+            403,
+        );
+
+        $delivery = NotificationDelivery::query()
+            ->with(['incident.room'])
+            ->findOrFail($deliveryId);
+
+        $redelivery = app(LineNotificationRedelivery::class);
+
+        if (! $redelivery->canRedeliver($delivery)) {
+            session()->flash('notification_delivery_error', 'รายการนี้ไม่สามารถส่งซ้ำได้ เพราะส่งสำเร็จแล้ว ไม่มี incident อ้างอิง หรือไม่ใช่ event ที่รองรับ');
+
+            return;
+        }
+
+        $result = $redelivery($delivery);
+
+        if ($result['status'] === 'sent') {
+            session()->flash('notification_delivery_status', 'ส่งซ้ำไปยัง LINE สำเร็จ และบันทึก audit log ใหม่แล้ว');
+
+            return;
+        }
+
+        session()->flash('notification_delivery_error', 'ส่งซ้ำไม่สำเร็จ: '.$result['message']);
+    }
+
     public function statusLabel(string $status): string
     {
         return match ($status) {
@@ -123,6 +157,7 @@ class DeliveryIndex extends Component
     {
         return match ($eventType) {
             'manual_test' => 'ทดสอบ LINE notification',
+            'manual_redelivery' => 'ส่งซ้ำจาก audit log',
             'incident_created' => 'รายงานปัญหาใหม่',
             'incident_status_changed' => 'เปลี่ยนสถานะปัญหา',
             'incident_accountability_changed' => 'เปลี่ยนผู้รับผิดชอบ',

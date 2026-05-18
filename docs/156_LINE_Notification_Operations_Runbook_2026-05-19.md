@@ -56,6 +56,12 @@ Then create a new incident from the staff workflow. The queue worker should proc
 
 The system intentionally records failures but does not block incident creation, status updates, or assignment changes.
 
+## Manual Redelivery
+
+From `ประวัติแจ้งเตือน`, management users can manually redeliver failed incident-linked LINE rows. The system does not pretend to recreate the original payload; it sends a clear `ส่งซ้ำการแจ้งเตือน` message with the incident, original event type, current status, and detail link.
+
+Manual redelivery creates a new `manual_redelivery` row in `notification_deliveries` so the audit trail remains append-only.
+
 ## Brutal Truth
 
-This implementation is now demo-safe and auditable. It is not a full notification operations platform yet because it does not include role-based recipient routing, scheduled escalation, or manual resend controls.
+This implementation is now demo-safe and auditable. It is not a full notification operations platform yet because it does not include role-based recipient routing or scheduled escalation.

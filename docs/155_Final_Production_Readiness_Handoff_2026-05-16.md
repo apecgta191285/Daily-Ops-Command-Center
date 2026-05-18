@@ -129,13 +129,14 @@ Operational notes:
 - Failed jobs must be monitored and retried or investigated.
 - Notification failure does not block incident creation, status updates, or accountability updates.
 - Delivery outcomes are recorded in `notification_deliveries` and can be reviewed from the management sidebar under `ประวัติแจ้งเตือน`.
+- Failed incident-linked delivery rows can be manually redelivered from `ประวัติแจ้งเตือน`; the redelivery is logged as a new `manual_redelivery` audit row.
 
 ## Known Limitations
 
 These are known and intentional at the current boundary:
 
 - No machine registry or asset inventory. Equipment reference is free text.
-- No advanced notification operations console with manual resend/escalation workflows.
+- No advanced notification escalation workflows or role/room-specific resend targeting.
 - No role/room-specific LINE recipient routing yet.
 - No PDF report builder for aggregated incident reports.
 - CSV export is available, but executive summary export remains future work.
