@@ -115,6 +115,12 @@ LINE_NOTIFICATION_TO=
 LINE_NOTIFICATION_TIMEOUT=5
 ```
 
+Verify the configuration without creating a real incident:
+
+```bash
+php artisan notifications:line:test
+```
+
 Operational notes:
 
 - `LINE_CHANNEL_ACCESS_TOKEN` must come from a real LINE Messaging API channel.
@@ -122,14 +128,14 @@ Operational notes:
 - A queue worker must be running.
 - Failed jobs must be monitored and retried or investigated.
 - Notification failure does not block incident creation, status updates, or accountability updates.
+- Delivery outcomes are recorded in `notification_deliveries` and can be reviewed from the management sidebar under `ประวัติแจ้งเตือน`.
 
 ## Known Limitations
 
 These are known and intentional at the current boundary:
 
 - No machine registry or asset inventory. Equipment reference is free text.
-- No advanced notification operations console.
-- No notification delivery log table yet.
+- No advanced notification operations console with manual resend/escalation workflows.
 - No role/room-specific LINE recipient routing yet.
 - No PDF report builder for aggregated incident reports.
 - CSV export is available, but executive summary export remains future work.

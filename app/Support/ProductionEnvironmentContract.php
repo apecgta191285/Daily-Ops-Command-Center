@@ -76,6 +76,22 @@ class ProductionEnvironmentContract
             $violations[] = 'MAIL_MAILER must be smtp in production.';
         }
 
+        if ($this->lineNotificationsEnabled($config)) {
+            if (! $this->hasFilledString($config, 'services.line.notifications.channel_access_token')) {
+                $violations[] = 'LINE_CHANNEL_ACCESS_TOKEN must be set when LINE notifications are enabled.';
+            }
+
+            if (! $this->hasValidLineRecipient($config)) {
+                $violations[] = 'LINE_NOTIFICATION_TO must be a LINE user, group, or room id when LINE notifications are enabled.';
+            }
+
+            $timeout = (int) $this->read($config, 'services.line.notifications.timeout', 5);
+
+            if ($timeout < 1 || $timeout > 15) {
+                $violations[] = 'LINE_NOTIFICATION_TIMEOUT must be between 1 and 15 seconds.';
+            }
+        }
+
         if (! $this->usesDailyLogging($config)) {
             $violations[] = 'Logging must use daily files in production (daily channel or a stack that includes daily).';
         }
@@ -153,6 +169,35 @@ class ProductionEnvironmentContract
         }
 
         return ! in_array(strtolower($host), ['localhost', '127.0.0.1', '::1'], true);
+    }
+
+    /**
+     * @param  array<string, mixed>  $config
+     */
+    protected function lineNotificationsEnabled(array $config): bool
+    {
+        return $this->read($config, 'services.line.notifications.enabled') === true;
+    }
+
+    /**
+     * @param  array<string, mixed>  $config
+     */
+    protected function hasFilledString(array $config, string $key): bool
+    {
+        $value = $this->read($config, $key);
+
+        return is_string($value) && trim($value) !== '';
+    }
+
+    /**
+     * @param  array<string, mixed>  $config
+     */
+    protected function hasValidLineRecipient(array $config): bool
+    {
+        $recipient = $this->read($config, 'services.line.notifications.to');
+
+        return is_string($recipient)
+            && preg_match('/^[UCR][A-Za-z0-9_-]+$/', $recipient) === 1;
     }
 
     /**

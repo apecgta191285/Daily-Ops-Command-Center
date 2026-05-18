@@ -61,6 +61,27 @@ test('production environment contract reports baseline violations clearly', func
         ->toContain('APP_URL must be an https URL and must not point to localhost or loopback in production.');
 });
 
+test('production environment contract validates enabled LINE notification configuration', function () {
+    $contract = new ProductionEnvironmentContract;
+
+    $violations = $contract->violations(productionContractConfig([
+        'services' => [
+            'line' => [
+                'notifications' => [
+                    'enabled' => true,
+                    'channel_access_token' => '',
+                    'to' => 'invalid-recipient',
+                    'timeout' => 30,
+                ],
+            ],
+        ],
+    ]));
+
+    expect($violations)->toContain('LINE_CHANNEL_ACCESS_TOKEN must be set when LINE notifications are enabled.')
+        ->toContain('LINE_NOTIFICATION_TO must be a LINE user, group, or room id when LINE notifications are enabled.')
+        ->toContain('LINE_NOTIFICATION_TIMEOUT must be between 1 and 15 seconds.');
+});
+
 test('production environment contract throws with a readable summary when violated', function () {
     $contract = new ProductionEnvironmentContract;
 
@@ -109,6 +130,16 @@ function productionContractConfig(array $overrides = []): array
             'channels' => [
                 'stack' => ['channels' => ['daily']],
                 'daily' => ['level' => 'info'],
+            ],
+        ],
+        'services' => [
+            'line' => [
+                'notifications' => [
+                    'enabled' => false,
+                    'channel_access_token' => null,
+                    'to' => null,
+                    'timeout' => 5,
+                ],
             ],
         ],
     ], $overrides);

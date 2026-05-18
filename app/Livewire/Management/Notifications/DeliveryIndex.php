@@ -40,6 +40,7 @@ class DeliveryIndex extends Component
 
     /** @var list<string> */
     public array $eventTypes = [
+        'manual_test',
         'incident_created',
         'incident_status_changed',
         'incident_accountability_changed',
@@ -121,6 +122,7 @@ class DeliveryIndex extends Component
     public function eventLabel(string $eventType): string
     {
         return match ($eventType) {
+            'manual_test' => 'ทดสอบ LINE notification',
             'incident_created' => 'รายงานปัญหาใหม่',
             'incident_status_changed' => 'เปลี่ยนสถานะปัญหา',
             'incident_accountability_changed' => 'เปลี่ยนผู้รับผิดชอบ',
