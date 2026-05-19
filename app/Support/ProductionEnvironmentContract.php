@@ -81,8 +81,12 @@ class ProductionEnvironmentContract
                 $violations[] = 'LINE_CHANNEL_ACCESS_TOKEN must be set when LINE notifications are enabled.';
             }
 
-            if (! $this->hasValidLineRecipient($config)) {
-                $violations[] = 'LINE_NOTIFICATION_TO must be a LINE user, group, or room id when LINE notifications are enabled.';
+            if (! $this->hasAnyValidLineRecipient($config)) {
+                $violations[] = 'At least one LINE notification recipient must be configured when LINE notifications are enabled.';
+            }
+
+            if (! $this->allConfiguredLineRecipientsAreValid($config)) {
+                $violations[] = 'LINE notification recipients must be LINE user, group, or room ids.';
             }
 
             $timeout = (int) $this->read($config, 'services.line.notifications.timeout', 5);
@@ -192,12 +196,84 @@ class ProductionEnvironmentContract
     /**
      * @param  array<string, mixed>  $config
      */
-    protected function hasValidLineRecipient(array $config): bool
+    protected function hasAnyValidLineRecipient(array $config): bool
     {
-        $recipient = $this->read($config, 'services.line.notifications.to');
+        return $this->lineRecipients($config) !== [];
+    }
 
-        return is_string($recipient)
-            && preg_match('/^[UCR][A-Za-z0-9_-]+$/', $recipient) === 1;
+    /**
+     * @param  array<string, mixed>  $config
+     */
+    protected function allConfiguredLineRecipientsAreValid(array $config): bool
+    {
+        foreach ($this->lineRecipientValues($config) as $recipient) {
+            if (! $this->isValidLineRecipient($recipient)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param  array<string, mixed>  $config
+     * @return list<string>
+     */
+    protected function lineRecipients(array $config): array
+    {
+        return array_values(array_filter(
+            $this->lineRecipientValues($config),
+            fn (string $recipient): bool => $this->isValidLineRecipient($recipient),
+        ));
+    }
+
+    /**
+     * @param  array<string, mixed>  $config
+     * @return list<string>
+     */
+    protected function lineRecipientValues(array $config): array
+    {
+        $recipients = [];
+
+        foreach ([
+            'services.line.notifications.to',
+            'services.line.notifications.admin_to',
+            'services.line.notifications.supervisor_to',
+            'services.line.notifications.staff_to',
+        ] as $key) {
+            $value = $this->read($config, $key);
+
+            if (is_array($value)) {
+                foreach ($value as $recipient) {
+                    $recipient = trim((string) $recipient);
+
+                    if ($recipient !== '') {
+                        $recipients[] = $recipient;
+                    }
+                }
+
+                continue;
+            }
+
+            if (! is_string($value) || trim($value) === '') {
+                continue;
+            }
+
+            foreach (explode(',', $value) as $recipient) {
+                $recipient = trim($recipient);
+
+                if ($recipient !== '') {
+                    $recipients[] = $recipient;
+                }
+            }
+        }
+
+        return $recipients;
+    }
+
+    protected function isValidLineRecipient(string $recipient): bool
+    {
+        return preg_match('/^[UCR][A-Za-z0-9_-]+$/', $recipient) === 1;
     }
 
     /**

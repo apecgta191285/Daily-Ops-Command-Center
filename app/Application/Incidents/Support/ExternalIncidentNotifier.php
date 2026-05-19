@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Incidents\Support;
 
+use App\Application\Notifications\Support\LineNotificationRecipientResolver;
 use App\Models\Incident;
 use App\Models\NotificationDelivery;
 use Illuminate\Support\Facades\Http;
@@ -11,6 +12,10 @@ use Illuminate\Support\Facades\Log;
 
 class ExternalIncidentNotifier
 {
+    public function __construct(
+        protected LineNotificationRecipientResolver $recipients,
+    ) {}
+
     public function incidentCreated(Incident $incident): void
     {
         $this->send(
@@ -70,9 +75,9 @@ class ExternalIncidentNotifier
         }
 
         $token = (string) config('services.line.notifications.channel_access_token', '');
-        $to = (string) config('services.line.notifications.to', '');
+        $recipients = $this->recipients->forEvent($eventType);
 
-        if ($token === '' || $to === '') {
+        if ($token === '' || $recipients === []) {
             $this->recordDelivery(
                 incident: $incident,
                 eventType: $eventType,
@@ -87,59 +92,61 @@ class ExternalIncidentNotifier
             return;
         }
 
-        try {
-            $response = Http::withToken($token)
-                ->acceptJson()
-                ->asJson()
-                ->timeout((int) config('services.line.notifications.timeout', 5))
-                ->post('https://api.line.me/v2/bot/message/push', [
-                    'to' => $to,
-                    'messages' => [[
-                        'type' => 'text',
-                        'text' => $this->message($title, $incident, $detail),
-                    ]],
-                ]);
+        foreach ($recipients as $recipient) {
+            try {
+                $response = Http::withToken($token)
+                    ->acceptJson()
+                    ->asJson()
+                    ->timeout((int) config('services.line.notifications.timeout', 5))
+                    ->post('https://api.line.me/v2/bot/message/push', [
+                        'to' => $recipient,
+                        'messages' => [[
+                            'type' => 'text',
+                            'text' => $this->message($title, $incident, $detail),
+                        ]],
+                    ]);
 
-            if ($response->failed()) {
+                if ($response->failed()) {
+                    $this->recordDelivery(
+                        incident: $incident,
+                        eventType: $eventType,
+                        status: 'failed',
+                        httpStatus: $response->status(),
+                        message: $this->summarizeResponseBody($response->body()),
+                        recipient: $recipient,
+                    );
+
+                    Log::warning('LINE incident notification failed.', [
+                        'incident_id' => $incident->id,
+                        'status' => $response->status(),
+                        'body' => $response->body(),
+                    ]);
+
+                    continue;
+                }
+
                 $this->recordDelivery(
                     incident: $incident,
                     eventType: $eventType,
-                    status: 'failed',
+                    status: 'sent',
                     httpStatus: $response->status(),
-                    message: $this->summarizeResponseBody($response->body()),
-                    recipient: $to,
+                    recipient: $recipient,
+                );
+            } catch (\Throwable $exception) {
+                $this->recordDelivery(
+                    incident: $incident,
+                    eventType: $eventType,
+                    status: 'failed_exception',
+                    message: $exception::class.': '.$exception->getMessage(),
+                    recipient: $recipient,
                 );
 
-                Log::warning('LINE incident notification failed.', [
+                Log::warning('LINE incident notification could not be delivered.', [
                     'incident_id' => $incident->id,
-                    'status' => $response->status(),
-                    'body' => $response->body(),
+                    'exception' => $exception::class,
+                    'message' => $exception->getMessage(),
                 ]);
-
-                return;
             }
-
-            $this->recordDelivery(
-                incident: $incident,
-                eventType: $eventType,
-                status: 'sent',
-                httpStatus: $response->status(),
-                recipient: $to,
-            );
-        } catch (\Throwable $exception) {
-            $this->recordDelivery(
-                incident: $incident,
-                eventType: $eventType,
-                status: 'failed_exception',
-                message: $exception::class.': '.$exception->getMessage(),
-                recipient: $to,
-            );
-
-            Log::warning('LINE incident notification could not be delivered.', [
-                'incident_id' => $incident->id,
-                'exception' => $exception::class,
-                'message' => $exception->getMessage(),
-            ]);
         }
     }
 

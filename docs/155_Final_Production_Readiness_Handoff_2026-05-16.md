@@ -112,6 +112,9 @@ Set:
 LINE_NOTIFICATIONS_ENABLED=true
 LINE_CHANNEL_ACCESS_TOKEN=
 LINE_NOTIFICATION_TO=
+LINE_NOTIFICATION_ADMIN_TO=
+LINE_NOTIFICATION_SUPERVISOR_TO=
+LINE_NOTIFICATION_STAFF_TO=
 LINE_NOTIFICATION_TIMEOUT=5
 ```
 
@@ -124,7 +127,8 @@ php artisan notifications:line:test
 Operational notes:
 
 - `LINE_CHANNEL_ACCESS_TOKEN` must come from a real LINE Messaging API channel.
-- `LINE_NOTIFICATION_TO` must be a valid user, group, or room recipient id.
+- `LINE_NOTIFICATION_TO` is the default recipient list. Multiple ids can be separated with commas.
+- `LINE_NOTIFICATION_ADMIN_TO`, `LINE_NOTIFICATION_SUPERVISOR_TO`, and `LINE_NOTIFICATION_STAFF_TO` are optional role-audience recipient lists for more targeted delivery.
 - A queue worker must be running.
 - Failed jobs must be monitored and retried or investigated.
 - Notification failure does not block incident creation, status updates, or accountability updates.
@@ -136,8 +140,7 @@ Operational notes:
 These are known and intentional at the current boundary:
 
 - No machine registry or asset inventory. Equipment reference is free text.
-- No advanced notification escalation workflows or role/room-specific resend targeting.
-- No role/room-specific LINE recipient routing yet.
+- No advanced notification escalation workflows or per-room LINE recipient routing yet.
 - No PDF report builder for aggregated incident reports.
 - CSV export is available, but executive summary export remains future work.
 - Browser tests are smoke-level coverage, not exhaustive screenshot regression testing.

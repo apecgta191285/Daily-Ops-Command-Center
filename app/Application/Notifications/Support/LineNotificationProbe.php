@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Log;
 
 class LineNotificationProbe
 {
+    public function __construct(
+        protected LineNotificationRecipientResolver $recipients,
+    ) {}
+
     /**
      * Send a deliberately small LINE test message and record the delivery outcome.
      *
@@ -25,17 +29,19 @@ class LineNotificationProbe
         }
 
         $token = (string) config('services.line.notifications.channel_access_token', '');
-        $to = (string) config('services.line.notifications.to', '');
+        $recipients = $this->recipients->defaultRecipients();
 
-        if ($token === '' || $to === '') {
+        if ($token === '' || $recipients === []) {
             Log::warning('LINE notification probe skipped because credentials are incomplete.');
 
             return $this->record(
                 status: 'skipped_incomplete_config',
                 message: 'LINE credentials are incomplete.',
-                recipient: $to !== '' ? $to : null,
+                recipient: $recipients[0] ?? null,
             );
         }
+
+        $to = $recipients[0];
 
         $text = $message !== null && trim($message) !== ''
             ? trim($message)

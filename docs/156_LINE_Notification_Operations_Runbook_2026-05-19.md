@@ -11,11 +11,16 @@ This runbook documents the exact operational path for validating LINE Messaging 
 ```env
 LINE_NOTIFICATIONS_ENABLED=true
 LINE_CHANNEL_ACCESS_TOKEN=<Messaging API channel access token>
-LINE_NOTIFICATION_TO=<LINE userId, groupId, or roomId>
+LINE_NOTIFICATION_TO=<default LINE userId, groupId, or roomId list>
+LINE_NOTIFICATION_ADMIN_TO=<optional admin audience list>
+LINE_NOTIFICATION_SUPERVISOR_TO=<optional supervisor audience list>
+LINE_NOTIFICATION_STAFF_TO=<optional staff audience list>
 LINE_NOTIFICATION_TIMEOUT=5
 QUEUE_CONNECTION=database
 APP_URL=http://localhost:8000
 ```
+
+Multiple LINE recipient ids can be separated with commas. The default recipient list is always included when present. Role-specific lists let the project notify admin/supervisor/staff audiences without storing LINE ids in the application database.
 
 For local demonstration, `APP_URL=http://localhost:8000` is acceptable. For a phone or deployed environment, `APP_URL` must be a reachable HTTPS URL; otherwise the LINE message will send successfully but the detail link will only work on the server machine.
 
@@ -64,4 +69,4 @@ Manual redelivery creates a new `manual_redelivery` row in `notification_deliver
 
 ## Brutal Truth
 
-This implementation is now demo-safe and auditable. It is not a full notification operations platform yet because it does not include role-based recipient routing or scheduled escalation.
+This implementation is now demo-safe and auditable. It is not a full notification operations platform yet because it does not include per-room recipient routing or scheduled escalation.

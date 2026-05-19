@@ -11,6 +11,10 @@ use InvalidArgumentException;
 
 class LineNotificationRedelivery
 {
+    public function __construct(
+        protected LineNotificationRecipientResolver $recipients,
+    ) {}
+
     /**
      * Re-send an operational notification from a previous delivery record.
      *
@@ -35,9 +39,9 @@ class LineNotificationRedelivery
         }
 
         $token = (string) config('services.line.notifications.channel_access_token', '');
-        $to = (string) config('services.line.notifications.to', '');
+        $recipients = $this->recipients->forEvent('manual_redelivery');
 
-        if ($token === '' || $to === '') {
+        if ($token === '' || $recipients === []) {
             Log::warning('LINE notification redelivery skipped because credentials are incomplete.', [
                 'notification_delivery_id' => $delivery->id,
                 'incident_id' => $delivery->incident_id,
@@ -47,55 +51,67 @@ class LineNotificationRedelivery
                 sourceDelivery: $delivery,
                 status: 'skipped_incomplete_config',
                 message: 'LINE credentials are incomplete.',
-                recipient: $to !== '' ? $to : null,
+                recipient: $recipients[0] ?? null,
             );
         }
 
-        try {
-            $response = Http::withToken($token)
-                ->acceptJson()
-                ->asJson()
-                ->timeout((int) config('services.line.notifications.timeout', 5))
-                ->post('https://api.line.me/v2/bot/message/push', [
-                    'to' => $to,
-                    'messages' => [[
-                        'type' => 'text',
-                        'text' => $this->message($delivery),
-                    ]],
+        $finalResult = null;
+
+        foreach ($recipients as $recipient) {
+            try {
+                $response = Http::withToken($token)
+                    ->acceptJson()
+                    ->asJson()
+                    ->timeout((int) config('services.line.notifications.timeout', 5))
+                    ->post('https://api.line.me/v2/bot/message/push', [
+                        'to' => $recipient,
+                        'messages' => [[
+                            'type' => 'text',
+                            'text' => $this->message($delivery),
+                        ]],
+                    ]);
+
+                if ($response->failed()) {
+                    $finalResult = $this->record(
+                        sourceDelivery: $delivery,
+                        status: 'failed',
+                        httpStatus: $response->status(),
+                        message: $this->summarizeResponseBody($response->body()) ?? 'LINE push failed.',
+                        recipient: $recipient,
+                    );
+
+                    continue;
+                }
+
+                $finalResult = $this->record(
+                    sourceDelivery: $delivery,
+                    status: 'sent',
+                    httpStatus: $response->status(),
+                    message: 'LINE manual redelivery accepted.',
+                    recipient: $recipient,
+                );
+            } catch (\Throwable $exception) {
+                Log::warning('LINE notification redelivery could not be delivered.', [
+                    'notification_delivery_id' => $delivery->id,
+                    'incident_id' => $delivery->incident_id,
+                    'exception' => $exception::class,
+                    'message' => $exception->getMessage(),
                 ]);
 
-            if ($response->failed()) {
-                return $this->record(
+                $finalResult = $this->record(
                     sourceDelivery: $delivery,
-                    status: 'failed',
-                    httpStatus: $response->status(),
-                    message: $this->summarizeResponseBody($response->body()) ?? 'LINE push failed.',
-                    recipient: $to,
+                    status: 'failed_exception',
+                    message: $exception::class.': '.$exception->getMessage(),
+                    recipient: $recipient,
                 );
             }
-
-            return $this->record(
-                sourceDelivery: $delivery,
-                status: 'sent',
-                httpStatus: $response->status(),
-                message: 'LINE manual redelivery accepted.',
-                recipient: $to,
-            );
-        } catch (\Throwable $exception) {
-            Log::warning('LINE notification redelivery could not be delivered.', [
-                'notification_delivery_id' => $delivery->id,
-                'incident_id' => $delivery->incident_id,
-                'exception' => $exception::class,
-                'message' => $exception->getMessage(),
-            ]);
-
-            return $this->record(
-                sourceDelivery: $delivery,
-                status: 'failed_exception',
-                message: $exception::class.': '.$exception->getMessage(),
-                recipient: $to,
-            );
         }
+
+        return $finalResult ?? $this->record(
+            sourceDelivery: $delivery,
+            status: 'skipped_incomplete_config',
+            message: 'LINE recipients are incomplete.',
+        );
     }
 
     public function canRedeliver(NotificationDelivery $delivery): bool

@@ -153,6 +153,42 @@ test('listener sends LINE push when notifications are enabled', function () {
         ->and($delivery->recipient_fingerprint)->toHaveLength(16);
 });
 
+test('listener sends LINE push to configured role audiences for new incidents', function () {
+    config([
+        'services.line.notifications.enabled' => true,
+        'services.line.notifications.channel_access_token' => 'test-token',
+        'services.line.notifications.to' => '',
+        'services.line.notifications.admin_to' => 'Cadmin',
+        'services.line.notifications.supervisor_to' => 'Csupervisor',
+        'services.line.notifications.staff_to' => 'Cstaff',
+    ]);
+
+    Http::fake([
+        'https://api.line.me/v2/bot/message/push' => Http::response([], 200),
+    ]);
+
+    $incident = $this->createIncidentWithActivity($this->staff, [
+        'title' => 'LINE role audience incident',
+        'category' => 'เครือข่าย',
+        'subcategory' => 'อินเทอร์เน็ต',
+        'severity' => 'High',
+        'status' => IncidentStatus::Open->value,
+        'room_id' => $this->room->id,
+    ], room: $this->room);
+
+    $listener = new SendExternalNotificationOnIncidentEvent;
+    $listener->onCreated(new IncidentCreated($incident->id));
+
+    Http::assertSentCount(2);
+
+    $sentRecipients = collect(Http::recorded())
+        ->map(fn (array $record): string => $record[0]->data()['to'])
+        ->all();
+
+    expect($sentRecipients)->toBe(['Cadmin', 'Csupervisor'])
+        ->and(NotificationDelivery::query()->where('incident_id', $incident->id)->where('status', 'sent')->count())->toBe(2);
+});
+
 test('listener does not send LINE push when notifications are disabled', function () {
     config([
         'services.line.notifications.enabled' => false,

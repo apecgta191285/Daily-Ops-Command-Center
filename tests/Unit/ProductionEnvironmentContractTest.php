@@ -78,8 +78,31 @@ test('production environment contract validates enabled LINE notification config
     ]));
 
     expect($violations)->toContain('LINE_CHANNEL_ACCESS_TOKEN must be set when LINE notifications are enabled.')
-        ->toContain('LINE_NOTIFICATION_TO must be a LINE user, group, or room id when LINE notifications are enabled.')
+        ->toContain('At least one LINE notification recipient must be configured when LINE notifications are enabled.')
+        ->toContain('LINE notification recipients must be LINE user, group, or room ids.')
         ->toContain('LINE_NOTIFICATION_TIMEOUT must be between 1 and 15 seconds.');
+});
+
+test('production environment contract accepts role-specific LINE recipients without a default recipient', function () {
+    $contract = new ProductionEnvironmentContract;
+
+    $violations = $contract->violations(productionContractConfig([
+        'services' => [
+            'line' => [
+                'notifications' => [
+                    'enabled' => true,
+                    'channel_access_token' => 'line-token',
+                    'to' => null,
+                    'admin_to' => 'Cadmin123',
+                    'supervisor_to' => 'Csupervisor123,Uuser456',
+                    'staff_to' => 'Rstaff123',
+                    'timeout' => 5,
+                ],
+            ],
+        ],
+    ]));
+
+    expect($violations)->toBe([]);
 });
 
 test('production environment contract throws with a readable summary when violated', function () {
@@ -138,6 +161,9 @@ function productionContractConfig(array $overrides = []): array
                     'enabled' => false,
                     'channel_access_token' => null,
                     'to' => null,
+                    'admin_to' => null,
+                    'supervisor_to' => null,
+                    'staff_to' => null,
                     'timeout' => 5,
                 ],
             ],
